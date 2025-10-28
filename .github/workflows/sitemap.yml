@@ -13,6 +13,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Ensure /store/ exists
+        run: |
+          mkdir -p store
+
       - name: Generate sitemap.xml inside /store/
         run: |
           # إنشاء الملف داخل مجلد /store/
@@ -20,8 +24,12 @@ jobs:
           echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> store/sitemap.xml
 
           # 🔹 إضافة الصفحة الرئيسية أولاً
+          if [ -f "store/index.html" ]; then
+            main_lastmod=$(git log -1 --format=%cs "store/index.html")
+          else
+            main_lastmod=$(date +%F)
+          fi
           main_url="https://yournaouma.github.io/store/index.html"
-          main_lastmod=$(git log -1 --format=%cs "store/index.html" 2>/dev/null || echo "2025-10-29")
           echo "  <url>" >> store/sitemap.xml
           echo "    <loc>${main_url}</loc>" >> store/sitemap.xml
           echo "    <lastmod>${main_lastmod}</lastmod>" >> store/sitemap.xml
@@ -32,7 +40,11 @@ jobs:
           # 🔹 إضافة باقي صفحات HTML داخل مجلد /store/ (باستثناء index.html)
           for file in $(find store -type f -name "*.html" ! -name "index.html" | sort); do
             url="https://yournaouma.github.io/store/${file#store/}"
-            lastmod=$(git log -1 --format=%cs "$file" 2>/dev/null || echo "2025-10-29")
+            if [ -f "$file" ]; then
+              lastmod=$(git log -1 --format=%cs "$file")
+            else
+              lastmod=$(date +%F)
+            fi
             echo "  <url>" >> store/sitemap.xml
             echo "    <loc>${url}</loc>" >> store/sitemap.xml
             echo "    <lastmod>${lastmod}</lastmod>" >> store/sitemap.xml
