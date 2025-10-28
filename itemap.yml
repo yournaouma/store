@@ -18,10 +18,10 @@ jobs:
           echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
           echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
           
-          # إنشاء قائمة بجميع ملفات HTML في المجلد
-          for file in $(find . -type f -name "*.html" | sort); do
-            url="https://yournaouma.github.io/${file#./}"   # استبدل رابطك هنا
-            lastmod=$(git log -1 --format=%cs "$file")
+          # إنشاء قائمة بجميع ملفات HTML داخل مجلد store
+          for file in $(find store -type f -name "*.html" | sort); do
+            url="https://yournaouma.github.io/${file}"   # 🔗 هذا الآن رابط موقعك الكامل
+            lastmod=$(git log -1 --format=%cs "$file" || echo "$(date +%Y-%m-%d)")
             echo "  <url>" >> sitemap.xml
             echo "    <loc>${url}</loc>" >> sitemap.xml
             echo "    <lastmod>${lastmod}</lastmod>" >> sitemap.xml
@@ -37,5 +37,5 @@ jobs:
           git config user.name "GitHub Action"
           git config user.email "actions@github.com"
           git add sitemap.xml
-          git commit -m "🔄 Update sitemap automatically"
+          git commit -m "🔄 Update sitemap automatically" || echo "No changes to commit"
           git push
