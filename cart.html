@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🛒 سلة نعومة عالمية</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-pink-50 font-sans">
+
+<header class="bg-pink-200 text-center py-3 text-lg font-bold text-gray-800 shadow-md">
+  🛍️ سلة مشترياتك من متجر نعومة
+</header>
+
+<main class="max-w-7xl mx-auto mt-4 px-2">
+
+  <!-- حاوية المنتجات -->
+  <div id="cartContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-1"></div>
+
+  <!-- نموذج البيانات -->
+  <div class="bg-white p-3 rounded-xl shadow-lg mt-4">
+    <form id="checkoutForm" class="space-y-2 text-xs">
+      <div>
+        <label class="block font-semibold">الاسم الكامل 👤</label>
+        <input type="text" id="fullname" class="w-full p-1 border rounded" placeholder="ادخل اسمك" required>
+      </div>
+      <div>
+        <label class="block font-semibold">العمر 🎂</label>
+        <input type="number" id="age" class="w-full p-1 border rounded" placeholder="ادخل عمرك" required>
+      </div>
+      <div>
+        <label class="block font-semibold">السكن 📍</label>
+        <input type="text" id="address" class="w-full p-1 border rounded" placeholder="طرابلس، شارع..." required>
+      </div>
+      <div>
+        <label class="block font-semibold">ملاحظات 📝</label>
+        <textarea id="notes" class="w-full p-1 border rounded" placeholder="أدخل ملاحظاتك هنا"></textarea>
+      </div>
+      <button type="button" id="checkoutBtn" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-1 rounded transition duration-200">
+        ✅ تأكيد الطلب وإرساله على واتساب
+      </button>
+    </form>
+  </div>
+
+</main>
+
+<script>
+// تعريف المنتجات
+let cart = [
+  {image:"https://i.postimg.cc/SRkcnQqS/sample3.png", name:"كريم ترطيب عميق", price:35, quantity:0},
+  {image:"https://i.postimg.cc/fRFXm6hh/sample4.png", name:"سيروم فيتامين C", price:42, quantity:0},
+  {image:"https://i.postimg.cc/Gpn3kC5W/sample5.png", name:"تونر الورد", price:28, quantity:0},
+  {image:"https://i.postimg.cc/L5fCKvjZ/mobile-2.png", name:"واقي شمس صبار", price:39, quantity:0},
+  {image:"https://i.postimg.cc/g2vL7Prk/sample1.png", name:"مقشر طبيعي", price:29, quantity:0},
+  {image:"https://i.postimg.cc/7hGdHd6B/sample6.png", name:"غسول لطيف للبشرة", price:33, quantity:0},
+  {image:"https://i.postimg.cc/Rh4Jx0D5/sample7.png", name:"سيروم حمض الهيالورونيك", price:48, quantity:0},
+  {image:"https://i.postimg.cc/7YpJ5zq9/sample8.png", name:"كريم ليلي مغذي", price:54, quantity:0},
+  {image:"https://i.postimg.cc/76Gv4zY6/sample9.png", name:"زيت الوجه الطبيعي", price:40, quantity:0},
+  {image:"https://i.postimg.cc/fLbJ2T0C/sample10.png", name:"منظف رغوي للبشرة", price:27, quantity:0}
+];
+
+// حفظ السلة
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+// عرض السلة بمربعات مصغرة جدًا
+function renderCart(){
+  const container = document.getElementById("cartContainer");
+  let total = 0;
+
+  container.innerHTML = cart.map((item,index)=>{
+    total += item.price * item.quantity;
+    return `
+      <div class="bg-white rounded-md shadow-sm p-1 flex flex-col items-center text-center text-[10px]">
+        <img src="${item.image}" alt="${item.name}" class="w-full h-16 object-contain rounded mb-1">
+        <h4 class="font-semibold mb-1">${item.name}</h4>
+        <p class="text-gray-700 mb-1">${item.price} د.ل × ${item.quantity}</p>
+        <div class="flex gap-1 mb-1">
+          <button onclick="changeQuantity(${index},-1)" class="px-1 py-0.5 bg-gray-200 rounded hover:bg-gray-300">-</button>
+          <button onclick="changeQuantity(${index},1)" class="px-1 py-0.5 bg-gray-200 rounded hover:bg-gray-300">+</button>
+        </div>
+        <button onclick="removeItem(${index})" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-0.5 rounded text-[10px]">
+          إزالة
+        </button>
+      </div>
+    `;
+  }).join('') + `<div class="text-right font-bold text-sm mt-2">الإجمالي الكلي: ${total.toFixed(2)} د.ل</div>`;
+}
+
+// تعديل الكمية
+function changeQuantity(index,delta){
+  cart[index].quantity += delta;
+  if(cart[index].quantity < 0) cart[index].quantity = 0;
+  saveCart();
+  renderCart();
+}
+
+// حذف المنتج
+function removeItem(index){
+  Swal.fire({
+    title: 'هل أنت متأكد؟',
+    text: "سيتم إزالة المنتج من السلة!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#f37ba3',
+    cancelButtonColor: '#aaa',
+    confirmButtonText: 'نعم، احذف',
+    cancelButtonText: 'إلغاء'
+  }).then((result)=>{
+    if(result.isConfirmed){
+      cart.splice(index,1);
+      saveCart();
+      renderCart();
+      Swal.fire('تم الحذف!','تم إزالة المنتج من السلة','success');
+    }
+  });
+}
+
+// حفظ وعرض السلة عند تحميل الصفحة
+saveCart();
+renderCart();
+
+// إرسال الطلب عبر واتساب
+document.getElementById("checkoutBtn").addEventListener("click",()=>{
+  const fullname = document.getElementById("fullname").value.trim();
+  const age = document.getElementById("age").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const notes = document.getElementById("notes").value.trim();
+
+  if(!fullname || !age || !address){
+    Swal.fire("⚠️","يرجى تعبئة جميع البيانات","warning");
+    return;
+  }
+
+  let message = `طلب جديد من متجر نعومة 🛍️%0A`;
+  message += `👤 الاسم: ${fullname}%0A`;
+  message += `🎂 العمر: ${age}%0A`;
+  message += `🏠 السكن: ${address}%0A`;
+  if(notes) message += `📝 ملاحظات: ${notes}%0A`;
+  message += `%0A🧾 تفاصيل الطلب:%0A`;
+
+  let total = 0;
+  cart.forEach(item=>{
+    total += item.price*item.quantity;
+    message += `• ${item.name} × ${item.quantity} = ${item.price*item.quantity} د.ل%0A`;
+  });
+  message += `%0Aالإجمالي الكلي: ${total.toFixed(2)} د.ل`;
+
+  const whatsappNumber = "218915066938";
+  const url = `https://wa.me/${whatsappNumber}?text=${message}`;
+  window.open(url,"_blank");
+});
+</script>
+
+</body>
+</html>
