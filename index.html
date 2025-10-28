@@ -3,10 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>نعومة للبشرة النقية — متجر العناية بالبشرة</title>
+<title>نعومة نعومتك للبشرة النقية — متجر العناية بالبشرة</title>
 <meta name="google-site-verification" content="L0Y483_e4119N_Q5k1aIADyPMtKbRQZCcW5BeejIW_E" />  
-
-
 
 <!-- خطاوط + مكتبات أساسية -->
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700&display=swap" rel="stylesheet">
@@ -386,11 +384,14 @@ body{background:#fff;color:var(--text);overflow-x:hidden;direction:rtl;}
   <a href="index.html">الرئيسية</a>
   <a href="store.html">المتجر</a>
   <a href="contact.html">اتصل بنا</a>
-  <a href="about.html">عن نعومة</a>
+  <a href="about.html">عن نعومة نعومتك</a>
   <a href="privacy.html">سياسة الخصوصية</a>
   <a href="refund.html">الاسترجاع</a>
   <a href="payment.html">الدفع</a>
-  <a href="products.html">كل المنتجات</a>
+  <a href="yourskin.html">استشارة بشرتك</a>
+  <a href="shipping.html">شحن وتوصيل</a>
+
+</nav>
 
   <!-- 🔸 السلة -->
   <a href="cart.html" id="cartLink">🛒 السلة <span id="cartCount">(0)</span></a>
@@ -426,12 +427,15 @@ document.addEventListener("DOMContentLoaded", () => {
   <h2>مجموعات المنتجات</h2>
   <button class="nav-btn left" id="leftBtn"><i class="fa fa-chevron-left"></i></button>
   <div class="gallery" id="gallery">
-    <div class="product"><img src="https://i.postimg.cc/Y0XNVmDr/Chat-GPT-Image-26-aktwbr-2025-10-36-10-s.png"><a href="#">كريمات</a></div>
-    <div class="product"><img src="https://i.postimg.cc/wBWM8ccm/9044a1dc-0677-4158-a31e-594ad66a90fe.png"><a href="#">سيرومات</a></div>
-    <div class="product"><img src="https://i.postimg.cc/Px44k7VK/fbc7eac9-e6ee-4e8e-8b37-853ce651f83c.png"><a href="#">منظفات</a></div>
-    <div class="product"><img src="https://i.postimg.cc/wvvVgVCn/07946309-3ead-4f74-85cd-6aa93e2cdd05.png"><a href="#">واقي شمس</a></div>
-    <div class="product"><img src="https://i.postimg.cc/g2vL7Prk/sample1.png"><a href="#">مقشرات</a></div>
-    <div class="product"><img src="https://i.postimg.cc/2yKfyPXP/sample2.png"><a href="#">تونرات</a></div>
+    <div class="product"><img src="https://i.postimg.cc/Y0XNVmDr/Chat-GPT-Image-26-aktwbr-2025-10-36-10-s.png"><a href="creams.html">كريمات</a></div>
+    <div class="product"><img src="https://i.postimg.cc/wBWM8ccm/9044a1dc-0677-4158-a31e-594ad66a90fe.png"><a href="serums.html">سيرومات</a></div>
+    <div class="product"><img src="https://i.postimg.cc/Px44k7VK/fbc7eac9-e6ee-4e8e-8b37-853ce651f83c.png"><a href="cleansers.html">منظفات</a></div>
+    <div class="product"><img src="https://i.postimg.cc/wvvVgVCn/07946309-3ead-4f74-85cd-6aa93e2cdd05.png"><a href="sunscreen.html">واقي شمس</a></div>
+    <div class="product"><img src="https://i.postimg.cc/g2vL7Prk/sample1.png"><a href="peels.html">مقشرات</a></div>
+    <div class="product"><img src="https://i.postimg.cc/2yKfyPXP/sample2.png"><a href="toners.html">تونرات</a></div>
+    <div class="product"><img src="https://i.postimg.cc/3x3T0kWf/sample3.png"><a href="perfumes.html">عطور</a></div>
+    <div class="product"><img src="https://i.postimg.cc/4yBZX2sB/sample4.png"><a href="masks.html">ماسكات</a></div>
+
   </div>
   <button class="nav-btn right" id="rightBtn"><i class="fa fa-chevron-right"></i></button>
 </section>
@@ -574,23 +578,39 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 </script>
 
-
-
-
 <footer class="footer">
   <div class="column">
     <h4>روابط سريعة</h4>
-    <a href="#">الرئيسية</a><a href="#">المتجر</a><a href="#">اتصل بنا</a><a href="#">عن نعومة</a>
+    <a href="index.html">الرئيسية</a>
+    <a href="store.html">المتجر</a>
+    <a href="contact.html">اتصل بنا</a>
+    <a href="about.html">عن نعومة نعومتك</a>
+    <a href="shipping.html">شحن وتوصيل</a>
   </div>
   <div class="column">
     <h4>سياساتنا</h4>
-    <a href="#">سياسة الخصوصية</a><a href="#">الاسترجاع</a><a href="#">الدفع</a>
+    <a href="privacy.html">سياسة الخصوصية</a>
+    <a href="refund.html">الاسترجاع</a>
+    <a href="payment.html">الدفع</a>
   </div>
   <div class="column">
     <h4>اشترك بالنشرة</h4>
-    <input type="email" placeholder="أدخل بريدك الإلكتروني" id="newsletterInput"><button id="subscribeBtn">اشترك</button>
+    <input type="email" placeholder="أدخل بريدك الإلكتروني" id="newsletterInput">
+    <button id="subscribeBtn">اشترك</button>
   </div>
 </footer>
+
+<script>
+  const subscribeBtn = document.getElementById('subscribeBtn');
+  subscribeBtn.addEventListener('click', function() {
+    alert("هذه الخدمة سيتم توفيرها قريبًا");
+    document.getElementById('newsletterInput').value = ""; // مسح الحقل بعد الضغط
+  });
+</script>
+
+
+
+
 
 </main>
 
@@ -990,9 +1010,4 @@ window.addEventListener('unload',()=>{
 });
 </script>
 </body>
-
 </html>
-
-
-
-
