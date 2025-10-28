@@ -219,18 +219,69 @@
       if(window.AOS) AOS.init({duration:700, once:true});
       new Swiper('.swiper', {loop:true, pagination:{el:'.swiper-pagination'}, navigation:{nextEl:'.swiper-button-next', prevEl:'.swiper-button-prev'}, autoplay:{delay:3000}});
 
-      const categories = ['serum','cream','spf','cleanser','mask'];
-      const products = [];
-      for(let i=1;i<=48;i++){
-        const cat = categories[i % categories.length];
-        products.push({
-          id: 'p'+i,
-          title: `منتج فاخر ${i}`,
-          price: (Math.random()*80+10).toFixed(2),
-          category: cat,
-          img: `https://picsum.photos/seed/prod${i}/600/600`
-        });
-      }
+// ✨ منتجاتك الحقيقية — يمكنك تعديلها بحرية
+const products = [
+  { id:'p1', title:'سيروم فيتامين C لتفتيح البشرة', price:'79.00', category:'serum', img:'images/serum1.jpg' },
+  { id:'p2', title:'سيروم حمض الهيالورونيك لترطيب عميق', price:'85.00', category:'serum', img:'images/serum2.jpg' },
+  { id:'p3', title:'سيروم نيكوتيناميد لتوحيد اللون', price:'89.00', category:'serum', img:'images/serum3.jpg' },
+  { id:'p4', title:'سيروم مضاد للأكسدة بخلاصة الشاي الأخضر', price:'92.00', category:'serum', img:'images/serum4.jpg' },
+  { id:'p5', title:'سيروم تفتيح بالببتيدات الطبيعية', price:'99.00', category:'serum', img:'images/serum5.jpg' },
+
+  { id:'p6', title:'كريم ترطيب ليلي بخلاصة الورد', price:'65.00', category:'cream', img:'images/cream1.jpg' },
+  { id:'p7', title:'كريم نهاري غني بالكولاجين', price:'70.00', category:'cream', img:'images/cream2.jpg' },
+  { id:'p8', title:'كريم تفتيح للبشرة الحساسة', price:'75.00', category:'cream', img:'images/cream3.jpg' },
+  { id:'p9', title:'كريم تجديد البشرة الليلي', price:'78.00', category:'cream', img:'images/cream4.jpg' },
+  { id:'p10', title:'كريم مغذي بزيت الأرغان الطبيعي', price:'82.00', category:'cream', img:'images/cream5.jpg' },
+
+  { id:'p11', title:'واقي شمس SPF 30 بخلاصة الصبار', price:'50.00', category:'spf', img:'images/spf1.jpg' },
+  { id:'p12', title:'واقي شمس SPF 50 مقاوم للماء', price:'55.00', category:'spf', img:'images/spf2.jpg' },
+  { id:'p13', title:'واقي شمس خفيف للبشرة الدهنية', price:'52.00', category:'spf', img:'images/spf3.jpg' },
+  { id:'p14', title:'واقي شمس طبيعي بدون عطور', price:'57.00', category:'spf', img:'images/spf4.jpg' },
+  { id:'p15', title:'واقي شمس مع ترطيب وحماية مزدوجة', price:'60.00', category:'spf', img:'images/spf5.jpg' },
+
+  { id:'p16', title:'منظف رغوي للبشرة الحساسة', price:'45.00', category:'cleanser', img:'images/cleanser1.jpg' },
+  { id:'p17', title:'غسول يومي باللافندر المهدئ', price:'48.00', category:'cleanser', img:'images/cleanser2.jpg' },
+  { id:'p18', title:'غسول الفحم لإزالة الشوائب', price:'49.00', category:'cleanser', img:'images/cleanser3.jpg' },
+  { id:'p19', title:'غسول الجل بالورد الطبيعي', price:'47.00', category:'cleanser', img:'images/cleanser4.jpg' },
+  { id:'p20', title:'منظف رغوي غني بالفيتامينات', price:'50.00', category:'cleanser', img:'images/cleanser5.jpg' },
+
+  { id:'p21', title:'قناع الطين الطبيعي لإزالة السموم', price:'60.00', category:'mask', img:'images/mask1.jpg' },
+  { id:'p22', title:'قناع الفحم لتصفية المسام', price:'63.00', category:'mask', img:'images/mask2.jpg' },
+  { id:'p23', title:'قناع الذهب لتغذية البشرة', price:'75.00', category:'mask', img:'images/mask3.jpg' },
+  { id:'p24', title:'قناع الطمي المغربي المنقّي', price:'68.00', category:'mask', img:'images/mask4.jpg' },
+  { id:'p25', title:'قناع الألوفيرا المهدئ', price:'58.00', category:'mask', img:'images/mask5.jpg' },
+
+  { id:'p26', title:'تونر الورد الطبيعي', price:'55.00', category:'toner', img:'images/toner1.jpg' },
+  { id:'p27', title:'تونر الخيار المنعش', price:'52.00', category:'toner', img:'images/toner2.jpg' },
+  { id:'p28', title:'تونر الكاميليا اليابانية', price:'59.00', category:'toner', img:'images/toner3.jpg' },
+  { id:'p29', title:'تونر تفتيح بحمض الجليكوليك', price:'64.00', category:'toner', img:'images/toner4.jpg' },
+  { id:'p30', title:'تونر ماء جوز الهند الطبيعي', price:'60.00', category:'toner', img:'images/toner5.jpg' },
+
+  { id:'p31', title:'مقشر الوجه بخلاصة القهوة', price:'62.00', category:'scrub', img:'images/scrub1.jpg' },
+  { id:'p32', title:'مقشر السكر البني الطبيعي', price:'58.00', category:'scrub', img:'images/scrub2.jpg' },
+  { id:'p33', title:'مقشر الشوفان المهدئ', price:'55.00', category:'scrub', img:'images/scrub3.jpg' },
+  { id:'p34', title:'مقشر الكرز لتجديد البشرة', price:'65.00', category:'scrub', img:'images/scrub4.jpg' },
+  { id:'p35', title:'مقشر الورد الفاخر', price:'68.00', category:'scrub', img:'images/scrub5.jpg' },
+
+  { id:'p36', title:'زيت الأرغان المغربي النقي', price:'90.00', category:'oil', img:'images/oil1.jpg' },
+  { id:'p37', title:'زيت جوز الهند العضوي', price:'75.00', category:'oil', img:'images/oil2.jpg' },
+  { id:'p38', title:'زيت الورد الدمشقي الفاخر', price:'88.00', category:'oil', img:'images/oil3.jpg' },
+  { id:'p39', title:'زيت اللوز الحلو للبشرة الجافة', price:'70.00', category:'oil', img:'images/oil4.jpg' },
+  { id:'p40', title:'زيت الجوجوبا المرطب', price:'72.00', category:'oil', img:'images/oil5.jpg' },
+
+  { id:'p41', title:'كريم تحت العين بخلاصة الخيار', price:'58.00', category:'eye', img:'images/eye1.jpg' },
+  { id:'p42', title:'كريم شد منطقة العين بالكافيين', price:'64.00', category:'eye', img:'images/eye2.jpg' },
+  { id:'p43', title:'جل ترطيب العين بخلاصة الألوفيرا', price:'60.00', category:'eye', img:'images/eye3.jpg' },
+  { id:'p44', title:'كريم مضاد للتجاعيد حول العين', price:'70.00', category:'eye', img:'images/eye4.jpg' },
+  { id:'p45', title:'كريم تفتيح الهالات الداكنة', price:'66.00', category:'eye', img:'images/eye5.jpg' },
+
+  { id:'p46', title:'غسول الجسم برائحة الفانيليا', price:'55.00', category:'body', img:'images/body1.jpg' },
+  { id:'p47', title:'لوشن الجسم بزبدة الشيا', price:'62.00', category:'body', img:'images/body2.jpg' },
+  { id:'p48', title:'كريم يدين مرطب بخلاصة العسل', price:'40.00', category:'body', img:'images/body3.jpg' }
+];
+
+
+
 
       const grid = document.getElementById('grid');
       function renderProducts(list){
