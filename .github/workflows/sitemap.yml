@@ -3,7 +3,7 @@ name: 🗺️ Generate Sitemap Automatically
 on:
   push:
     branches:
-      - main  # غيّرها إذا كان فرعك الرئيسي اسمه master
+      - main  # غيّرها إلى master إذا كان فرعك الرئيسي اسمه master
 
 jobs:
   build:
@@ -17,11 +17,21 @@ jobs:
         run: |
           echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
           echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
-          
-          # إنشاء قائمة بجميع ملفات HTML داخل مجلد store
-          for file in $(find store -type f -name "*.html" | sort); do
-            url="https://yournaouma.github.io/${file}"   # 🔗 هذا الآن رابط موقعك الكامل
-            lastmod=$(git log -1 --format=%cs "$file" || echo "$(date +%Y-%m-%d)")
+
+          # 🔹 إضافة الصفحة الرئيسية أولاً
+          main_url="https://yournaouma.github.io/store/index.html"
+          main_lastmod=$(git log -1 --format=%cs "store/index.html" 2>/dev/null || echo "2025-10-29")
+          echo "  <url>" >> sitemap.xml
+          echo "    <loc>${main_url}</loc>" >> sitemap.xml
+          echo "    <lastmod>${main_lastmod}</lastmod>" >> sitemap.xml
+          echo "    <changefreq>daily</changefreq>" >> sitemap.xml
+          echo "    <priority>1.0</priority>" >> sitemap.xml
+          echo "  </url>" >> sitemap.xml
+
+          # 🔹 إضافة بقية صفحات HTML داخل مجلد store
+          for file in $(find store -type f -name "*.html" ! -name "index.html" | sort); do
+            url="https://yournaouma.github.io/store/${file#store/}"
+            lastmod=$(git log -1 --format=%cs "$file" 2>/dev/null || echo "2025-10-29")
             echo "  <url>" >> sitemap.xml
             echo "    <loc>${url}</loc>" >> sitemap.xml
             echo "    <lastmod>${lastmod}</lastmod>" >> sitemap.xml
@@ -34,8 +44,7 @@ jobs:
 
       - name: Commit and push sitemap.xml
         run: |
-          git config user.name "GitHub Action"
-          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add sitemap.xml
-          git commit -m "🔄 Update sitemap automatically" || echo "No changes to commit"
-          git push
+          git diff --quiet && echo "✅ No changes to commit" || (git commit -m "🔄 Update sitemap automatically" && git push)
