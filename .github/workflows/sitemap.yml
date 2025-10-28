@@ -3,7 +3,7 @@ name: 🗺️ Generate Sitemap Automatically
 on:
   push:
     branches:
-      - main  # غيّرها إلى master إذا كان فرعك الرئيسي اسمه master
+      - main  # غيّرها إذا كان فرعك الرئيسي اسمه master
 
 jobs:
   build:
@@ -13,38 +13,39 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate sitemap.xml
+      - name: Generate sitemap.xml inside /store/
         run: |
-          echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
-          echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
+          # إنشاء الملف داخل مجلد /store/
+          echo '<?xml version="1.0" encoding="UTF-8"?>' > store/sitemap.xml
+          echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> store/sitemap.xml
 
           # 🔹 إضافة الصفحة الرئيسية أولاً
           main_url="https://yournaouma.github.io/store/index.html"
           main_lastmod=$(git log -1 --format=%cs "store/index.html" 2>/dev/null || echo "2025-10-29")
-          echo "  <url>" >> sitemap.xml
-          echo "    <loc>${main_url}</loc>" >> sitemap.xml
-          echo "    <lastmod>${main_lastmod}</lastmod>" >> sitemap.xml
-          echo "    <changefreq>daily</changefreq>" >> sitemap.xml
-          echo "    <priority>1.0</priority>" >> sitemap.xml
-          echo "  </url>" >> sitemap.xml
+          echo "  <url>" >> store/sitemap.xml
+          echo "    <loc>${main_url}</loc>" >> store/sitemap.xml
+          echo "    <lastmod>${main_lastmod}</lastmod>" >> store/sitemap.xml
+          echo "    <changefreq>daily</changefreq>" >> store/sitemap.xml
+          echo "    <priority>1.0</priority>" >> store/sitemap.xml
+          echo "  </url>" >> store/sitemap.xml
 
-          # 🔹 إضافة بقية صفحات HTML داخل مجلد store
+          # 🔹 إضافة باقي صفحات HTML داخل مجلد /store/ (باستثناء index.html)
           for file in $(find store -type f -name "*.html" ! -name "index.html" | sort); do
             url="https://yournaouma.github.io/store/${file#store/}"
             lastmod=$(git log -1 --format=%cs "$file" 2>/dev/null || echo "2025-10-29")
-            echo "  <url>" >> sitemap.xml
-            echo "    <loc>${url}</loc>" >> sitemap.xml
-            echo "    <lastmod>${lastmod}</lastmod>" >> sitemap.xml
-            echo "    <changefreq>weekly</changefreq>" >> sitemap.xml
-            echo "    <priority>0.8</priority>" >> sitemap.xml
-            echo "  </url>" >> sitemap.xml
+            echo "  <url>" >> store/sitemap.xml
+            echo "    <loc>${url}</loc>" >> store/sitemap.xml
+            echo "    <lastmod>${lastmod}</lastmod>" >> store/sitemap.xml
+            echo "    <changefreq>weekly</changefreq>" >> store/sitemap.xml
+            echo "    <priority>0.8</priority>" >> store/sitemap.xml
+            echo "  </url>" >> store/sitemap.xml
           done
 
-          echo '</urlset>' >> sitemap.xml
+          echo '</urlset>' >> store/sitemap.xml
 
       - name: Commit and push sitemap.xml
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add sitemap.xml
+          git add store/sitemap.xml
           git diff --quiet && echo "✅ No changes to commit" || (git commit -m "🔄 Update sitemap automatically" && git push)
