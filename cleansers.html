@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌸 متجر منظفات نعومة نعومتك</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body class="bg-blue-50 font-sans">
+
+<header class="bg-blue-200 text-center py-4 text-xl font-bold text-gray-800 shadow-md">
+  🌸 متجر منظفات نعومة نعومتك
+</header>
+
+<main class="max-w-7xl mx-auto mt-6 px-2">
+
+  <!-- أزرار البحث والتصفية -->
+  <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
+    <div class="flex gap-2 flex-wrap">
+      <button class="filter-btn bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-500" data-type="all">كل المنظفات</button>
+      <button class="filter-btn bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-500" data-type="سائل غسل">سائل غسل</button>
+      <button class="filter-btn bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-500" data-type="مسحوق">مسحوق</button>
+      <button class="filter-btn bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-500" data-type="معطر">معطر</button>
+      <button class="filter-btn bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-500" data-type="منظف متعدد الاستخدامات">متعدد الاستخدامات</button>
+    </div>
+    <input type="text" id="searchInput" placeholder="ابحث عن منظف..." class="border p-2 rounded w-full sm:w-60 focus:ring-2 focus:ring-blue-300">
+  </div>
+
+  <!-- حاوية المنتجات -->
+  <div id="productsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"></div>
+
+  <!-- سلة المشتريات -->
+  <div class="bg-white p-4 rounded-xl shadow-lg mt-6">
+    <h2 class="font-bold mb-2 text-lg">🛒 سلة مشترياتك</h2>
+    <div id="cartContainer" class="grid gap-2"></div>
+    <div class="text-right font-bold text-lg mt-2" id="cartTotal">الإجمالي الكلي: 0 د.ل</div>
+  </div>
+
+  <!-- نموذج بيانات العميل -->
+  <div class="bg-white p-4 rounded-xl shadow-lg mt-6">
+    <h2 class="font-bold mb-2 text-lg">👤 بيانات العميل</h2>
+    <form id="checkoutForm" class="space-y-4 text-sm">
+      <input type="text" id="fullname" placeholder="الاسم الكامل" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-200" required>
+      <input type="number" id="age" placeholder="العمر" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-200" required>
+      <select id="city" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-200" required>
+        <option value="">اختر مدينتك</option>
+        <option value="طرابلس">طرابلس</option>
+        <option value="بنغازي">بنغازي</option>
+        <option value="مصراته">مصراته</option>
+        <option value="سبها">سبها</option>
+        <option value="الخمس">الخمس</option>
+        <option value="زليتن">زليتن</option>
+        <option value="أجدابيا">أجدابيا</option>
+        <option value="درنة">درنة</option>
+        <option value="غريان">غريان</option>
+        <option value="ترهونة">ترهونة</option>
+        <option value="غدامس">غدامس</option>
+        <option value="الكفرة">الكفرة</option>
+        <option value="البيضاء">البيضاء</option>
+        <option value="الجبل الغربي">الجبل الغربي</option>
+        <option value="الزاوية">الزاوية</option>
+        <option value="سرت">سرت</option>
+        <option value="مناطق أخرى">مناطق أخرى</option>
+      </select>
+      <input type="text" id="otherCity" placeholder="اكتب مدينتك إذا اخترت مناطق أخرى" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-200 hidden">
+      <textarea id="notes" placeholder="ملاحظات إضافية" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-200"></textarea>
+      <button type="button" id="checkoutBtn" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded transition">✅ دفع عبر واتساب</button>
+    </form>
+  </div>
+
+</main>
+
+<script>
+// تعريف المنظفات
+const products = [
+  {name:"سائل غسل صحون", type:"سائل غسل", price:15, image:"https://i.postimg.cc/XYVQb5wJ/sample-dish.png"},
+  {name:"مسحوق غسيل", type:"مسحوق", price:25, image:"https://i.postimg.cc/fRFXm6hh/sample-powder.png"},
+  {name:"معطر ملابس", type:"معطر", price:18, image:"https://i.postimg.cc/fRFXm6hh/sample-fragrance.png"},
+  {name:"منظف متعدد الاستخدامات", type:"منظف متعدد الاستخدامات", price:30, image:"https://i.postimg.cc/fRFXm6hh/sample-multi.png"},
+  {name:"سائل تنظيف الأرضيات", type:"سائل غسل", price:20, image:"https://i.postimg.cc/fRFXm6hh/sample-floor.png"},
+  {name:"مسحوق غسيل للأطفال", type:"مسحوق", price:28, image:"https://i.postimg.cc/fRFXm6hh/sample-baby.png"}
+];
+
+// سلة المشتريات
+let cart = [];
+
+// عرض المنتجات
+function renderProducts(filterType="all", searchTerm=""){
+  const container = document.getElementById("productsContainer");
+  container.innerHTML="";
+  const filtered = products.filter(p=> (filterType==="all"||p.type===filterType) && p.name.includes(searchTerm));
+  filtered.forEach(p=>{
+    const div = document.createElement("div");
+    div.className="bg-white rounded-xl shadow-md p-3 flex flex-col items-center text-center hover:shadow-xl animate__animated animate__fadeIn";
+    div.innerHTML=`
+      <img src="${p.image}" alt="${p.name}" class="w-full h-32 object-contain rounded mb-2">
+      <h4 class="font-semibold mb-1">${p.name}</h4>
+      <p class="text-gray-700 mb-2">${p.type} - ${p.price} د.ل</p>
+      <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded transition" onclick="addToCart('${p.name}',${p.price})">أضف للسلة</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// إضافة للسلة
+function addToCart(name, price){
+  const item = cart.find(i=>i.name===name);
+  if(item) item.quantity++;
+  else cart.push({name, price, quantity:1, note:""});
+  renderCart();
+  Swal.fire("🛒","تم إضافة "+name+" إلى السلة","success");
+}
+
+// عرض السلة
+function renderCart(){
+  const container=document.getElementById("cartContainer");
+  container.innerHTML="";
+  let total=0;
+  cart.forEach((item,index)=>{
+    total+=item.price*item.quantity;
+    const div=document.createElement("div");
+    div.className="bg-gray-100 p-2 rounded flex flex-col gap-2";
+    div.innerHTML=`
+      <div class="flex justify-between items-center">
+        <span>${item.name} × ${item.quantity} = ${item.price*item.quantity} د.ل</span>
+        <div class="flex gap-1">
+          <button onclick="changeQuantity(${index},-1)" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">-</button>
+          <button onclick="changeQuantity(${index},1)" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">+</button>
+          <button onclick="removeItem(${index})" class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">حذف</button>
+        </div>
+      </div>
+      <textarea placeholder="ملاحظات عن المنتج" class="border p-1 rounded w-full" oninput="updateNote(${index}, this.value)">${item.note}</textarea>
+    `;
+    container.appendChild(div);
+  });
+  document.getElementById("cartTotal").innerText="الإجمالي الكلي: "+total.toFixed(2)+" د.ل";
+}
+
+// تعديل الكمية
+function changeQuantity(index, delta){
+  cart[index].quantity+=delta;
+  if(cart[index].quantity<1) cart[index].quantity=1;
+  renderCart();
+}
+
+// تحديث الملاحظات
+function updateNote(index, value){
+  cart[index].note=value;
+}
+
+// حذف المنتج
+function removeItem(index){
+  cart.splice(index,1);
+  renderCart();
+}
+
+// أزرار الفلترة
+document.querySelectorAll(".filter-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    renderProducts(btn.getAttribute("data-type"), document.getElementById("searchInput").value);
+  });
+});
+
+// البحث
+document.getElementById("searchInput").addEventListener("input", ()=>{
+  const term = document.getElementById("searchInput").value;
+  renderProducts("all", term);
+});
+
+// اظهار حقل المدينة الأخرى
+document.getElementById("city").addEventListener("change", ()=>{
+  document.getElementById("otherCity").style.display = (document.getElementById("city").value==="مناطق أخرى")?"block":"none";
+});
+
+// الدفع عبر واتساب
+document.getElementById("checkoutBtn").addEventListener("click", ()=>{
+  const fullname=document.getElementById("fullname").value.trim();
+  const age=document.getElementById("age").value.trim();
+  let city=document.getElementById("city").value;
+  const otherCity=document.getElementById("otherCity").value.trim();
+  const notes=document.getElementById("notes").value.trim();
+  if(city==="مناطق أخرى" && otherCity) city=otherCity;
+  if(!fullname || !age || !city || cart.length===0){
+    Swal.fire("⚠️","يرجى تعبئة كل البيانات وإضافة منتج على الأقل","warning");
+    return;
+  }
+  let message=`طلب جديد 🌸%0A`;
+  message+=`👤 الاسم: ${fullname}%0A🎂 العمر: ${age}%0A🏠 المدينة: ${city}%0A`;
+  if(notes) message+=`📝 ملاحظات: ${notes}%0A`;
+  message+=`%0A🧾 تفاصيل الطلب:%0A`;
+  cart.forEach(item=>{
+    message+=`• ${item.name} × ${item.quantity} = ${item.price*item.quantity} د.ل%0A`;
+    if(item.note) message+=`  - ملاحظة: ${item.note}%0A`;
+  });
+  const total=cart.reduce((sum,i)=>sum+i.price*i.quantity,0);
+  message+=`%0Aالإجمالي الكلي: ${total.toFixed(2)} د.ل`;
+  const whatsappNumber="218915066938"; // ضع رقمك
+  const url=`https://wa.me/${whatsappNumber}?text=${message}`;
+  window.open(url,"_blank");
+});
+
+// عرض المنتجات أول مرة
+renderProducts();
+renderCart();
+</script>
+
+<script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js"></script>
+</body>
+</html>

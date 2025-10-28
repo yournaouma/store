@@ -3,41 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🛒 سلة نعومة عالمية</title>
+<title>🛒 نعومة نعومتك</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet">
 </head>
 <body class="bg-pink-50 font-sans">
 
 <header class="bg-pink-200 text-center py-3 text-lg font-bold text-gray-800 shadow-md">
-  🛍️ سلة مشترياتك من متجر نعومة
+  🛍️ منتجات مميزة من متجر نعومة نعومتك
 </header>
 
 <main class="max-w-7xl mx-auto mt-4 px-2">
 
+  <!-- زر البحث -->
+  <div class="mb-4 flex justify-center">
+    <input type="text" id="searchInput" placeholder="🔍 ابحث عن منتج..." 
+      class="w-full sm:w-1/2 p-2 border rounded-lg focus:ring-2 focus:ring-pink-200 focus:outline-none transition" />
+  </div>
+
   <!-- حاوية المنتجات -->
-  <div id="cartContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-1"></div>
+  <div id="cartContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"></div>
 
   <!-- نموذج البيانات -->
-  <div class="bg-white p-3 rounded-xl shadow-lg mt-4">
-    <form id="checkoutForm" class="space-y-2 text-xs">
+  <div class="bg-white p-4 rounded-xl shadow-lg mt-6">
+    <form id="checkoutForm" class="space-y-4 text-sm">
       <div>
-        <label class="block font-semibold">الاسم الكامل 👤</label>
-        <input type="text" id="fullname" class="w-full p-1 border rounded" placeholder="ادخل اسمك" required>
+        <label class="block font-semibold mb-1">الاسم الكامل 👤</label>
+        <input type="text" id="fullname" class="w-full p-2 border rounded focus:ring-2 focus:ring-pink-200" placeholder="ادخل اسمك" required>
       </div>
       <div>
-        <label class="block font-semibold">العمر 🎂</label>
-        <input type="number" id="age" class="w-full p-1 border rounded" placeholder="ادخل عمرك" required>
+        <label class="block font-semibold mb-1">العمر 🎂</label>
+        <input type="number" id="age" class="w-full p-2 border rounded focus:ring-2 focus:ring-pink-200" placeholder="ادخل عمرك" required>
       </div>
       <div>
-        <label class="block font-semibold">السكن 📍</label>
-        <input type="text" id="address" class="w-full p-1 border rounded" placeholder="طرابلس، شارع..." required>
+        <label class="block font-semibold mb-1">السكن 📍</label>
+        <select id="address" class="w-full p-2 border rounded focus:ring-2 focus:ring-pink-200" required>
+          <option value="">اختر مدينتك</option>
+          <option value="بنغازي">بنغازي</option>
+          <option value="طرابلس">طرابلس</option>
+          <option value="مصراته">مصراته</option>
+          <option value="سبها">سبها</option>
+          <option value="الخمس">الخمس</option>
+          <option value="زليتن">زليتن</option>
+          <option value="أجدابيا">أجدابيا</option>
+          <option value="درنة">درنة</option>
+          <option value="غريان">غريان</option>
+          <option value="ترهونة">ترهونة</option>
+          <option value="غدامس">غدامس</option>
+          <option value="الكفرة">الكفرة</option>
+          <option value="البيضاء">البيضاء</option>
+          <option value="الجبل الغربي">الجبل الغربي</option>
+          <option value="الزاوية">الزاوية</option>
+          <option value="سرت">سرت</option>
+          <option value="مناطق أخرى">مناطق أخرى</option>
+        </select>
+        <!-- حقل نصي للمدن الأخرى -->
+        <input type="text" id="otherCity" class="w-full p-2 border rounded focus:ring-2 focus:ring-pink-200 mt-2 hidden" placeholder="اكتب مدينتك هنا">
       </div>
       <div>
-        <label class="block font-semibold">ملاحظات 📝</label>
-        <textarea id="notes" class="w-full p-1 border rounded" placeholder="أدخل ملاحظاتك هنا"></textarea>
+        <label class="block font-semibold mb-1">ملاحظات 📝</label>
+        <textarea id="notes" class="w-full p-2 border rounded focus:ring-2 focus:ring-pink-200" placeholder="أدخل ملاحظاتك هنا"></textarea>
       </div>
-      <button type="button" id="checkoutBtn" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-1 rounded transition duration-200">
+      <button type="button" id="checkoutBtn" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 rounded transition duration-200">
         ✅ تأكيد الطلب وإرساله على واتساب
       </button>
     </form>
@@ -60,33 +88,32 @@ let cart = [
   {image:"https://i.postimg.cc/fLbJ2T0C/sample10.png", name:"منظف رغوي للبشرة", price:27, quantity:0}
 ];
 
-// حفظ السلة
+// حفظ وعرض السلة
 function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// عرض السلة بمربعات مصغرة جدًا
-function renderCart(){
+function renderCart(filteredCart = null){
+  const displayCart = filteredCart || cart;
   const container = document.getElementById("cartContainer");
   let total = 0;
-
-  container.innerHTML = cart.map((item,index)=>{
+  container.innerHTML = displayCart.map((item,index)=>{
     total += item.price * item.quantity;
     return `
-      <div class="bg-white rounded-md shadow-sm p-1 flex flex-col items-center text-center text-[10px]">
-        <img src="${item.image}" alt="${item.name}" class="w-full h-16 object-contain rounded mb-1">
+      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition p-2 flex flex-col items-center text-center hover:scale-105 duration-200">
+        <img src="${item.image}" alt="${item.name}" class="w-full h-24 object-contain rounded mb-2">
         <h4 class="font-semibold mb-1">${item.name}</h4>
         <p class="text-gray-700 mb-1">${item.price} د.ل × ${item.quantity}</p>
-        <div class="flex gap-1 mb-1">
-          <button onclick="changeQuantity(${index},-1)" class="px-1 py-0.5 bg-gray-200 rounded hover:bg-gray-300">-</button>
-          <button onclick="changeQuantity(${index},1)" class="px-1 py-0.5 bg-gray-200 rounded hover:bg-gray-300">+</button>
+        <div class="flex gap-2 mb-2">
+          <button onclick="changeQuantity(${cart.indexOf(item)},-1)" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">-</button>
+          <button onclick="changeQuantity(${cart.indexOf(item)},1)" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">+</button>
         </div>
-        <button onclick="removeItem(${index})" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-0.5 rounded text-[10px]">
-          إزالة
+        <button onclick="changeQuantity(${cart.indexOf(item)},1)" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-1 rounded">
+          أضف إلى السلة
         </button>
       </div>
     `;
-  }).join('') + `<div class="text-right font-bold text-sm mt-2">الإجمالي الكلي: ${total.toFixed(2)} د.ل</div>`;
+  }).join('') + `<div class="text-right font-bold text-sm mt-3">الإجمالي الكلي: ${total.toFixed(2)} د.ل</div>`;
 }
 
 // تعديل الكمية
@@ -97,54 +124,43 @@ function changeQuantity(index,delta){
   renderCart();
 }
 
-// حذف المنتج
-function removeItem(index){
-  Swal.fire({
-    title: 'هل أنت متأكد؟',
-    text: "سيتم إزالة المنتج من السلة!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#f37ba3',
-    cancelButtonColor: '#aaa',
-    confirmButtonText: 'نعم، احذف',
-    cancelButtonText: 'إلغاء'
-  }).then((result)=>{
-    if(result.isConfirmed){
-      cart.splice(index,1);
-      saveCart();
-      renderCart();
-      Swal.fire('تم الحذف!','تم إزالة المنتج من السلة','success');
-    }
-  });
-}
-
-// حفظ وعرض السلة عند تحميل الصفحة
-saveCart();
-renderCart();
+// التحكم في ظهور حقل المدن الأخرى
+const addressSelect = document.getElementById('address');
+const otherCityInput = document.getElementById('otherCity');
+addressSelect.addEventListener('change', function(){
+  if(this.value === 'مناطق أخرى'){
+    otherCityInput.classList.remove('hidden');
+    otherCityInput.required = true;
+  } else {
+    otherCityInput.classList.add('hidden');
+    otherCityInput.required = false;
+  }
+});
 
 // إرسال الطلب عبر واتساب
-document.getElementById("checkoutBtn").addEventListener("click",()=>{
+document.getElementById("checkoutBtn").addEventListener("click", ()=>{
   const fullname = document.getElementById("fullname").value.trim();
   const age = document.getElementById("age").value.trim();
-  const address = document.getElementById("address").value.trim();
+  let address = addressSelect.value;
   const notes = document.getElementById("notes").value.trim();
 
-  if(!fullname || !age || !address){
-    Swal.fire("⚠️","يرجى تعبئة جميع البيانات","warning");
+  if(address === 'مناطق أخرى') address = otherCityInput.value.trim();
+  if(!fullname || !age || !address || cart.every(item=>item.quantity===0)){
+    Swal.fire("⚠️","يرجى تعبئة البيانات وإضافة منتجات","warning");
     return;
   }
 
   let message = `طلب جديد من متجر نعومة 🛍️%0A`;
-  message += `👤 الاسم: ${fullname}%0A`;
-  message += `🎂 العمر: ${age}%0A`;
-  message += `🏠 السكن: ${address}%0A`;
+  message += `👤 الاسم: ${fullname}%0A🎂 العمر: ${age}%0A🏠 السكن: ${address}%0A`;
   if(notes) message += `📝 ملاحظات: ${notes}%0A`;
   message += `%0A🧾 تفاصيل الطلب:%0A`;
 
   let total = 0;
   cart.forEach(item=>{
-    total += item.price*item.quantity;
-    message += `• ${item.name} × ${item.quantity} = ${item.price*item.quantity} د.ل%0A`;
+    if(item.quantity>0){
+      total += item.price*item.quantity;
+      message += `• ${item.name} × ${item.quantity} = ${item.price*item.quantity} د.ل%0A`;
+    }
   });
   message += `%0Aالإجمالي الكلي: ${total.toFixed(2)} د.ل`;
 
@@ -152,7 +168,20 @@ document.getElementById("checkoutBtn").addEventListener("click",()=>{
   const url = `https://wa.me/${whatsappNumber}?text=${message}`;
   window.open(url,"_blank");
 });
+
+// البحث داخل المنتجات
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', function() {
+  const term = this.value.trim().toLowerCase();
+  const filtered = cart.filter(item => item.name.toLowerCase().includes(term));
+  renderCart(filtered);
+});
+
+// حفظ وعرض السلة عند تحميل الصفحة
+saveCart();
+renderCart();
 </script>
 
+<script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js"></script>
 </body>
 </html>
