@@ -1,93 +1,106 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- الصفحات الثابتة -->
+  <!-- الصفحات الرئيسية والمهمة -->
   <url>
-    <loc>https://yournaouma.github.io/store/</loc>
-    <lastmod>2025-10-28</lastmod>
+    <loc>https://yournaouma.github.io/store/index.html</loc>
+    <lastmod>2025-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://yournaouma.github.io/store/store.html</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://yournaouma.github.io/store/creams.html</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://yournaouma.github.io/store/serums.html</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://yournaouma.github.io/store/sunscreen.html</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://yournaouma.github.io/store/cleansers.html</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://yournaouma.github.io/store/cart.html</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://yournaouma.github.io/store/about.html</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yournaouma.github.io/store/contact.html</loc>
+    <lastmod>2025-10-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://yournaouma.github.io/store/privacy.html</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-10-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://yournaouma.github.io/store/returns.html</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://yournaouma.github.io/store/cart.html</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://yournaouma.github.io/store/blog.html</loc>
-    <lastmod>2025-10-28</lastmod>
+    <loc>https://yournaouma.github.io/store/payment.html</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yournaouma.github.io/store/shipping.html</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yournaouma.github.io/store/refund.html</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yournaouma.github.io/store/yourskin.html</loc>
+    <lastmod>2025-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- المنتجات ثابتة لتسريع الفهرسة -->
+  <!-- المنتجات والصفحات الفرعية -->
   <url>
-    <loc>https://yournaouma.github.io/store/products/cream1.html</loc>
-    <lastmod>2025-10-28</lastmod>
+    <loc>https://yournaouma.github.io/store/creams.html</loc>
+    <lastmod>2025-10-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://yournaouma.github.io/store/products/serum1.html</loc>
-    <lastmod>2025-10-28</lastmod>
+    <loc>https://yournaouma.github.io/store/serums.html</loc>
+    <lastmod>2025-10-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://yournaouma.github.io/store/products/sunscreen1.html</loc>
-    <lastmod>2025-10-28</lastmod>
+    <loc>https://yournaouma.github.io/store/cleansers.html</loc>
+    <lastmod>2025-10-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://yournaouma.github.io/store/sunscreen.html</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- ملفات تقنية أو ملاحظات -->
+  <url>
+    <loc>https://yournaouma.github.io/store/robots.txt</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://yournaouma.github.io/store/sitemap.xml</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
 
 </urlset>
