@@ -23,6 +23,12 @@ h1 {
   color: #f79c05;
   margin-bottom: 25px;
 }
+h2 {
+  color: #333;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  font-size: 20px;
+}
 a {
   display: block;
   margin: 8px auto;
@@ -43,7 +49,7 @@ a:hover {
   transform: scale(1.05);
 }
 footer {
-  margin-top: 40px;
+  margin-top: 50px;
   color: #777;
   font-size: 14px;
 }
@@ -53,14 +59,39 @@ footer {
 <body>
   <h1>🗺️ خريطة موقع نعومة نعومتك</h1>
 
-  <!-- عرض جميع الروابط -->
+  <!-- روابط sitemap.xml الأصلية -->
+  <h2>🔗 روابط مضافة تلقائيًا</h2>
   <xsl:for-each select="urlset/url">
     <a href="{loc}">
       <xsl:value-of select="loc"/>
     </a>
   </xsl:for-each>
 
-  <footer>نعومة نعومتك © 2025</footer>
+  <!-- روابط إضافية ثابتة -->
+  <h2>📁 روابط إضافية من ملفات الموقع</h2>
+
+  <a href="https://yournaouma.github.io/store/about.html">about.html</a>
+  <a href="https://yournaouma.github.io/store/cart.html">cart.html</a>
+  <a href="https://yournaouma.github.io/store/cleansers.html">cleansers.html</a>
+  <a href="https://yournaouma.github.io/store/contact.html">contact.html</a>
+  <a href="https://yournaouma.github.io/store/creams.html">creams.html</a>
+  <a href="https://yournaouma.github.io/store/index.html">index.html</a>
+  <a href="https://yournaouma.github.io/store/itemap.yml">itemap.yml</a>
+  <a href="https://yournaouma.github.io/store/payment.html">payment.html</a>
+  <a href="https://yournaouma.github.io/store/privacy.html">privacy.html</a>
+  <a href="https://yournaouma.github.io/store/refund.html">refund.html</a>
+  <a href="https://yournaouma.github.io/store/robots.txt">robots.txt</a>
+  <a href="https://yournaouma.github.io/store/serums.html">serums.html</a>
+  <a href="https://yournaouma.github.io/store/shipping.html">shipping.html</a>
+  <a href="https://yournaouma.github.io/store/sitemap.html">sitemap.html</a>
+  <a href="https://yournaouma.github.io/store/sitemap.xml">sitemap.xml</a>
+  <a href="https://yournaouma.github.io/store/sitemap.xsl">sitemap.xsl</a>
+  <a href="https://yournaouma.github.io/store/store.html">store.html</a>
+  <a href="https://yournaouma.github.io/store/sunscreen.html">sunscreen.html</a>
+  <a href="https://yournaouma.github.io/store/update-sitemap.js">update-sitemap.js</a>
+  <a href="https://yournaouma.github.io/store/yourskin.html">yourskin.html</a>
+
+  <footer>نعومة نعومتك © 2025 — جميع الحقوق محفوظة</footer>
 </body>
 </html>
 
