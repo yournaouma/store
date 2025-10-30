@@ -1,0 +1,30 @@
+name: Update sitemap daily
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # ⏰ يشغل السكربت كل يوم الساعة 3 صباحًا بتوقيت غرينتش
+  workflow_dispatch:     # لتشغيله يدويًا أيضًا
+
+jobs:
+  update-sitemap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 تحميل المشروع
+        uses: actions/checkout@v4
+
+      - name: 🟩 تثبيت Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: ⚙️ تشغيل سكربت تحديث lastmod
+        run: node store/update-sitemap.js
+
+      - name: 📤 رفع التعديلات
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add store/sitemap.xml
+          git commit -m "🔄 تحديث تلقائي لتاريخ lastmod"
+          git push
