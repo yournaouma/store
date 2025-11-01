@@ -1,26 +1,32 @@
-name: 🗓️ Auto Update Sitemap Date Daily
+name: 🔄 Update sitemap.xml daily
 
 on:
   schedule:
-    - cron: '0 12 * * *'   # ⏰ كل يوم الساعة 12 ظهرًا بتوقيت ليبيا تقريبًا
-  workflow_dispatch:         # لتشغيله يدويًا من GitHub
+    - cron: '0 3 * * *'  # ⏰ كل يوم الساعة 3 صباحًا بتوقيت غرينتش
+  workflow_dispatch:       # يمكن تشغيله يدويًا أيضًا
+
+permissions:
+  contents: write
 
 jobs:
   update-sitemap:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🔹 Checkout repository
+      - name: 📥 تحميل المشروع
         uses: actions/checkout@v4
 
-      - name: 🕓 Run update-sitemap.js
+      - name: 🕒 تحديث تواريخ <lastmod> وإزالة الشرطة الزائدة
         run: |
-          node ./store/update-sitemap.js
+          TODAY=$(date +%Y-%m-%d)
+          echo "📅 تحديث التاريخ إلى: ${TODAY}"
+          sed -i "s/<lastmod>.*<\/lastmod>/<lastmod>${TODAY}<\/lastmod>/g" store/sitemap.xml
+          sed -i "s/\.html\//.html/g" store/sitemap.xml  # إزالة الشرطة الزائدة بعد .html
 
-      - name: 💾 Commit and push changes
+      - name: 📤 رفع التعديلات إلى GitHub
         run: |
-          git config --global user.name "GitHub Action"
-          git config --global user.email "actions@github.com"
-          git add ./store/sitemap.xml
-          git diff --quiet || git commit -m "🗓️ Auto-update sitemap date"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add store/sitemap.xml
+          git commit -m "🔄 Auto-update sitemap date to ${TODAY}" || echo "No changes to commit"
           git push
