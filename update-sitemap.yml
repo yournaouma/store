@@ -1,5 +1,0 @@
-      - name: 🕒 Update <lastmod> dates in sitemap.xml
-        run: |
-          TODAY=$(date +%Y-%m-%d)
-          sed -i "s/<lastmod>.*<\/lastmod>/<lastmod>${TODAY}<\/lastmod>/g" store/sitemap.xml
-          sed -i "s/\.html\//.html/g" store/sitemap.xml  # ← هذا يزيل الشرطة الزائدة
