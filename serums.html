@@ -1,212 +1,469 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>💧 متجر السيرومات — نعومة نعومتك</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>🌸 متجر سيرومات نعومة نعومتك — سيرومات العناية بالبشرة</title>
+  <meta name="description" content="متجر سيرومات نعومة نعومتك — سيرومات طبيعية للعناية بالبشرة. توصيل داخل ليبيا. اطلب عبر واتساب." />
+  <link rel="canonical" href="https://yournaouma.github.io/store/serums.html" />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#fff0f6">
 
-<!-- تحسين SEO -->
-<meta name="description" content="اكتشفي أفضل أنواع السيرومات لبشرتك — تفتيح، ترطيب، مقاومة التجاعيد والمسام من متجر نعومة نعومتك 💖">
-<meta name="keywords" content="سيروم, تفتيح, فيتامين C, ترطيب, سيروم للبشرة, سيروم نعومة نعومتك, منتجات العناية بالبشرة, ليبيا">
-<meta name="author" content="Naoumatik Beauty">
-<link rel="canonical" href="https://yournaouma.github.io/store/serums.html">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="🌸 متجر سيرومات نعومة نعومتك" />
+  <meta property="og:description" content="أجمل مجموعة سيرومات للعناية بالبشرة — اطلب الآن عبر واتساب" />
+  <meta property="og:image" content="https://i.postimg.cc/8P1hn9yf/415f407a-fda6-4a12-8144-d6fce130e5e2.png" />
+  <meta property="og:url" content="https://yournaouma.github.io/store/serums.html" />
 
-<!-- بيانات منظمة لمحركات البحث -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org/",
-  "@type": "Store",
-  "name": "متجر سيرومات نعومة نعومتك",
-  "image": "https://yournaouma.github.io/store/images/logo.png",
-  "description": "أفضل أنواع السيرومات الطبيعية للعناية بالبشرة.",
-  "url": "https://yournaouma.github.io/store/serums.html",
-  "brand": {
-    "@type": "Brand",
-    "name": "Naoumatik"
-  }
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="🌸 متجر سيرومات نعومة نعومتك" />
+  <meta name="twitter:description" content="أجمل مجموعة سيرومات للعناية بالبشرة — اطلب الآن عبر واتساب" />
+  <meta name="twitter:image" content="https://i.postimg.cc/8P1hn9yf/415f407a-fda6-4a12-8144-d6fce130e5e2.png" />
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <style>
+/* نفس ستايلات القالب */
+body { font-family: "Noto Sans Arabic", system-ui; background: linear-gradient(180deg,#fff 0%, #fff6fb 100%); }
+header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%); }
+.product-card:hover { transform: translateY(-6px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+.pill { background: linear-gradient(90deg,#ffdfe6,#fff3f6); border-radius: 999px; padding: .25rem .6rem; font-size: .8rem; }
+
+/* CART */
+.cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.35); backdrop-filter:blur(3px); opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:40; }
+.cart-overlay.open { opacity:1; pointer-events:auto; }
+.cart-drawer { position:fixed; top:0; right:0; height:100vh; width:100%; max-width:420px; transform:translateX(110%); transition:transform .32s cubic-bezier(.2,.9,.2,1); z-index:50; }
+.cart-drawer.open { transform:translateX(0); }
+
+/* SIDEBAR */
+#sidebar { z-index:60; }
+#menuOverlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:50; display:none; }
+
+/* CART FORM */
+#cartPanel input,
+#cartPanel select {
+  background-color: #fff !important;
+  border: 1.5px solid #f9c2d1 !important;
+  color: #333 !important;
+  font-size: 0.95rem;
+  transition: all 0.25s ease;
 }
-</script>
+#cartPanel input:focus,
+#cartPanel select:focus {
+  border-color: #ff6f91 !important;
+  box-shadow: 0 0 0 3px rgba(255, 182, 193, 0.25);
+  outline: none;
+}
+#cartPanel .btn-primary {
+  background: linear-gradient(90deg,#ff85a2,#ffadc2);
+  border: none;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(255,100,150,0.3);
+  transition: transform 0.2s ease;
+}
+#cartPanel .btn-primary:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(90deg,#ff9fb7,#ffbcd1);
+}
+#cartPanel label {
+  color: #555;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+  </style>
 
-<!-- مكتبات التصميم -->
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Tailwind + DaisyUI + Flowbite + Animate -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" />
+  <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
-<style>
-  body { background-color: #fff7fa; font-family: 'Cairo', sans-serif; }
-  header {
-    background: linear-gradient(90deg, #f9a8d4, #fbcfe8);
-    color: #4b5563;
-    font-weight: bold;
-  }
-  .product-card:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
-  }
-  .filter-btn.active {
-    background-color: #ec4899;
-    color: #fff;
-  }
-</style>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+
+  <link rel="icon" href="https://i.postimg.cc/8P1hn9yf/415f407a-fda6-4a12-8144-d6fce130e5e2.png" type="image/png" />
 </head>
+<body class="antialiased text-gray-800">
+  <!-- 🌸 زر القائمة الجانبية -->
+  <button id="menuBtn" class="fixed top-4 right-4 z-60 bg-pink-500 hover:bg-pink-600 text-white px-3 py-2 rounded-lg shadow-md">
+    ☰ القائمة
+  </button>
 
-<body class="font-sans text-gray-800">
+  <!-- 🌸 التعتيم الخلفي للقائمة -->
+  <div id="menuOverlay"></div>
 
-<header class="text-center py-4 text-xl shadow-md">
-  💧 متجر السيرومات — نعومة نعومتك
-</header>
+  <!-- 🌸 القائمة الجانبية -->
+  <aside id="sidebar" class="fixed top-0 right-0 w-64 h-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto">
+    <div class="p-5">
+      <h2 class="text-2xl font-bold text-pink-600 mb-4 text-center">🌸 نعومة نعومتك</h2>
+      <nav class="space-y-3 text-lg">
+        <a href="index.html" class="block p-2 rounded hover:bg-pink-100">🏠 الصفحة الرئيسية</a>
+        <a href="serums.html" class="block p-2 rounded hover:bg-pink-100">💦 متجر السيرومات</a>
+      </nav>
+      <div class="mt-6 text-center">
+        <button id="closeSidebar" class="bg-pink-500 text-white px-4 py-2 rounded-lg shadow hover:bg-pink-600">إغلاق ✖</button>
+      </div>
+    </div>
+  </aside>
 
-<main class="max-w-7xl mx-auto mt-6 px-3">
-
-  <!-- أزرار الفلترة -->
-  <div class="flex flex-wrap justify-start gap-2 mb-4">
-    <button class="filter-btn bg-pink-400 text-white px-3 py-1 rounded hover:bg-pink-500 active" data-serum="all">كل السيرومات</button>
-    <button class="filter-btn bg-pink-400 text-white px-3 py-1 rounded hover:bg-pink-500" data-serum="سيروم تفتيح">سيروم تفتيح</button>
-    <button class="filter-btn bg-pink-400 text-white px-3 py-1 rounded hover:bg-pink-500" data-serum="سيروم فيتامين C">سيروم فيتامين C</button>
-    <button class="filter-btn bg-pink-400 text-white px-3 py-1 rounded hover:bg-pink-500" data-serum="سيروم للمسامات">سيروم للمسامات</button>
-    <button class="filter-btn bg-pink-400 text-white px-3 py-1 rounded hover:bg-pink-500" data-serum="سيروم للترطيب">سيروم للترطيب</button>
-    <button class="filter-btn bg-pink-400 text-white px-3 py-1 rounded hover:bg-pink-500" data-serum="سيروم مضاد للتجاعيد">سيروم مضاد للتجاعيد</button>
-  </div>
-
-  <!-- البحث -->
-  <div class="mb-4">
-    <input type="text" id="searchInput" placeholder="ابحث عن سيروم..." class="border p-2 rounded w-full sm:w-60 focus:ring-2 focus:ring-pink-300">
-  </div>
-
-  <!-- المنتجات -->
-  <div id="productsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"></div>
-
-  <!-- السلة -->
-  <div class="bg-white p-4 rounded-xl shadow-lg mt-6">
-    <h2 class="font-bold mb-2 text-lg">🛒 سلة مشترياتك</h2>
-    <div id="cartContainer" class="grid gap-2"></div>
-    <div class="text-right font-bold text-lg mt-2 text-pink-600" id="cartTotal">الإجمالي الكلي: 0 د.ل</div>
-  </div>
-
-  <!-- بيانات العميل -->
-  <div class="bg-white p-4 rounded-xl shadow-lg mt-6">
-    <h2 class="font-bold mb-2 text-lg">👤 بيانات العميل</h2>
-    <form id="checkoutForm" class="space-y-4 text-sm">
-      <input type="text" id="fullname" placeholder="الاسم الكامل" class="w-full p-2 border rounded focus:ring-2 focus:ring-pink-200" required>
-      <input type="number" id="age" placeholder="العمر" class="w-full p-2 border rounded focus:ring-2 focus:ring-pink-200" required>
-      <select id="city" class="w-full p-2 border rounded focus:ring-2 focus:ring-pink-200" required>
-        <option value="">اختر مدينتك</option>
-        <option>طرابلس</option><option>بنغازي</option><option>مصراته</option><option>سبها</option><option>الخمس</option>
-        <option>زليتن</option><option>أجدابيا</option><option>درنة</option><option>غريان</option><option>ترهونة</option>
-        <option>غدامس</option><option>الكفرة</option><option>البيضاء</option><option>الجبل الغربي</option><option>الزاوية</option><option>سرت</option>
-        <option>مناطق أخرى</option>
-      </select>
-      <input type="text" id="otherCity" placeholder="اكتب مدينتك إذا اخترت مناطق أخرى" class="w-full p-2 border rounded focus:ring-2 focus:ring-pink-200 hidden">
-      <textarea id="notes" placeholder="ملاحظات إضافية" class="w-full p-2 border rounded focus:ring-2 focus:ring-pink-200"></textarea>
-      <button type="button" id="checkoutBtn" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 rounded transition">✅ دفع عبر واتساب</button>
-    </form>
-  </div>
-
-</main>
-
-<script>
-// تعريف السيرومات
-const serums = [
-  {name:"سيروم فيتامين C", type:"سيروم فيتامين C", price:42, image:"https://i.postimg.cc/fRFXm6hh/sample4.png"},
-  {name:"سيروم الهيالورونيك", type:"سيروم للترطيب", price:48, image:"https://i.postimg.cc/Rh4Jx0D5/sample7.png"},
-  {name:"سيروم تفتيح البشرة", type:"سيروم تفتيح", price:45, image:"https://i.postimg.cc/XvV8K5XT/sample-bright.png"},
-  {name:"سيروم مضاد للتجاعيد", type:"سيروم مضاد للتجاعيد", price:55, image:"https://i.postimg.cc/5y7kTjqZ/sample-antiwrinkle.png"},
-  {name:"سيروم للمسام الواسعة", type:"سيروم للمسامات", price:39, image:"https://i.postimg.cc/3RWh3wzF/sample-pores.png"},
-  {name:"سيروم ليلي بالورد", type:"سيروم للترطيب", price:52, image:"https://i.postimg.cc/Gpn3kC5W/sample5.png"}
-];
-
-let cart=[];
-
-function renderProducts(filter="all", search=""){
-  const container=document.getElementById("productsContainer");
-  container.innerHTML="";
-  serums.filter(p=>{
-    return (filter==="all" || p.type===filter) && p.name.includes(search);
-  }).forEach(p=>{
-    const div=document.createElement("div");
-    div.className="product-card bg-white rounded-xl shadow-md p-3 flex flex-col items-center text-center transition";
-    div.innerHTML=`
-      <img src="${p.image}" alt="${p.name}" class="w-full h-32 object-contain rounded mb-2">
-      <h4 class="font-semibold mb-1">${p.name}</h4>
-      <p class="text-gray-700 mb-2">${p.price} د.ل</p>
-      <button onclick="addToCart('${p.name}',${p.price})" class="bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded">أضف للسلة</button>
-    `;
-    container.appendChild(div);
-  });
-}
-
-function addToCart(name,price){
-  const item=cart.find(i=>i.name===name);
-  if(item)item.quantity++;
-  else cart.push({name,price,quantity:1,note:""});
-  renderCart();
-  Swal.fire({icon:"success",title:"تمت الإضافة 🩷",text:name,timer:1000,showConfirmButton:false});
-}
-
-function renderCart(){
-  const c=document.getElementById("cartContainer");
-  c.innerHTML="";
-  let total=0;
-  cart.forEach((item,i)=>{
-    total+=item.price*item.quantity;
-    const div=document.createElement("div");
-    div.className="bg-gray-100 p-2 rounded flex flex-col gap-2";
-    div.innerHTML=`
-      <div class="flex justify-between items-center">
-        <span>${item.name} × ${item.quantity} = ${item.price*item.quantity} د.ل</span>
-        <div class="flex gap-1">
-          <button onclick="changeQuantity(${i},-1)" class="px-2 py-1 bg-gray-200 rounded">-</button>
-          <button onclick="changeQuantity(${i},1)" class="px-2 py-1 bg-gray-200 rounded">+</button>
-          <button onclick="removeItem(${i})" class="px-2 py-1 bg-red-500 text-white rounded">حذف</button>
+  <!-- HEADER -->
+  <header class="shadow-sm sticky top-0 z-30 mt-14">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <img src="https://i.postimg.cc/8P1hn9yf/415f407a-fda6-4a12-8144-d6fce130e5e2.png" alt="شعار نعومة نعومتك" class="w-12 h-12 rounded-lg object-cover shadow-sm">
+        <div>
+          <h1 class="text-lg font-extrabold">متجر سيرومات نعومة نعومتك <span class="text-sm text-gray-500 block">سيرومات العناية بالبشرة</span></h1>
         </div>
       </div>
-      <textarea placeholder="ملاحظات عن المنتج" class="border p-1 rounded w-full" oninput="updateNote(${i}, this.value)">${item.note}</textarea>
-    `;
-    c.appendChild(div);
-  });
-  document.getElementById("cartTotal").innerText="الإجمالي الكلي: "+total.toFixed(2)+" د.ل";
-}
+      <div class="flex items-center gap-3">
+        <div class="pill text-sm">توصيل داخل ليبيا — سريع</div>
+        <button id="openCartBtn" class="btn btn-ghost btn-sm">🛒 <span id="cartBadge">0</span></button>
+      </div>
+    </div>
+  </header>
 
-function changeQuantity(i,d){cart[i].quantity+=d;if(cart[i].quantity<1)cart[i].quantity=1;renderCart();}
-function updateNote(i,v){cart[i].note=v;}
-function removeItem(i){cart.splice(i,1);renderCart();}
+  <!-- باقي محتوى الصفحة هنا (المنتجات والسلة...) -->
 
-document.querySelectorAll(".filter-btn").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    renderProducts(btn.getAttribute("data-serum"),document.getElementById("searchInput").value);
-  });
-});
+  <!-- SCRIPT للقائمة الجانبية -->
+  <script>
+  const menuBtn = document.getElementById('menuBtn');
+  const sidebar = document.getElementById('sidebar');
+  const menuOverlay = document.getElementById('menuOverlay');
+  const closeSidebar = document.getElementById('closeSidebar');
 
-document.getElementById("searchInput").addEventListener("input",()=>{
-  const active=document.querySelector(".filter-btn.active").getAttribute("data-serum");
-  renderProducts(active,document.getElementById("searchInput").value);
-});
+  function toggleSidebar(open) {
+    sidebar.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
+    menuOverlay.style.display = open ? 'block' : 'none';
+  }
 
-document.getElementById("city").addEventListener("change",()=>{
-  document.getElementById("otherCity").style.display=(document.getElementById("city").value==="مناطق أخرى")?"block":"none";
-});
+  menuBtn.addEventListener('click', () => toggleSidebar(true));
+  closeSidebar.addEventListener('click', () => toggleSidebar(false));
+  menuOverlay.addEventListener('click', () => toggleSidebar(false));
+  </script>
 
-document.getElementById("checkoutBtn").addEventListener("click",()=>{
-  const name=document.getElementById("fullname").value.trim();
-  const age=document.getElementById("age").value.trim();
-  let city=document.getElementById("city").value;
-  const other=document.getElementById("otherCity").value.trim();
-  const notes=document.getElementById("notes").value.trim();
-  if(city==="مناطق أخرى"&&other)city=other;
-  if(!name||!age||!city||cart.length===0){Swal.fire("⚠️","يرجى تعبئة كل البيانات وإضافة منتج","warning");return;}
-  let msg=`طلب جديد 💧%0A👤 الاسم: ${name}%0A🎂 العمر: ${age}%0A🏠 المدينة: ${city}%0A`;
-  if(notes)msg+=`📝 ملاحظات: ${notes}%0A`;
-  msg+=`%0A🧾 تفاصيل الطلب:%0A`;
-  cart.forEach(i=>{msg+=`• ${i.name} × ${i.quantity} = ${i.price*i.quantity} د.ل%0A`;if(i.note)msg+=`- ملاحظة: ${i.note}%0A`;});
-  const total=cart.reduce((s,i)=>s+i.price*i.quantity,0);
-  msg+=`%0Aالإجمالي الكلي: ${total.toFixed(2)} د.ل`;
-  window.open(`https://wa.me/218915066938?text=${msg}`,"_blank");
-});
+  <!-- MAIN -->
+  <main class="max-w-7xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
 
-renderProducts();
-renderCart();
-</script>
+    <!-- LEFT: Filters & search -->
+    <aside class="lg:col-span-1 space-y-4">
+      <div class="bg-white p-4 rounded-xl shadow-sm">
+        <label for="search" class="sr-only">ابحث</label>
+        <input id="search" type="search" placeholder="ابحث عن اسم السيروم..." class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-pink-200" aria-label="ابحث عن سيروم">
+      </div>
 
+      <div class="bg-white p-4 rounded-xl shadow-sm">
+        <h3 class="font-semibold mb-2">نوع البشرة</h3>
+        <div class="flex flex-col gap-2">
+          <button class="filter-btn btn btn-sm justify-start" data-type="all">كل الأنواع</button>
+          <button class="filter-btn btn btn-sm justify-start" data-type="دهنية">دهنية</button>
+          <button class="filter-btn btn btn-sm justify-start" data-type="عادية">عادية</button>
+          <button class="filter-btn btn btn-sm justify-start" data-type="مختلطة">مختلطة</button>
+          <button class="filter-btn btn btn-sm justify-start" data-type="حساسة">حساسة</button>
+          <button class="filter-btn btn btn-sm justify-start" data-type="جافة">جافة</button>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl shadow-sm">
+        <h3 class="font-semibold mb-2">نصائح اختيار السيروم</h3>
+        <ul class="text-sm space-y-1">
+          <li>• اختاري سيروم مناسب لمشاكل بشرتك (تفتيح، ترطيب، مكافحة تجاعيد...)</li>
+          <li>• للبشرة الدهنية: سيرومات خفيفة وسريعة الامتصاص.</li>
+          <li>• للبشرة الجافة: سيرومات بها حمض الهيالورونيك أو زيوت مغذية.</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- PRODUCTS GRID -->
+    <section class="lg:col-span-3 space-y-4">
+      <div id="productsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+
+      <!-- Pagination placeholder -->
+      <div class="flex justify-center">
+        <nav class="pagination flex gap-2 items-center text-sm"></nav>
+      </div>
+
+      <!-- Checkout summary (mobile) -->
+      <div class="bg-white p-4 rounded-xl shadow-sm lg:hidden">
+        <div class="flex justify-between items-center">
+          <div>🛒 <span id="mobileCartCount">0</span> عناصر</div>
+          <div class="font-bold">الإجمالي: <span id="mobileTotal">0.00</span> د.ل</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- OVERLAY -->
+  <div id="overlay" class="overlay" tabindex="-1" aria-hidden="true"></div>
+
+  <!-- CART DRAWER -->
+  <aside id="cartPanel" class="cart-drawer bg-white shadow-xl" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="h-full flex flex-col p-4">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="text-lg font-bold">🛒 سلة مشترياتك</h2>
+        <div class="flex items-center gap-2">
+          <button id="clearCartBtn" class="btn btn-ghost btn-xs text-sm">تفريغ</button>
+          <button id="closeCartBtn" class="btn btn-ghost">إغلاق ✖</button>
+        </div>
+      </div>
+
+      <div id="cartItems" class="flex-1 overflow-auto space-y-3 p-1"></div>
+
+      <div class="mt-3">
+        <div class="flex justify-between items-center mb-2">
+          <div class="font-semibold">الإجمالي الكلي</div>
+          <div class="font-bold" id="cartTotal">0.00 د.ل</div>
+        </div>
+
+        <div class="space-y-2 mb-2">
+          <input id="fullname" placeholder="الاسم الكامل" class="input input-bordered w-full" />
+          <input id="phone" placeholder="رقم الهاتف (مثال: 0915...)" class="input input-bordered w-full" />
+          <select id="city" class="select select-bordered w-full">
+            <option value="">اختر مدينتك</option>
+            <option>طرابلس</option><option>بنغازي</option><option>مصراته</option><option>سبها</option><option>الخمس</option><option>مناطق أخرى</option>
+          </select>
+          <input id="otherCity" placeholder="اكتب مدينتك إذا مناطق أخرى" class="input input-bordered w-full hidden" />
+        </div>
+
+        <button id="checkoutBtn" class="btn w-full btn-primary">✅ الدفع عبر واتساب</button>
+      </div>
+    </div>
+  </aside>
+
+  <script>
+    // === بيانات منتجات السيروم ===
+    const products = [
+      { id: "s1", name:"سيروم فيتامين C", type:"دهنية", price:42, image:"https://i.postimg.cc/fRFXm6hh/sample4.png", description:"تفتيح البشرة ومضاد للأكسدة – يوحد اللون ويمنح إشراقة طبيعية." },
+      { id: "s2", name:"سيروم حمض الهيالورونيك", type:"مختلطة", price:48, image:"https://i.postimg.cc/Rh4Jx0D5/sample7.png", description:"مرطب مكثف للبشرة – ملء الخطوط الدقيقة وتحسين النضارة." },
+      { id: "s3", name:"سيروم كولاجين مكثف", type:"عادية", price:55, image:"https://i.postimg.cc/JzNvYW8S/collagen.png", description:"مكافحة علامات التقدم وعلاج التجاعيد – لبشرة أكثر شباباً." },
+      { id: "s4", name:"سيروم النياسيناميد", type:"دهنية", price:39, image:"https://i.postimg.cc/mDsS1hh4/niacinamide.png", description:"تقليل المسام وموازنة افراز الدهون – نضارة وترطيب." },
+      { id: "s5", name:"سيروم الريتينول الليلي", type:"جافة", price:57, image:"https://i.postimg.cc/vH0t88TC/retinol.png", description:"تجديد خلايا البشرة وتقشير لطيف – مناسب للاستخدام الليلي." },
+      { id: "s6", name:"سيروم الزيوت الطبيعية", type:"عادية", price:45, image:"https://i.postimg.cc/4Npj6NTX/oil-serum.png", description:"خليط مغذٍ لترميم وترطيب البشرة الجافة والعادية." },
+      { id: "s7", name:"سيروم التفتيح الليلي", type:"مختلطة", price:52, image:"https://i.postimg.cc/BnyZxSxS/night-glow.png", description:"تفتيح البقع الداكنة وتوحيد اللون." },
+      { id: "s8", name:"سيروم تهدئة البشرة الحساسة", type:"حساسة", price:46, image:"https://i.postimg.cc/MT9zCJCR/soothing.png", description:"تركيبة لطيفة تقلل الاحمرار والتهيّج." },
+      { id: "s9", name:"سيروم فيتامين E مغذي", type:"جافة", price:50, image:"https://i.postimg.cc/C1yP1xwS/vitamin-e.png", description:"تغذية عميقة ومرونة – بشرة صحية ونضرة." }
+    ];
+
+    // ====== الكود المتعلق بالسلة وواجهة المتجر كما هو بالقالب الأصلي ======
+    let cart = JSON.parse(localStorage.getItem('nn_cart_v1') || '[]');
+
+    const productsContainer = document.getElementById('productsContainer');
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const cartBadge = document.getElementById('cartBadge');
+    const mobileCartCount = document.getElementById('mobileCartCount');
+    const mobileTotal = document.getElementById('mobileTotal');
+    const overlay = document.getElementById('overlay');
+    const cartPanel = document.getElementById('cartPanel');
+    const openCartBtn = document.getElementById('openCartBtn');
+    const closeCartBtn = document.getElementById('closeCartBtn');
+    const clearCartBtn = document.getElementById('clearCartBtn');
+
+    // Render المنتجات
+    function renderProducts(filter='all', search='') {
+      productsContainer.innerHTML = '';
+      const term = (search || '').trim().toLowerCase();
+      const filtered = products.filter(p => (filter === 'all' || p.type === filter) && (p.name + ' ' + p.description).toLowerCase().includes(term));
+      if (!filtered.length) {
+        productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500">لا توجد سيرومات مطابقة.</div>`;
+        return;
+      }
+      filtered.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center animate__animated animate__fadeIn';
+        card.innerHTML = `
+          <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-40 h-40 object-contain mb-3">
+          <h3 class="font-semibold">${p.name}</h3>
+          <p class="text-xs text-gray-500 mb-2">${p.type} • ${p.description}</p>
+          <div class="flex items-center gap-2 mt-2">
+            <div class="text-lg font-bold">${p.price.toFixed(2)} د.ل</div>
+          </div>
+          <div class="mt-3 w-full flex gap-2">
+            <button class="btn btn-sm btn-outline w-1/2" data-action="detail" data-id="${p.id}">عرض</button>
+            <button class="btn btn-sm btn-primary w-1/2" data-action="add" data-id="${p.id}">أضف للسلة</button>
+          </div>
+        `;
+        productsContainer.appendChild(card);
+      });
+    }
+
+    function saveCart() {
+      localStorage.setItem('nn_cart_v1', JSON.stringify(cart));
+      updateCartUI();
+    }
+
+    function addToCart(productId) {
+      const prod = products.find(p=>p.id===productId);
+      if (!prod) return;
+      const existing = cart.find(i=>i.id===productId);
+      if (existing) existing.qty++;
+      else cart.push({ id: prod.id, name: prod.name, price: prod.price, qty: 1, note: '' });
+      saveCart();
+      Swal.fire({ icon:'success', title: 'تمت الإضافة', text: prod.name + ' أُضيف إلى السلة', timer: 1100, showConfirmButton:false });
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index,1);
+      saveCart();
+    }
+
+    function changeQty(index, delta) {
+      cart[index].qty += delta;
+      if (cart[index].qty < 1) cart[index].qty = 1;
+      saveCart();
+    }
+
+    clearCartBtn.addEventListener('click', ()=> {
+      if (!cart.length) return;
+      Swal.fire({
+        title: 'تفريغ السلة؟',
+        text: 'هل تريد تفريغ سلة المشتريات؟',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'نعم, تفريغ',
+        cancelButtonText: 'إلغاء'
+      }).then(res => {
+        if (res.isConfirmed) {
+          cart = [];
+          saveCart();
+        }
+      });
+    });
+
+    function updateCartUI() {
+      cartItemsEl.innerHTML = '';
+      let total = 0;
+      cart.forEach((item, i) => {
+        total += item.price * item.qty;
+        const itemEl = document.createElement('div');
+        itemEl.className = 'p-2 bg-gray-50 rounded flex items-start justify-between gap-2';
+        itemEl.innerHTML = `
+          <div class="flex-1">
+            <div class="font-semibold">${item.name}</div>
+            <div class="text-xs text-gray-500">سعر الوحدة: ${item.price.toFixed(2)} د.ل</div>
+            <div class="mt-2 flex gap-2">
+              <button class="btn btn-xs" data-action="dec" data-i="${i}">-</button>
+              <div class="px-3 py-1 border rounded">${item.qty}</div>
+              <button class="btn btn-xs" data-action="inc" data-i="${i}">+</button>
+              <button class="btn btn-xs btn-error ml-auto" data-action="remove" data-i="${i}">حذف</button>
+            </div>
+          </div>
+        `;
+        cartItemsEl.appendChild(itemEl);
+      });
+      cartTotalEl.innerText = total.toFixed(2) + ' د.ل';
+      cartBadge.innerText = cart.reduce((s,i)=>s+i.qty,0);
+      mobileCartCount.innerText = cartBadge.innerText;
+      mobileTotal.innerText = total.toFixed(2);
+    }
+
+    productsContainer.addEventListener('click', e => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const action = btn.getAttribute('data-action');
+      const id = btn.getAttribute('data-id');
+      if (action === 'add') addToCart(id);
+      if (action === 'detail') {
+        const prod = products.find(p=>p.id===id);
+        if (prod) {
+          Swal.fire({
+            title: prod.name,
+            html: `<img src="${prod.image}" alt="${prod.name}" loading="lazy" class="mx-auto w-48 h-48 object-contain mb-3"><p class="text-sm text-gray-600">${prod.description}</p><p class="mt-2 font-bold">${prod.price.toFixed(2)} د.ل</p>`,
+            showCloseButton: true,
+            showConfirmButton: false,
+          });
+        }
+      }
+    });
+
+    cartItemsEl.addEventListener('click', e => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const action = btn.getAttribute('data-action');
+      const i = Number(btn.getAttribute('data-i'));
+      if (action === 'remove') removeFromCart(i);
+      if (action === 'inc') changeQty(i, 1);
+      if (action === 'dec') changeQty(i, -1);
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(b => b.addEventListener('click', () => {
+      const t = b.getAttribute('data-type');
+      document.getElementById('search').value = '';
+      renderProducts(t, '');
+    }));
+    document.getElementById('search').addEventListener('input', e => {
+      renderProducts('all', e.target.value);
+    });
+
+    function openCart() {
+      overlay.classList.add('open');
+      cartPanel.classList.add('open');
+      cartPanel.setAttribute('aria-hidden','false');
+      overlay.setAttribute('aria-hidden','false');
+      openCartBtn.setAttribute('aria-expanded','true');
+      setTimeout(()=> {
+        const fname = document.getElementById('fullname');
+        if (fname) fname.focus();
+      }, 220);
+    }
+    function closeCart() {
+      overlay.classList.remove('open');
+      cartPanel.classList.remove('open');
+      cartPanel.setAttribute('aria-hidden','true');
+      overlay.setAttribute('aria-hidden','true');
+      openCartBtn.setAttribute('aria-expanded','false');
+      openCartBtn.focus();
+    }
+
+    openCartBtn.addEventListener('click', ()=> { openCart(); });
+    closeCartBtn.addEventListener('click', ()=> closeCart());
+    overlay.addEventListener('click', ()=> closeCart());
+
+    window.addEventListener('keydown', (e)=> {
+      if (e.key === 'Escape') {
+        if (cartPanel.classList.contains('open')) closeCart();
+      }
+    });
+
+    document.getElementById('city').addEventListener('change', (e)=>{
+      document.getElementById('otherCity').classList.toggle('hidden', e.target.value !== 'مناطق أخرى');
+    });
+
+    document.getElementById('checkoutBtn').addEventListener('click', ()=> {
+      const fullname = document.getElementById('fullname').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      let city = document.getElementById('city').value;
+      const otherCity = document.getElementById('otherCity').value.trim();
+      if (city === 'مناطق أخرى' && otherCity) city = otherCity;
+
+      if (!fullname || !phone || !city || cart.length === 0) {
+        Swal.fire({ icon:'warning', title:'يرجى إكمال البيانات وإضافة سيروم واحد على الأقل' });
+        return;
+      }
+
+      let message = `طلب جديد من متجر سيرومات نعومة نعومتك%0A`;
+      message += `الاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0A%0A`;
+      message += `تفاصيل الطلب:%0A`;
+      cart.forEach(item => {
+        message += `• ${item.name} × ${item.qty} = ${ (item.price * item.qty).toFixed(2) } د.ل%0A`;
+      });
+      const total = cart.reduce((s,i)=>s + i.price * i.qty, 0);
+      message += `%0Aالإجمالي: ${total.toFixed(2)} د.ل`;
+
+      const whatsappNumber = "218915066938";
+      const url = `https://wa.me/${whatsappNumber}?text=${message}`;
+      window.open(url, '_blank');
+    });
+
+    renderProducts();
+    updateCartUI();
+
+    window.addEventListener('beforeunload', ()=> localStorage.setItem('nn_cart_v1', JSON.stringify(cart)));
+  </script>
+  <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 </body>
 </html>
