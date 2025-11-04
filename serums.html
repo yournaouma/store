@@ -3,32 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌸 متجر سيرومات نعومة نعموتك</title>
-<link rel="canonical" href="https://yournaouma.github.io/store/serums.html">  
+<title>💧 متجر السيرومات — نعومة نعومتك</title>
+
+<!-- تحسين SEO -->
+<meta name="description" content="اكتشفي أفضل أنواع السيرومات لبشرتك — تفتيح، ترطيب، مقاومة التجاعيد والمسام من متجر نعومة نعومتك 💖">
+<meta name="keywords" content="سيروم, تفتيح, فيتامين C, ترطيب, سيروم للبشرة, سيروم نعومة نعومتك, منتجات العناية بالبشرة, ليبيا">
+<meta name="author" content="Naoumatik Beauty">
+<link rel="canonical" href="https://yournaouma.github.io/store/serums.html">
+
+<!-- بيانات منظمة لمحركات البحث -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Store",
+  "name": "متجر سيرومات نعومة نعومتك",
+  "image": "https://yournaouma.github.io/store/images/logo.png",
+  "description": "أفضل أنواع السيرومات الطبيعية للعناية بالبشرة.",
+  "url": "https://yournaouma.github.io/store/serums.html",
+  "brand": {
+    "@type": "Brand",
+    "name": "Naoumatik"
+  }
+}
+</script>
+
+<!-- مكتبات التصميم -->
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <style>
-  /* تأثير Hover للمنتجات */
-  .product-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  body { background-color: #fff7fa; font-family: 'Cairo', sans-serif; }
+  header {
+    background: linear-gradient(90deg, #f9a8d4, #fbcfe8);
+    color: #4b5563;
+    font-weight: bold;
   }
-  /* أزرار الفلترة */
+  .product-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+  }
   .filter-btn.active {
-    background: #ec4899;
-    color: white;
+    background-color: #ec4899;
+    color: #fff;
   }
 </style>
 </head>
-<body class="bg-pink-50 font-sans">
 
-<header class="bg-pink-200 text-center py-4 text-xl font-bold text-gray-800 shadow-md">
-  🌸 متجر سيرومات نعومة نعموتك
+<body class="font-sans text-gray-800">
+
+<header class="text-center py-4 text-xl shadow-md">
+  💧 متجر السيرومات — نعومة نعومتك
 </header>
 
-<main class="max-w-7xl mx-auto mt-6 px-2">
+<main class="max-w-7xl mx-auto mt-6 px-3">
 
-  <!-- أزرار تصفية السيرومات -->
+  <!-- أزرار الفلترة -->
   <div class="flex flex-wrap justify-start gap-2 mb-4">
     <button class="filter-btn bg-pink-400 text-white px-3 py-1 rounded hover:bg-pink-500 active" data-serum="all">كل السيرومات</button>
     <button class="filter-btn bg-pink-400 text-white px-3 py-1 rounded hover:bg-pink-500" data-serum="سيروم تفتيح">سيروم تفتيح</button>
@@ -43,17 +72,17 @@
     <input type="text" id="searchInput" placeholder="ابحث عن سيروم..." class="border p-2 rounded w-full sm:w-60 focus:ring-2 focus:ring-pink-300">
   </div>
 
-  <!-- حاوية المنتجات -->
+  <!-- المنتجات -->
   <div id="productsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"></div>
 
-  <!-- سلة المشتريات -->
-  <div class="bg-white p-4 rounded-xl shadow-lg mt-6 relative">
+  <!-- السلة -->
+  <div class="bg-white p-4 rounded-xl shadow-lg mt-6">
     <h2 class="font-bold mb-2 text-lg">🛒 سلة مشترياتك</h2>
     <div id="cartContainer" class="grid gap-2"></div>
-    <div class="text-right font-bold text-lg mt-2" id="cartTotal">الإجمالي الكلي: 0 د.ل</div>
+    <div class="text-right font-bold text-lg mt-2 text-pink-600" id="cartTotal">الإجمالي الكلي: 0 د.ل</div>
   </div>
 
-  <!-- نموذج بيانات العميل -->
+  <!-- بيانات العميل -->
   <div class="bg-white p-4 rounded-xl shadow-lg mt-6">
     <h2 class="font-bold mb-2 text-lg">👤 بيانات العميل</h2>
     <form id="checkoutForm" class="space-y-4 text-sm">
@@ -61,23 +90,10 @@
       <input type="number" id="age" placeholder="العمر" class="w-full p-2 border rounded focus:ring-2 focus:ring-pink-200" required>
       <select id="city" class="w-full p-2 border rounded focus:ring-2 focus:ring-pink-200" required>
         <option value="">اختر مدينتك</option>
-        <option value="طرابلس">طرابلس</option>
-        <option value="بنغازي">بنغازي</option>
-        <option value="مصراته">مصراته</option>
-        <option value="سبها">سبها</option>
-        <option value="الخمس">الخمس</option>
-        <option value="زليتن">زليتن</option>
-        <option value="أجدابيا">أجدابيا</option>
-        <option value="درنة">درنة</option>
-        <option value="غريان">غريان</option>
-        <option value="ترهونة">ترهونة</option>
-        <option value="غدامس">غدامس</option>
-        <option value="الكفرة">الكفرة</option>
-        <option value="البيضاء">البيضاء</option>
-        <option value="الجبل الغربي">الجبل الغربي</option>
-        <option value="الزاوية">الزاوية</option>
-        <option value="سرت">سرت</option>
-        <option value="مناطق أخرى">مناطق أخرى</option>
+        <option>طرابلس</option><option>بنغازي</option><option>مصراته</option><option>سبها</option><option>الخمس</option>
+        <option>زليتن</option><option>أجدابيا</option><option>درنة</option><option>غريان</option><option>ترهونة</option>
+        <option>غدامس</option><option>الكفرة</option><option>البيضاء</option><option>الجبل الغربي</option><option>الزاوية</option><option>سرت</option>
+        <option>مناطق أخرى</option>
       </select>
       <input type="text" id="otherCity" placeholder="اكتب مدينتك إذا اخترت مناطق أخرى" class="w-full p-2 border rounded focus:ring-2 focus:ring-pink-200 hidden">
       <textarea id="notes" placeholder="ملاحظات إضافية" class="w-full p-2 border rounded focus:ring-2 focus:ring-pink-200"></textarea>
@@ -89,54 +105,48 @@
 
 <script>
 // تعريف السيرومات
-let serums = [
-  {name: "سيروم حمض الهيالورونيك", type: "مختلطة", price: 48, image: "images/serums/serums1.jpg"},
-  {name:"سيروم حمض الهيالورونيك", type:"مختلطة", price:48, image:"https://i.postimg.cc/Rh4Jx0D5/sample7.png"},
-  {name:"سيروم للترطيب", type:"جافة", price:50, image:"https://i.postimg.cc/XYVQb5wJ/sample-dry.png"},
-  {name:"سيروم مضاد للتجاعيد", type:"عادية", price:55, image:"https://i.postimg.cc/5y7kTjqZ/sample-antiwrinkle.png"},
-  {name:"سيروم تفتيح", type:"حساسة", price:45, image:"https://i.postimg.cc/XvV8K5XT/sample-bright.png"},
-  {name:"سيروم للمسامات", type:"مختلطة", price:38, image:"https://i.postimg.cc/3RWh3wzF/sample-pores.png"}
+const serums = [
+  {name:"سيروم فيتامين C", type:"سيروم فيتامين C", price:42, image:"https://i.postimg.cc/fRFXm6hh/sample4.png"},
+  {name:"سيروم الهيالورونيك", type:"سيروم للترطيب", price:48, image:"https://i.postimg.cc/Rh4Jx0D5/sample7.png"},
+  {name:"سيروم تفتيح البشرة", type:"سيروم تفتيح", price:45, image:"https://i.postimg.cc/XvV8K5XT/sample-bright.png"},
+  {name:"سيروم مضاد للتجاعيد", type:"سيروم مضاد للتجاعيد", price:55, image:"https://i.postimg.cc/5y7kTjqZ/sample-antiwrinkle.png"},
+  {name:"سيروم للمسام الواسعة", type:"سيروم للمسامات", price:39, image:"https://i.postimg.cc/3RWh3wzF/sample-pores.png"},
+  {name:"سيروم ليلي بالورد", type:"سيروم للترطيب", price:52, image:"https://i.postimg.cc/Gpn3kC5W/sample5.png"}
 ];
 
-// سلة مشتريات
-let cart = [];
+let cart=[];
 
-// عرض المنتجات
 function renderProducts(filter="all", search=""){
-  const container = document.getElementById("productsContainer");
-  container.innerHTML = "";
+  const container=document.getElementById("productsContainer");
+  container.innerHTML="";
   serums.filter(p=>{
-    return (filter==="all" || p.name===filter) && p.name.includes(search);
+    return (filter==="all" || p.type===filter) && p.name.includes(search);
   }).forEach(p=>{
-    const div = document.createElement("div");
-    div.className="product-card bg-white rounded-xl shadow-md p-3 flex flex-col items-center text-center hover:shadow-xl transition";
+    const div=document.createElement("div");
+    div.className="product-card bg-white rounded-xl shadow-md p-3 flex flex-col items-center text-center transition";
     div.innerHTML=`
       <img src="${p.image}" alt="${p.name}" class="w-full h-32 object-contain rounded mb-2">
       <h4 class="font-semibold mb-1">${p.name}</h4>
-      <p class="text-gray-700 mb-2">${p.type} - ${p.price} د.ل</p>
-      <div class="flex gap-1">
-        <button onclick="addToCart('${p.name}',${p.price})" class="bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded transition">+</button>
-      </div>
+      <p class="text-gray-700 mb-2">${p.price} د.ل</p>
+      <button onclick="addToCart('${p.name}',${p.price})" class="bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded">أضف للسلة</button>
     `;
     container.appendChild(div);
   });
 }
 
-// إضافة للسلة
-function addToCart(name, price){
-  const item = cart.find(i=>i.name===name);
-  if(item) item.quantity++;
-  else cart.push({name, price, quantity:1, note:""});
+function addToCart(name,price){
+  const item=cart.find(i=>i.name===name);
+  if(item)item.quantity++;
+  else cart.push({name,price,quantity:1,note:""});
   renderCart();
-  Swal.fire({icon:"success", title:"🛒", text:"تم إضافة "+name+" إلى السلة", timer:1000, showConfirmButton:false});
+  Swal.fire({icon:"success",title:"تمت الإضافة 🩷",text:name,timer:1000,showConfirmButton:false});
 }
 
-// عرض السلة
 function renderCart(){
-  const container = document.getElementById("cartContainer");
-  container.innerHTML="";
+  const c=document.getElementById("cartContainer");
+  c.innerHTML="";
   let total=0;
-  cart.forEach((item,index)=>{
+  cart.forEach((item,i)=>{
     total+=item.price*item.quantity;
     const div=document.createElement("div");
     div.className="bg-gray-100 p-2 rounded flex flex-col gap-2";
@@ -144,95 +154,59 @@ function renderCart(){
       <div class="flex justify-between items-center">
         <span>${item.name} × ${item.quantity} = ${item.price*item.quantity} د.ل</span>
         <div class="flex gap-1">
-          <button onclick="changeQuantity(${index},-1)" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">-</button>
-          <button onclick="changeQuantity(${index},1)" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">+</button>
-          <button onclick="removeItem(${index})" class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">حذف</button>
+          <button onclick="changeQuantity(${i},-1)" class="px-2 py-1 bg-gray-200 rounded">-</button>
+          <button onclick="changeQuantity(${i},1)" class="px-2 py-1 bg-gray-200 rounded">+</button>
+          <button onclick="removeItem(${i})" class="px-2 py-1 bg-red-500 text-white rounded">حذف</button>
         </div>
       </div>
-      <textarea placeholder="ملاحظات عن المنتج" class="border p-1 rounded w-full" oninput="updateNote(${index}, this.value)">${item.note}</textarea>
+      <textarea placeholder="ملاحظات عن المنتج" class="border p-1 rounded w-full" oninput="updateNote(${i}, this.value)">${item.note}</textarea>
     `;
-    container.appendChild(div);
+    c.appendChild(div);
   });
   document.getElementById("cartTotal").innerText="الإجمالي الكلي: "+total.toFixed(2)+" د.ل";
 }
 
-// تعديل الكمية
-function changeQuantity(index, delta){
-  cart[index].quantity+=delta;
-  if(cart[index].quantity<1) cart[index].quantity=1;
-  renderCart();
-}
+function changeQuantity(i,d){cart[i].quantity+=d;if(cart[i].quantity<1)cart[i].quantity=1;renderCart();}
+function updateNote(i,v){cart[i].note=v;}
+function removeItem(i){cart.splice(i,1);renderCart();}
 
-// تحديث ملاحظات المنتج
-function updateNote(index, value){
-  cart[index].note=value;
-}
-
-// حذف المنتج
-function removeItem(index){
-  cart.splice(index,1);
-  renderCart();
-}
-
-// فلترة السيرومات
 document.querySelectorAll(".filter-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
+  btn.addEventListener("click",()=>{
     document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
-    renderProducts(btn.getAttribute("data-serum"), document.getElementById("searchInput").value);
+    renderProducts(btn.getAttribute("data-serum"),document.getElementById("searchInput").value);
   });
 });
 
-// البحث
-document.getElementById("searchInput").addEventListener("input", ()=>{
-  const activeBtn = document.querySelector(".filter-btn.active").getAttribute("data-serum");
-  renderProducts(activeBtn, document.getElementById("searchInput").value);
+document.getElementById("searchInput").addEventListener("input",()=>{
+  const active=document.querySelector(".filter-btn.active").getAttribute("data-serum");
+  renderProducts(active,document.getElementById("searchInput").value);
 });
 
-// اظهار حقل المدينة الأخرى
-document.getElementById("city").addEventListener("change", ()=>{
-  document.getElementById("otherCity").style.display = (document.getElementById("city").value==="مناطق أخرى")?"block":"none";
+document.getElementById("city").addEventListener("change",()=>{
+  document.getElementById("otherCity").style.display=(document.getElementById("city").value==="مناطق أخرى")?"block":"none";
 });
 
-// الدفع عبر واتساب
-document.getElementById("checkoutBtn").addEventListener("click", ()=>{
-  const fullname=document.getElementById("fullname").value.trim();
+document.getElementById("checkoutBtn").addEventListener("click",()=>{
+  const name=document.getElementById("fullname").value.trim();
   const age=document.getElementById("age").value.trim();
   let city=document.getElementById("city").value;
-  const otherCity=document.getElementById("otherCity").value.trim();
+  const other=document.getElementById("otherCity").value.trim();
   const notes=document.getElementById("notes").value.trim();
-
-  if(city==="مناطق أخرى" && otherCity) city=otherCity;
-
-  if(!fullname || !age || !city || cart.length===0){
-    Swal.fire("⚠️","يرجى تعبئة كل البيانات وإضافة منتج على الأقل","warning");
-    return;
-  }
-
-  let message=`طلب جديد 🌸%0A`;
-  message+=`👤 الاسم: ${fullname}%0A🎂 العمر: ${age}%0A🏠 المدينة: ${city}%0A`;
-  if(notes) message+=`📝 ملاحظات: ${notes}%0A`;
-  message+=`%0A🧾 تفاصيل الطلب:%0A`;
-
-  cart.forEach(item=>{
-    message+=`• ${item.name} × ${item.quantity} = ${item.price*item.quantity} د.ل%0A`;
-    if(item.note) message+=`  - ملاحظة: ${item.note}%0A`;
-  });
-
-  const total=cart.reduce((sum,i)=>sum+i.price*i.quantity,0);
-  message+=`%0Aالإجمالي الكلي: ${total.toFixed(2)} د.ل`;
-
-  const whatsappNumber="218915066938"; // ضع رقمك هنا
-  const url=`https://wa.me/${whatsappNumber}?text=${message}`;
-  window.open(url,"_blank");
+  if(city==="مناطق أخرى"&&other)city=other;
+  if(!name||!age||!city||cart.length===0){Swal.fire("⚠️","يرجى تعبئة كل البيانات وإضافة منتج","warning");return;}
+  let msg=`طلب جديد 💧%0A👤 الاسم: ${name}%0A🎂 العمر: ${age}%0A🏠 المدينة: ${city}%0A`;
+  if(notes)msg+=`📝 ملاحظات: ${notes}%0A`;
+  msg+=`%0A🧾 تفاصيل الطلب:%0A`;
+  cart.forEach(i=>{msg+=`• ${i.name} × ${i.quantity} = ${i.price*i.quantity} د.ل%0A`;if(i.note)msg+=`- ملاحظة: ${i.note}%0A`;});
+  const total=cart.reduce((s,i)=>s+i.price*i.quantity,0);
+  msg+=`%0Aالإجمالي الكلي: ${total.toFixed(2)} د.ل`;
+  window.open(`https://wa.me/218915066938?text=${msg}`,"_blank");
 });
 
-// عرض المنتجات أول مرة
 renderProducts();
 renderCart();
 </script>
 
 </body>
 </html>
-
-
