@@ -2,12 +2,21 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>🌸 متجر كريمات نعومة نعومتك — كريمات العناية بالبشرة</title>
   <meta name="description" content="متجر كريمات نعومة نعومتك — كريمات وسيرومات ومُنتجات طبيعية للعناية بالبشرة. توصيل داخل ليبيا. اطلب عبر واتساب." />
   <link rel="canonical" href="https://yournaouma.github.io/store/creams.html" />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#fff0f6">
+
+  <!-- Favicons/icons for all sizes, optimized to use one logo image -->
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.postimg.cc/8P1hn9yf/415f407a-fda6-4a12-8144-d6fce130e5e2.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="https://i.postimg.cc/8P1hn9yf/415f407a-fda6-4a12-8144-d6fce130e5e2.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="https://i.postimg.cc/8P1hn9yf/415f407a-fda6-4a12-8144-d6fce130e5e2.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="https://i.postimg.cc/8P1hn9yf/415f407a-fda6-4a12-8144-d6fce130e5e2.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="https://i.postimg.cc/8P1hn9yf/415f407a-fda6-4a12-8144-d6fce130e5e2.png">
+  <!-- Apple devices -->
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/8P1hn9yf/415f407a-fda6-4a12-8144-d6fce130e5e2.png">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -22,7 +31,7 @@
   <meta name="twitter:description" content="أجمل مجموعة كريمات للعناية بالبشرة — اطلب الآن عبر واتساب" />
   <meta name="twitter:image" content="https://i.postimg.cc/8P1hn9yf/415f407a-fda6-4a12-8144-d6fce130e5e2.png" />
 
-  <!-- Preconnect -->
+  <!-- Preconnect for faster font loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -60,47 +69,43 @@
   font-weight: 600;
   font-size: 0.9rem;
 }
+/* تحسين للموبايل */
+@media (max-width: 640px) {
+  main, .max-w-7xl { padding: 0 !important; }
+  .lg\:col-span-4 { grid-column: span 4 / span 4; }
+  header .max-w-7xl { padding: 0.5rem !important; }
+  .product-card { min-width: 95vw; }
+  .p-4, .p-5 { padding: 0.75rem !important; }
+  aside.lg\:col-span-1 { padding-left: 0.15rem !important; padding-right: 0.15rem !important; }
+}
   </style>
-
   <!-- Tailwind + DaisyUI + Flowbite + Animate -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" />
   <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
-
-  <link rel="icon" href="https://i.postimg.cc/8P1hn9yf/415f407a-fda6-4a12-8144-d6fce130e5e2.png" type="image/png" />
 
   <style>
 body { font-family: "Noto Sans Arabic", system-ui; background: linear-gradient(180deg,#fff 0%, #fff6fb 100%); }
 header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%); }
 .product-card:hover { transform: translateY(-6px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
 .pill { background: linear-gradient(90deg,#ffdfe6,#fff3f6); border-radius: 999px; padding: .25rem .6rem; font-size: .8rem; }
-
-/* CART */
 .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.35); backdrop-filter:blur(3px); opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:40; }
 .cart-overlay.open { opacity:1; pointer-events:auto; }
 .cart-drawer { position:fixed; top:0; right:0; height:100vh; width:100%; max-width:420px; transform:translateX(110%); transition:transform .32s cubic-bezier(.2,.9,.2,1); z-index:50; }
 .cart-drawer.open { transform:translateX(0); }
-
-/* SIDEBAR */
 #sidebar { z-index:60; }
 #menuOverlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:50; display:none; }
   </style>
 </head>
+<body class="antialiased text-gray-800 bg-white min-h-screen">
 
-<body class="antialiased text-gray-800">
-
-  <!-- 🌸 زر القائمة الجانبية -->
-  <button id="menuBtn" class="fixed top-4 right-4 z-60 bg-pink-500 hover:bg-pink-600 text-white px-3 py-2 rounded-lg shadow-md">
+  <!-- 🌸 زر القائمة الجانبية للهواتف -->
+  <button id="menuBtn" class="fixed top-4 right-4 z-60 bg-pink-500 hover:bg-pink-600 text-white px-3 py-2 rounded-lg shadow-md sm:hidden">
     ☰ القائمة
   </button>
-
-  <!-- 🌸 التعتيم الخلفي للقائمة -->
   <div id="menuOverlay"></div>
-
-  <!-- 🌸 القائمة الجانبية -->
   <aside id="sidebar" class="fixed top-0 right-0 w-64 h-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto">
     <div class="p-5">
       <h2 class="text-2xl font-bold text-pink-600 mb-4 text-center">🌸 نعومة نعومتك</h2>
@@ -115,17 +120,13 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
         <a href="scrubs.html" class="block p-2 rounded hover:bg-pink-100">🍯 متجر المقشرات</a>
         <a href="yourskin.html" class="block p-2 rounded hover:bg-pink-100">💬 استشارة بشرتك</a>
         <a href="contact.html" class="block p-2 rounded hover:bg-pink-100">📞 اتصل بنا</a>
- 
       </nav>
-
       <div class="mt-6 text-center">
         <button id="closeSidebar" class="bg-pink-500 text-white px-4 py-2 rounded-lg shadow hover:bg-pink-600">إغلاق ✖</button>
       </div>
     </div>
   </aside>
-
-  <!-- HEADER -->
-  <header class="shadow-sm sticky top-0 z-30 mt-14">
+  <header class="shadow-sm sticky top-0 z-30 mt-14 bg-white bg-opacity-80" style="backdrop-filter:blur(8px)">
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
         <img src="https://i.postimg.cc/8P1hn9yf/415f407a-fda6-4a12-8144-d6fce130e5e2.png" alt="شعار نعومة نعومتك" class="w-12 h-12 rounded-lg object-cover shadow-sm">
@@ -134,42 +135,34 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
         </div>
       </div>
       <div class="flex items-center gap-3">
-        <div class="pill text-sm">توصيل داخل ليبيا — سريع</div>
+        <div class="pill text-sm hidden sm:inline">توصيل داخل ليبيا — سريع</div>
         <button id="openCartBtn" class="btn btn-ghost btn-sm">🛒 <span id="cartBadge">0</span></button>
       </div>
     </div>
   </header>
 
-  <!-- باقي محتوى الصفحة هنا (المنتجات والسلة...) -->
-
-  <!-- SCRIPT للقائمة الجانبية -->
   <script>
-  const menuBtn = document.getElementById('menuBtn');
-  const sidebar = document.getElementById('sidebar');
-  const menuOverlay = document.getElementById('menuOverlay');
-  const closeSidebar = document.getElementById('closeSidebar');
-
-  function toggleSidebar(open) {
-    sidebar.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
-    menuOverlay.style.display = open ? 'block' : 'none';
-  }
-
-  menuBtn.addEventListener('click', () => toggleSidebar(true));
-  closeSidebar.addEventListener('click', () => toggleSidebar(false));
-  menuOverlay.addEventListener('click', () => toggleSidebar(false));
+    // قائمة جانبية للهواتف
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const closeSidebar = document.getElementById('closeSidebar');
+    function toggleSidebar(open) {
+      sidebar.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
+      menuOverlay.style.display = open ? 'block' : 'none';
+    }
+    menuBtn?.addEventListener('click', () => toggleSidebar(true));
+    closeSidebar?.addEventListener('click', () => toggleSidebar(false));
+    menuOverlay?.addEventListener('click', () => toggleSidebar(false));
   </script>
 
+  <main class="max-w-7xl mx-auto p-2 sm:p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
 
-  <!-- MAIN -->
-  <main class="max-w-7xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
-
-    <!-- LEFT: Filters & search -->
     <aside class="lg:col-span-1 space-y-4">
       <div class="bg-white p-4 rounded-xl shadow-sm">
         <label for="search" class="sr-only">ابحث</label>
         <input id="search" type="search" placeholder="ابحث عن اسم المنتج..." class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-pink-200" aria-label="ابحث عن منتج">
       </div>
-
       <div class="bg-white p-4 rounded-xl shadow-sm">
         <h3 class="font-semibold mb-2">نوع البشرة</h3>
         <div class="flex flex-col gap-2">
@@ -181,7 +174,6 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
           <button class="filter-btn btn btn-sm justify-start" data-type="جافة">جافة</button>
         </div>
       </div>
-
       <div class="bg-white p-4 rounded-xl shadow-sm">
         <h3 class="font-semibold mb-2">نصائح اختيار</h3>
         <ul class="text-sm space-y-1">
@@ -192,16 +184,11 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
       </div>
     </aside>
 
-    <!-- PRODUCTS GRID -->
     <section class="lg:col-span-3 space-y-4">
       <div id="productsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
-
-      <!-- Pagination placeholder -->
       <div class="flex justify-center">
         <nav class="pagination flex gap-2 items-center text-sm"></nav>
       </div>
-
-      <!-- Checkout summary (mobile) -->
       <div class="bg-white p-4 rounded-xl shadow-sm lg:hidden">
         <div class="flex justify-between items-center">
           <div>🛒 <span id="mobileCartCount">0</span> عناصر</div>
@@ -209,13 +196,9 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
         </div>
       </div>
     </section>
-
   </main>
 
-  <!-- OVERLAY -->
   <div id="overlay" class="overlay" tabindex="-1" aria-hidden="true"></div>
-
-  <!-- CART DRAWER -->
   <aside id="cartPanel" class="cart-drawer bg-white shadow-xl" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="h-full flex flex-col p-4">
       <div class="flex items-center justify-between mb-2">
@@ -225,16 +208,12 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
           <button id="closeCartBtn" class="btn btn-ghost">إغلاق ✖</button>
         </div>
       </div>
-
       <div id="cartItems" class="flex-1 overflow-auto space-y-3 p-1"></div>
-
       <div class="mt-3">
         <div class="flex justify-between items-center mb-2">
           <div class="font-semibold">الإجمالي الكلي</div>
           <div class="font-bold" id="cartTotal">0.00 د.ل</div>
         </div>
-
-        <!-- بيانات العميل داخل الـ drawer -->
         <div class="space-y-2 mb-2">
           <input id="fullname" placeholder="الاسم الكامل" class="input input-bordered w-full" />
           <input id="phone" placeholder="رقم الهاتف (مثال: 0915...)" class="input input-bordered w-full" />
@@ -244,15 +223,13 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
           </select>
           <input id="otherCity" placeholder="اكتب مدينتك إذا مناطق أخرى" class="input input-bordered w-full hidden" />
         </div>
-
         <button id="checkoutBtn" class="btn w-full btn-primary">✅ الدفع عبر واتساب</button>
       </div>
     </div>
   </aside>
 
-  <!-- SCRIPTS -->
   <script>
-    // === منتجات افتراضية ===
+    // تحسين الأداء للموبايل: عدم إعادة كل المنتجات إذا لم يتغير الفلتر أو البحث وأكثر أفضليات للتقليل DOM
     const products = [
       { id: "p1", name:"كريم ترطيب عميق", type:"عادية", price:35, image:"https://i.postimg.cc/SRkcnQqS/sample3.png", description:"ترطيب طويل المدى ومناسب للاستخدام اليومي." },
       { id: "p2", name:"سيروم فيتامين C", type:"دهنية", price:42, image:"https://i.postimg.cc/fRFXm6hh/sample4.png", description:"تفتيح طبيعي ومضاد للأكسدة." },
@@ -267,10 +244,7 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
       { id: "p11", name:"كريم ترطيب للبشرة الجافة", type:"جافة", price:50, image:"https://i.postimg.cc/XYVQb5wJ/sample-dry.png", description:"ترطيب مكثف ومريح للبشرة الجافة." }
     ];
 
-    // ====== CART (localStorage) ======
     let cart = JSON.parse(localStorage.getItem('nn_cart_v1') || '[]');
-
-    // DOM
     const productsContainer = document.getElementById('productsContainer');
     const cartItemsEl = document.getElementById('cartItems');
     const cartTotalEl = document.getElementById('cartTotal');
@@ -283,8 +257,11 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
     const closeCartBtn = document.getElementById('closeCartBtn');
     const clearCartBtn = document.getElementById('clearCartBtn');
 
-    // Render products
+    let lastFilter = 'all', lastSearch = '';
     function renderProducts(filter='all', search='') {
+      // إذا لم يتغير الفلتر ولا البحث لا تعيد
+      if (filter === lastFilter && search === lastSearch && productsContainer.children.length) return;
+      lastFilter = filter; lastSearch = search;
       productsContainer.innerHTML = '';
       const term = (search || '').trim().toLowerCase();
       const filtered = products.filter(p => (filter === 'all' || p.type === filter) && (p.name + ' ' + p.description).toLowerCase().includes(term));
@@ -292,11 +269,12 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
         productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500">لا توجد منتجات مطابقة.</div>`;
         return;
       }
+      // شريحة المنتجات (بدون صور ضخمة في الموبايل)
       filtered.forEach(p => {
         const card = document.createElement('article');
         card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center animate__animated animate__fadeIn';
         card.innerHTML = `
-          <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-40 h-40 object-contain mb-3">
+          <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-32 h-32 sm:w-40 sm:h-40 object-contain mb-3">
           <h3 class="font-semibold">${p.name}</h3>
           <p class="text-xs text-gray-500 mb-2">${p.type} • ${p.description}</p>
           <div class="flex items-center gap-2 mt-2">
@@ -311,13 +289,11 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
       });
     }
 
-    // Save cart
     function saveCart() {
       localStorage.setItem('nn_cart_v1', JSON.stringify(cart));
       updateCartUI();
     }
 
-    // Add to cart
     function addToCart(productId) {
       const prod = products.find(p=>p.id===productId);
       if (!prod) return;
@@ -325,23 +301,14 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
       if (existing) existing.qty++;
       else cart.push({ id: prod.id, name: prod.name, price: prod.price, qty: 1, note: '' });
       saveCart();
-      Swal.fire({ icon:'success', title: 'تمت الإضافة', text: prod.name + ' أُضيفت إلى السلة', timer: 1100, showConfirmButton:false });
+      Swal.fire({ icon:'success', title: 'تمت الإضافة', text: prod.name + ' أُضيفت إلى السلة', timer: 900, showConfirmButton:false });
     }
-
-    // Remove
-    function removeFromCart(index) {
-      cart.splice(index,1);
-      saveCart();
-    }
-
-    // Change qty
+    function removeFromCart(index) { cart.splice(index,1); saveCart(); }
     function changeQty(index, delta) {
       cart[index].qty += delta;
       if (cart[index].qty < 1) cart[index].qty = 1;
       saveCart();
     }
-
-    // Clear cart
     clearCartBtn.addEventListener('click', ()=> {
       if (!cart.length) return;
       Swal.fire({
@@ -359,7 +326,6 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
       });
     });
 
-    // Update cart UI
     function updateCartUI() {
       cartItemsEl.innerHTML = '';
       let total = 0;
@@ -371,7 +337,7 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
           <div class="flex-1">
             <div class="font-semibold">${item.name}</div>
             <div class="text-xs text-gray-500">سعر الوحدة: ${item.price.toFixed(2)} د.ل</div>
-            <div class="mt-2 flex gap-2">
+            <div class="mt-2 flex gap-2 flex-wrap">
               <button class="btn btn-xs" data-action="dec" data-i="${i}">-</button>
               <div class="px-3 py-1 border rounded">${item.qty}</div>
               <button class="btn btn-xs" data-action="inc" data-i="${i}">+</button>
@@ -387,7 +353,6 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
       mobileTotal.innerText = total.toFixed(2);
     }
 
-    // Product click (delegation)
     productsContainer.addEventListener('click', e => {
       const btn = e.target.closest('button');
       if (!btn) return;
@@ -407,7 +372,6 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
       }
     });
 
-    // Cart items delegation
     cartItemsEl.addEventListener('click', e => {
       const btn = e.target.closest('button');
       if (!btn) return;
@@ -418,7 +382,6 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
       if (action === 'dec') changeQty(i, -1);
     });
 
-    // Filters & search
     document.querySelectorAll('.filter-btn').forEach(b => b.addEventListener('click', () => {
       const t = b.getAttribute('data-type');
       document.getElementById('search').value = '';
@@ -428,14 +391,12 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
       renderProducts('all', e.target.value);
     });
 
-    // SHOW / HIDE CART (only on button click or overlay)
     function openCart() {
       overlay.classList.add('open');
       cartPanel.classList.add('open');
       cartPanel.setAttribute('aria-hidden','false');
       overlay.setAttribute('aria-hidden','false');
       openCartBtn.setAttribute('aria-expanded','true');
-      // focus trap suggestion: focus first input
       setTimeout(()=> {
         const fname = document.getElementById('fullname');
         if (fname) fname.focus();
@@ -449,67 +410,40 @@ header { background: linear-gradient(90deg,#fff 0%, rgba(255,230,240,0.6) 100%);
       openCartBtn.setAttribute('aria-expanded','false');
       openCartBtn.focus();
     }
-
-    openCartBtn.addEventListener('click', ()=> {
-      // open only on click (no auto-opening)
-      openCart();
-    });
+    openCartBtn.addEventListener('click', ()=> openCart());
     closeCartBtn.addEventListener('click', ()=> closeCart());
     overlay.addEventListener('click', ()=> closeCart());
-
-    // close on ESC
-    window.addEventListener('keydown', (e)=> {
-      if (e.key === 'Escape') {
-        // only if cart is open
-        if (cartPanel.classList.contains('open')) closeCart();
-      }
-    });
-
-    // Change city field visibility
+    window.addEventListener('keydown', (e)=> { if (e.key === 'Escape' && cartPanel.classList.contains('open')) closeCart(); });
     document.getElementById('city').addEventListener('change', (e)=>{
       document.getElementById('otherCity').classList.toggle('hidden', e.target.value !== 'مناطق أخرى');
     });
-
-    // Checkout via WhatsApp
     document.getElementById('checkoutBtn').addEventListener('click', ()=> {
       const fullname = document.getElementById('fullname').value.trim();
       const phone = document.getElementById('phone').value.trim();
       let city = document.getElementById('city').value;
       const otherCity = document.getElementById('otherCity').value.trim();
       if (city === 'مناطق أخرى' && otherCity) city = otherCity;
-
       if (!fullname || !phone || !city || cart.length === 0) {
         Swal.fire({ icon:'warning', title:'يرجى إكمال البيانات وإضافة منتج واحد على الأقل' });
         return;
       }
-
       let message = `طلب جديد من متجر كريمات نعومة نعومتك%0A`;
       message += `الاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0A%0A`;
       message += `تفاصيل الطلب:%0A`;
       cart.forEach(item => {
-        message += `• ${item.name} × ${item.qty} = ${ (item.price * item.qty).toFixed(2) } د.ل%0A`;
+        message += `• ${item.name} × ${item.qty} = ${(item.price * item.qty).toFixed(2)} د.ل%0A`;
       });
       const total = cart.reduce((s,i)=>s + i.price * i.qty, 0);
       message += `%0Aالإجمالي: ${total.toFixed(2)} د.ل`;
-
-      // رقم الواتساب الخاص بالمتجر (عدل هنا إذا لزم)
       const whatsappNumber = "218915066938";
       const url = `https://wa.me/${whatsappNumber}?text=${message}`;
       window.open(url, '_blank');
     });
 
-    // INIT
     renderProducts();
     updateCartUI();
-
-    // Save on unload
     window.addEventListener('beforeunload', ()=> localStorage.setItem('nn_cart_v1', JSON.stringify(cart)));
   </script>
-
-  <!-- Flowbite JS -->
   <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
-
 </body>
 </html>
-
-
