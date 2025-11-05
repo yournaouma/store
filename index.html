@@ -8,7 +8,8 @@
   <!-- 🪶 Canonical لمنع التكرار -->
   <link rel="canonical" href="https://yournaouma.github.io/store/index.html">
   <link rel="stylesheet" href="style.css">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- 🩷 أيقونة الموقع (favicon) لجميع المقاسات -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/png" sizes="1024x1024" href="images/logo.png">
@@ -56,7 +57,9 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
+  <!-- تحميل CSS بأولوية -->
+  <link rel="preload" href="style.css" as="style">
+  <link rel="stylesheet" href="style.css">
 
   <!-- Performance Head Boilerplate كما في كودك -->
   <meta charset="utf-8" />
@@ -69,6 +72,9 @@
   <noscript><link rel="stylesheet" href="/css/main.css"></noscript>
   <meta http-equiv="Cache-Control" content="public, max-age=31536000">
 
+  <!-- تحميل JS بشكل غير محظور -->
+  <script src="script.js" defer></script>
+  <script src="splide.min.js" defer></script>
 </head>
 <body>
 <!-- particles background -->
