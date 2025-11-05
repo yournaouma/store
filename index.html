@@ -1,11 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>عائلة نعومة نعومتك للبشرة النقية — متجر العناية بالبشرة</title>
-
-  <!-- 🩷 أيقونة الموقع (favicon) لجميع المقاسات -->
+  <!-- 🪶 Canonical لمنع التكرار -->
+  <link rel="canonical" href="https://yournaouma.github.io/store/index.html">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <script src="script2.js" defer></script>
+<!-- 🩷 أيقونة الموقع (favicon) لجميع المقاسات -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/png" sizes="1024x1024" href="images/logo.png">
   <link rel="icon" type="image/png" sizes="512x512" href="images/logo.png">
@@ -13,7 +18,6 @@
   <link rel="icon" type="image/png" sizes="128x128" href="images/logo.png">
   <link rel="icon" type="image/png" sizes="64x64" href="images/logo.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/logo.png">
-
   <!-- لأجهزة آبل -->
   <link rel="apple-touch-icon" sizes="1024x1024" href="images/logo.png">
   <link rel="apple-touch-icon" sizes="512x512" href="images/logo.png">
@@ -34,356 +38,45 @@
   <meta property="og:url" content="https://yournaouma.github.io/store/" />
   <meta name="twitter:card" content="summary_large_image" />
 
- 
- <!-- 🪶 Canonical لمنع التكرار -->
-<link rel="canonical" href="https://yournaouma.github.io/store/index.html">
-<!-- خطاوط + مكتبات أساسية -->
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <!-- 🪶 Canonical لمنع التكرار -->
+  <link rel="canonical" href="https://yournaouma.github.io/store/index.html">
+  <!-- خطاوط + مكتبات أساسية -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.2/css/hover-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.5/css/lightbox.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/locomotive-scroll/4.1.4/locomotive-scroll.css"/>
 
-<!-- مكتبات CSS إضافية كثيرة -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.2/css/hover-min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.5/css/lightbox.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/locomotive-scroll/4.1.4/locomotive-scroll.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- تحميل CSS بأولوية -->
+  <link rel="preload" href="style.css" as="style">
+  <link rel="stylesheet" href="style.css">
 
-<style>
-  /* إصلاح التنسيق في الهواتف */
-  body, html {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* يمنع التمدد الأفقي */
-  }
+  <!-- Performance Head Boilerplate كما في كودك -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="/fonts/your-font.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/css/main.css" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/css/main.css"></noscript>
+  <meta http-equiv="Cache-Control" content="public, max-age=31536000">
 
-  img, video, iframe {
-    max-width: 100%;
-    height: auto;
-  }
-
-  section, div, header, footer {
-    box-sizing: border-box;
-    width: 100%;
-  }
-
-  /* تحسين المظهر العام للهاتف */
-  @media (max-width: 768px) {
-    .container {
-      padding: 10px;
-    }
-
-    h1, h2, h3 {
-      font-size: 1.2rem;
-      text-align: center;
-    }
-
-    button, a {
-      font-size: 1rem;
-      padding: 10px 16px;
-    }
-  }
-</style>
-
-<script>
-// البحث الديناميكي لجميع المنتجات في الصفحة بعد تحميلها
-document.addEventListener('DOMContentLoaded', function(){
-
-  // الحصول على مربع البحث الموجود في الصفحة
-  const searchInput = document.getElementById('searchInput');
-  if(!searchInput) return; // إذا لم يكن موجودًا، لا نفعل شيء
-
-  // إنشاء عنصر النتائج أسفل مربع البحث
-  const searchResults = document.createElement('div');
-  searchResults.style.position = 'absolute';
-  searchResults.style.top = '38px';
-  searchResults.style.right = '0';
-  searchResults.style.width = '100%';
-  searchResults.style.background = '#fff';
-  searchResults.style.border = '1px solid #ddd';
-  searchResults.style.maxHeight = '200px';
-  searchResults.style.overflowY = 'auto';
-  searchResults.style.display = 'none';
-  searchResults.style.zIndex = '1000';
-  searchInput.parentNode.style.position = 'relative';
-  searchInput.parentNode.appendChild(searchResults);
-
-  // وظيفة لجمع كل المنتجات تلقائيًا
-  function gatherProducts() {
-    const products = [];
-    document.querySelectorAll('.card').forEach(card => {
-      const titleEl = card.querySelector('.card-title');
-      if(titleEl){
-        const title = titleEl.textContent.trim();
-        const page = 'store.html'; // رابط افتراضي، يمكن تغييره حسب الحاجة
-        products.push({name: title, page});
-      }
-    });
-    return products;
-  }
-
-  // البحث التلقائي أثناء الكتابة
-  searchInput.addEventListener('input', function(){
-    const query = this.value.trim().toLowerCase();
-    searchResults.innerHTML = '';
-
-    if(query === ''){
-      searchResults.style.display = 'none';
-      return;
-    }
-
-    const allProducts = gatherProducts();
-    const filtered = allProducts.filter(p => p.name.toLowerCase().includes(query));
-
-    if(filtered.length > 0){
-      filtered.forEach(prod => {
-        const div = document.createElement('div');
-        div.style.padding = '8px';
-        div.style.cursor = 'pointer';
-        div.style.borderBottom = '1px solid #eee';
-        div.textContent = prod.name;
-        div.addEventListener('click', () => {
-          window.location.href = prod.page;
-        });
-        searchResults.appendChild(div);
-      });
-      searchResults.style.display = 'block';
-    } else {
-      searchResults.style.display = 'block';
-      searchResults.innerHTML = '<div style="padding:8px;color:#999;">لا توجد نتائج</div>';
-    }
-  });
-
-  // إخفاء النتائج عند النقر خارج مربع البحث
-  document.addEventListener('click', (e)=>{
-    if(!searchInput.contains(e.target) && !searchResults.contains(e.target)){
-      searchResults.style.display = 'none';
-    }
-  });
-
-});
-</script>
-
-<!-- تحميل CSS بأولوية -->
-<link rel="preload" href="style.css" as="style">
-<link rel="stylesheet" href="style.css">
-
-<!-- تحميل JS بشكل غير محظور -->
-<script src="script.js" defer></script>
-<script src="splide.min.js" defer></script>
-
-
-<!-- ======= Performance Head Boilerplate (ضعه في أول <head>) ======= -->
-
-<!-- أساسي: تعيين الترميز وviewport -->
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-
-<!-- DNS & preconnect لمواقع الـ CDN أو الـ API الخارجية (ضع دوميناتك هنا) -->
-<link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<!-- Preload لخط أساسي (عدل href إلى مسار خطك) -->
-<link rel="preload" href="/fonts/your-font.woff2" as="font" type="font/woff2" crossorigin>
-
-<!-- تحميل CSS الحرِج (inline) - ضع هنا CSS صغير للـ above-the-fold -->
-<style>
-  /* نصيحة: ضع الأساسيات الحرِجة هنا (layout بسيط، خط افتراضي، ألوان الخلفية) */
-  html{background:#fff;-webkit-font-smoothing:antialiased}
-  /* مثال: تقليل الفلاش عند تحميل الخط */
-  body{font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial}
-</style>
-
-<!-- CSS غير حرج: تحميل بدون حظر التصيير -->
-<link rel="preload" href="/css/main.css" as="style" onload="this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="/css/main.css"></noscript>
-
-<!-- منع حظر التحميل: تأخير تحميل سكربتات الطرف الثالث باستخدام async/defer -->
-<!-- لا تضَع سكربتات كبيرة هنا — ضعها في أسفل الـ body إن أمكن -->
-<script>
-/* Tiny loader: لتحميل موارد غير حرِجة بعد أن يصبح الـ DOM جاهز */
-(function(){
-  function loadScript(src, opts){
-    var s=document.createElement('script');
-    s.src=src;
-    if(opts && opts.defer) s.defer=true;
-    if(opts && opts.async) s.async=true;
-    if(opts && opts.crossorigin) s.crossOrigin = opts.crossorigin;
-    document.head.appendChild(s);
-  }
-  // مثال: تحميل ملفات غير حرِجـة بعد حدث DOMContentLoaded
-  document.addEventListener('DOMContentLoaded', function(){
-    // loadScript('https://cdnjs.cloudflare.com/ajax/libs/some-lib/1.2.3/lib.min.js', {defer:true});
-  });
-})();
-</script>
-
-<!-- Tell browsers to prefer modern image formats (server config helps أكثر) -->
-<meta http-equiv="Cache-Control" content="public, max-age=31536000">
-
-<!-- ======= نهاية Boilerplate ======= -->
-
-
-
-
-
-
-
-
-<style>
-:root{
-  --accent:#f39c12;--muted:#f6f6f7;--text:#222;
-  font-family:'Tajawal',system-ui;
-}
-*{box-sizing:border-box;}
-body{background:#fff;color:var(--text);overflow-x:hidden;direction:rtl;}
-
-/* ====== particles خلفية ====== */
-#particles-js{position:absolute;inset:0;z-index:0;pointer-events:none;}
-
-/* ====== الهيدر ====== */
-.header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #eee;background:white;position:sticky;top:0;z-index:100;box-shadow:0 2px 6px rgba(0,0,0,0.05);}
-.brand{font-weight:700;color:var(--accent);font-size:24px}
-.icon-btn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;}
-.icon-btn:hover{background:var(--muted);}
-.search input{border:1px solid #eee;background:var(--muted);padding:8px 10px;border-radius:12px;transition:.2s;}
-.search input:focus{outline:none;border-color:var(--accent);}
-
-/* badge للسلة */
-.icon-btn.cart-badge{position:relative;}
-.icon-btn.cart-badge .count{
-  position:absolute;top:-6px;left:-6px;background:var(--accent);color:#fff;font-size:11px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;
-  box-shadow:0 2px 6px rgba(0,0,0,0.12);
-}
-
-/* ====== القائمة الجانبية ====== */
-.sidebar{position:fixed;top:0;right:-260px;width:260px;height:100%;background:white;box-shadow:-4px 0 18px rgba(0,0,0,0.1);transition:right .3s ease;z-index:999;padding-top:60px;display:flex;flex-direction:column;gap:12px;}
-.sidebar.open{right:0;}
-.sidebar a{text-decoration:none;color:var(--text);font-weight:600;padding:12px 20px;border-radius:8px;}
-.sidebar a:hover{background:var(--muted);}
-.sidebar-close{position:absolute;top:14px;left:16px;font-size:30px;cursor:pointer;color:#666;z-index:2;}
-
-/* ====== سلة جانبية (من اليسار) ====== */
-#cartPanel{position:fixed;top:0;left:-340px;width:340px;height:100%;background:white;box-shadow:4px 0 18px rgba(0,0,0,0.12);transition:left .28s ease;z-index:1200;padding-top:64px;display:flex;flex-direction:column;}
-#cartPanel.open{left:0;}
-#cartPanel .cart-close{position:absolute;top:14px;right:12px;font-size:26px;cursor:pointer;color:#666;}
-#cartPanel .cart-body{flex:1;overflow-y:auto;padding:12px;}
-#cartPanel .cart-footer{padding:16px;border-top:1px solid #f0f0f0;}
-
-/* ====== سلايدر Swiper ====== */
-.swiper{width:100%;height:85vh;position:relative;z-index:1;}
-.swiper-slide{overflow:hidden;position:relative;}
-.swiper-slide img{
-  width:100%;height:100%;object-fit:cover;object-position:center;
-  transform:scale(1.1);transition:transform 3s ease;
-}
-.swiper-slide-active img{transform:scale(1);}
-.swiper-slide:hover img{transform:scale(1.08);} /* تأثير الزوم عند المرور */
-
-.swiper-button-next,.swiper-button-prev{
-  color:white;--swiper-navigation-size:26px;background:rgba(0,0,0,0.35);
-  border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;
-}
-.swiper-pagination-bullet-active{background:var(--accent);}
-.shop-now-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(90deg,#f39c12,#e67e22);color:#fff;padding:14px 36px;border-radius:50px;font-weight:700;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,0.15);z-index:20;transition:.3s;}
-.shop-now-btn:hover{transform:translate(-50%,-52%) scale(1.05);}
-
-/* ====== مجموعات المنتجات ====== */
-.product-groups{padding:60px 20px;background:#fff;position:relative;z-index:1;}
-.product-groups h2{text-align:center;color:var(--accent);margin-bottom:32px;font-size:26px;font-weight:700;}
-.gallery{display:flex;gap:16px;overflow-x:auto;scroll-behavior:smooth;padding-bottom:10px;}
-.gallery::-webkit-scrollbar{height:8px;}
-.gallery::-webkit-scrollbar-thumb{background:#ddd;border-radius:8px;}
-.product{flex:0 0 calc(25% - 12px);position:relative;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.08);transition:.3s;}
-.product:hover{transform:translateY(-6px);}
-.product img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
-.product:hover img{transform:scale(1.08);} /* زوم على الصورة */
-.product a{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,#f39c12,#e67e22);color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-weight:600;font-size:14px;}
-.nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.9);border:none;font-size:24px;cursor:pointer;padding:8px 12px;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.15);z-index:8;}
-.nav-btn.left{left:8px;} .nav-btn.right{right:8px;}
-.nav-btn:hover{background:var(--accent);color:#fff;}
-
-/* ====== منتجات مميزة ====== */
-.featured{padding:60px 20px;background:var(--muted);z-index:1;}
-.featured h2{text-align:center;color:var(--accent);margin-bottom:40px;}
-
-/* تمييز المنتجات المميزة بإطار وظل وتأثير */
-.card.featured-product {
-  border: 2px solid var(--accent) !important;
-  box-shadow: 0 6px 22px rgba(243,156,18,0.12), 0 2px 10px rgba(0,0,0,0.08);
-  position: relative;
-  overflow: visible;
-}
-.card.featured-product::before {
-  content: "مميز";
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--accent);
-  color: #fff;
-  font-weight: bold;
-  font-size: 13px;
-  padding: 2px 18px 2px 18px;
-  border-radius: 14px;
-  box-shadow: 0 2px 10px rgba(243,156,18,0.18);
-  z-index: 2;
-  letter-spacing: 2px;
-}
-
-.card{border:none;border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,0.05);overflow:hidden;transition:.3s;}
-.card:hover{transform:translateY(-5px);}
-.card img{width:100%;height:240px;object-fit:cover;transition:transform .6s ease;}
-.card:hover img{transform:scale(1.08);} /* زوم على الصورة */
-.card-body{text-align:center;}
-.card-title{font-weight:700;}
-.price{color:var(--accent);font-weight:700;font-size:18px;}
-.btn-buy{background:linear-gradient(90deg,#f39c12,#e67e22);color:white;border:none;border-radius:50px;padding:8px 20px;margin-top:8px;transition:.3s;}
-.btn-buy:hover{opacity:.9;}
-
-
-
-
-/* ====== قسم الرسم البياني ====== */
-.analytics{padding:40px 20px;background:#fff;}
-
-/* ====== قسم Babylon 3D ====== */
-.babylon-section{padding:40px 20px;background:linear-gradient(180deg,#fff,#f8f8f9);text-align:center;}
-#renderCanvas{width:100%;height:360px;border-radius:12px;box-shadow:0 6px 22px rgba(0,0,0,0.06);}
-
-/* ====== الفوتر ====== */
-.footer{background:#f6f6f7;padding:50px 20px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;position:relative;z-index:1;}
-.footer .column{flex:1 1 220px;}
-.footer h4{margin-bottom:12px;color:var(--accent);}
-.footer a{display:block;text-decoration:none;color:var(--text);margin-bottom:6px;}
-.footer input[type="email"]{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;margin-bottom:12px;}
-.footer button{padding:10px 16px;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;}
-.footer button:hover{background:#e67e22;}
-
-/* نقل زر القلم إلى اليسار كما طلبت */
-.classify-btn{position:absolute;top:14px;left:120px;right:auto;z-index:120}
-
-/* responsive */
-@media(max-width:992px){.product{flex:0 0 calc(33.3% - 12px)}}
-@media(max-width:768px){
-  .product{flex:0 0 calc(50% - 12px)}.swiper{height:65vh}
-  .classify-btn{left:8px}
-  #cartPanel{width:100%;left:-100%}
-  #cartPanel.open{left:0}
-}
-</style>
+  <!-- تحميل JS بشكل غير محظور -->
+  <script src="script.js" defer></script>
+  <script src="splide.min.js" defer></script>
 </head>
-
 <body>
-
 <!-- particles background -->
 <div id="particles-js" aria-hidden="true"></div>
 
@@ -394,16 +87,11 @@ body{background:#fff;color:var(--text);overflow-x:hidden;direction:rtl;}
   </div>
   <div class="d-flex align-items-center gap-2">
     <div class="search"><input id="searchInput" placeholder="ابحث عن منتج أو مكوّن"></div>
-
-    <!-- زر السلة المضاف -->
     <button class="icon-btn cart-badge" id="cartBtn" data-tippy-content="سلة المشتريات">
       <i class="fa fa-shopping-cart"></i>
       <span class="count" id="cartCount" style="display:none">0</span>
     </button>
-
     <button class="icon-btn" id="userBtn" data-tippy-content="حسابي"><i class="fa fa-user"></i></button>
-
-    <!-- زر القلم (منقول لليسار عبر الـ CSS أعلاه) -->
     <button class="icon-btn classify-btn" id="classifyBtn" title="صنّف صورة السلايدر"><i class="fa fa-magic"></i></button>
   </div>
 </header>
@@ -411,7 +99,6 @@ body{background:#fff;color:var(--text);overflow-x:hidden;direction:rtl;}
 <!-- القائمة الجانبية -->
 <div id="sidebar" class="sidebar">
   <span class="sidebar-close" id="sidebarClose">&times;</span>
-
   <a href="index.html">الرئيسية</a>
   <a href="store.html">المتجر</a>
   <a href="contact.html">اتصل بنا</a>
@@ -421,193 +108,77 @@ body{background:#fff;color:var(--text);overflow-x:hidden;direction:rtl;}
   <a href="payment.html">الدفع</a>
   <a href="yourskin.html">استشارة بشرتك</a>
   <a href="shipping.html">شحن وتوصيل</a>
-
-</nav>
-
   <!-- 🔸 السلة -->
   <a href="cart.html" id="cartLink">🛒 السلة <span id="cartCount">(0)</span></a>
 </div>
 
-<script>
-// تحديث عداد السلة تلقائيًا من LocalStorage
-document.addEventListener("DOMContentLoaded", () => {
-  const cartCount = document.getElementById("cartCount");
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cartCount.textContent = `(${cart.length})`;
-});
-</script>
-
 <main>
-
-<!-- ====== سلايدر Swiper ====== -->
-<div class="swiper mySwiper">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide"><img src="https://i.postimg.cc/nLzXRPb7/Chat-GPT-Image-26-aktwbr-2025-10-41-47-s.png" alt=""></div>
-    <div class="swiper-slide"><img src="https://i.postimg.cc/Jn9VVGyt/c13701b0-6dea-4374-b112-cc155503e425.png" alt=""></div>
-    <div class="swiper-slide"><img src="https://i.postimg.cc/6pR8DvyL/709aeed9-d750-4364-8f9c-900aff895bae.png" alt=""></div>
-    <div class="swiper-slide"><img src="https://i.postimg.cc/8C9P1KJR/Chat-GPT-Image-4-nwfmbr-2025-09-19-58-m.png" alt=""></div> 
-  </div>
-  <div class="swiper-button-next"></div>
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-pagination"></div>
-  <a href="store.html" class="shop-now-btn" id="shopNowBtn" data-tippy-content="اذهب إلى المتجر">تسوق الآن</a>
-</div>
-
-<!-- ====== مجموعات المنتجات ====== -->
-<section class="product-groups" data-aos="fade-up">
-  <h2>مجموعات المنتجات</h2>
-  <button class="nav-btn left" id="leftBtn"><i class="fa fa-chevron-left"></i></button>
-  <div class="gallery" id="gallery">
-    <div class="product"><img src="https://i.postimg.cc/Y0XNVmDr/Chat-GPT-Image-26-aktwbr-2025-10-36-10-s.png"><a href="creams.html">كريمات</a></div>
-    <div class="product"><img src="https://i.postimg.cc/wBWM8ccm/9044a1dc-0677-4158-a31e-594ad66a90fe.png"><a href="serums.html">سيرومات</a></div>
-    <div class="product"><img src="https://i.postimg.cc/Px44k7VK/fbc7eac9-e6ee-4e8e-8b37-853ce651f83c.png"><a href="cleansers.html">منظفات</a></div>
-    <div class="product"><img src="https://i.postimg.cc/wvvVgVCn/07946309-3ead-4f74-85cd-6aa93e2cdd05.png"><a href="sunscreen.html">واقي شمس</a></div>
-    <div class="product"><img src="https://i.postimg.cc/7PLdKh2C/1835c066-c2e3-47f5-adac-30b722e857bd.png"><a href="peels.html">مقشرات</a></div>
-    <div class="product"><img src="https://i.postimg.cc/FsfTdnfd/357faacf-0825-4887-bc78-0260fc034dc1.png"><a href="toners.html">تونرات</a></div>
-    <div class="product"><img src="https://i.postimg.cc/q7rtc9gh/zjajt-%CA%BFtr-anyqt-ballwn-alwrdy.png"><a href="perfumes.html">عطور</a></div>
-    <div class="product"><img src="https://i.postimg.cc/tpCMbs77/e9ddd4a5-a27e-4654-915f-07b4b2c0b82c.png"><a href="masks.html">ماسكات</a></div>
-
-  </div>
-  <button class="nav-btn right" id="rightBtn"><i class="fa fa-chevron-right"></i></button>
-</section>
-
-<!-- ====== منتجات مميزة ====== -->
-
-
-<!-- ====== منتجات مميزة Splide ====== -->
-<section class="featured" data-aos="fade-up">
-  <h2>منتجات مميزة</h2>
-  <div class="splide" id="splideNewProducts">
-    <div class="splide__track">
-      <ul class="splide__list">
-        <!-- سيتم تعبئة المنتجات بالجافاسكربت -->
-      </ul>
+  <!-- ====== سلايدر Swiper ====== -->
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="https://i.postimg.cc/nLzXRPb7/Chat-GPT-Image-26-aktwbr-2025-10-41-47-s.png" alt=""></div>
+      <div class="swiper-slide"><img src="https://i.postimg.cc/Jn9VVGyt/c13701b0-6dea-4374-b112-cc155503e425.png" alt=""></div>
+      <div class="swiper-slide"><img src="https://i.postimg.cc/6pR8DvyL/709aeed9-d750-4364-8f9c-900aff895bae.png" alt=""></div>
+      <div class="swiper-slide"><img src="https://i.postimg.cc/8C9P1KJR/Chat-GPT-Image-4-nwfmbr-2025-09-19-58-m.png" alt=""></div> 
     </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+    <a href="store.html" class="shop-now-btn" id="shopNowBtn" data-tippy-content="اذهب إلى المتجر">تسوق الآن</a>
   </div>
-</section>
 
-<!-- ====== مكتبة خاصة لعائلة نعومة ====== -->
-<div id="familyLibraryContainer" style="width:100%; max-width:900px; margin:50px auto; text-align:center;">
-  <h2 style="color:var(--accent); margin-bottom:20px;">عائلة نعومة - الدخول الخاص</h2>
-  <input type="password" id="familyCodeInput" placeholder="أدخل رمزك السري" style="padding:10px 15px; font-size:16px;">
-  <button id="enterLibraryBtn" style="padding:10px 20px; font-size:16px; margin-left:10px;">دخول</button>
+  <!-- ====== مجموعات المنتجات ====== -->
+  <section class="product-groups" data-aos="fade-up">
+    <h2>مجموعات المنتجات</h2>
+    <button class="nav-btn left" id="leftBtn"><i class="fa fa-chevron-left"></i></button>
+    <div class="gallery" id="gallery">
+      <div class="product"><img src="https://i.postimg.cc/Y0XNVmDr/Chat-GPT-Image-26-aktwbr-2025-10-36-10-s.png"><a href="creams.html">كريمات</a></div>
+      <div class="product"><img src="https://i.postimg.cc/wBWM8ccm/9044a1dc-0677-4158-a31e-594ad66a90fe.png"><a href="serums.html">سيرومات</a></div>
+      <div class="product"><img src="https://i.postimg.cc/Px44k7VK/fbc7eac9-e6ee-4e8e-8b37-853ce651f83c.png"><a href="cleansers.html">منظفات</a></div>
+      <div class="product"><img src="https://i.postimg.cc/wvvVgVCn/07946309-3ead-4f74-85cd-6aa93e2cdd05.png"><a href="sunscreen.html">واقي شمس</a></div>
+      <div class="product"><img src="https://i.postimg.cc/7PLdKh2C/1835c066-c2e3-47f5-adac-30b722e857bd.png"><a href="peels.html">مقشرات</a></div>
+      <div class="product"><img src="https://i.postimg.cc/FsfTdnfd/357faacf-0825-4887-bc78-0260fc034dc1.png"><a href="toners.html">تونرات</a></div>
+      <div class="product"><img src="https://i.postimg.cc/q7rtc9gh/zjajt-%CA%BFtr-anyqt-ballwn-alwrdy.png"><a href="perfumes.html">عطور</a></div>
+      <div class="product"><img src="https://i.postimg.cc/tpCMbs77/e9ddd4a5-a27e-4654-915f-07b4b2c0b82c.png"><a href="masks.html">ماسكات</a></div>
+    </div>
+    <button class="nav-btn right" id="rightBtn"><i class="fa fa-chevron-right"></i></button>
+  </section>
 
-  <div id="libraryCanvas" style="width:100%; height:500px; margin-top:30px; display:none; border:1px solid #ccc;"></div>
-</div>
+  <!-- ====== منتجات مميزة Splide ====== -->
+  <section class="featured" data-aos="fade-up">
+    <h2>منتجات مميزة</h2>
+    <div class="splide" id="splideNewProducts">
+      <div class="splide__track">
+        <ul class="splide__list">
+          <!-- يتم تعبئة المنتجات بالجافاسكربت -->
+        </ul>
+      </div>
+    </div>
+  </section>
 
-<script>
-(function(){
-  // بيانات المنتجات للعرض بعد الدخول
-  const products = [
-    { name: "كريم ترطيب", discount: "20%", color: "#ff6384" },
-    { name: "صابون الغار", discount: "15%", color: "#36a2eb" },
-    { name: "زيوت طبيعية", discount: "10%", color: "#ffce56" },
-    { name: "أقنعة الوجه", discount: "25%", color: "#4bc0c0" },
-    { name: "مكملات", discount: "30%", color: "#9966ff" },
-  ];
-
-  const libraryContainer = document.getElementById("libraryCanvas");
-  const enterBtn = document.getElementById("enterLibraryBtn");
-  const codeInput = document.getElementById("familyCodeInput");
-
-  // الرمز السري الخاص
-  const FAMILY_CODE = "NA3OMA2025";
-
-  enterBtn.addEventListener("click", function(){
-    const entered = codeInput.value.trim();
-    if(entered === FAMILY_CODE){
-      alert("تم الدخول بنجاح!");
-      codeInput.style.display = "none";
-      enterBtn.style.display = "none";
-      libraryContainer.style.display = "block";
-      createLibrary();
-    } else {
-      alert("الرمز غير صحيح!");
-    }
-  });
-
-  function createLibrary(){
-    // إنشاء Canvas
-    const canvas = document.createElement("canvas");
-    canvas.width = libraryContainer.clientWidth;
-    canvas.height = libraryContainer.clientHeight;
-    libraryContainer.appendChild(canvas);
-    const ctx = canvas.getContext("2d");
-
-    // إعداد الرسوم البسيطة (مكعبات)
-    const cubeWidth = 80;
-    const spacing = 30;
-    const baseY = canvas.height - 50;
-
-    function draw(){
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-
-      products.forEach((p,i)=>{
-        const x = i*(cubeWidth+spacing) + spacing;
-        const height = parseInt(p.discount) * 3; // ارتفاع حسب الخصم
-        ctx.fillStyle = p.color;
-        ctx.fillRect(x, baseY-height, cubeWidth, height);
-        ctx.fillStyle = "#000";
-        ctx.font = "14px Arial";
-        ctx.fillText(p.name, x, baseY+15);
-        ctx.fillText(p.discount, x, baseY-height-5);
-      });
-
-      requestAnimationFrame(draw);
-    }
-    draw();
-  }
-
-})();
-</script>
-
-
-
-
-
-
-
-<!-- ====== قسم Babylon.js 3D ====== -->
+  <!-- ====== مكتبة خاصة لعائلة نعومة ====== -->
+  <div id="familyLibraryContainer" style="width:100%; max-width:900px; margin:50px auto; text-align:center;">
+    <h2 style="color:var(--accent); margin-bottom:20px;">عائلة نعومة - الدخول الخاص</h2>
+    <input type="password" id="familyCodeInput" placeholder="أدخل رمزك السري" style="padding:10px 15px; font-size:16px;">
+    <button id="enterLibraryBtn" style="padding:10px 20px; font-size:16px; margin-left:10px;">دخول</button>
+    <div id="libraryCanvas" style="width:100%; height:500px; margin-top:30px; display:none; border:1px solid #ccc;"></div>
+  </div>
+   
 <section class="babylon-section" data-aos="fade-up">
   <h2 style="color:var(--accent);margin-bottom:16px;">عرض 3D تفاعلي</h2>
   <p style="margin-bottom:12px;">تجربة بسيطة لمجسم ثلاثي الأبعاد يمكن تدويره وسحبه بالفأرة.</p>
   <canvas id="renderCanvas" style="width:100%; height:500px; border:1px solid #ccc;"></canvas>
 </section>
 
-<!-- ====== استدعاء Babylon.js ====== -->
+<!-- مكتبة Babylon.js -->
 <script src="https://cdn.babylonjs.com/babylon.js"></script>
-<script>
-  // الحصول على عنصر الكانفاس
-  const canvas = document.getElementById("renderCanvas");
-
-  // إنشاء المحرك
-  const engine = new BABYLON.Engine(canvas, true);
-
-  // إنشاء المشهد
-  const scene = new BABYLON.Scene(engine);
-
-  // إضافة كاميرا يمكن تحريكها
-  const camera = new BABYLON.ArcRotateCamera("camera", 
-                     Math.PI / 4, Math.PI / 4, 6, 
-                     new BABYLON.Vector3(0,0,0), scene);
-  camera.attachControl(canvas, true);
-
-  // إضافة إضاءة
-  const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1,1,0), scene);
-
-  // إنشاء مجسم بسيط (صندوق)
-  const box = BABYLON.MeshBuilder.CreateBox("box", {size:2}, scene);
-
-  // تشغيل حلقة العرض
-  engine.runRenderLoop(() => {
-    scene.render();
-  });
-
-  // تعديل حجم المحرك عند تغيير حجم النافذة
-  window.addEventListener("resize", () => {
-    engine.resize();
-  });
-</script>
+     
+  <!-- ====== رسم بياني للمبيعات ====== -->
+  <section class="analytics" data-aos="fade-up">
+    <canvas id="salesChart" width="600" height="200" style="max-width:100%"></canvas>
+  </section>
+  
+</main>
 
 <footer class="footer">
   <div class="column">
@@ -631,429 +202,23 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
 </footer>
 
-<script>
-  const subscribeBtn = document.getElementById('subscribeBtn');
-  subscribeBtn.addEventListener('click', function() {
-    alert("هذه الخدمة سيتم توفيرها قريبًا");
-    document.getElementById('newsletterInput').value = ""; // مسح الحقل بعد الضغط
-  });
-</script>
-
-
-
-
-
-</main>
-
 <!-- مكتبات JavaScript عديدة -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-
-<!-- GSAP + ScrollTrigger -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-<!-- إضافات مفيدة -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.5/js/lightbox.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/iziToast/1.4.0/js/iziToast.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy.umd.min.js"></script>
-
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
-
-<!-- Particles.js -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-
-<!-- Babylon.js -->
 <script src="https://cdn.babylonjs.com/babylon.js"></script>
-
-<!-- TensorFlow.js + MobileNet model -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.9.0/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0/dist/mobilenet.min.js"></script>
-
-<!-- Splide (غير مستخدم بكثافة لكن مُضاف) -->
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-
-<script>
-/* ====== Splide: منتجات جديدة ====== */
-const splideData = [
-  {img:"https://i.postimg.cc/SRkcnQqS/sample3.png",title:"كريم ترطيب عميق",price:"35 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/fRFXm6hh/sample4.png",title:"سيروم فيتامين C",price:"42 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/Gpn3kC5W/sample5.png",title:"تونر الورد",price:"28 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/L5fCKvjZ/mobile-2.png",title:"واقي شمس صبار",price:"39 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/g2vL7Prk/sample1.png",title:"مقشر طبيعي",price:"29 ر.س", link:"cart.html"},
-  // منتجات جديدة أضفتها لك:
-  {img:"https://i.postimg.cc/7hGdHd6B/sample6.png",title:"غسول لطيف للبشرة",price:"33 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/Rh4Jx0D5/sample7.png",title:"سيروم حمض الهيالورونيك",price:"48 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/7YpJ5zq9/sample8.png",title:"كريم ليلي مغذي",price:"54 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/76Gv4zY6/sample9.png",title:"زيت الوجه الطبيعي",price:"40 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/fLbJ2T0C/sample10.png",title:"منظف رغوي للبشرة",price:"27 ر.س", link:"cart.html"}
-];
-
-document.addEventListener('DOMContentLoaded',function(){
-  // تعبئة منتجات Splide
-  const splideList = document.querySelector('#splideNewProducts .splide__list');
-  if(splideList){
-    splideData.forEach(prod=>{
-      const li = document.createElement('li');
-      li.className = "splide__slide";
-      li.innerHTML = `
-        <div class="card" style="min-width:210px;max-width:220px;margin:0 auto;">
-          <img src="${prod.img}" alt="${prod.title}" style="height:180px;object-fit:cover;">
-          <div class="card-body" style="padding:12px;">
-            <h5 class="card-title">${prod.title}</h5>
-            <p class="price">${prod.price}</p>
-            <a href="cart.html" class="btn-buy" data-tippy-content="أضف إلى السلة">أضف إلى السلة</a>
-          </div>
-        </div>
-      `;
-      splideList.appendChild(li);
-    });
-    new Splide('#splideNewProducts',{
-      type:'loop',
-      perPage:4,
-      gap:'1rem',
-      autoplay:true,
-      direction:'rtl',
-      pagination:false,
-      breakpoints:{
-        1200:{perPage:3},
-        768:{perPage:2},
-        520:{perPage:1}
-      }
-    }).mount();
-  }
-});
-
-/* ====== تهيئة مكتبات ====== */
-AOS.init({duration:800,once:true});
-gsap.registerPlugin(ScrollTrigger);
-
-/* ====== القائمة الجانبية ====== */
-const menuBtn=document.getElementById('menuBtn');
-const sidebar=document.getElementById('sidebar');
-const sidebarClose=document.getElementById('sidebarClose');
-menuBtn.onclick=()=>sidebar.classList.add('open');
-sidebarClose.onclick=()=>sidebar.classList.remove('open');
-document.addEventListener('click',e=>{if(!sidebar.contains(e.target)&&!menuBtn.contains(e.target))sidebar.classList.remove('open');});
-
-/* ====== Swiper ====== */
-const swiper = new Swiper(".mySwiper",{
-  loop:true,
-  autoplay:{delay:4000,disableOnInteraction:false},
-  pagination:{el:".swiper-pagination",clickable:true},
-  navigation:{nextEl:".swiper-button-next",prevEl:".swiper-button-prev"},
-  effect:"fade",
-  fadeEffect:{crossFade:true},
-  speed:1200
-});
-
-/* ====== تمرير المعرض بالأزرار ====== */
-const gallery=document.getElementById('gallery');
-document.getElementById('rightBtn').onclick=()=>gallery.scrollBy({left:300,behavior:'smooth'});
-document.getElementById('leftBtn').onclick=()=>gallery.scrollBy({left:-300,behavior:'smooth'});
-
-/* ====== GSAP أنيميشن للبطاقات عند الظهور ====== */
-gsap.from(".card",{
-  y:40,opacity:0,duration:0.8,stagger:0.12,
-  scrollTrigger:{trigger:".featured",start:"top 80%"}
-});
-
-/* ====== تلميحات tippy و iziToast لأزرار الشراء */ 
-tippy('#shopNowBtn',{placement:'bottom',animation:'scale'});
-tippy('#menuBtn',{placement:'bottom'});
-tippy('#userBtn',{placement:'bottom'});
-tippy('.btn-buy',{placement:'top',animation:'shift-away'});
-
-/* اشعار عند الاشتراك */
-document.getElementById('subscribeBtn').addEventListener('click',()=>{
-  const email = document.getElementById('newsletterInput').value || '---';
-  iziToast.success({title:'تم الاشتراك',message:`${email} تم إضافته`});
-});
-
-/* ====== Particles.js إعداد وخلفية متحركة ====== */
-particlesJS('particles-js', {
-  "particles": {
-    "number": {"value": 45, "density": {"enable": true, "value_area": 800}},
-    "color": {"value": ["#f39c12","#e67e22","#ffffff"]},
-    "shape": {"type": "circle"},
-    "opacity": {"value": 0.75},
-    "size": {"value": 3},
-    "line_linked": {"enable": false},
-    "move": {"enable": true, "speed": 1.5, "random": true, "straight": false, "out_mode": "out"}
-  },
-  "interactivity": {
-    "events": {
-      "onhover": {"enable": false},
-      "onclick": {"enable": false}
-    }
-  },
-  "retina_detect": true
-});
-
-/* ====== Chart.js رسم بياني بسيط ====== */
-const ctx = document.getElementById('salesChart').getContext('2d');
-const salesChart = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: ['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليو','أغسطس'],
-    datasets: [{
-      label: 'مبيعات (وحدة)',
-      data: [120, 170, 150, 190, 220, 260, 240, 280],
-      tension: 0.4,
-      fill: true,
-      backgroundColor: 'rgba(243,156,18,0.12)',
-      borderColor: 'rgba(243,156,18,1)',
-      pointRadius: 4
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {legend: {display:true, position:'top'}},
-    scales: {
-      y: {beginAtZero:true}
-    }
-  }
-});
-
-/* ====== Babylon.js مشهد 3D بسيط ====== */
-(function initBabylon(){
-  const canvas = document.getElementById('renderCanvas');
-  const engine = new BABYLON.Engine(canvas, true, {preserveDrawingBuffer:true, stencil:true});
-  const scene = new BABYLON.Scene(engine);
-  scene.clearColor = new BABYLON.Color4(1,1,1,0);
-  const camera = new BABYLON.ArcRotateCamera("cam", -Math.PI/2.2, Math.PI/3.5, 6, BABYLON.Vector3.Zero(), scene);
-  camera.attachControl(canvas,true);
-  const light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0,1,0), scene);
-  const sphere = BABYLON.MeshBuilder.CreateSphere("sph",{diameter:2.0,segments:32},scene);
-  const mat = new BABYLON.PBRMaterial("mat",scene);
-  mat.albedoColor = new BABYLON.Color3(0.96,0.58,0.09); // tone like accent
-  mat.metallic = 0.1;
-  mat.roughness = 0.35;
-  sphere.material = mat;
-  // دوران بسيط
-  scene.onBeforeRenderObservable.add(()=>{ sphere.rotation.y += 0.006; });
-  engine.runRenderLoop(()=>scene.render());
-  window.addEventListener("resize",()=>engine.resize());
-})();
-
-/* ====== TensorFlow.js + MobileNet: تصنيف صورة السلايدر الحالية ====== */
-let mobilenetModel = null;
-async function loadMobilenetOnce(){
-  if(mobilenetModel) return mobilenetModel;
-  iziToast.info({title:'تحميل النموذج',message:'جاري تحميل MobileNet لتصنيف الصور...'});
-  mobilenetModel = await mobilenet.load({version:2,alpha:1.0});
-  iziToast.success({title:'جاهز',message:'نموذج MobileNet تمّ تحميله'});
-  return mobilenetModel;
-}
-
-document.getElementById('classifyBtn').addEventListener('click', async ()=>{
-  try{
-    const activeSlide = document.querySelector('.swiper-slide.swiper-slide-active img') || document.querySelector('.swiper-slide img');
-    if(!activeSlide) return iziToast.error({title:'خطأ',message:'لم يتم العثور على صورة للتصنيف'});
-    await loadMobilenetOnce();
-    const results = await mobilenetModel.classify(activeSlide,3);
-    if(results && results.length){
-      const top = results[0];
-      iziToast.show({
-        title: `نتيجة: ${top.className.split(',')[0]}`,
-        message: `الثقة: ${(top.probability*100).toFixed(1)}%`,
-        timeout: 6000,
-        position: 'topRight'
-      });
-    } else {
-      iziToast.warning({title:'غير معروف',message:'لم يتم العثور على نتيجة واضحة'});
-    }
-  }catch(err){
-    console.error(err);
-    iziToast.error({title:'خطأ',message:err.message||err.toString()});
-  }
-});
-
-/* ====== نظام السلة المتكامل (حفظ في localStorage، إضافة/حذف/مجموع، وإرسال عبر واتساب) ====== */
-const cartBtn = document.getElementById('cartBtn');
-const cartPanel = document.getElementById('cartPanel');
-const cartClose = document.getElementById('cartClose');
-const cartItemsEl = document.getElementById('cartItems');
-const cartTotalEl = document.getElementById('cartTotal');
-const cartCountEl = document.getElementById('cartCount');
-const checkoutBtn = document.getElementById('checkoutBtn');
-
-let cart = [];
-try {
-  cart = JSON.parse(localStorage.getItem('shop_cart_v1')) || [];
-  if (!Array.isArray(cart)) cart = [];
-} catch(e) {
-  cart = [];
-}
-
-function renderCart(){
-  cartItemsEl.innerHTML = '';
-  let total = 0;
-  if(cart.length === 0){
-    cartItemsEl.innerHTML = '<p style="text-align:center;color:#777;margin-top:20px;">السلة فارغة</p>';
-  } else {
-    cart.forEach((it, idx) => {
-      total += it.price;
-      const itemDiv = document.createElement('div');
-      itemDiv.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f4f4f4;';
-      itemDiv.innerHTML = `
-        <div style="flex:1;">
-          <div style="font-weight:700;">${escapeHtml(it.name)}</div>
-          <div style="font-size:13px;color:#666;">${it.price.toFixed(2)} ر.س</div>
-        </div>
-        <div style="flex-shrink:0;margin-left:8px;">
-          <button class="btn btn-sm btn-outline-danger remove-item" data-idx="${idx}">&times;</button>
-        </div>
-      `;
-      cartItemsEl.appendChild(itemDiv);
-    });
-  }
-  cartTotalEl.innerText = `المجموع: ${total.toFixed(2)} ر.س`;
-  localStorage.setItem('shop_cart_v1', JSON.stringify(cart));
-  // تحديث العدد
-  if(cart.length > 0){
-    cartCountEl.style.display = 'flex';
-    cartCountEl.innerText = cart.length;
-  } else {
-    cartCountEl.style.display = 'none';
-    cartCountEl.innerText = '0';
-  }
-  // bind remove
-  document.querySelectorAll('.remove-item').forEach(btn=>{
-    btn.onclick = (e)=>{
-      const i = parseInt(e.currentTarget.dataset.idx,10);
-      if(!Number.isNaN(i)){
-        cart.splice(i,1);
-        renderCart();
-        iziToast.info({title:'تم الحذف',message:'تمت إزالة المنتج من السلة'});
-      }
-    };
-  });
-}
-
-function escapeHtml(text){
-  return (text + '').replace(/[&<>"'`=\/]/g, function(s){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;",'/':'&#x2F;','`':'&#x60;','=':'&#x3D;'}[s]; });
-}
-
-renderCart();
-
-// فتح/إغلاق لوحة السلة
-cartBtn.onclick = ()=> { cartPanel.classList.add('open'); cartPanel.setAttribute('aria-hidden','false'); };
-cartClose.onclick = ()=> { cartPanel.classList.remove('open'); cartPanel.setAttribute('aria-hidden','true'); };
-document.addEventListener('click', (e)=>{
-  // إغلاق السلة إذا ضغط خارجها (مع استثناء للأزرار)
-  if(!cartPanel.contains(e.target) && !cartBtn.contains(e.target) && cartPanel.classList.contains('open')){
-    cartPanel.classList.remove('open');
-    cartPanel.setAttribute('aria-hidden','true');
-  }
-});
-
-/* ربط أزرار "أضف إلى السلة" بنفس العناصر في الصفحة */
-function bindBuyButtons(){
-  document.querySelectorAll('.btn-buy').forEach(btn=>{
-    if (!btn.dataset.bound) {
-      btn.addEventListener('click', (e)=>{
-        // نحاول قراءة اسم وسعر من أقرب بطاقة
-        const card = e.target.closest('.card');
-        const nameEl = card ? card.querySelector('.card-title') : null;
-        const priceEl = card ? card.querySelector('.price') : null;
-        const name = nameEl ? nameEl.innerText.trim() : 'منتج';
-        let price = 0;
-        if(priceEl){
-          // جلب الأرقام فقط
-          const raw = priceEl.innerText.replace(/[^\d.,]/g,'').replace(',','.');
-          price = parseFloat(raw) || 0;
-        }
-        cart.push({name, price});
-        renderCart();
-        iziToast.success({title:'أضيفت',message:`${name} تمت إضافته إلى السلة`});
-        // صغير أنيميشن للبطاقة
-        try{ gsap.fromTo(card,{scale:1},{scale:0.98,duration:0.08,yoyo:true,repeat:1}); }catch(err){}
-      });
-      btn.dataset.bound = "true";
-    }
-  });
-}
-bindBuyButtons();
-// إعادة الربط بعد ملء splide
-document.addEventListener('DOMContentLoaded',bindBuyButtons);
-setTimeout(bindBuyButtons, 1000); // في حال ملأت splide متأخرًا
-
-/* زر الدفع عبر واتساب */
-checkoutBtn.addEventListener('click', ()=>{
-  if(cart.length === 0){
-    iziToast.warning({title:'السلة فارغة', message:'أضف منتجات إلى السلة أولاً'});
-    return;
-  }
-  // تكوين رسالة الطلب
-  const lines = cart.map((it, i) => `${i+1}. ${it.name} — ${it.price.toFixed(2)} ر.س`);
-  const total = cart.reduce((s,i)=>s+i.price,0);
-  const msg = `مرحبًا، أود إتمام طلب من متجر نعومة:%0A%0A${encodeURIComponent(lines.join('%0A'))}%0A%0Aالمجموع: ${total.toFixed(2)} ر.س`;
-  // رقم واتساب افتراضي — يمكنك تغييره هنا
-  const phone = '966500000000';
-  const waLink = `https://wa.me/${phone}?text=${msg}`;
-  window.open(waLink,'_blank');
-});
-
-/* ====== أمثلة تفاعلية صغيرة: عند الضغط على زر إضافة إلى السلة تظهر رسالة وأنيماشن (كان موجوداً سابقاً) ====== */
-document.querySelectorAll('.btn-buy').forEach(btn=>{
-  btn.addEventListener('click',e=>{
-    const card = e.target.closest('.card');
-    const title = card ? card.querySelector('.card-title')?.innerText || 'منتج' : 'منتج';
-    // الإشعار مكرر لكن محتفظ به كما في كودك
-    iziToast.success({title:'أضيفت',message:`تمت إضافة ${title} إلى السلة`});
-    try{ gsap.fromTo(card,{scale:1},{scale:0.98,duration:0.08,yoyo:true,repeat:1}); }catch(err){}
-  });
-});
-
-/* ====== تحسين تجربة البحث: اقتراح وهمي بسيط ====== */
-const searchInput = document.getElementById('searchInput');
-searchInput.addEventListener('keydown',(e)=>{
-  if(e.key==='Enter'){
-    iziToast.info({title:'بحث',message:`بحثت عن: ${searchInput.value || '...'}`});
-  }
-});
-
-/* ====== ScrollTrigger مثال إضافي: شريط مبيعات يتوهج أثناء التمرير ====== */
-gsap.to(".shop-now-btn",{scale:1.03,repeat:-1,yoyo:true,duration:2,ease:"sine.inOut"});
-
-/* ====== تجربة بسيطة مع anime.js لظهور سريع */ 
-anime({
-  targets: '.brand',
-  translateY: [-8,0],
-  duration: 900,
-  easing: 'easeOutBounce'
-});
-
-/* ====== بدائل/تحسين: عند تغيير السلايدر نعرض نص صغير مع GSAP */ 
-swiper.on('slideChange',()=>{
-  const el = document.querySelector('.shop-now-btn');
-  gsap.fromTo(el,{y:-8,opacity:0},{y:0,opacity:1,duration:0.5});
-});
-
-/* ====== إغلاق أي نوافذ منبثقة أو تنظيف بسيط ====== */
-window.addEventListener('unload',()=>{
-  // تنظيف خفيف إن لزم
-});
-</script>
+<script src="script.js"></script>
 </body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</html> 
