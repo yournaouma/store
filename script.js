@@ -1,5 +1,3 @@
-// جميع أكواد الجافاسكربت كاملة بدون حذف أي سطر
-
 // البحث الديناميكي لجميع المنتجات في الصفحة بعد تحميلها
 document.addEventListener('DOMContentLoaded', function(){
   const searchInput = document.getElementById('searchInput');
@@ -71,7 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
   cartCount.textContent = `(${cart.length})`;
 });
 
-(function(){ // عائلة نعومة
+// عائلة نعومة - مكتبة المنتجات مع بار رسم بياني
+(function(){ 
   const products = [
     { name: "كريم ترطيب", discount: "20%", color: "#ff6384" },
     { name: "صابون الغار", discount: "15%", color: "#36a2eb" },
@@ -122,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 })();
 
+// منتجات السلايدر
 const splideData = [
   {img:"https://i.postimg.cc/SRkcnQqS/sample3.png",title:"كريم ترطيب عميق",price:"35 ر.س", link:"cart.html"},
   {img:"https://i.postimg.cc/fRFXm6hh/sample4.png",title:"سيروم فيتامين C",price:"42 ر.س", link:"cart.html"},
@@ -258,6 +258,7 @@ const salesChart = new Chart(ctx, {
   engine.runRenderLoop(()=>scene.render());
   window.addEventListener("resize",()=>engine.resize());
 })();
+// تحميل نموذج MobileNet مرة واحدة
 let mobilenetModel = null;
 async function loadMobilenetOnce(){
   if(mobilenetModel) return mobilenetModel;
@@ -288,6 +289,8 @@ document.getElementById('classifyBtn').addEventListener('click', async ()=>{
     iziToast.error({title:'خطأ',message:err.message||err.toString()});
   }
 });
+
+// منطق السلة - أداء قوي بالكاش والتبسيط
 const cartBtn = document.getElementById('cartBtn');
 const cartPanel = document.getElementById('cartPanel');
 const cartClose = document.getElementById('cartClose');
@@ -356,6 +359,7 @@ document.addEventListener('click', (e)=>{
     cartPanel.setAttribute('aria-hidden','true');
   }
 });
+// زر الشراء والتفاعل القوي
 function bindBuyButtons(){
   document.querySelectorAll('.btn-buy').forEach(btn=>{
     if (!btn.dataset.bound) {
@@ -393,6 +397,8 @@ checkoutBtn.addEventListener('click', ()=>{
   const waLink = `https://wa.me/${phone}?text=${msg}`;
   window.open(waLink,'_blank');
 });
+
+// تحسين إشعار السلة عند الشراء
 document.querySelectorAll('.btn-buy').forEach(btn=>{
   btn.addEventListener('click',e=>{
     const card = e.target.closest('.card');
@@ -418,6 +424,3 @@ swiper.on('slideChange',()=>{
   const el = document.querySelector('.shop-now-btn');
   gsap.fromTo(el,{y:-8,opacity:0},{y:0,opacity:1,duration:0.5});
 });
-window.addEventListener('unload',()=>{
-});
-
