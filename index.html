@@ -245,192 +245,69 @@
   
 </main>
 
-<footer class="footer">
-  <div class="footer-content">
 
-    <div class="column">
-      <h4>روابط سريعة</h4>
-      <div class="button-group">
-        <a href="index.html" class="footer-btn">الرئيسية</a>
-        <a href="store.html" class="footer-btn">المتجر</a>
-        <a href="contact.html" class="footer-btn">اتصل بنا</a>
-        <a href="about.html" class="footer-btn">عن نعومة نعومتك</a>
-        <a href="shipping.html" class="footer-btn">شحن وتوصيل</a>
-      </div>
-    </div>
-
-    <div class="column">
-      <h4>سياساتنا</h4>
-      <div class="button-group">
-        <a href="privacy.html" class="footer-btn">سياسة الخصوصية</a>
-        <a href="refund.html" class="footer-btn">الاسترجاع</a>
-        <a href="payment.html" class="footer-btn">الدفع</a>
-      </div>
-    </div>
-
-    <div class="column">
-      <h4>اشترك بالنشرة</h4>
-      <input type="email" placeholder="أدخل بريدك الإلكتروني">
-      <button id="subscribeBtn">اشترك</button>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <p>© 2025 نعومة نعومتك - جميع الحقوق محفوظة</p>
-  </div>
-
-  <div class="social-section">
-    <div class="social-icons">
-      <a href="https://wa.me/" target="_blank" class="social-btn whatsapp" title="واتساب"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://facebook.com/" target="_blank" class="social-btn facebook" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://www.tiktok.com/" target="_blank" class="social-btn tiktok" title="تيك توك"><i class="fab fa-tiktok"></i></a>
-      <a href="https://www.instagram.com/" target="_blank" class="social-btn instagram" title="إنستغرام"><i class="fab fa-instagram"></i></a>
-    </div>
-  </div>
-</footer>
-
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
-<style>
-  body {
-    margin: 0;
-    font-family: 'Cairo', sans-serif;
-    background-color: #fff;
-  }
-
-  .footer {
-    background: linear-gradient(135deg, #f8c8dc, #f7a8c6, #f4b0c2);
-    color: white;
-    border-top-left-radius: 50px;
-    border-top-right-radius: 50px;
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
-  }
-
-  .footer-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 50px 20px;
-    text-align: center;
-  }
-
-  .column {
-    flex: 1 1 250px;
-    margin: 10px;
-  }
-
-  .footer h4 {
-    font-size: 22px;
-    margin-bottom: 20px;
-    position: relative;
-    color: #fff;
-  }
-
-  .button-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-  }
-
-  .footer-btn {
-    background: linear-gradient(45deg, #f4a6c3, #e881a8);
-    color: white;
-    padding: 10px 25px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(232, 129, 168, 0.3);
-  }
-
-  .footer-btn:hover {
-    transform: scale(1.08);
-    background: linear-gradient(45deg, #f7b3cf, #f08fb4);
-    box-shadow: 0 6px 14px rgba(247, 179, 207, 0.6);
-  }
-
-  input[type="email"] {
-    width: 90%;
-    padding: 10px;
-    border: none;
-    border-radius: 25px;
-    margin-bottom: 10px;
-    text-align: right;
-  }
-
-  #subscribeBtn {
-    width: 90%;
-    padding: 10px;
-    border: none;
-    border-radius: 25px;
-    background-color: #fff;
-    color: #e881a8;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  #subscribeBtn:hover {
-    background-color: #ffe4ec;
-    transform: scale(1.05);
-  }
-
-  .footer-bottom {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    text-align: center;
-    padding: 15px 10px;
-  }
-
-  .footer-bottom p {
-    margin: 5px 0;
-    font-size: 14px;
-  }
-
-  /* 🩷 قسم الأيقونات */
-  .social-section {
-    text-align: center;
-    padding: 20px 0 30px;
-  }
-
-  .social-icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0;
-  }
-
-  .social-btn {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 18px;
-    transition: all 0.3s ease;
-    margin: 0; /* متلاصقة */
-  }
-
-  .social-btn:hover {
-    transform: scale(1.15);
-    box-shadow: 0 0 10px rgba(255,255,255,0.5);
-  }
-
-  .whatsapp { background: linear-gradient(45deg, #25D366, #128C7E); }
-  .facebook { background: linear-gradient(45deg, #3b5998, #4267B2); }
-  .tiktok { background: linear-gradient(45deg, #000000, #ff0050, #00f2ea); }
-  .instagram { background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4); }
-
-  @media (max-width: 768px) {
-    .footer-content {
-      flex-direction: column;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نعومة نعومتك</title>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
     }
-  }
-</style>
+  </style>
+</head>
+<body class="bg-white text-pink-500">
+
+  <!-- 🌸 Footer -->
+  <footer class="bg-white rounded-t-[3rem] shadow-[0_-6px_20px_rgba(0,0,0,0.05)] mt-20">
+    <div class="max-w-6xl mx-auto px-6 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 text-center">
+
+      <!-- روابط سريعة -->
+      <div>
+        <h4 class="text-2xl font-semibold text-pink-400 mb-5">روابط سريعة</h4>
+        <div class="flex flex-col gap-3 items-center">
+          <a href="index.html" class="bg-gradient-to-r from-pink-300 to-pink-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-pink-400 hover:to-pink-500 transition-all">الرئيسية</a>
+          <a href="store.html" class="bg-gradient-to-r from-pink-300 to-pink-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-pink-400 hover:to-pink-500 transition-all">المتجر</a>
+          <a href="contact.html" class="bg-gradient-to-r from-pink-300 to-pink-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-pink-400 hover:to-pink-500 transition-all">اتصل بنا</a>
+          <a href="about.html" class="bg-gradient-to-r from-pink-300 to-pink-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-pink-400 hover:to-pink-500 transition-all">عن نعومة نعومتك</a>
+          <a href="shipping.html" class="bg-gradient-to-r from-pink-300 to-pink-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-pink-400 hover:to-pink-500 transition-all">شحن وتوصيل</a>
+        </div>
+      </div>
+
+      <!-- سياساتنا -->
+      <div>
+        <h4 class="text-2xl font-semibold text-pink-400 mb-5">سياساتنا</h4>
+        <div class="flex flex-col gap-3 items-center">
+          <a href="privacy.html" class="bg-gradient-to-r from-pink-300 to-pink-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-pink-400 hover:to-pink-500 transition-all">سياسة الخصوصية</a>
+          <a href="refund.html" class="bg-gradient-to-r from-pink-300 to-pink-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-pink-400 hover:to-pink-500 transition-all">الاسترجاع</a>
+          <a href="payment.html" class="bg-gradient-to-r from-pink-300 to-pink-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-pink-400 hover:to-pink-500 transition-all">الدفع</a>
+        </div>
+      </div>
+
+      <!-- النشرة البريدية -->
+      <div>
+        <h4 class="text-2xl font-semibold text-pink-400 mb-5">اشترك بالنشرة</h4>
+        <input type="email" placeholder="أدخل بريدك الإلكتروني" class="w-4/5 border-2 border-pink-300 rounded-full px-4 py-2 text-right focus:outline-none focus:ring-2 focus:ring-pink-300 mb-3">
+        <button id="subscribeBtn" class="w-4/5 bg-gradient-to-r from-pink-300 to-pink-400 text-white font-bold py-2 rounded-full shadow-md hover:scale-105 hover:from-pink-400 hover:to-pink-500 transition-all">اشترك</button>
+      </div>
+
+    </div>
+
+    <!-- أيقونات السوشيال -->
+    <div class="flex justify-center items-center gap-4 py-6">
+      <a href="https://wa.me/" target="_blank" class="w-10 h-10 rounded-full flex justify-center items-center text-white bg-green-500 hover:scale-110 transition-all"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://facebook.com/" target="_blank" class="w-10 h-10 rounded-full flex justify-center items-center text-white bg-blue-600 hover:scale-110 transition-all"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.tiktok.com/" target="_blank" class="w-10 h-10 rounded-full flex justify-center items-center text-white bg-black hover:scale-110 transition-all"><i class="fab fa-tiktok"></i></a>
+      <a href="https://www.instagram.com/" target="_blank" class="w-10 h-10 rounded-full flex justify-center items-center text-white bg-gradient-to-r from-pink-500 via-purple-500 to-yellow-500 hover:scale-110 transition-all"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <!-- النص السفلي -->
+    <div class="border-t border-pink-200 text-center py-4">
+      <p class="text-pink-400 text-sm">© 2025 نعومة نعومتك - جميع الحقوق محفوظة</p>
+    </div>
+  </footer>
 
 
 
@@ -457,6 +334,7 @@
 <script src="script2.js" defer></script>
 </body>
 </html> 
+
 
 
 
