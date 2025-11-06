@@ -242,6 +242,9 @@
 
   <div class="footer-bottom">
     <p>© 2025 نعومة نعومتك - جميع الحقوق محفوظة</p>
+  </div>
+
+  <div class="social-section">
     <div class="social-icons">
       <a href="https://wa.me/" target="_blank" class="social-btn whatsapp" title="واتساب"><i class="fab fa-whatsapp"></i></a>
       <a href="https://facebook.com/" target="_blank" class="social-btn facebook" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
@@ -261,7 +264,7 @@
   }
 
   .footer {
-    background: linear-gradient(135deg, #ffb6c1, #ff69b4, #ffb6c1);
+    background: linear-gradient(135deg, #f8c8dc, #f7a8c6, #f4b0c2);
     color: white;
     border-top-left-radius: 50px;
     border-top-right-radius: 50px;
@@ -271,50 +274,49 @@
   .footer-content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
     padding: 50px 20px;
+    text-align: center;
   }
 
   .column {
     flex: 1 1 250px;
     margin: 10px;
-    text-align: center;
   }
 
   .footer h4 {
     font-size: 22px;
     margin-bottom: 20px;
     position: relative;
+    color: #fff;
   }
 
   .button-group {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 10px;
-    justify-content: center;
+    align-items: center;
   }
 
-  /* 🌈 أزرار الروابط */
   .footer-btn {
-    background: linear-gradient(45deg, #ff69b4, #ff1493);
+    background: linear-gradient(45deg, #f4a6c3, #e881a8);
     color: white;
-    padding: 10px 20px;
+    padding: 10px 25px;
     border-radius: 30px;
     text-decoration: none;
     font-weight: bold;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+    box-shadow: 0 4px 10px rgba(232, 129, 168, 0.3);
   }
 
   .footer-btn:hover {
-    transform: scale(1.1);
-    background: linear-gradient(45deg, #ff85c1, #ff4fa3);
-    box-shadow: 0 6px 14px rgba(255, 182, 193, 0.6);
+    transform: scale(1.08);
+    background: linear-gradient(45deg, #f7b3cf, #f08fb4);
+    box-shadow: 0 6px 14px rgba(247, 179, 207, 0.6);
   }
 
-  /* حقل النشرة */
   input[type="email"] {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     border: none;
     border-radius: 25px;
@@ -323,19 +325,19 @@
   }
 
   #subscribeBtn {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     border: none;
     border-radius: 25px;
     background-color: #fff;
-    color: #ff69b4;
+    color: #e881a8;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
   }
 
   #subscribeBtn:hover {
-    background-color: #ffe4e1;
+    background-color: #ffe4ec;
     transform: scale(1.05);
   }
 
@@ -345,10 +347,6 @@
     color: white;
     text-align: center;
     padding: 15px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
   }
 
   .footer-bottom p {
@@ -356,15 +354,22 @@
     font-size: 14px;
   }
 
-  /* أيقونات التواصل */
+  /* 🩷 قسم الأيقونات */
+  .social-section {
+    text-align: center;
+    padding: 20px 0 30px;
+  }
+
   .social-icons {
     display: flex;
-    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
   }
 
   .social-btn {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -372,10 +377,11 @@
     color: white;
     font-size: 18px;
     transition: all 0.3s ease;
+    margin: 0; /* متلاصقة */
   }
 
   .social-btn:hover {
-    transform: scale(1.2);
+    transform: scale(1.15);
     box-shadow: 0 0 10px rgba(255,255,255,0.5);
   }
 
@@ -388,15 +394,9 @@
     .footer-content {
       flex-direction: column;
     }
-    .footer-bottom {
-      flex-direction: column;
-      gap: 10px;
-    }
-    .button-group {
-      justify-content: center;
-    }
   }
 </style>
+
 
 
 
@@ -422,6 +422,7 @@
 <script src="script2.js" defer></script>
 </body>
 </html> 
+
 
 
 
