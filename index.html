@@ -212,25 +212,30 @@
 
 <footer class="footer">
   <div class="footer-content">
+
     <div class="column">
       <h4>روابط سريعة</h4>
-      <a href="index.html">الرئيسية</a>
-      <a href="store.html">المتجر</a>
-      <a href="contact.html">اتصل بنا</a>
-      <a href="about.html">عن نعومة نعومتك</a>
-      <a href="shipping.html">شحن وتوصيل</a>
+      <div class="button-group">
+        <a href="index.html" class="footer-btn">الرئيسية</a>
+        <a href="store.html" class="footer-btn">المتجر</a>
+        <a href="contact.html" class="footer-btn">اتصل بنا</a>
+        <a href="about.html" class="footer-btn">عن نعومة نعومتك</a>
+        <a href="shipping.html" class="footer-btn">شحن وتوصيل</a>
+      </div>
     </div>
 
     <div class="column">
       <h4>سياساتنا</h4>
-      <a href="privacy.html">سياسة الخصوصية</a>
-      <a href="refund.html">الاسترجاع</a>
-      <a href="payment.html">الدفع</a>
+      <div class="button-group">
+        <a href="privacy.html" class="footer-btn">سياسة الخصوصية</a>
+        <a href="refund.html" class="footer-btn">الاسترجاع</a>
+        <a href="payment.html" class="footer-btn">الدفع</a>
+      </div>
     </div>
 
     <div class="column">
       <h4>اشترك بالنشرة</h4>
-      <input type="email" placeholder="أدخل بريدك الإلكتروني" id="newsletterInput">
+      <input type="email" placeholder="أدخل بريدك الإلكتروني">
       <button id="subscribeBtn">اشترك</button>
     </div>
   </div>
@@ -238,15 +243,14 @@
   <div class="footer-bottom">
     <p>© 2025 نعومة نعومتك - جميع الحقوق محفوظة</p>
     <div class="social-icons">
-      <a href="https://wa.me/" target="_blank" class="whatsapp" title="واتساب"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://facebook.com/" target="_blank" class="facebook" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://www.tiktok.com/" target="_blank" class="tiktok" title="تيك توك"><i class="fab fa-tiktok"></i></a>
-      <a href="https://www.instagram.com/" target="_blank" class="instagram" title="إنستغرام"><i class="fab fa-instagram"></i></a>
+      <a href="https://wa.me/" target="_blank" class="social-btn whatsapp" title="واتساب"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://facebook.com/" target="_blank" class="social-btn facebook" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.tiktok.com/" target="_blank" class="social-btn tiktok" title="تيك توك"><i class="fab fa-tiktok"></i></a>
+      <a href="https://www.instagram.com/" target="_blank" class="social-btn instagram" title="إنستغرام"><i class="fab fa-instagram"></i></a>
     </div>
   </div>
 </footer>
 
-<!-- Font Awesome لأيقونات التواصل -->
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 <style>
@@ -262,61 +266,63 @@
     border-top-left-radius: 50px;
     border-top-right-radius: 50px;
     box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 1.2s ease-in-out;
   }
 
   .footer-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    padding: 60px 20px;
+    padding: 50px 20px;
   }
 
-  .footer .column {
+  .column {
     flex: 1 1 250px;
     margin: 10px;
+    text-align: center;
   }
 
   .footer h4 {
-    font-size: 20px;
-    margin-bottom: 15px;
+    font-size: 22px;
+    margin-bottom: 20px;
     position: relative;
   }
 
-  .footer h4::after {
-    content: "";
-    position: absolute;
-    width: 50px;
-    height: 3px;
-    background-color: white;
-    left: 0;
-    bottom: -5px;
-    border-radius: 2px;
+  .button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
   }
 
-  .footer a {
-    display: block;
-    color: #fff;
+  /* 🌈 أزرار الروابط */
+  .footer-btn {
+    background: linear-gradient(45deg, #ff69b4, #ff1493);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
     text-decoration: none;
-    margin: 8px 0;
+    font-weight: bold;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
   }
 
-  .footer a:hover {
-    color: #ffe4e1;
-    transform: translateX(-5px);
+  .footer-btn:hover {
+    transform: scale(1.1);
+    background: linear-gradient(45deg, #ff85c1, #ff4fa3);
+    box-shadow: 0 6px 14px rgba(255, 182, 193, 0.6);
   }
 
-  .footer input[type="email"] {
-    padding: 10px;
+  /* حقل النشرة */
+  input[type="email"] {
     width: 100%;
+    padding: 10px;
     border: none;
     border-radius: 25px;
     margin-bottom: 10px;
     text-align: right;
   }
 
-  .footer button {
+  #subscribeBtn {
     width: 100%;
     padding: 10px;
     border: none;
@@ -328,7 +334,7 @@
     transition: all 0.3s ease;
   }
 
-  .footer button:hover {
+  #subscribeBtn:hover {
     background-color: #ffe4e1;
     transform: scale(1.05);
   }
@@ -350,52 +356,43 @@
     font-size: 14px;
   }
 
+  /* أيقونات التواصل */
   .social-icons {
     display: flex;
     gap: 12px;
   }
 
-  .social-icons a {
-    color: white;
-    font-size: 20px;
-    width: 35px;
-    height: 35px;
+  .social-btn {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.25);
     display: flex;
     justify-content: center;
     align-items: center;
+    color: white;
+    font-size: 18px;
     transition: all 0.3s ease;
   }
 
-  .social-icons a:hover {
-    background-color: #fff;
-    color: #ff69b4;
+  .social-btn:hover {
     transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(255,255,255,0.5);
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  .whatsapp { background: linear-gradient(45deg, #25D366, #128C7E); }
+  .facebook { background: linear-gradient(45deg, #3b5998, #4267B2); }
+  .tiktok { background: linear-gradient(45deg, #000000, #ff0050, #00f2ea); }
+  .instagram { background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4); }
 
   @media (max-width: 768px) {
     .footer-content {
       flex-direction: column;
-      text-align: center;
     }
-
-    .footer h4::after {
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
     .footer-bottom {
       flex-direction: column;
       gap: 10px;
     }
-
-    .social-icons {
+    .button-group {
       justify-content: center;
     }
   }
@@ -425,6 +422,7 @@
 <script src="script2.js" defer></script>
 </body>
 </html> 
+
 
 
 
