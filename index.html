@@ -202,31 +202,154 @@
   <div class="swiper-button-prev"></div>
   <div class="swiper-pagination"></div>
 
-
-
   <!-- زر تسوق -->
   <a href="store.html" class="shop-now-btn" id="shopNowBtn" data-tippy-content="اذهب إلى المتجر">تسوق الآن</a>
 </div>
 
-  <!-- ====== مجموعات المنتجات ====== -->
-  <section class="product-groups" data-aos="fade-up">
-    <h2>مجموعات المنتجات</h2>
-    <button class="nav-btn left" id="leftBtn"><i class="fa fa-chevron-left"></i></button>
-    <div class="gallery" id="gallery">
-      <div class="product"><img src="https://i.postimg.cc/Y0XNVmDr/Chat-GPT-Image-26-aktwbr-2025-10-36-10-s.png"><a href="creams.html">كريمات</a></div>
-      <div class="product"><img src="https://i.postimg.cc/wBWM8ccm/9044a1dc-0677-4158-a31e-594ad66a90fe.png"><a href="serums.html">سيرومات</a></div>
-      <div class="product"><img src="https://i.postimg.cc/Px44k7VK/fbc7eac9-e6ee-4e8e-8b37-853ce651f83c.png"><a href="cleansers.html">منظفات</a></div>
-      <div class="product"><img src="https://i.postimg.cc/wvvVgVCn/07946309-3ead-4f74-85cd-6aa93e2cdd05.png"><a href="sunscreen.html">واقي شمس</a></div>
-      <div class="product"><img src="https://i.postimg.cc/7PLdKh2C/1835c066-c2e3-47f5-adac-30b722e857bd.png"><a href="peels.html">مقشرات</a></div>
-      <div class="product"><img src="https://i.postimg.cc/FsfTdnfd/357faacf-0825-4887-bc78-0260fc034dc1.png"><a href="toners.html">تونرات</a></div>
-      <div class="product"><img src="https://i.postimg.cc/q7rtc9gh/zjajt-%CA%BFtr-anyqt-ballwn-alwrdy.png"><a href="perfumes.html">عطور</a></div>
-      <div class="product"><img src="https://i.postimg.cc/tpCMbs77/e9ddd4a5-a27e-4654-915f-07b4b2c0b82c.png"><a href="masks.html">ماسكات</a></div>
-    </div>
-    <button class="nav-btn right" id="rightBtn"><i class="fa fa-chevron-right"></i></button>
-  </section>
 
 
+<!-- ====== مجموعات المتاجر ====== -->
+<section class="product-groups" data-aos="fade-up">
+  <h2>مجموعات المتاجر</h2>
 
+  <div class="gallery" id="gallery">
+    <div class="product"><img src="https://i.postimg.cc/Y0XNVmDr/Chat-GPT-Image-26-aktwbr-2025-10-36-10-s.png"><a href="creams.html">كريمات</a></div>
+    <div class="product"><img src="https://i.postimg.cc/wBWM8ccm/9044a1dc-0677-4158-a31e-594ad66a90fe.png"><a href="serums.html">سيرومات</a></div>
+    <div class="product"><img src="https://i.postimg.cc/Px44k7VK/fbc7eac9-e6ee-4e8e-8b37-853ce651f83c.png"><a href="cleansers.html">منظفات</a></div>
+    <div class="product"><img src="https://i.postimg.cc/wvvVgVCn/07946309-3ead-4f74-85cd-6aa93e2cdd05.png"><a href="sunscreen.html">واقي شمس</a></div>
+    <div class="product"><img src="https://i.postimg.cc/7PLdKh2C/1835c066-c2e3-47f5-adac-30b722e857bd.png"><a href="peels.html">مقشرات</a></div>
+    <div class="product"><img src="https://i.postimg.cc/FsfTdnfd/357faacf-0825-4887-bc78-0260fc034dc1.png"><a href="toners.html">تونرات</a></div>
+    <div class="product"><img src="https://i.postimg.cc/q7rtc9gh/zjajt-%CA%BFtr-anyqt-ballwn-alwrdy.png"><a href="perfumes.html">عطور</a></div>
+    <div class="product"><img src="https://i.postimg.cc/tpCMbs77/e9ddd4a5-a27e-4654-915f-07b4b2c0b82c.png"><a href="masks.html">ماسكات</a></div>
+    <div class="product"><img src="https://i.postimg.cc/4dZ9nQ4k/1.png"><a href="oils.html">زيوت</a></div>
+    <div class="product"><img src="https://i.postimg.cc/gJpZkhPf/2.png"><a href="mists.html">رذاذ</a></div>
+    <div class="product"><img src="https://i.postimg.cc/SKDNt2sk/3.png"><a href="scrubs.html">متنوعات</a></div>
+    <div class="product"><img src="https://i.postimg.cc/qvMg3jRf/4.png"><a href="lotions.html">لوشن</a></div>
+    <div class="product"><img src="https://i.postimg.cc/7Yxg2n4J/5.png"><a href="soaps.html">صابون </a></div>
+    <div class="product"><img src="https://i.postimg.cc/8CV0xjJD/6.png"><a href="sets.html"> هدايا</a></div>
+  </div>
+</section>
+
+<style>
+  section.product-groups {
+    padding: 20px;
+    background: #fff;
+    position: relative;
+  }
+
+  section.product-groups h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  /* شبكة المنتجات */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .product {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    background-color: #fff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.6s ease;
+  }
+
+  .product.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .product img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    display: block;
+  }
+
+  .product:hover img {
+    transform: scale(1.06);
+  }
+
+  /* الأزرار أسفل الصورة في المنتصف */
+  .product a {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    background: linear-gradient(135deg, #ff9800, #ffb74d);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 1.1em;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+  }
+
+  .product a:hover {
+    background: linear-gradient(135deg, #e68900, #ffa726);
+    transform: translateX(-50%) scale(1.07);
+  }
+
+  /* تابلت */
+  @media (max-width: 1024px) {
+    .gallery {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 900px;
+    }
+  }
+
+  /* جوال */
+  @media (max-width: 768px) {
+    .gallery {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      max-width: 100%;
+    }
+    .product a {
+      font-size: 1em;
+      padding: 8px 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .gallery {
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .product a {
+      font-size: 0.9em;
+      padding: 6px 12px;
+    }
+  }
+</style>
+
+<script>
+  // حركة ظهور المربعات عند التمرير
+  const products = document.querySelectorAll('.product');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  products.forEach(product => observer.observe(product));
+</script>
 
 
 
@@ -357,7 +480,6 @@
 <script src="script2.js" defer></script>
 </body>
 </html> 
-
 
 
 
