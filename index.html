@@ -211,40 +211,42 @@
 </main>
 
 <footer class="footer">
-  <div class="column">
-    <h4>روابط سريعة</h4>
-    <a href="index.html">الرئيسية</a>
-    <a href="store.html">المتجر</a>
-    <a href="contact.html">اتصل بنا</a>
-    <a href="about.html">عن نعومة نعومتك</a>
-    <a href="shipping.html">شحن وتوصيل</a>
+  <div class="footer-content">
+    <div class="column">
+      <h4>روابط سريعة</h4>
+      <a href="index.html">الرئيسية</a>
+      <a href="store.html">المتجر</a>
+      <a href="contact.html">اتصل بنا</a>
+      <a href="about.html">عن نعومة نعومتك</a>
+      <a href="shipping.html">شحن وتوصيل</a>
+    </div>
+
+    <div class="column">
+      <h4>سياساتنا</h4>
+      <a href="privacy.html">سياسة الخصوصية</a>
+      <a href="refund.html">الاسترجاع</a>
+      <a href="payment.html">الدفع</a>
+    </div>
+
+    <div class="column">
+      <h4>اشترك بالنشرة</h4>
+      <input type="email" placeholder="أدخل بريدك الإلكتروني" id="newsletterInput">
+      <button id="subscribeBtn">اشترك</button>
+    </div>
   </div>
 
-  <div class="column">
-    <h4>سياساتنا</h4>
-    <a href="privacy.html">سياسة الخصوصية</a>
-    <a href="refund.html">الاسترجاع</a>
-    <a href="payment.html">الدفع</a>
-  </div>
-
-  <div class="column">
-    <h4>اشترك بالنشرة</h4>
-    <input type="email" placeholder="أدخل بريدك الإلكتروني" id="newsletterInput">
-    <button id="subscribeBtn">اشترك</button>
+  <div class="footer-bottom">
+    <p>© 2025 نعومة نعومتك - جميع الحقوق محفوظة</p>
+    <div class="social-icons">
+      <a href="https://wa.me/" target="_blank" class="whatsapp" title="واتساب"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://facebook.com/" target="_blank" class="facebook" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.tiktok.com/" target="_blank" class="tiktok" title="تيك توك"><i class="fab fa-tiktok"></i></a>
+      <a href="https://www.instagram.com/" target="_blank" class="instagram" title="إنستغرام"><i class="fab fa-instagram"></i></a>
+    </div>
   </div>
 </footer>
 
-<div class="footer-bottom">
-  <p>© 2025 نعومة نعومتك - جميع الحقوق محفوظة</p>
-  <div class="social-icons">
-    <a href="https://wa.me/" target="_blank" class="whatsapp" title="واتساب"><i class="fab fa-whatsapp"></i></a>
-    <a href="https://facebook.com/" target="_blank" class="facebook" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://www.tiktok.com/" target="_blank" class="tiktok" title="تيك توك"><i class="fab fa-tiktok"></i></a>
-    <a href="https://www.instagram.com/" target="_blank" class="instagram" title="إنستغرام"><i class="fab fa-instagram"></i></a>
-  </div>
-</div>
-
-<!-- أيقونات Font Awesome -->
+<!-- Font Awesome لأيقونات التواصل -->
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 <style>
@@ -257,14 +259,17 @@
   .footer {
     background: linear-gradient(135deg, #ffb6c1, #ff69b4, #ffb6c1);
     color: white;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 60px 20px;
     border-top-left-radius: 50px;
     border-top-right-radius: 50px;
     box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
     animation: fadeIn 1.2s ease-in-out;
+  }
+
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 60px 20px;
   }
 
   .footer .column {
@@ -329,7 +334,8 @@
   }
 
   .footer-bottom {
-    background-color: #ff69b4;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
     text-align: center;
     padding: 15px 10px;
@@ -346,18 +352,26 @@
 
   .social-icons {
     display: flex;
-    gap: 15px;
+    gap: 12px;
   }
 
   .social-icons a {
     color: white;
     font-size: 20px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: all 0.3s ease;
   }
 
   .social-icons a:hover {
+    background-color: #fff;
+    color: #ff69b4;
     transform: scale(1.2);
-    color: #ffe4e1;
   }
 
   @keyframes fadeIn {
@@ -366,10 +380,9 @@
   }
 
   @media (max-width: 768px) {
-    .footer {
+    .footer-content {
       flex-direction: column;
       text-align: center;
-      border-radius: 0;
     }
 
     .footer h4::after {
@@ -387,6 +400,7 @@
     }
   }
 </style>
+
 
 
 <!-- مكتبات JavaScript عديدة -->
@@ -411,6 +425,7 @@
 <script src="script2.js" defer></script>
 </body>
 </html> 
+
 
 
 
