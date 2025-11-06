@@ -210,7 +210,7 @@
 </main>
 
 <footer class="footer">
-  <!-- نسخة الكمبيوتر -->
+  <!-- نسخة الكمبيوتر (لم تتغير) -->
   <div class="footer-desktop">
     <div class="column">
       <h4>روابط سريعة</h4>
@@ -228,8 +228,8 @@
     </div>
     <div class="column">
       <h4>اشترك بالنشرة</h4>
-      <input type="email" placeholder="أدخل بريدك الإلكتروني" id="newsletterInputDesktop">
-      <button id="subscribeBtnDesktop">اشترك</button>
+      <input type="email" placeholder="أدخل بريدك الإلكتروني" id="newsletterInput">
+      <button id="subscribeBtn">اشترك</button>
     </div>
   </div>
 
@@ -257,32 +257,38 @@
 </footer>
 
 <style>
-/* إعدادات الفوتر */
+/* نسخة الكمبيوتر */
 .footer-desktop { display: flex; justify-content: space-between; padding: 20px; background: #f5f5f5; }
-.footer-mobile { display: none; padding: 10px; background: #f5f5f5; }
 
-/* الأعمدة */
+/* الأعمدة العامة */
 .footer .column { display: flex; flex-direction: column; margin: 0 10px; }
 .footer .column h4 { margin-bottom: 10px; font-size: 16px; }
 .footer .column a { margin-bottom: 5px; text-decoration: none; color: #333; font-size: 14px; }
 .footer .column input { padding: 6px; margin-bottom: 5px; font-size: 14px; }
 .footer .column button { padding: 6px; cursor: pointer; font-size: 14px; }
 
-/* إعداد نسخة الهاتف */
+/* نسخة الهاتف */
+.footer-mobile { display: none; }
+
 @media screen and (max-width: 768px) {
   .footer-desktop { display: none; }
-  .footer-mobile { display: flex; justify-content: center; }
-  .footer-mobile .mobile-box { 
-    display: flex; 
-    justify-content: space-between; 
-    background: #fff; 
-    padding: 10px; 
-    border-radius: 10px; 
-    width: 100%; 
+  .footer-mobile { display: block; width: 100%; }
+
+  .footer-mobile .mobile-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: #fff;
+    padding: 15px;
+    border-radius: 0; /* مستطيل بدون زوايا مستديرة */
+    width: 100%;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-sizing: border-box;
   }
+
   .footer-mobile .column { flex: 1; text-align: center; margin: 0 5px; }
-  .footer-mobile .column input, .footer-mobile .column button { width: 90%; }
+  .footer-mobile .column input, 
+  .footer-mobile .column button { width: 90%; margin: 0 auto; }
 }
 </style>
 
@@ -310,6 +316,7 @@
 <script src="script2.js" defer></script>
 </body>
 </html> 
+
 
 
 
