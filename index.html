@@ -219,18 +219,175 @@
     <a href="about.html">عن نعومة نعومتك</a>
     <a href="shipping.html">شحن وتوصيل</a>
   </div>
+
   <div class="column">
     <h4>سياساتنا</h4>
     <a href="privacy.html">سياسة الخصوصية</a>
     <a href="refund.html">الاسترجاع</a>
     <a href="payment.html">الدفع</a>
   </div>
+
   <div class="column">
     <h4>اشترك بالنشرة</h4>
     <input type="email" placeholder="أدخل بريدك الإلكتروني" id="newsletterInput">
     <button id="subscribeBtn">اشترك</button>
   </div>
 </footer>
+
+<div class="footer-bottom">
+  <p>© 2025 نعومة نعومتك - جميع الحقوق محفوظة</p>
+  <div class="social-icons">
+    <a href="https://wa.me/" target="_blank" class="whatsapp" title="واتساب"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://facebook.com/" target="_blank" class="facebook" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.tiktok.com/" target="_blank" class="tiktok" title="تيك توك"><i class="fab fa-tiktok"></i></a>
+    <a href="https://www.instagram.com/" target="_blank" class="instagram" title="إنستغرام"><i class="fab fa-instagram"></i></a>
+  </div>
+</div>
+
+<!-- أيقونات Font Awesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    background-color: #fff;
+  }
+
+  .footer {
+    background: linear-gradient(135deg, #ffb6c1, #ff69b4, #ffb6c1);
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 60px 20px;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1.2s ease-in-out;
+  }
+
+  .footer .column {
+    flex: 1 1 250px;
+    margin: 10px;
+  }
+
+  .footer h4 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    position: relative;
+  }
+
+  .footer h4::after {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 3px;
+    background-color: white;
+    left: 0;
+    bottom: -5px;
+    border-radius: 2px;
+  }
+
+  .footer a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    margin: 8px 0;
+    transition: all 0.3s ease;
+  }
+
+  .footer a:hover {
+    color: #ffe4e1;
+    transform: translateX(-5px);
+  }
+
+  .footer input[type="email"] {
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 25px;
+    margin-bottom: 10px;
+    text-align: right;
+  }
+
+  .footer button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    background-color: #fff;
+    color: #ff69b4;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .footer button:hover {
+    background-color: #ffe4e1;
+    transform: scale(1.05);
+  }
+
+  .footer-bottom {
+    background-color: #ff69b4;
+    color: white;
+    text-align: center;
+    padding: 15px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .footer-bottom p {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 15px;
+  }
+
+  .social-icons a {
+    color: white;
+    font-size: 20px;
+    transition: all 0.3s ease;
+  }
+
+  .social-icons a:hover {
+    transform: scale(1.2);
+    color: #ffe4e1;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .footer {
+      flex-direction: column;
+      text-align: center;
+      border-radius: 0;
+    }
+
+    .footer h4::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .social-icons {
+      justify-content: center;
+    }
+  }
+</style>
+
 
 <!-- مكتبات JavaScript عديدة -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -254,6 +411,7 @@
 <script src="script2.js" defer></script>
 </body>
 </html> 
+
 
 
 
