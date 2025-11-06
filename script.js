@@ -229,11 +229,12 @@ document.addEventListener('DOMContentLoaded',function(){
             <div class="card-body" style="padding:12px;text-align:center;">
               <h5 class="card-title" style="font-size:1.1em;margin-bottom:8px;color:#333;">${prod.title}</h5>
               <p class="price" style="font-weight:bold;color:#f39c12;font-size:1.2em;">${prod.price}</p>
-              <button class="btn-buy" data-tippy-content="أضف إلى السلة" style="background-color:#f39c12;color:#fff;border:none;padding:8px 15px;border-radius:5px;cursor:pointer;margin-top:10px;transition:background-color 0.2s;">أضف إلى السلة</button>
+              <button class="btn-buy" onclick="window.location.href='${prod.link}'" data-tippy-content="أضف إلى السلة" style="background-color:#f39c12;color:#fff;border:none;padding:8px 15px;border-radius:5px;cursor:pointer;margin-top:10px;transition:background-color 0.2s;">أضف إلى السلة</button>
             </div>
           </div>
         `;
-        fragment.appendChild(li);
+    
+    fragment.appendChild(li);
       });
       splideList.appendChild(fragment);
 
