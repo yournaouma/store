@@ -202,16 +202,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // بيانات SplideJS يمكن تحميلها عند الحاجة لتحسين TTI (Time To Interactive)
 const splideData = [
-  {img:"https://i.postimg.cc/SRkcnQqS/sample3.png",title:"كريم ترطيب عميق",price:"35 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/fRFXm6hh/sample4.png",title:"سيروم فيتامين C",price:"42 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/Gpn3kC5W/sample5.png",title:"تونر الورد",price:"28 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/L5fCKvjZ/mobile-2.png",title:"واقي شمس صبار",price:"39 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/g2vL7Prk/sample1.png",title:"مقشر طبيعي",price:"29 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/7hGdHd6B/sample6.png",title:"غسول لطيف للبشرة",price:"33 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/Rh4Jx0D5/sample7.png",title:"سيروم حمض الهيالورونيك",price:"48 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/7YpJ5zq9/sample8.png",title:"كريم ليلي مغذي",price:"54 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/76Gv4zY6/sample9.png",title:"زيت الوجه الطبيعي",price:"40 ر.س", link:"cart.html"},
-  {img:"https://i.postimg.cc/fLbJ2T0C/sample10.png",title:"منظف رغوي للبشرة",price:"27 ر.س", link:"cart.html"}
+  {img:"images/products/kid1.png", title:"كريم ترطيب عميق", price:"35 ر.س", link:"cart.html"},
+  {img:"images/products/kid2.png", title:"سيروم فيتامين C", price:"42 ر.س", link:"cart.html"},
+  {img:"images/products/kid3.png", title:"تونر الورد", price:"28 ر.س", link:"cart.html"},
+  {img:"images/products/kid4.png", title:"واقي شمس صبار", price:"39 ر.س", link:"cart.html"},
+  {img:"images/products/kid5.png", title:"مقشر طبيعي", price:"29 ر.س", link:"cart.html"},
+  {img:"images/products/kid6.png", title:"غسول لطيف للبشرة", price:"33 ر.س", link:"cart.html"},
+  {img:"images/products/kid7.png", title:"سيروم حمض الهيالورونيك", price:"48 ر.س", link:"cart.html"},
+  {img:"images/products/kid8.png", title:"كريم ليلي مغذي", price:"54 ر.س", link:"cart.html"},
+  {img:"images/products/kid9.png", title:"زيت الوجه الطبيعي", price:"40 ر.س", link:"cart.html"},
+  {img:"images/products/kid10.png", title:"منظف رغوي للبشرة", price:"27 ر.س", link:"cart.html"}
 ];
 
 document.addEventListener('DOMContentLoaded',function(){
