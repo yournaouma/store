@@ -3,8 +3,8 @@
   --accent: #f39c12;
   --muted: #f6f6f7;
   --text: #222;
-  font-family: 'Tajawal', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  /* تحسين خطوط النظام */
+  font-family: 'Tajawal', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* تحسين خطوط النظام وإضافة sans-serif كخيار احتياطي */
 }
 
 /* إعادة تعيين أساسية لتحسين الأداء والمتانة */
@@ -17,6 +17,7 @@
 html {
   background: #fff;
   -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth; /* إضافة تمرير سلس */
 }
 
 body {
@@ -24,7 +25,7 @@ body {
   color: var(--text);
   overflow-x: hidden;
   direction: rtl;
-  /* دمج font-family من root لتجنب التكرار هنا */
+  /* font-family مدمج من root */
 }
 
 /* تحسين العناصر العامة */
@@ -37,6 +38,19 @@ img, video, iframe {
 section, div, header, footer {
   box-sizing: border-box;
   width: 100%;
+}
+
+a {
+  text-decoration: none; /* إزالة خط تحت الروابط بشكل افتراضي */
+  color: inherit; /* وراثة لون النص من العنصر الأب */
+}
+
+button, input[type="submit"], input[type="button"] {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
 }
 
 /* الجسيمات */
@@ -77,6 +91,7 @@ section, div, header, footer {
   justify-content: center;
   cursor: pointer;
   transition: background 0.2s ease-in-out; /* تحسين الانتقال */
+  color: var(--text); /* إضافة لون افتراضي للأيقونات */
 }
 
 .icon-btn:hover {
@@ -84,12 +99,18 @@ section, div, header, footer {
 }
 
 /* حقل البحث */
+.search {
+  flex-grow: 1; /* السماح لحقل البحث بأخذ مساحة إضافية */
+  margin: 0 16px; /* إضافة هوامش لتباعد أفضل */
+}
+
 .search input {
   border: 1px solid #eee;
   background: var(--muted);
   padding: 8px 10px;
   border-radius: 12px;
   transition: border-color 0.2s ease-in-out;
+  width: 100%; /* جعل حقل البحث يمتد لـ 100% من المساحة المتاحة */
 }
 
 .search input:focus {
@@ -245,6 +266,20 @@ section, div, header, footer {
   align-items: center;
   justify-content: center;
   transition: background 0.2s ease-in-out; /* تحسين */
+  position: absolute; /* تأكد من تحديد الموضع */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.swiper-button-next {
+  left: 10px; /* تعديل الموضع ليتوافق مع الاتجاه RTL */
+  right: auto;
+}
+
+.swiper-button-prev {
+  right: 10px; /* تعديل الموضع ليتوافق مع الاتجاه RTL */
+  left: auto;
 }
 
 .swiper-button-next:hover,
@@ -271,6 +306,7 @@ section, div, header, footer {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
   z-index: 20;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  white-space: nowrap; /* منع التفاف النص داخل الزر */
 }
 
 .shop-now-btn:hover {
@@ -321,6 +357,7 @@ section, div, header, footer {
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* تحسين الانتقال */
+  min-width: 200px; /* ضمان حد أدنى لعرض المنتج في المعرض */
 }
 
 .product:hover {
@@ -330,7 +367,8 @@ section, div, header, footer {
 
 .product img {
   width: 100%;
-  height: 100%;
+  height: 100%; /* يجب أن يكون له ارتفاع محدد أو يمتد داخل حاوية ذات ارتفاع */
+  min-height: 180px; /* ضمان حد أدنى لارتفاع الصورة */
   object-fit: cover;
   transition: transform 0.6s ease;
 }
@@ -378,10 +416,12 @@ section, div, header, footer {
 
 .nav-btn.left {
   left: 8px;
+  right: auto; /* التأكد من أن الاتجاه صحيح لـ RTL */
 }
 
 .nav-btn.right {
   right: 8px;
+  left: auto; /* التأكد من أن الاتجاه صحيح لـ RTL */
 }
 
 .nav-btn:hover {
@@ -436,6 +476,8 @@ section, div, header, footer {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex; /* لتحسين مرونة المحتوى داخل البطاقة */
+  flex-direction: column;
 }
 
 .card:hover {
@@ -457,6 +499,10 @@ section, div, header, footer {
 .card-body {
   text-align: center;
   padding: 15px; /* إضافة بعض المسافة */
+  flex-grow: 1; /* السماح لمحتوى الجسم بالتمدد */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* توزيع العناصر بشكل متساوٍ */
 }
 
 .card-title {
@@ -468,6 +514,7 @@ section, div, header, footer {
   color: var(--accent);
   font-weight: 700;
   font-size: 18px;
+  margin-top: auto; /* دفع السعر للأسفل إذا كان هناك مساحة */
 }
 
 .btn-buy {
@@ -476,9 +523,11 @@ section, div, header, footer {
   border: none;
   border-radius: 50px;
   padding: 8px 20px;
-  margin-top: 8px;
+  margin-top: 15px; /* زيادة الهامش العلوي للزر */
   cursor: pointer;
   transition: opacity 0.3s ease, transform 0.2s ease;
+  align-self: center; /* توسيط الزر داخل body */
+  max-width: fit-content; /* جعل الزر يتناسب مع حجم محتواه */
 }
 
 .btn-buy:hover {
@@ -550,6 +599,8 @@ section, div, header, footer {
   border: 1px solid #ddd;
   margin-bottom: 12px;
   transition: border-color 0.2s ease;
+  direction: rtl; /* التأكد من أن اتجاه الكتابة صحيح لحقول الإدخال */
+  text-align: right; /* محاذاة النص إلى اليمين */
 }
 
 .footer input[type="email"]:focus {
@@ -574,7 +625,7 @@ section, div, header, footer {
 .classify-btn {
   position: absolute;
   top: 14px;
-  left: 120px;
+  left: 120px; /* تم تعديل هذا ليكون على اليسار بما يتناسب مع RTL */
   right: auto;
   z-index: 120;
 }
@@ -583,6 +634,13 @@ section, div, header, footer {
 @media (max-width: 992px) {
   .product {
     flex: 0 0 calc(33.333% - 10.666px); /* تحسين حساب العرض */
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 38px;
+    height: 38px;
+    --swiper-navigation-size: 22px;
   }
 }
 
@@ -596,7 +654,8 @@ section, div, header, footer {
   }
 
   .classify-btn {
-    left: 8px;
+    left: 8px; /* تعديل الموضع ليتناسب مع الشاشات الصغيرة */
+    right: auto;
   }
 
   #cartPanel {
@@ -608,7 +667,7 @@ section, div, header, footer {
     left: 0;
   }
 
-  .container {
+  .container { /* إذا كان هناك حاوية عامة، فقد تحتاج إلى تعديل padding هنا */
     padding: 10px;
   }
 
@@ -649,12 +708,19 @@ section, div, header, footer {
     height: 36px;
   }
 
+  .search {
+    margin: 0 8px; /* تقليل الهوامش على الشاشات الصغيرة جدًا */
+  }
+
   .search input {
-    width: 120px; /* تقليل عرض البحث على الشاشات الصغيرة جدًا */
+    width: 100%; /* يجب أن يظل 100% داخل الحاوية */
+    max-width: 160px; /* إضافة حد أقصى للحجم */
   }
 
   .product {
     flex: 0 0 100%; /* منتج واحد لكل صف على أصغر الشاشات */
+    max-width: 300px; /* لتوسيط المنتج في الشاشات الضيقة جداً */
+    margin: 0 auto 16px auto; /* توسيط المنتج وإضافة هامش سفلي */
   }
 
   .shop-now-btn {
