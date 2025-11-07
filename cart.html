@@ -60,6 +60,27 @@
     }
     #cartPanel .cart-actions-area button,
     #cartPanel .cart-actions-area .flex {margin-bottom:0;}
+
+    /* Styling for input fields in cart (white background, dark text) */
+    #cartPanel .input, #cartPanel .select {
+      background-color: white; /* White background */
+      color: #333; /* Dark text for readability */
+      border-color: #ff9800; /* Orange border */
+    }
+    #cartPanel .input::placeholder, #cartPanel .select option {
+      color: #777; /* Lighter placeholder text */
+    }
+    
+    /* Styling for filter buttons in sidebar (white background, dark text when not active) */
+    .filter-btn {
+      background-color: white;
+      color: #333;
+      border-color: #ff9800;
+    }
+    .filter-btn:hover {
+      background-color: #ff9800;
+      color: white;
+    }
   </style>
 </head>
 
@@ -67,10 +88,10 @@
 
 <!-- Menu Button -->
 <button id="menuBtn" class="fixed top-4 right-4 z-60 text-white px-3 py-2 rounded-lg shadow-md">☰ القائمة</button>
-<div id="menuOverlay"></div>
+<div id="menuOverlay" class="fixed inset-0 bg-black opacity-0 z-50 pointer-events-none transition-opacity duration-300"></div>
 
 <!-- Sidebar menu (orange) -->
-<aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto">
+<aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto z-50">
   <div class="p-5">
     <h2 class="text-2xl font-bold mb-4 text-center">🛍️ منتجاتنا المميزة</h2>
     <nav class="space-y-3 text-lg">
@@ -174,15 +195,24 @@
 // Orange sidebar logic
 const menuBtn = document.getElementById('menuBtn');
 const sidebar = document.getElementById('sidebar');
-const menuOverlay = document.getElementById('menuOverlay');
+const menuOverlay = document.getElementById('menuOverlay'); // Added for the overlay
 const closeSidebar = document.getElementById('closeSidebar');
+
 function toggleSidebar(open) {
   sidebar.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
-  menuOverlay.style.display = open ? 'block' : 'none';
+  if (open) {
+    menuOverlay.classList.add('opacity-40');
+    menuOverlay.classList.remove('pointer-events-none');
+  } else {
+    menuOverlay.classList.remove('opacity-40');
+    menuOverlay.classList.add('pointer-events-none');
+  }
 }
+
 menuBtn.addEventListener('click', () => toggleSidebar(true));
 closeSidebar.addEventListener('click', () => toggleSidebar(false));
 menuOverlay.addEventListener('click', () => toggleSidebar(false));
+
 // --- Products data (10 products: 3 Avene, 3 Bioderma, 3 La Roche, 1 Arvia)
 const products = [
   // Avene
