@@ -170,13 +170,27 @@
     </div>
   </div>
 </div>
-  
-  <!-- أزرار وسوايق -->
+
+  <!-- أزرار التحكم -->
   <div class="swiper-button-next"></div>
   <div class="swiper-button-prev"></div>
   <div class="swiper-pagination"></div>
+</div>
 
-
+<!-- تهيئة Swiper -->
+<script>
+  var swiper = new Swiper(".mySwiper", {
+    loop: true,
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+  });
+</script>  
 
   <!-- زر تسوق -->
   <a href="store.html" class="shop-now-btn" id="shopNowBtn" data-tippy-content="اذهب إلى المتجر">تسوق الآن</a>
@@ -330,6 +344,7 @@
 <script src="script2.js" defer></script>
 </body>
 </html> 
+
 
 
 
