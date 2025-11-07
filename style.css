@@ -653,10 +653,9 @@ section, div, header, footer {
     width: 120px; /* تقليل عرض البحث على الشاشات الصغيرة جدًا */
   }
 
-  .product {
-    flex: 0 0 100%; /* منتج واحد لكل صف على أصغر الشاشات */
-  }
-
+.product {
+    flex: 0 0 50%; /* منتجان في كل صف */
+}
   .shop-now-btn {
     padding: 12px 28px;
     font-size: 14px;
