@@ -3,8 +3,8 @@
   --accent: #f39c12;
   --muted: #f6f6f7;
   --text: #222;
-  font-family: 'Tajawal', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  /* تحسين خطوط النظام وإضافة sans-serif كخيار احتياطي */
+  font-family: 'Tajawal', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  /* تحسين خطوط النظام */
 }
 
 /* إعادة تعيين أساسية لتحسين الأداء والمتانة */
@@ -17,7 +17,6 @@
 html {
   background: #fff;
   -webkit-font-smoothing: antialiased;
-  scroll-behavior: smooth; /* إضافة تمرير سلس */
 }
 
 body {
@@ -25,7 +24,7 @@ body {
   color: var(--text);
   overflow-x: hidden;
   direction: rtl;
-  /* font-family مدمج من root */
+  /* دمج font-family من root لتجنب التكرار هنا */
 }
 
 /* تحسين العناصر العامة */
@@ -38,19 +37,6 @@ img, video, iframe {
 section, div, header, footer {
   box-sizing: border-box;
   width: 100%;
-}
-
-a {
-  text-decoration: none; /* إزالة خط تحت الروابط بشكل افتراضي */
-  color: inherit; /* وراثة لون النص من العنصر الأب */
-}
-
-button, input[type="submit"], input[type="button"] {
-  cursor: pointer;
-  border: none;
-  background: none;
-  font: inherit;
-  color: inherit;
 }
 
 /* الجسيمات */
@@ -91,7 +77,6 @@ button, input[type="submit"], input[type="button"] {
   justify-content: center;
   cursor: pointer;
   transition: background 0.2s ease-in-out; /* تحسين الانتقال */
-  color: var(--text); /* إضافة لون افتراضي للأيقونات */
 }
 
 .icon-btn:hover {
@@ -99,18 +84,12 @@ button, input[type="submit"], input[type="button"] {
 }
 
 /* حقل البحث */
-.search {
-  flex-grow: 1; /* السماح لحقل البحث بأخذ مساحة إضافية */
-  margin: 0 16px; /* إضافة هوامش لتباعد أفضل */
-}
-
 .search input {
   border: 1px solid #eee;
   background: var(--muted);
   padding: 8px 10px;
   border-radius: 12px;
   transition: border-color 0.2s ease-in-out;
-  width: 100%; /* جعل حقل البحث يمتد لـ 100% من المساحة المتاحة */
 }
 
 .search input:focus {
@@ -230,6 +209,7 @@ button, input[type="submit"], input[type="button"] {
   height: 85vh;
   position: relative;
   z-index: 1;
+  overflow: hidden; /* لمنع ظهور أي scrollbars غير مرغوبة */
 }
 
 .swiper-slide {
@@ -244,6 +224,7 @@ button, input[type="submit"], input[type="button"] {
   object-position: center;
   transform: scale(1.1);
   transition: transform 3s ease;
+  will-change: transform; /* تحسين الأداء */
 }
 
 .swiper-slide-active img {
@@ -260,26 +241,15 @@ button, input[type="submit"], input[type="button"] {
   --swiper-navigation-size: 26px;
   background: rgba(0, 0, 0, 0.35);
   border-radius: 50%;
-  width: 44px;
-  height: 44px;
+  width: 50px; /* زيادة الحجم قليلاً لاستيعاب الترقيم */
+  height: 50px; /* زيادة الحجم قليلاً لاستيعاب الترقيم */
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background 0.2s ease-in-out; /* تحسين */
-  position: absolute; /* تأكد من تحديد الموضع */
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-}
-
-.swiper-button-next {
-  left: 10px; /* تعديل الموضع ليتوافق مع الاتجاه RTL */
-  right: auto;
-}
-
-.swiper-button-prev {
-  right: 10px; /* تعديل الموضع ليتوافق مع الاتجاه RTL */
-  left: auto;
+  position: absolute; /* للتأكد من أنها لا تؤثر على تدفق المحتوى */
+  z-index: 10; /* فوق السلايدر */
+  will-change: background, transform; /* تحسين الأداء */
 }
 
 .swiper-button-next:hover,
@@ -287,9 +257,48 @@ button, input[type="submit"], input[type="button"] {
   background: rgba(0, 0, 0, 0.5); /* تأثير تحويم بسيط */
 }
 
+/* تعديل موقع أزرار التنقل */
+.swiper-button-next {
+  right: 20px; /* ضبط الموضع */
+}
+
+.swiper-button-prev {
+  left: 20px; /* ضبط الموضع */
+}
+
+/* دمج الترقيم مع أزرار التنقل */
+.swiper-pagination {
+  position: absolute;
+  bottom: 10px; /* تحديد الموضع الافتراضي */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px; /* المسافة بين الدوائر */
+  z-index: 11; /* فوق الأزرار */
+  width: auto; /* لجعل العرض ديناميكيًا حسب عدد الدوائر */
+  pointer-events: none; /* لتجنب تداخل النقرات مع الأزرار */
+}
+
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  opacity: 1; /* لجعلها مرئية دائمًا */
+  transition: all 0.2s ease-in-out;
+  border-radius: 50%;
+  will-change: background, transform;
+}
+
 .swiper-pagination-bullet-active {
   background: var(--accent);
+  transform: scale(1.2); /* تأثير بسيط عند التفعيل */
 }
+
+/* ملاحظة: لكي تظهر الدوائر داخل الأزرار، سيتطلب ذلك تعديل HTML لإدخال pagination bullets داخل عناصر .swiper-button-next و .swiper-button-prev. */
+/* إذا كان التعديل على HTML غير ممكن، فإن هذا التنسيق سيجعلها قريبة ومترابطة بصريًا. */
+/* لتطبيق الدمج فعليًا، ستحتاج إلى جعل `swiper-pagination` جزءًا من `swiper-button-next` و `swiper-button-prev` في HTML/JS. */
+/* إذا لم يتم تعديل HTML/JS، فهذا الكود سيجعلها تطفو فوق الأزرار أو بجانبها حسب الموضع. */
+
 
 /* زر "تسوق الآن" */
 .shop-now-btn {
@@ -306,7 +315,7 @@ button, input[type="submit"], input[type="button"] {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
   z-index: 20;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  white-space: nowrap; /* منع التفاف النص داخل الزر */
+  will-change: transform, box-shadow; /* تحسين الأداء */
 }
 
 .shop-now-btn:hover {
@@ -330,34 +339,22 @@ button, input[type="submit"], input[type="button"] {
   font-weight: 700;
 }
 
-/* معرض المنتجات (Gallery) */
+/* معرض المنتجات (Gallery) - تم التعديل ليصبح Grid */
 .gallery {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* قاعدة لضبط تلقائي */
   gap: 16px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
   padding-bottom: 10px;
-  -webkit-overflow-scrolling: touch; /* تحسين التمرير على iOS */
-}
-
-.gallery::-webkit-scrollbar {
-  height: 8px;
-}
-
-.gallery::-webkit-scrollbar-thumb {
-  background: #ddd;
-  border-radius: 8px;
 }
 
 /* المنتج الفردي */
 .product {
-  flex: 0 0 calc(25% - 12px);
   position: relative;
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* تحسين الانتقال */
-  min-width: 200px; /* ضمان حد أدنى لعرض المنتج في المعرض */
+  will-change: transform, box-shadow; /* تحسين الأداء */
 }
 
 .product:hover {
@@ -367,10 +364,10 @@ button, input[type="submit"], input[type="button"] {
 
 .product img {
   width: 100%;
-  height: 100%; /* يجب أن يكون له ارتفاع محدد أو يمتد داخل حاوية ذات ارتفاع */
-  min-height: 180px; /* ضمان حد أدنى لارتفاع الصورة */
+  height: 200px; /* ارتفاع ثابت لتوحيد مظهر المنتجات */
   object-fit: cover;
   transition: transform 0.6s ease;
+  will-change: transform; /* تحسين الأداء */
 }
 
 .product:hover img {
@@ -391,6 +388,7 @@ button, input[type="submit"], input[type="button"] {
   font-size: 14px;
   white-space: nowrap; /* يمنع التفاف النص */
   transition: opacity 0.3s ease, transform 0.3s ease;
+  will-change: opacity, transform; /* تحسين الأداء */
 }
 
 .product a:hover {
@@ -398,7 +396,7 @@ button, input[type="submit"], input[type="button"] {
   transform: translateX(-50%) scale(1.05);
 }
 
-/* أزرار التنقل (Gallery Nav) */
+/* أزرار التنقل (Gallery Nav) - قد لا تكون ضرورية مع Grid ولكن تم الاحتفاظ بها */
 .nav-btn {
   position: absolute;
   top: 50%;
@@ -416,12 +414,10 @@ button, input[type="submit"], input[type="button"] {
 
 .nav-btn.left {
   left: 8px;
-  right: auto; /* التأكد من أن الاتجاه صحيح لـ RTL */
 }
 
 .nav-btn.right {
   right: 8px;
-  left: auto; /* التأكد من أن الاتجاه صحيح لـ RTL */
 }
 
 .nav-btn:hover {
@@ -450,6 +446,7 @@ button, input[type="submit"], input[type="button"] {
   position: relative;
   overflow: visible;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, box-shadow; /* تحسين الأداء */
 }
 
 .card.featured-product::before {
@@ -476,8 +473,7 @@ button, input[type="submit"], input[type="button"] {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex; /* لتحسين مرونة المحتوى داخل البطاقة */
-  flex-direction: column;
+  will-change: transform, box-shadow; /* تحسين الأداء */
 }
 
 .card:hover {
@@ -490,6 +486,7 @@ button, input[type="submit"], input[type="button"] {
   height: 240px;
   object-fit: cover;
   transition: transform 0.6s ease;
+  will-change: transform; /* تحسين الأداء */
 }
 
 .card:hover img {
@@ -499,10 +496,6 @@ button, input[type="submit"], input[type="button"] {
 .card-body {
   text-align: center;
   padding: 15px; /* إضافة بعض المسافة */
-  flex-grow: 1; /* السماح لمحتوى الجسم بالتمدد */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* توزيع العناصر بشكل متساوٍ */
 }
 
 .card-title {
@@ -514,7 +507,6 @@ button, input[type="submit"], input[type="button"] {
   color: var(--accent);
   font-weight: 700;
   font-size: 18px;
-  margin-top: auto; /* دفع السعر للأسفل إذا كان هناك مساحة */
 }
 
 .btn-buy {
@@ -523,11 +515,10 @@ button, input[type="submit"], input[type="button"] {
   border: none;
   border-radius: 50px;
   padding: 8px 20px;
-  margin-top: 15px; /* زيادة الهامش العلوي للزر */
+  margin-top: 8px;
   cursor: pointer;
   transition: opacity 0.3s ease, transform 0.2s ease;
-  align-self: center; /* توسيط الزر داخل body */
-  max-width: fit-content; /* جعل الزر يتناسب مع حجم محتواه */
+  will-change: opacity, transform; /* تحسين الأداء */
 }
 
 .btn-buy:hover {
@@ -599,8 +590,6 @@ button, input[type="submit"], input[type="button"] {
   border: 1px solid #ddd;
   margin-bottom: 12px;
   transition: border-color 0.2s ease;
-  direction: rtl; /* التأكد من أن اتجاه الكتابة صحيح لحقول الإدخال */
-  text-align: right; /* محاذاة النص إلى اليمين */
 }
 
 .footer input[type="email"]:focus {
@@ -625,28 +614,30 @@ button, input[type="submit"], input[type="button"] {
 .classify-btn {
   position: absolute;
   top: 14px;
-  left: 120px; /* تم تعديل هذا ليكون على اليسار بما يتناسب مع RTL */
+  left: 120px;
   right: auto;
   z-index: 120;
 }
 
 /* الاستجابة لتغير حجم الشاشة (Media Queries) */
-@media (max-width: 992px) {
-  .product {
-    flex: 0 0 calc(33.333% - 10.666px); /* تحسين حساب العرض */
+@media (min-width: 993px) {
+  .gallery {
+    grid-template-columns: repeat(5, 1fr); /* 5 منتجات في الصف على الشاشات الكبيرة */
   }
+  .product {
+    height: 300px; /* ارتفاع أكبر للمنتجات على الشاشات الكبيرة */
+  }
+}
 
-  .swiper-button-next,
-  .swiper-button-prev {
-    width: 38px;
-    height: 38px;
-    --swiper-navigation-size: 22px;
+@media (max-width: 992px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr); /* 3 منتجات في الصف على الشاشات المتوسطة */
   }
 }
 
 @media (max-width: 768px) {
-  .product {
-    flex: 0 0 calc(50% - 8px); /* تقليل الفجوة قليلاً */
+  .gallery {
+    grid-template-columns: repeat(2, 1fr); /* 2 منتجات في الصف على التابلت */
   }
 
   .swiper {
@@ -654,8 +645,7 @@ button, input[type="submit"], input[type="button"] {
   }
 
   .classify-btn {
-    left: 8px; /* تعديل الموضع ليتناسب مع الشاشات الصغيرة */
-    right: auto;
+    left: 8px;
   }
 
   #cartPanel {
@@ -667,7 +657,7 @@ button, input[type="submit"], input[type="button"] {
     left: 0;
   }
 
-  .container { /* إذا كان هناك حاوية عامة، فقد تحتاج إلى تعديل padding هنا */
+  .container {
     padding: 10px;
   }
 
@@ -708,19 +698,16 @@ button, input[type="submit"], input[type="button"] {
     height: 36px;
   }
 
-  .search {
-    margin: 0 8px; /* تقليل الهوامش على الشاشات الصغيرة جدًا */
-  }
-
   .search input {
-    width: 100%; /* يجب أن يظل 100% داخل الحاوية */
-    max-width: 160px; /* إضافة حد أقصى للحجم */
+    width: 120px; /* تقليل عرض البحث على الشاشات الصغيرة جدًا */
   }
 
-  .product {
-    flex: 0 0 100%; /* منتج واحد لكل صف على أصغر الشاشات */
-    max-width: 300px; /* لتوسيط المنتج في الشاشات الضيقة جداً */
-    margin: 0 auto 16px auto; /* توسيط المنتج وإضافة هامش سفلي */
+  .gallery {
+    grid-template-columns: repeat(2, 1fr); /* 2 منتجات في الصف على الهاتف */
+  }
+
+  .product img {
+    height: 160px; /* ارتفاع أقل للمنتجات على الهواتف */
   }
 
   .shop-now-btn {
