@@ -209,7 +209,6 @@ section, div, header, footer {
   height: 85vh;
   position: relative;
   z-index: 1;
-  overflow: hidden; /* لمنع ظهور أي scrollbars غير مرغوبة */
 }
 
 .swiper-slide {
@@ -224,7 +223,6 @@ section, div, header, footer {
   object-position: center;
   transform: scale(1.1);
   transition: transform 3s ease;
-  will-change: transform; /* تحسين الأداء */
 }
 
 .swiper-slide-active img {
@@ -241,15 +239,12 @@ section, div, header, footer {
   --swiper-navigation-size: 26px;
   background: rgba(0, 0, 0, 0.35);
   border-radius: 50%;
-  width: 50px; /* زيادة الحجم قليلاً لاستيعاب الترقيم */
-  height: 50px; /* زيادة الحجم قليلاً لاستيعاب الترقيم */
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background 0.2s ease-in-out; /* تحسين */
-  position: absolute; /* للتأكد من أنها لا تؤثر على تدفق المحتوى */
-  z-index: 10; /* فوق السلايدر */
-  will-change: background, transform; /* تحسين الأداء */
 }
 
 .swiper-button-next:hover,
@@ -257,48 +252,9 @@ section, div, header, footer {
   background: rgba(0, 0, 0, 0.5); /* تأثير تحويم بسيط */
 }
 
-/* تعديل موقع أزرار التنقل */
-.swiper-button-next {
-  right: 20px; /* ضبط الموضع */
-}
-
-.swiper-button-prev {
-  left: 20px; /* ضبط الموضع */
-}
-
-/* دمج الترقيم مع أزرار التنقل */
-.swiper-pagination {
-  position: absolute;
-  bottom: 10px; /* تحديد الموضع الافتراضي */
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 8px; /* المسافة بين الدوائر */
-  z-index: 11; /* فوق الأزرار */
-  width: auto; /* لجعل العرض ديناميكيًا حسب عدد الدوائر */
-  pointer-events: none; /* لتجنب تداخل النقرات مع الأزرار */
-}
-
-.swiper-pagination-bullet {
-  width: 8px;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.7);
-  opacity: 1; /* لجعلها مرئية دائمًا */
-  transition: all 0.2s ease-in-out;
-  border-radius: 50%;
-  will-change: background, transform;
-}
-
 .swiper-pagination-bullet-active {
   background: var(--accent);
-  transform: scale(1.2); /* تأثير بسيط عند التفعيل */
 }
-
-/* ملاحظة: لكي تظهر الدوائر داخل الأزرار، سيتطلب ذلك تعديل HTML لإدخال pagination bullets داخل عناصر .swiper-button-next و .swiper-button-prev. */
-/* إذا كان التعديل على HTML غير ممكن، فإن هذا التنسيق سيجعلها قريبة ومترابطة بصريًا. */
-/* لتطبيق الدمج فعليًا، ستحتاج إلى جعل `swiper-pagination` جزءًا من `swiper-button-next` و `swiper-button-prev` في HTML/JS. */
-/* إذا لم يتم تعديل HTML/JS، فهذا الكود سيجعلها تطفو فوق الأزرار أو بجانبها حسب الموضع. */
-
 
 /* زر "تسوق الآن" */
 .shop-now-btn {
@@ -315,7 +271,6 @@ section, div, header, footer {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
   z-index: 20;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  will-change: transform, box-shadow; /* تحسين الأداء */
 }
 
 .shop-now-btn:hover {
@@ -339,22 +294,33 @@ section, div, header, footer {
   font-weight: 700;
 }
 
-/* معرض المنتجات (Gallery) - تم التعديل ليصبح Grid */
+/* معرض المنتجات (Gallery) */
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* قاعدة لضبط تلقائي */
+  display: flex;
   gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
   padding-bottom: 10px;
+  -webkit-overflow-scrolling: touch; /* تحسين التمرير على iOS */
+}
+
+.gallery::-webkit-scrollbar {
+  height: 8px;
+}
+
+.gallery::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 8px;
 }
 
 /* المنتج الفردي */
 .product {
+  flex: 0 0 calc(25% - 12px);
   position: relative;
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* تحسين الانتقال */
-  will-change: transform, box-shadow; /* تحسين الأداء */
 }
 
 .product:hover {
@@ -364,10 +330,9 @@ section, div, header, footer {
 
 .product img {
   width: 100%;
-  height: 200px; /* ارتفاع ثابت لتوحيد مظهر المنتجات */
+  height: 100%;
   object-fit: cover;
   transition: transform 0.6s ease;
-  will-change: transform; /* تحسين الأداء */
 }
 
 .product:hover img {
@@ -388,7 +353,6 @@ section, div, header, footer {
   font-size: 14px;
   white-space: nowrap; /* يمنع التفاف النص */
   transition: opacity 0.3s ease, transform 0.3s ease;
-  will-change: opacity, transform; /* تحسين الأداء */
 }
 
 .product a:hover {
@@ -396,7 +360,7 @@ section, div, header, footer {
   transform: translateX(-50%) scale(1.05);
 }
 
-/* أزرار التنقل (Gallery Nav) - قد لا تكون ضرورية مع Grid ولكن تم الاحتفاظ بها */
+/* أزرار التنقل (Gallery Nav) */
 .nav-btn {
   position: absolute;
   top: 50%;
@@ -446,7 +410,6 @@ section, div, header, footer {
   position: relative;
   overflow: visible;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  will-change: transform, box-shadow; /* تحسين الأداء */
 }
 
 .card.featured-product::before {
@@ -473,7 +436,6 @@ section, div, header, footer {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  will-change: transform, box-shadow; /* تحسين الأداء */
 }
 
 .card:hover {
@@ -486,7 +448,6 @@ section, div, header, footer {
   height: 240px;
   object-fit: cover;
   transition: transform 0.6s ease;
-  will-change: transform; /* تحسين الأداء */
 }
 
 .card:hover img {
@@ -518,7 +479,6 @@ section, div, header, footer {
   margin-top: 8px;
   cursor: pointer;
   transition: opacity 0.3s ease, transform 0.2s ease;
-  will-change: opacity, transform; /* تحسين الأداء */
 }
 
 .btn-buy:hover {
@@ -620,24 +580,15 @@ section, div, header, footer {
 }
 
 /* الاستجابة لتغير حجم الشاشة (Media Queries) */
-@media (min-width: 993px) {
-  .gallery {
-    grid-template-columns: repeat(5, 1fr); /* 5 منتجات في الصف على الشاشات الكبيرة */
-  }
-  .product {
-    height: 300px; /* ارتفاع أكبر للمنتجات على الشاشات الكبيرة */
-  }
-}
-
 @media (max-width: 992px) {
-  .gallery {
-    grid-template-columns: repeat(3, 1fr); /* 3 منتجات في الصف على الشاشات المتوسطة */
+  .product {
+    flex: 0 0 calc(33.333% - 10.666px); /* تحسين حساب العرض */
   }
 }
 
 @media (max-width: 768px) {
-  .gallery {
-    grid-template-columns: repeat(2, 1fr); /* 2 منتجات في الصف على التابلت */
+  .product {
+    flex: 0 0 calc(50% - 8px); /* تقليل الفجوة قليلاً */
   }
 
   .swiper {
@@ -702,12 +653,8 @@ section, div, header, footer {
     width: 120px; /* تقليل عرض البحث على الشاشات الصغيرة جدًا */
   }
 
-  .gallery {
-    grid-template-columns: repeat(2, 1fr); /* 2 منتجات في الصف على الهاتف */
-  }
-
-  .product img {
-    height: 160px; /* ارتفاع أقل للمنتجات على الهواتف */
+  .product {
+    flex: 0 0 100%; /* منتج واحد لكل صف على أصغر الشاشات */
   }
 
   .shop-now-btn {
