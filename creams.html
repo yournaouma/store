@@ -38,236 +38,225 @@
   <link rel="apple-touch-icon" sizes="512x512" href="images/logo.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
 
-  <!-- خطوط Google -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <!-- خطوط Google (أكثر كفاءة) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- تحسين مظهر بيانات الدفع داخل السلة -->
-  <style>
-/* Adjust cart panel inputs and buttons to orange theme */
-#cartPanel input,
-#cartPanel select {
-  background-color: #fff !important;
-  border: 1.5px solid #ffcc99 !important; /* Light orange border */
-  color: #333 !important;
-  font-size: 0.8rem; /* Further reduced font size */
-  padding: 0.4rem 0.6rem; /* Further reduced padding */
-  transition: all 0.25s ease;
-  margin-bottom: 0.3rem; /* Reduced margin between inputs */
-  line-height: 1.2; /* Adjust line height for smaller inputs */
-  min-height: 2.2rem; /* Ensure a minimum height for usability */
-}
-#cartPanel input:focus,
-#cartPanel select:focus {
-  border-color: #ff9933 !important; /* Darker orange on focus */
-  box-shadow: 0 0 0 3px rgba(255, 204, 153, 0.25); /* Light orange shadow */
-  outline: none;
-}
-#cartPanel .btn-primary {
-  background: linear-gradient(90deg, #ff9933, #ffcc66); /* Orange gradient for primary buttons */
-  border: none;
-  color: white;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  box-shadow: 0 2px 8px rgba(255, 153, 51, 0.3); /* Orange shadow */
-  transition: transform 0.2s ease;
-  flex-shrink: 0; /* Ensures the button doesn't shrink */
-  padding-top: 0.5rem; /* Adjust padding for button height */
-  padding-bottom: 0.5rem;
-  font-size: 0.9rem; /* Slightly smaller font for the button */
-  min-height: 2.5rem; /* Ensure minimum height for the button */
-}
-#cartPanel .btn-primary:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(90deg, #ffac5c, #ffd98c); /* Lighter orange gradient on hover */
-}
-#cartPanel label {
-  color: #555;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-/* CART DRAWER - General adjustments for smaller size */
-.cart-drawer {
-  max-width: 380px; /* Reduced max-width for both desktop and larger phones */
-}
-
-/* Ensure cart items area scrolls properly and uses available space */
-#cartItems {
-  flex-grow: 1; /* Allow this section to grow and take available space */
-  overflow-y: auto; /* Enable vertical scrolling */
-  max-height: calc(100vh - 300px); /* Adjusted for client details section */
-  padding-top: 0.5rem; /* Adjust padding for cart items list */
-  padding-bottom: 0.5rem;
-  font-size: 0.85rem; /* Smaller font for cart items */
-}
-
-/* Client details section - to make it more compact */
-#cartPanel .client-details-section {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  border-top: 1px solid #eee; /* Subtle separator */
-  margin-top: 1rem;
-}
-
-/* Adjust spacing for mobile for cart panel */
-@media (max-width: 640px) { /* Tailwind's 'sm' breakpoint and smaller */
-  .cart-drawer {
-    width: 95%; /* Make it take most of the screen width on very small devices */
-    max-width: 320px; /* Even smaller max-width for truly small screens */
-  }
-  #cartPanel .h-full.flex.flex-col.p-4 {
-    padding: 0.5rem; /* Even smaller padding for the cart panel content */
-  }
-  #cartPanel .flex.items-center.justify-between.mb-2 {
-    margin-bottom: 0.5rem; /* Reduce header margin */
-  }
-  #cartPanel .mt-3.flex.flex-col {
-    margin-top: 0.5rem; /* Reduce margin above total/checkout section */
-  }
-  #cartPanel input,
-  #cartPanel select {
-    font-size: 0.75rem; /* Even smaller font size on very small screens */
-    padding: 0.3rem 0.5rem; /* Even smaller padding on very small screens */
-    margin-bottom: 0.3rem; /* Reduced margin between inputs */
-    min-height: 2rem; /* Reduce minimum height */
-  }
-  #cartPanel .btn-primary {
-    padding-top: 0.4rem;
-    padding-bottom: 0.4rem;
-    font-size: 0.85rem; /* Slightly smaller font for the button */
-    min-height: 2.2rem; /* Reduce minimum height for the button */
-    margin-top: 0.5rem; /* Reduce margin top for button */
-  }
-  #cartItems {
-    padding-top: 0.3rem; /* Adjust padding for cart items list */
-    padding-bottom: 0.3rem;
-    font-size: 0.8rem; /* Smaller font for cart items */
-    max-height: calc(100vh - 280px); /* Adjust max-height for mobile */
-  }
-  #cartItems .p-2 { /* Adjust padding for individual cart items */
-    padding: 0.4rem;
-  }
-  #cartItems .text-xs { /* Even smaller font for item details */
-    font-size: 0.65rem;
-  }
-  /* Smaller buttons for quantity and delete */
-  #cartItems .btn-xs {
-    padding: 0.1rem 0.3rem; /* Smaller padding */
-    min-height: 1.5rem; /* Smaller min-height */
-    font-size: 0.7rem; /* Smaller font size */
-  }
-  #cartPanel .btn-ghost { /* Close and clear buttons */
-    font-size: 0.75rem;
-    padding: 0.2rem 0.4rem;
-    min-height: 1.8rem;
-  }
-}
-  </style>
-
-  <!-- Tailwind + DaisyUI + Flowbite + Animate -->
+  <!-- Tailwind CSS & DaisyUI -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" />
-  <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
+  <!-- SweetAlert2 (deferred) -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 
-  <link rel="icon" href="https://i.postimg.cc/8P1hn9yf/415f407a-fda6-4a12-8144-d6fce130e5e2.png" type="image/png" />
-
+  <!-- Custom Styles for Orange Theme and Cart/Sidebar -->
   <style>
-/* Overall body and header background to orange tones */
-body { font-family: "Noto Sans Arabic", system-ui; background: linear-gradient(180deg, #fff 0%, #fff8e1 100%); } /* Very light orange background */
-header { background: linear-gradient(90deg, #fff 0%, rgba(255, 230, 204, 0.6) 100%); } /* Light orange header background */
+    /* Overall body and header background to orange tones */
+    body { font-family: "Noto Sans Arabic", system-ui; background: linear-gradient(180deg, #fff 0%, #fff8e1 100%); } /* Very light orange background */
+    header { background: linear-gradient(90deg, #fff 0%, rgba(255, 230, 204, 0.6) 100%); } /* Light orange header background */
 
-.product-card:hover { transform: translateY(-6px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
-.pill { background: linear-gradient(90deg, #ffeedd, #fffbf2); border-radius: 999px; padding: .25rem .6rem; font-size: .8rem; } /* Light orange pill */
+    .product-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+    .pill { background: linear-gradient(90deg, #ffeedd, #fffbf2); border-radius: 999px; padding: .25rem .6rem; font-size: .8rem; } /* Light orange pill */
 
-/* CART Overlay and Drawer */
-.cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.35); backdrop-filter:blur(3px); opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:40; }
-.cart-overlay.open { opacity:1; pointer-events:auto; }
-.cart-drawer { position:fixed; top:0; right:0; height:100vh; width:100%; max-width:380px; /* Adjusted max-width here */ transform:translateX(110%); transition:transform .32s cubic-bezier(.2,.9,.2,1); z-index:50; }
-.cart-drawer.open { transform:translateX(0); }
+    /* CART Overlay and Drawer */
+    .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.35); backdrop-filter:blur(3px); opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:40; }
+    .cart-overlay.open { opacity:1; pointer-events:auto; }
+    .cart-drawer { position:fixed; top:0; right:0; height:100vh; width:100%; max-width:380px; transform:translateX(110%); transition:transform .32s cubic-bezier(.2,.9,.2,1); z-index:50; }
+    .cart-drawer.open { transform:translateX(0); }
 
-/* SIDEBAR */
-#sidebar { z-index:60; }
-#menuOverlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:50; display:none; }
+    /* SIDEBAR */
+    #sidebar { z-index:60; }
+    #menuOverlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:50; display:none; }
 
-/* Styling for filter buttons in sidebar */
-.filter-btn {
-  background-color: white;
-  color: #333;
-  border-color: #ffcc99; /* Light orange border */
-}
-.filter-btn:hover {
-  background-color: #ff9933; /* Orange hover background */
-  color: white;
-}
-/* Active filter button style */
-.filter-btn.active {
-  background-color: #ff9933; /* Solid orange when active */
-  color: white;
-  font-weight: 600;
-}
+    /* Styling for filter buttons in sidebar */
+    .filter-btn {
+      background-color: white;
+      color: #333;
+      border-color: #ffcc99; /* Light orange border */
+    }
+    .filter-btn:hover {
+      background-color: #ff9933; /* Orange hover background */
+      color: white;
+    }
+    /* Active filter button style */
+    .filter-btn.active {
+      background-color: #ff9933; /* Solid orange when active */
+      color: white;
+      font-weight: 600;
+    }
 
-/* Custom styles for orange theme */
-/* General utility classes changed to orange */
-.bg-orange-500 { background-color: #ff9933 !important; } /* Primary orange for backgrounds */
-.hover\:bg-orange-600:hover { background-color: #e68a2e !important; } /* Darker orange on hover */
-.text-orange-600 { color: #e68a2e !important; } /* Darker orange for text */
-.hover\:bg-orange-100:hover { background-color: #ffe0b3 !important; } /* Light orange for hover effects in lists */
-.focus\:ring-orange-200:focus { --tw-ring-color: #ffcc99 !important; } /* Light orange for focus rings */
+    /* Custom styles for orange theme */
+    /* General utility classes changed to orange */
+    .bg-orange-500 { background-color: #ff9933 !important; } /* Primary orange for backgrounds */
+    .hover\:bg-orange-600:hover { background-color: #e68a2e !important; } /* Darker orange on hover */
+    .text-orange-600 { color: #e68a2e !important; } /* Darker orange for text */
+    .hover\:bg-orange-100:hover { background-color: #ffe0b3 !important; } /* Light orange for hover effects in lists */
+    .focus\:ring-orange-200:focus { --tw-ring-color: #ffcc99 !important; } /* Light orange for focus rings */
 
-/* Product buttons */
-.btn-primary { /* Primary buttons (e.g., "أضف للسلة", "الدفع عبر واتساب") */
-  background: linear-gradient(90deg, #ff9933, #ffcc66) !important;
-  border: none !important;
-  color: white !important;
-  font-weight: 600 !important;
-  box-shadow: 0 2px 8px rgba(255, 153, 51, 0.3) !important;
-  transition: transform 0.2s ease !important;
-}
-.btn-primary:hover {
-  transform: translateY(-2px) !important;
-  background: linear-gradient(90deg, #ffac5c, #ffd98c) !important;
-}
-.btn-outline { /* Outline buttons (e.g., "عرض") */
-  border: 1px solid #ff9933 !important; /* Orange border */
-  color: #ff9933 !important; /* Orange text */
-  background-color: transparent !important;
-}
-.btn-outline:hover {
-  background-color: #ff9933 !important; /* Orange background on hover */
-  color: white !important;
-}
-/* For cart item quantity buttons (btn-xs, btn-error) */
-.btn-xs { /* Small buttons, e.g., quantity +/- */
-  border: 1px solid #ffcc99 !important; /* Light orange border */
-  color: #ff9933 !important; /* Orange text */
-  background-color: white !important;
-}
-.btn-xs:hover {
-  background-color: #ff9933 !important;
-  color: white !important;
-}
-.btn-error { /* Error button, e.g., "حذف" */
-  background-color: #f44336 !important; /* Red for error/delete, or could be a dark orange */
-  color: white !important;
-  border: none !important;
-}
-.btn-error:hover {
-  background-color: #d32f2f !important;
-}
-/* If you want btn-error to also be orange, uncomment and replace with these: */
-/*
-.btn-error {
-  background-color: #ff5722 !important;
-  color: white !important;
-  border: none !important;
-}
-.btn-error:hover {
-  background-color: #e64a19 !important;
-}
-*/
+    /* Product buttons */
+    .btn-primary { /* Primary buttons (e.g., "أضف للسلة", "الدفع عبر واتساب") */
+      background: linear-gradient(90deg, #ff9933, #ffcc66) !important;
+      border: none !important;
+      color: white !important;
+      font-weight: 600 !important;
+      box-shadow: 0 2px 8px rgba(255, 153, 51, 0.3) !important;
+      transition: transform 0.2s ease !important;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px) !important;
+      background: linear-gradient(90deg, #ffac5c, #ffd98c) !important;
+    }
+    .btn-outline { /* Outline buttons (e.g., "عرض") */
+      border: 1px solid #ff9933 !important; /* Orange border */
+      color: #ff9933 !important; /* Orange text */
+      background-color: transparent !important;
+    }
+    .btn-outline:hover {
+      background-color: #ff9933 !important; /* Orange background on hover */
+      color: white !important;
+    }
+    /* For cart item quantity buttons (btn-xs, btn-error) */
+    .btn-xs { /* Small buttons, e.g., quantity +/- */
+      border: 1px solid #ffcc99 !important; /* Light orange border */
+      color: #ff9933 !important; /* Orange text */
+      background-color: white !important;
+    }
+    .btn-xs:hover {
+      background-color: #ff9933 !important;
+      color: white !important;
+    }
+    .btn-error { /* Error button, e.g., "حذف" */
+      background-color: #f44336 !important; /* Red for error/delete */
+      color: white !important;
+      border: none !important;
+    }
+    .btn-error:hover {
+      background-color: #d32f2f !important;
+    }
+
+    /* Adjust cart panel inputs and buttons to orange theme */
+    #cartPanel input,
+    #cartPanel select {
+      background-color: #fff !important;
+      border: 1.5px solid #ffcc99 !important; /* Light orange border */
+      color: #333 !important;
+      font-size: 0.8rem; /* Further reduced font size */
+      padding: 0.4rem 0.6rem; /* Further reduced padding */
+      transition: all 0.25s ease;
+      margin-bottom: 0.3rem; /* Reduced margin between inputs */
+      line-height: 1.2; /* Adjust line height for smaller inputs */
+      min-height: 2.2rem; /* Ensure a minimum height for usability */
+    }
+    #cartPanel input:focus,
+    #cartPanel select:focus {
+      border-color: #ff9933 !important; /* Darker orange on focus */
+      box-shadow: 0 0 0 3px rgba(255, 204, 153, 0.25); /* Light orange shadow */
+      outline: none;
+    }
+    #cartPanel .btn-primary {
+      background: linear-gradient(90deg, #ff9933, #ffcc66); /* Orange gradient for primary buttons */
+      border: none;
+      color: white;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(255, 153, 51, 0.3); /* Orange shadow */
+      transition: transform 0.2s ease;
+      flex-shrink: 0; /* Ensures the button doesn't shrink */
+      padding-top: 0.5rem; /* Adjust padding for button height */
+      padding-bottom: 0.5rem;
+      font-size: 0.9rem; /* Slightly smaller font for the button */
+      min-height: 2.5rem; /* Ensure minimum height for the button */
+    }
+    #cartPanel .btn-primary:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(90deg, #ffac5c, #ffd98c); /* Lighter orange gradient on hover */
+    }
+    #cartPanel label {
+      color: #555;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* CART DRAWER - General adjustments for smaller size */
+    .cart-drawer {
+      max-width: 380px; /* Reduced max-width for both desktop and larger phones */
+    }
+
+    /* Ensure cart items area scrolls properly and uses available space */
+    #cartItems {
+      flex-grow: 1; /* Allow this section to grow and take available space */
+      overflow-y: auto; /* Enable vertical scrolling */
+      max-height: calc(100vh - 300px); /* Adjusted for client details section */
+      padding-top: 0.5rem; /* Adjust padding for cart items list */
+      padding-bottom: 0.5rem;
+      font-size: 0.85rem; /* Smaller font for cart items */
+    }
+
+    /* Client details section - to make it more compact */
+    #cartPanel .client-details-section {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-top: 1px solid #eee; /* Subtle separator */
+      margin-top: 1rem;
+    }
+
+    /* Adjust spacing for mobile for cart panel */
+    @media (max-width: 640px) { /* Tailwind's 'sm' breakpoint and smaller */
+      .cart-drawer {
+        width: 95%; /* Make it take most of the screen width on very small devices */
+        max-width: 320px; /* Even smaller max-width for truly small screens */
+      }
+      #cartPanel .h-full.flex.flex-col.p-4 {
+        padding: 0.5rem; /* Even smaller padding for the cart panel content */
+      }
+      #cartPanel .flex.items-center.justify-between.mb-2 {
+        margin-bottom: 0.5rem; /* Reduce header margin */
+      }
+      #cartPanel .mt-3.flex.flex-col {
+        margin-top: 0.5rem; /* Reduce margin above total/checkout section */
+      }
+      #cartPanel input,
+      #cartPanel select {
+        font-size: 0.75rem; /* Even smaller font size on very small screens */
+        padding: 0.3rem 0.5rem; /* Even smaller padding on very small screens */
+        margin-bottom: 0.3rem; /* Reduced margin between inputs */
+        min-height: 2rem; /* Reduce minimum height */
+      }
+      #cartPanel .btn-primary {
+        padding-top: 0.4rem;
+        padding-bottom: 0.4rem;
+        font-size: 0.85rem; /* Slightly smaller font for the button */
+        min-height: 2.2rem; /* Reduce minimum height for the button */
+        margin-top: 0.5rem; /* Reduce margin top for button */
+      }
+      #cartItems {
+        padding-top: 0.3rem; /* Adjust padding for cart items list */
+        padding-bottom: 0.3rem;
+        font-size: 0.8rem; /* Smaller font for cart items */
+        max-height: calc(100vh - 280px); /* Adjust max-height for mobile */
+      }
+      #cartItems .p-2 { /* Adjust padding for individual cart items */
+        padding: 0.4rem;
+      }
+      #cartItems .text-xs { /* Even smaller font for item details */
+        font-size: 0.65rem;
+      }
+      /* Smaller buttons for quantity and delete */
+      #cartItems .btn-xs {
+        padding: 0.1rem 0.3rem; /* Smaller padding */
+        min-height: 1.5rem; /* Smaller min-height */
+        font-size: 0.7rem; /* Smaller font size */
+      }
+      #cartPanel .btn-ghost { /* Close and clear buttons */
+        font-size: 0.75rem;
+        padding: 0.2rem 0.4rem;
+        min-height: 1.8rem;
+      }
+    }
   </style>
 </head>
 
@@ -296,7 +285,6 @@ header { background: linear-gradient(90deg, #fff 0%, rgba(255, 230, 204, 0.6) 10
         <a href="scrubs.html" class="block p-2 rounded hover:bg-orange-100">🍯 متجر المقشرات</a>
         <a href="yourskin.html" class="block p-2 rounded hover:bg-orange-100">💬 استشارة بشرتك</a>
         <a href="contact.html" class="block p-2 rounded hover:bg-orange-100">📞 اتصل بنا</a>
- 
       </nav>
 
       <div class="mt-6 text-center">
@@ -320,26 +308,6 @@ header { background: linear-gradient(90deg, #fff 0%, rgba(255, 230, 204, 0.6) 10
       </div>
     </div>
   </header>
-
-  <!-- باقي محتوى الصفحة هنا (المنتجات والسلة...) -->
-
-  <!-- SCRIPT للقائمة الجانبية -->
-  <script>
-  const menuBtn = document.getElementById('menuBtn');
-  const sidebar = document.getElementById('sidebar');
-  const menuOverlay = document.getElementById('menuOverlay');
-  const closeSidebar = document.getElementById('closeSidebar');
-
-  function toggleSidebar(open) {
-    sidebar.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
-    menuOverlay.style.display = open ? 'block' : 'none';
-  }
-
-  menuBtn.addEventListener('click', () => toggleSidebar(true));
-  closeSidebar.addEventListener('click', () => toggleSidebar(false));
-  menuOverlay.addEventListener('click', () => toggleSidebar(false));
-  </script>
-
 
   <!-- MAIN -->
   <main class="max-w-7xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -377,18 +345,7 @@ header { background: linear-gradient(90deg, #fff 0%, rgba(255, 230, 204, 0.6) 10
     <section class="lg:col-span-3 space-y-4">
       <div id="productsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
 
-      <!-- Pagination placeholder -->
-      <div class="flex justify-center">
-        <nav class="pagination flex gap-2 items-center text-sm"></nav>
-      </div>
-
-      <!-- Checkout summary (mobile) -->
-      <div class="bg-white p-4 rounded-xl shadow-sm lg:hidden">
-        <div class="flex justify-between items-center">
-          <div>🛒 <span id="mobileCartCount">0</span> عناصر</div>
-          <div class="font-bold">الإجمالي: <span id="mobileTotal">0.00</span> د.ل</div>
-        </div>
-      </div>
+      <!-- No pagination placeholder needed if not implemented -->
     </section>
 
   </main>
@@ -454,32 +411,47 @@ header { background: linear-gradient(90deg, #fff 0%, rgba(255, 230, 204, 0.6) 10
     // ====== CART (localStorage) ======
     let cart = JSON.parse(localStorage.getItem('nn_cart_v1') || '[]');
 
-    // DOM
-    const productsContainer = document.getElementById('productsContainer');
-    const cartItemsEl = document.getElementById('cartItems');
-    const cartTotalEl = document.getElementById('cartTotal');
-    const cartBadge = document.getElementById('cartBadge');
-    const mobileCartCount = document.getElementById('mobileCartCount');
-    const mobileTotal = document.getElementById('mobileTotal');
-    const overlay = document.getElementById('overlay');
-    const cartPanel = document.getElementById('cartPanel');
-    const openCartBtn = document.getElementById('openCartBtn');
-    const closeCartBtn = document.getElementById('closeCartBtn');
-    const clearCartBtn = document.getElementById('clearCartBtn');
-    const filterButtons = document.querySelectorAll('.filter-btn');
+    // DOM Elements - Grouped for efficiency
+    const DOMElements = {
+        productsContainer: document.getElementById('productsContainer'),
+        cartItemsEl: document.getElementById('cartItems'),
+        cartTotalEl: document.getElementById('cartTotal'),
+        cartBadge: document.getElementById('cartBadge'),
+        mobileCartCount: document.getElementById('mobileCartCount'),
+        mobileTotal: document.getElementById('mobileTotal'),
+        overlay: document.getElementById('overlay'),
+        cartPanel: document.getElementById('cartPanel'),
+        openCartBtn: document.getElementById('openCartBtn'),
+        closeCartBtn: document.getElementById('closeCartBtn'),
+        clearCartBtn: document.getElementById('clearCartBtn'),
+        filterButtons: document.querySelectorAll('.filter-btn'),
+        search: document.getElementById('search'),
+        fullname: document.getElementById('fullname'),
+        phone: document.getElementById('phone'),
+        city: document.getElementById('city'),
+        otherCity: document.getElementById('otherCity'),
+        checkoutBtn: document.getElementById('checkoutBtn'),
+        menuBtn: document.getElementById('menuBtn'),
+        sidebar: document.getElementById('sidebar'),
+        menuOverlay: document.getElementById('menuOverlay'),
+        closeSidebar: document.getElementById('closeSidebar')
+    };
 
     // Render products
     function renderProducts(filter='all', search='') {
-      productsContainer.innerHTML = '';
-      const term = (search || '').trim().toLowerCase();
+      DOMElements.productsContainer.innerHTML = '';
+      const term = search.trim().toLowerCase();
       const filtered = products.filter(p => (filter === 'all' || p.type === filter) && (p.name + ' ' + p.description).toLowerCase().includes(term));
+      
       if (!filtered.length) {
-        productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500">لا توجد منتجات مطابقة.</div>`;
+        DOMElements.productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500">لا توجد منتجات مطابقة.</div>`;
         return;
       }
+
+      const fragment = document.createDocumentFragment();
       filtered.forEach(p => {
         const card = document.createElement('article');
-        card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center animate__animated animate__fadeIn';
+        card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center'; /* Removed animate__animated, animate__fadeIn */
         card.innerHTML = `
           <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-40 h-40 object-contain mb-3">
           <h3 class="font-semibold">${p.name}</h3>
@@ -492,11 +464,12 @@ header { background: linear-gradient(90deg, #fff 0%, rgba(255, 230, 204, 0.6) 10
             <button class="btn btn-sm btn-primary w-1/2" data-action="add" data-id="${p.id}">أضف للسلة</button>
           </div>
         `;
-        productsContainer.appendChild(card);
+        fragment.appendChild(card);
       });
+      DOMElements.productsContainer.appendChild(fragment);
       
       // Update active state for filter buttons
-      filterButtons.forEach(btn => {
+      DOMElements.filterButtons.forEach(btn => {
         if (btn.getAttribute('data-type') === filter) {
           btn.classList.add('active');
         } else {
@@ -505,7 +478,7 @@ header { background: linear-gradient(90deg, #fff 0%, rgba(255, 230, 204, 0.6) 10
       });
     }
 
-    // Save cart
+    // Save cart to localStorage and update UI
     function saveCart() {
       localStorage.setItem('nn_cart_v1', JSON.stringify(cart));
       updateCartUI();
@@ -513,30 +486,34 @@ header { background: linear-gradient(90deg, #fff 0%, rgba(255, 230, 204, 0.6) 10
 
     // Add to cart
     function addToCart(productId) {
-      const prod = products.find(p=>p.id===productId);
+      const prod = products.find(p => p.id === productId);
       if (!prod) return;
-      const existing = cart.find(i=>i.id===productId);
-      if (existing) existing.qty++;
-      else cart.push({ id: prod.id, name: prod.name, price: prod.price, qty: 1, note: '' });
+
+      const existingItemIndex = cart.findIndex(item => item.id === productId);
+      if (existingItemIndex > -1) {
+        cart[existingItemIndex].qty++;
+      } else {
+        cart.push({ id: prod.id, name: prod.name, price: prod.price, qty: 1, note: '' });
+      }
       saveCart();
       Swal.fire({ icon:'success', title: 'تمت الإضافة', text: prod.name + ' أُضيفت إلى السلة', timer: 1100, showConfirmButton:false });
     }
 
-    // Remove
+    // Remove from cart
     function removeFromCart(index) {
-      cart.splice(index,1);
+      cart.splice(index, 1);
       saveCart();
     }
 
-    // Change qty
+    // Change quantity
     function changeQty(index, delta) {
       cart[index].qty += delta;
-      if (cart[index].qty < 1) cart[index].qty = 1;
+      if (cart[index].qty < 1) cart[index].qty = 1; // Ensure quantity is at least 1
       saveCart();
     }
 
     // Clear cart
-    clearCartBtn.addEventListener('click', ()=> {
+    DOMElements.clearCartBtn.addEventListener('click', ()=> {
       if (!cart.length) return;
       Swal.fire({
         title: 'تفريغ السلة؟',
@@ -555,41 +532,49 @@ header { background: linear-gradient(90deg, #fff 0%, rgba(255, 230, 204, 0.6) 10
 
     // Update cart UI
     function updateCartUI() {
-      cartItemsEl.innerHTML = '';
+      const fragment = document.createDocumentFragment();
       let total = 0;
-      cart.forEach((item, i) => {
-        total += item.price * item.qty;
-        const itemEl = document.createElement('div');
-        itemEl.className = 'p-2 bg-gray-50 rounded flex items-start justify-between gap-2';
-        itemEl.innerHTML = `
-          <div class="flex-1">
-            <div class="font-semibold">${item.name}</div>
-            <div class="text-xs text-gray-500">سعر الوحدة: ${item.price.toFixed(2)} د.ل</div>
-            <div class="mt-2 flex gap-2">
-              <button class="btn btn-xs" data-action="dec" data-i="${i}">-</button>
-              <div class="px-3 py-1 border rounded">${item.qty}</div>
-              <button class="btn btn-xs" data-action="inc" data-i="${i}">+</button>
-              <button class="btn btn-xs btn-error ml-auto" data-action="remove" data-i="${i}">حذف</button>
-            </div>
-          </div>
-        `;
-        cartItemsEl.appendChild(itemEl);
-      });
-      cartTotalEl.innerText = total.toFixed(2) + ' د.ل';
-      cartBadge.innerText = cart.reduce((s,i)=>s+i.qty,0);
-      mobileCartCount.innerText = cartBadge.innerText;
-      mobileTotal.innerText = total.toFixed(2);
+
+      if (cart.length === 0) {
+          DOMElements.cartItemsEl.innerHTML = `<div class="text-center text-gray-500 py-4">سلتك فارغة. أضف بعض المنتجات!</div>`;
+      } else {
+          cart.forEach((item, i) => {
+            total += item.price * item.qty;
+            const itemEl = document.createElement('div');
+            itemEl.className = 'p-2 bg-gray-50 rounded flex items-start justify-between gap-2';
+            itemEl.innerHTML = `
+              <div class="flex-1">
+                <div class="font-semibold">${item.name}</div>
+                <div class="text-xs text-gray-500">سعر الوحدة: ${item.price.toFixed(2)} د.ل</div>
+                <div class="mt-2 flex gap-2">
+                  <button class="btn btn-xs" data-action="dec" data-i="${i}">-</button>
+                  <div class="px-3 py-1 border rounded">${item.qty}</div>
+                  <button class="btn btn-xs" data-action="inc" data-i="${i}">+</button>
+                  <button class="btn btn-xs btn-error ml-auto" data-action="remove" data-i="${i}">حذف</button>
+                </div>
+              </div>
+            `;
+            fragment.appendChild(itemEl);
+          });
+          DOMElements.cartItemsEl.innerHTML = ''; // Clear existing content efficiently
+          DOMElements.cartItemsEl.appendChild(fragment);
+      }
+      
+      DOMElements.cartTotalEl.innerText = total.toFixed(2) + ' د.ل';
+      DOMElements.cartBadge.innerText = cart.reduce((s,i)=>s+i.qty,0);
+      DOMElements.mobileCartCount.innerText = DOMElements.cartBadge.innerText;
+      DOMElements.mobileTotal.innerText = total.toFixed(2);
     }
 
     // Product click (delegation)
-    productsContainer.addEventListener('click', e => {
+    DOMElements.productsContainer.addEventListener('click', e => {
       const btn = e.target.closest('button');
       if (!btn) return;
       const action = btn.getAttribute('data-action');
       const id = btn.getAttribute('data-id');
       if (action === 'add') addToCart(id);
       if (action === 'detail') {
-        const prod = products.find(p=>p.id===id);
+        const prod = products.find(p => p.id === id);
         if (prod) {
           Swal.fire({
             title: prod.name,
@@ -602,74 +587,80 @@ header { background: linear-gradient(90deg, #fff 0%, rgba(255, 230, 204, 0.6) 10
     });
 
     // Cart items delegation
-    cartItemsEl.addEventListener('click', e => {
+    DOMElements.cartItemsEl.addEventListener('click', e => {
       const btn = e.target.closest('button');
       if (!btn) return;
       const action = btn.getAttribute('data-action');
       const i = Number(btn.getAttribute('data-i'));
       if (action === 'remove') removeFromCart(i);
-      if (action === 'inc') changeQty(i, 1);
-      if (action === 'dec') changeQty(i, -1);
+      else if (action === 'inc') changeQty(i, 1);
+      else if (action === 'dec') changeQty(i, -1);
     });
 
     // Filters & search
-    filterButtons.forEach(b => b.addEventListener('click', () => {
+    DOMElements.filterButtons.forEach(b => b.addEventListener('click', () => {
       const t = b.getAttribute('data-type');
-      document.getElementById('search').value = '';
+      DOMElements.search.value = '';
       renderProducts(t, '');
     }));
-    document.getElementById('search').addEventListener('input', e => {
+    DOMElements.search.addEventListener('input', e => {
       renderProducts('all', e.target.value);
     });
 
-    // SHOW / HIDE CART (only on button click or overlay)
+    // SHOW / HIDE CART
     function openCart() {
-      overlay.classList.add('open');
-      cartPanel.classList.add('open');
-      cartPanel.setAttribute('aria-hidden','false');
-      overlay.setAttribute('aria-hidden','false');
-      openCartBtn.setAttribute('aria-expanded','true');
-      // focus trap suggestion: focus first input
+      DOMElements.overlay.classList.add('open');
+      DOMElements.cartPanel.classList.add('open');
+      DOMElements.cartPanel.setAttribute('aria-hidden','false');
+      DOMElements.overlay.setAttribute('aria-hidden','false');
+      DOMElements.openCartBtn.setAttribute('aria-expanded','true');
+      // Focus first input for accessibility
       setTimeout(()=> {
-        const fname = document.getElementById('fullname');
-        if (fname) fname.focus();
+        if (DOMElements.fullname) DOMElements.fullname.focus();
       }, 220);
     }
     function closeCart() {
-      overlay.classList.remove('open');
-      cartPanel.classList.remove('open');
-      cartPanel.setAttribute('aria-hidden','true');
-      overlay.setAttribute('aria-hidden','true');
-      openCartBtn.setAttribute('aria-expanded','false');
-      openCartBtn.focus();
+      DOMElements.overlay.classList.remove('open');
+      DOMElements.cartPanel.classList.remove('open');
+      DOMElements.cartPanel.setAttribute('aria-hidden','true');
+      DOMElements.overlay.setAttribute('aria-hidden','true');
+      DOMElements.openCartBtn.setAttribute('aria-expanded','false');
+      DOMElements.openCartBtn.focus(); // Return focus to the button that opened it
     }
 
-    openCartBtn.addEventListener('click', ()=> {
-      // open only on click (no auto-opening)
-      openCart();
-    });
-    closeCartBtn.addEventListener('click', ()=> closeCart());
-    overlay.addEventListener('click', ()=> closeCart());
+    DOMElements.openCartBtn.addEventListener('click', openCart);
+    DOMElements.closeCartBtn.addEventListener('click', closeCart);
+    DOMElements.overlay.addEventListener('click', closeCart);
 
-    // close on ESC
+    // Close on ESC key
     window.addEventListener('keydown', (e)=> {
-      if (e.key === 'Escape') {
-        // only if cart is open
-        if (cartPanel.classList.contains('open')) closeCart();
+      if (e.key === 'Escape' && DOMElements.cartPanel.classList.contains('open')) {
+        closeCart();
       }
     });
 
+    // Toggle sidebar
+    function toggleSidebar(open) {
+      DOMElements.sidebar.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
+      DOMElements.menuOverlay.style.display = open ? 'block' : 'none';
+    }
+
+    DOMElements.menuBtn.addEventListener('click', () => toggleSidebar(true));
+    DOMElements.closeSidebar.addEventListener('click', () => toggleSidebar(false));
+    DOMElements.menuOverlay.addEventListener('click', () => toggleSidebar(false));
+
+
     // Change city field visibility
-    document.getElementById('city').addEventListener('change', (e)=>{
-      document.getElementById('otherCity').classList.toggle('hidden', e.target.value !== 'مناطق أخرى');
+    DOMElements.city.addEventListener('change', (e)=>{
+      DOMElements.otherCity.classList.toggle('hidden', e.target.value !== 'مناطق أخرى');
     });
 
     // Checkout via WhatsApp
-    document.getElementById('checkoutBtn').addEventListener('click', ()=> {
-      const fullname = document.getElementById('fullname').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      let city = document.getElementById('city').value;
-      const otherCity = document.getElementById('otherCity').value.trim();
+    DOMElements.checkoutBtn.addEventListener('click', ()=> {
+      const fullname = DOMElements.fullname.value.trim();
+      const phone = DOMElements.phone.value.trim();
+      let city = DOMElements.city.value;
+      const otherCity = DOMElements.otherCity.value.trim();
       if (city === 'مناطق أخرى' && otherCity) city = otherCity;
 
       if (!fullname || !phone || !city || cart.length === 0) {
@@ -699,9 +690,5 @@ header { background: linear-gradient(90deg, #fff 0%, rgba(255, 230, 204, 0.6) 10
     // Save on unload
     window.addEventListener('beforeunload', ()=> localStorage.setItem('nn_cart_v1', JSON.stringify(cart)));
   </script>
-
-  <!-- Flowbite JS -->
-  <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
-
 </body>
 </html>
