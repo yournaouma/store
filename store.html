@@ -34,6 +34,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
 
   <!-- Font Awesome for icons -->
+  <!-- تأكد من استبدال yourkitid.js بمعرف مجموعتك الخاص من Font Awesome -->
   <script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script>
 
   <!-- Isotope for filtering & layout (optional) -->
@@ -46,30 +47,33 @@
     :root{--accent:#caa0ff}
     body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial}
     .glass {background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); backdrop-filter: blur(6px);}
+
+    /* Adjusted fixed cart button position for RTL and menu on right */
     #cartFixedBtn {
       position: fixed;
       top: 1.5rem;
-      left: 1.5rem;
+      right: 1.5rem; /* Changed to right */
+      left: auto; /* Ensure it's not also left */
       z-index: 60;
     }
     @media (max-width: 768px) {
       #cartFixedBtn {
         top: 1rem;
-        left: 1rem;
+        right: 1rem; /* Changed to right */
+        left: auto;
       }
     }
+
     #cartDrawer {
-      top: 0; left: 0;
+      top: 0; right: 0; /* Changed to right */
       width: 100%; max-width: 370px;
       height: 100vh;
       transition: transform 0.3s;
       z-index: 100;
-    }
-    #cartDrawer.closed {
-      transform: translateX(-110%);
+      transform: translateX(110%); /* Start off-screen to the right */
     }
     #cartDrawer.open {
-      transform: translateX(0);
+      transform: translateX(0); /* Slide in from right */
     }
     #cartOverlay {
       display: none;
@@ -92,20 +96,98 @@
     .cart-btn:hover {background: #ececec;}
     .cart-delete-btn { color: #d32f2f; }
     .cart-delete-btn:hover { background: #fdeaea; }
+
+    /* Main Navigation Drawer Specific Styles - Now opens from RIGHT for RTL */
+    #mainMenuDrawer {
+      transition: transform 0.3s ease-out;
+      transform: translateX(100%); /* Start off-screen to the right */
+      position: fixed; /* Ensure it's fixed */
+      inset-y: 0; /* Top to bottom */
+      left: auto; /* Not tied to left */
+      right: 0; /* Appears from right */
+      width: 100%; /* Full width on small screens */
+      max-width: 280px; /* Max width on larger screens */
+      background-color: white;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.1); /* Shadow for drawer */
+      z-index: 50;
+    }
+    #mainMenuDrawer.open {
+      transform: translateX(0); /* Slide in from right */
+    }
+    #mainMenuOverlay {
+      display: none;
+      background: rgba(0,0,0,0.5);
+      z-index: 49; /* Below cart overlay but above main content */
+    }
+    #mainMenuOverlay.active {
+      display: block;
+    }
+
+    /* Filters scrollable on small screens */
+    .filter-buttons-container {
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: 0.5rem; /* For scrollbar visibility */
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+      scrollbar-width: none; /* Hide scrollbar for Firefox */
+    }
+    .filter-buttons-container::-webkit-scrollbar {
+      display: none; /* Hide scrollbar for Chrome, Safari, Opera */
+    }
+    .filter-btn {
+      flex-shrink: 0; /* Prevent buttons from shrinking */
+    }
+
+    /* Quick View Modal Styles */
+    #quickView {
+        display: none; /* Hidden by default */
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding: 1rem;
+    }
+    #quickView.flex {
+        display: flex; /* Show when active */
+    }
+    #quickView > div {
+        background-color: white;
+        border-radius: 0.5rem;
+        max-width: 48rem; /* Equivalent to max-w-3xl */
+        width: 100%;
+        padding: 1.5rem;
+        position: relative;
+    }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased">
+
+  <!-- Main Menu Overlay -->
+  <div id="mainMenuOverlay" class="fixed inset-0 hidden"></div>
+
+  <!-- Main Navigation Drawer (Used for all screen sizes) -->
+  <nav id="mainMenuDrawer" class="fixed inset-y-0 right-0 bg-white shadow-lg p-6 z-50 transform translate-x-full">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-xl font-bold">القائمة</h3>
+      <button id="closeMainMenu" class="p-2 rounded-full hover:bg-gray-100">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="space-y-4 text-lg">
+      <li><a class="block px-3 py-2 rounded hover:bg-gray-100" href="index.html">الرئيسية</a></li>
+      <li><a class="block px-3 py-2 rounded hover:bg-gray-100" href="#collections">المجموعات</a></li>
+      <li><a class="block px-3 py-2 rounded hover:bg-gray-100" href="#best">الأكثر مبيعًا</a></li>
+      <!-- يمكنك إضافة المزيد من الروابط هنا -->
+    </ul>
+  </nav>
 
   <!-- HEADER -->
   <header class="w-full shadow-sm glass sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
       <div class="flex items-center gap-4">
-        <a href="#" class="text-2xl font-extrabold text-gray-900">نعومة</a>
-        <nav class="hidden md:flex gap-3 items-center text-sm">
-          <a class="px-3 py-2 rounded hover:bg-gray-100" href="index.html">الرئيسية</a>
-          <a class="px-3 py-2 rounded hover:bg-gray-100" href="#collections">المجموعات</a>
-          <a class="px-3 py-2 rounded hover:bg-gray-100" href="#best">الأكثر مبيعًا</a>
-        </nav>
+        <a href="#" class="text-2xl font-extrabold text-gray-900">نعومة نعومتك</a>
       </div>
       <div class="flex items-center gap-3 w-full max-w-lg">
         <div class="relative flex-1">
@@ -114,11 +196,15 @@
             <i class="fas fa-search"></i>
           </button>
         </div>
+        <!-- Main Menu Button (Moved to the left side, as it's RTL and opens from right) -->
+        <button id="openMainMenu" class="p-2 rounded-full hover:bg-gray-100">
+            <i class="fas fa-bars text-lg"></i>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- CART FIXED BUTTON LEFT TOP -->
+  <!-- CART FIXED BUTTON (Moved to top-right to match new layout logic) -->
   <button id="cartFixedBtn" class="relative p-3 rounded-full bg-white shadow hover:bg-gray-100" aria-label="عرض السلة">
     <i class="fas fa-shopping-cart text-lg"></i>
     <span id="cartCount" class="absolute -top-1 -left-1 bg-red-500 text-white text-xs rounded-full px-1">0</span>
@@ -132,7 +218,8 @@
       <div class="flex gap-3">
         <a href="#products" class="px-5 py-3 rounded-md bg-gradient-to-l from-violet-400 to-indigo-500 text-white font-semibold">تسوّق الآن</a>
         <a href="#collections" class="px-5 py-3 rounded-md border border-gray-200">المجموعات</a>
-      </div>
+        <a href="index.html" class="px-5 py-3 rounded-md border border-gray-200">الصفحة الرئيسية</a>
+ </div>
     </div>
 
     <div>
@@ -158,19 +245,27 @@
 
   <!-- Filters & Collections -->
   <section id="products" class="max-w-7xl mx-auto px-4 pb-12">
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
       <h2 class="text-2xl font-bold">منتجاتنا</h2>
-      <div class="flex gap-3 items-center">
+      <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
         <select id="sortSelect" class="rounded-full border px-3 py-2">
           <option value="default">ترتيب افتراضي</option>
           <option value="price-asc">السعر من الأقل</option>
           <option value="price-desc">السعر من الأعلى</option>
         </select>
-        <div class="hidden md:flex gap-2">
+        <!-- Scrollable filter buttons for mobile -->
+        <div class="filter-buttons-container flex gap-2">
           <button class="filter-btn px-3 py-2 rounded-full border" data-filter="*">الكل</button>
           <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".serum">سيرومات</button>
           <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".cream">كريمات</button>
           <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".spf">واقي شمس</button>
+          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".cleanser">منظفات</button>
+          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".mask">أقنعة</button>
+          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".toner">تونر</button>
+          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".scrub">مقشرات</button>
+          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".oil">زيوت</button>
+          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".eye">العناية بالعين</button>
+          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".body">العناية بالجسم</button>
         </div>
       </div>
     </div>
@@ -180,7 +275,7 @@
     </div>
   </section>
 
-  <!-- CART DRAWER LEFT -->
+  <!-- CART DRAWER RIGHT (Adjusted to open from right) -->
   <div id="cartOverlay"></div>
   <aside id="cartDrawer" class="fixed closed bg-white shadow-xl p-6 overflow-auto h-full">
     <div class="h-full flex flex-col">
@@ -192,32 +287,25 @@
       <div class="mt-6 border-t pt-4">
         <div class="flex items-center justify-between font-semibold">المجموع: <span id="cartTotal">$0.00</span></div>
         <div class="mt-4">
-          <button id="checkoutBtn" class="w-full px-4 py-3 rounded-md bg-indigo-600 text-white">الدفع</button>
+          <!-- Checkout form directly in cart drawer -->
+          <form id="checkoutForm" class="space-y-3">
+            <h4 class="text-lg font-semibold mt-6 mb-3">تفاصيل الدفع</h4>
+            <input required type="text" class="w-full rounded border px-3 py-2" placeholder="الاسم الكامل" name="name">
+            <input required type="tel" class="w-full rounded border px-3 py-2" placeholder="رقم الجوال" name="phone">
+            <input required type="text" class="w-full rounded border px-3 py-2" placeholder="العنوان" name="address">
+            <textarea class="w-full rounded border px-3 py-2" placeholder="ملاحظات (اختياري)" name="notes"></textarea>
+            <button type="submit" class="w-full px-4 py-3 rounded-md bg-green-600 text-white">إرسال الطلب عبر واتساب</button>
+          </form>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- صفحة الدفع عبر واتساب (مخفي) -->
-  <div id="whatsappCheckout" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-4">
-    <div class="bg-white rounded-lg max-w-md w-full p-6 relative">
-      <button id="closeWA" class="absolute left-4 top-4 p-2 rounded-full hover:bg-gray-100"><i class="fas fa-times"></i></button>
-      <h3 class="text-xl font-bold mb-4 text-center">إتمام الطلب عبر الواتساب</h3>
-      <form id="waForm" class="space-y-4">
-        <input required type="text" class="w-full rounded border px-3 py-2" placeholder="الاسم الكامل" name="name">
-        <input required type="tel" class="w-full rounded border px-3 py-2" placeholder="رقم الجوال" name="phone">
-        <input required type="text" class="w-full rounded border px-3 py-2" placeholder="العنوان" name="address">
-        <textarea required class="w-full rounded border px-3 py-2" placeholder="ملاحظات (اختياري)" name="notes"></textarea>
-        <button type="submit" class="w-full px-4 py-3 rounded-md bg-green-600 text-white">إرسال الطلب عبر واتساب</button>
-      </form>
-    </div>
-  </div>
-
   <!-- PRODUCT QUICK VIEW MODAL -->
   <div id="quickView" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-4">
-    <div class="bg-white rounded-lg max-w-3xl w-full p-6">
-      <button id="closeQuick" class="float-left p-2 rounded-full hover:bg-gray-100"><i class="fas fa-times"></i></button>
-      <div id="quickContent">...جاري التحميل</div>
+    <div class="bg-white rounded-lg max-w-3xl w-full p-6 relative">
+      <button id="closeQuick" class="absolute left-4 top-4 p-2 rounded-full hover:bg-gray-100"><i class="fas fa-times"></i></button>
+      <div id="quickContent" class="pt-8 md:pt-0">...جاري التحميل</div>
     </div>
   </div>
 
@@ -233,68 +321,66 @@
       if(window.AOS) AOS.init({duration:700, once:true});
       new Swiper('.swiper', {loop:true, pagination:{el:'.swiper-pagination'}, navigation:{nextEl:'.swiper-button-next', prevEl:'.swiper-button-prev'}, autoplay:{delay:3000}});
 
-// ✨ منتجاتك الحقيقية — يمكنك تعديلها بحرية
-const products = [
-  { id:'p1', title:'سيروم فيتامين C لتفتيح البشرة', price:'79.00', category:'serum', img:'images/serum1.jpg' },
-  { id:'p2', title:'سيروم حمض الهيالورونيك لترطيب عميق', price:'85.00', category:'serum', img:'images/serum2.jpg' },
-  { id:'p3', title:'سيروم نيكوتيناميد لتوحيد اللون', price:'89.00', category:'serum', img:'images/serum3.jpg' },
-  { id:'p4', title:'سيروم مضاد للأكسدة بخلاصة الشاي الأخضر', price:'92.00', category:'serum', img:'images/serum4.jpg' },
-  { id:'p5', title:'سيروم تفتيح بالببتيدات الطبيعية', price:'99.00', category:'serum', img:'images/serum5.jpg' },
+      // ✨ منتجاتك الحقيقية — يمكنك تعديلها بحرية
+      const products = [
+        { id:'p1', title:'سيروم فيتامين C لتفتيح البشرة', price:'79.00', category:'serum', img:'images/serum1.jpg' },
+        { id:'p2', title:'سيروم حمض الهيالورونيك لترطيب عميق', price:'85.00', category:'serum', img:'images/serum2.jpg' },
+        { id:'p3', title:'سيروم نيكوتيناميد لتوحيد اللون', price:'89.00', category:'serum', img:'images/serum3.jpg' },
+        { id:'p4', title:'سيروم مضاد للأكسدة بخلاصة الشاي الأخضر', price:'92.00', category:'serum', img:'images/serum4.jpg' },
+        { id:'p5', title:'سيروم تفتيح بالببتيدات الطبيعية', price:'99.00', category:'serum', img:'images/serum5.jpg' },
 
-  { id:'p6', title:'كريم ترطيب ليلي بخلاصة الورد', price:'65.00', category:'cream', img:'images/cream1.jpg' },
-  { id:'p7', title:'كريم نهاري غني بالكولاجين', price:'70.00', category:'cream', img:'images/cream2.jpg' },
-  { id:'p8', title:'كريم تفتيح للبشرة الحساسة', price:'75.00', category:'cream', img:'images/cream3.jpg' },
-  { id:'p9', title:'كريم تجديد البشرة الليلي', price:'78.00', category:'cream', img:'images/cream4.jpg' },
-  { id:'p10', title:'كريم مغذي بزيت الأرغان الطبيعي', price:'82.00', category:'cream', img:'images/cream5.jpg' },
+        { id:'p6', title:'كريم ترطيب ليلي بخلاصة الورد', price:'65.00', category:'cream', img:'images/cream1.jpg' },
+        { id:'p7', title:'كريم نهاري غني بالكولاجين', price:'70.00', category:'cream', img:'images/cream2.jpg' },
+        { id:'p8', title:'كريم تفتيح للبشرة الحساسة', price:'75.00', category:'cream', img:'images/cream3.jpg' },
+        { id:'p9', title:'كريم تجديد البشرة الليلي', price:'78.00', category:'cream', img:'images/cream4.jpg' },
+        { id:'p10', title:'كريم مغذي بزيت الأرغان الطبيعي', price:'82.00', category:'cream', img:'images/cream5.jpg' },
 
-  { id:'p11', title:'واقي شمس SPF 30 بخلاصة الصبار', price:'50.00', category:'spf', img:'images/spf1.jpg' },
-  { id:'p12', title:'واقي شمس SPF 50 مقاوم للماء', price:'55.00', category:'spf', img:'images/spf2.jpg' },
-  { id:'p13', title:'واقي شمس خفيف للبشرة الدهنية', price:'52.00', category:'spf', img:'images/spf3.jpg' },
-  { id:'p14', title:'واقي شمس طبيعي بدون عطور', price:'57.00', category:'spf', img:'images/spf4.jpg' },
-  { id:'p15', title:'واقي شمس مع ترطيب وحماية مزدوجة', price:'60.00', category:'spf', img:'images/spf5.jpg' },
+        { id:'p11', title:'واقي شمس SPF 30 بخلاصة الصبار', price:'50.00', category:'spf', img:'images/spf1.jpg' },
+        { id:'p12', title:'واقي شمس SPF 50 مقاوم للماء', price:'55.00', category:'spf', img:'images/spf2.jpg' },
+        { id:'p13', title:'واقي شمس خفيف للبشرة الدهنية', price:'52.00', category:'spf', img:'images/spf3.jpg' },
+        { id:'p14', title:'واقي شمس طبيعي بدون عطور', price:'57.00', category:'spf', img:'images/spf4.jpg' },
+        { id:'p15', title:'واقي شمس مع ترطيب وحماية مزدوجة', price:'60.00', category:'spf', img:'images/spf5.jpg' },
 
-  { id:'p16', title:'منظف رغوي للبشرة الحساسة', price:'45.00', category:'cleanser', img:'images/cleanser1.jpg' },
-  { id:'p17', title:'غسول يومي باللافندر المهدئ', price:'48.00', category:'cleanser', img:'images/cleanser2.jpg' },
-  { id:'p18', title:'غسول الفحم لإزالة الشوائب', price:'49.00', category:'cleanser', img:'images/cleanser3.jpg' },
-  { id:'p19', title:'غسول الجل بالورد الطبيعي', price:'47.00', category:'cleanser', img:'images/cleanser4.jpg' },
-  { id:'p20', title:'منظف رغوي غني بالفيتامينات', price:'50.00', category:'cleanser', img:'images/cleanser5.jpg' },
+        { id:'p16', title:'منظف رغوي للبشرة الحساسة', price:'45.00', category:'cleanser', img:'images/cleanser1.jpg' },
+        { id:'p17', title:'غسول يومي باللافندر المهدئ', price:'48.00', category:'cleanser', img:'images/cleanser2.jpg' },
+        { id:'p18', title:'غسول الفحم لإزالة الشوائب', price:'49.00', category:'cleanser', img:'images/cleanser3.jpg' },
+        { id:'p19', title:'غسول الجل بالورد الطبيعي', price:'47.00', category:'cleanser', img:'images/cleanser4.jpg' },
+        { id:'p20', title:'منظف رغوي غني بالفيتامينات', price:'50.00', category:'cleanser', img:'images/cleanser5.jpg' },
 
-  { id:'p21', title:'قناع الطين الطبيعي لإزالة السموم', price:'60.00', category:'mask', img:'images/mask1.jpg' },
-  { id:'p22', title:'قناع الفحم لتصفية المسام', price:'63.00', category:'mask', img:'images/mask2.jpg' },
-  { id:'p23', title:'قناع الذهب لتغذية البشرة', price:'75.00', category:'mask', img:'images/mask3.jpg' },
-  { id:'p24', title:'قناع الطمي المغربي المنقّي', price:'68.00', category:'mask', img:'images/mask4.jpg' },
-  { id:'p25', title:'قناع الألوفيرا المهدئ', price:'58.00', category:'mask', img:'images/mask5.jpg' },
+        { id:'p21', title:'قناع الطين الطبيعي لإزالة السموم', price:'60.00', category:'mask', img:'images/mask1.jpg' },
+        { id:'p22', title:'قناع الفحم لتصفية المسام', price:'63.00', category:'mask', img:'images/mask2.jpg' },
+        { id:'p23', title:'قناع الذهب لتغذية البشرة', price:'75.00', category:'mask', img:'images/mask3.jpg' },
+        { id:'p24', title:'قناع الطمي المغربي المنقّي', price:'68.00', category:'mask', img:'images/mask4.jpg' },
+        { id:'p25', title:'قناع الألوفيرا المهدئ', price:'58.00', category:'mask', img:'images/mask5.jpg' },
 
-  { id:'p26', title:'تونر الورد الطبيعي', price:'55.00', category:'toner', img:'images/toner1.jpg' },
-  { id:'p27', title:'تونر الخيار المنعش', price:'52.00', category:'toner', img:'images/toner2.jpg' },
-  { id:'p28', title:'تونر الكاميليا اليابانية', price:'59.00', category:'toner', img:'images/toner3.jpg' },
-  { id:'p29', title:'تونر تفتيح بحمض الجليكوليك', price:'64.00', category:'toner', img:'images/toner4.jpg' },
-  { id:'p30', title:'تونر ماء جوز الهند الطبيعي', price:'60.00', category:'toner', img:'images/toner5.jpg' },
+        { id:'p26', title:'تونر الورد الطبيعي', price:'55.00', category:'toner', img:'images/toner1.jpg' },
+        { id:'p27', title:'تونر الخيار المنعش', price:'52.00', category:'toner', img:'images/toner2.jpg' },
+        { id:'p28', title:'تونر الكاميليا اليابانية', price:'59.00', category:'toner', img:'images/toner3.jpg' },
+        { id:'p29', title:'تونر تفتيح بحمض الجليكوليك', price:'64.00', category:'toner', img:'images/toner4.jpg' },
+        { id:'p30', title:'تونر ماء جوز الهند الطبيعي', price:'60.00', category:'toner', img:'images/toner5.jpg' },
 
-  { id:'p31', title:'مقشر الوجه بخلاصة القهوة', price:'62.00', category:'scrub', img:'images/scrub1.jpg' },
-  { id:'p32', title:'مقشر السكر البني الطبيعي', price:'58.00', category:'scrub', img:'images/scrub2.jpg' },
-  { id:'p33', title:'مقشر الشوفان المهدئ', price:'55.00', category:'scrub', img:'images/scrub3.jpg' },
-  { id:'p34', title:'مقشر الكرز لتجديد البشرة', price:'65.00', category:'scrub', img:'images/scrub4.jpg' },
-  { id:'p35', title:'مقشر الورد الفاخر', price:'68.00', category:'scrub', img:'images/scrub5.jpg' },
+        { id:'p31', title:'مقشر الوجه بخلاصة القهوة', price:'62.00', category:'scrub', img:'images/scrub1.jpg' },
+        { id:'p32', title:'مقشر السكر البني الطبيعي', price:'58.00', category:'scrub', img:'images/scrub2.jpg' },
+        { id:'p33', title:'مقشر الشوفان المهدئ', price:'55.00', category:'scrub', img:'images/scrub3.jpg' },
+        { id:'p34', title:'مقشر الكرز لتجديد البشرة', price:'65.00', category:'scrub', img:'images/scrub4.jpg' },
+        { id:'p35', title:'مقشر الورد الفاخر', price:'68.00', category:'scrub', img:'images/scrub5.jpg' },
 
-  { id:'p36', title:'زيت الأرغان المغربي النقي', price:'90.00', category:'oil', img:'images/oil1.jpg' },
-  { id:'p37', title:'زيت جوز الهند العضوي', price:'75.00', category:'oil', img:'images/oil2.jpg' },
-  { id:'p38', title:'زيت الورد الدمشقي الفاخر', price:'88.00', category:'oil', img:'images/oil3.jpg' },
-  { id:'p39', title:'زيت اللوز الحلو للبشرة الجافة', price:'70.00', category:'oil', img:'images/oil4.jpg' },
-  { id:'p40', title:'زيت الجوجوبا المرطب', price:'72.00', category:'oil', img:'images/oil5.jpg' },
+        { id:'p36', title:'زيت الأرغان المغربي النقي', price:'90.00', category:'oil', img:'images/oil1.jpg' },
+        { id:'p37', title:'زيت جوز الهند العضوي', price:'75.00', category:'oil', img:'images/oil2.jpg' },
+        { id:'p38', title:'زيت الورد الدمشقي الفاخر', price:'88.00', category:'oil', img:'images/oil3.jpg' },
+        { id:'p39', title:'زيت اللوز الحلو للبشرة الجافة', price:'70.00', category:'oil', img:'images/oil4.jpg' },
+        { id:'p40', title:'زيت الجوجوبا المرطب', price:'72.00', category:'oil', img:'images/oil5.jpg' },
 
-  { id:'p41', title:'كريم تحت العين بخلاصة الخيار', price:'58.00', category:'eye', img:'images/eye1.jpg' },
-  { id:'p42', title:'كريم شد منطقة العين بالكافيين', price:'64.00', category:'eye', img:'images/eye2.jpg' },
-  { id:'p43', title:'جل ترطيب العين بخلاصة الألوفيرا', price:'60.00', category:'eye', img:'images/eye3.jpg' },
-  { id:'p44', title:'كريم مضاد للتجاعيد حول العين', price:'70.00', category:'eye', img:'images/eye4.jpg' },
-  { id:'p45', title:'كريم تفتيح الهالات الداكنة', price:'66.00', category:'eye', img:'images/eye5.jpg' },
+        { id:'p41', title:'كريم تحت العين بخلاصة الخيار', price:'58.00', category:'eye', img:'images/eye1.jpg' },
+        { id:'p42', title:'كريم شد منطقة العين بالكافيين', price:'64.00', category:'eye', img:'images/eye2.jpg' },
+        { id:'p43', title:'جل ترطيب العين بخلاصة الألوفيرا', price:'60.00', category:'eye', img:'images/eye3.jpg' },
+        { id:'p44', title:'كريم مضاد للتجاعيد حول العين', price:'70.00', category:'eye', img:'images/eye4.jpg' },
+        { id:'p45', title:'كريم تفتيح الهالات الداكنة', price:'66.00', category:'eye', img:'images/eye5.jpg' },
 
-  { id:'p46', title:'غسول الجسم برائحة الفانيليا', price:'55.00', category:'body', img:'images/body1.jpg' },
-  { id:'p47', title:'لوشن الجسم بزبدة الشيا', price:'62.00', category:'body', img:'images/body2.jpg' },
-  { id:'p48', title:'كريم يدين مرطب بخلاصة العسل', price:'40.00', category:'body', img:'images/body3.jpg' }
-];
-
-
+        { id:'p46', title:'غسول الجسم برائحة الفانيليا', price:'55.00', category:'body', img:'images/body1.jpg' },
+        { id:'p47', title:'لوشن الجسم بزبدة الشيا', price:'62.00', category:'body', img:'images/body2.jpg' },
+        { id:'p48', title:'كريم يدين مرطب بخلاصة العسل', price:'40.00', category:'body', img:'images/body3.jpg' }
+      ];
 
 
       const grid = document.getElementById('grid');
@@ -328,6 +414,9 @@ const products = [
         if(next.length) {
           renderProducts(products.slice(0, loaded+16));
           loaded += next.length;
+        } else {
+            // Optionally, hide the load more button if no more products
+            document.getElementById('loadMore').style.display = 'none';
         }
       });
 
@@ -400,21 +489,51 @@ const products = [
         document.getElementById('cartDrawer').classList.remove('closed');
         document.getElementById('cartDrawer').classList.add('open');
         document.getElementById('cartOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling body
       }
       function closeCartDrawer() {
         document.getElementById('cartDrawer').classList.remove('open');
         document.getElementById('cartDrawer').classList.add('closed');
         document.getElementById('cartOverlay').classList.remove('active');
+        document.body.style.overflow = ''; // Restore body scrolling
       }
       document.getElementById('cartFixedBtn').addEventListener('click', openCartDrawer);
       document.getElementById('closeCart').addEventListener('click', closeCartDrawer);
       document.getElementById('cartOverlay').addEventListener('click', closeCartDrawer);
       // --- END CART DRAWER CONTROL ---
 
+      // --- MAIN MENU DRAWER CONTROL (for all screen sizes) ---
+      const mainMenuDrawer = document.getElementById('mainMenuDrawer');
+      const openMainMenuBtn = document.getElementById('openMainMenu');
+      const closeMainMenuBtn = document.getElementById('closeMainMenu');
+      const mainMenuOverlay = document.getElementById('mainMenuOverlay');
+
+      function openMainNav() {
+        mainMenuDrawer.classList.remove('translate-x-full');
+        mainMenuDrawer.classList.add('translate-x-0', 'open');
+        mainMenuOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling body
+      }
+
+      function closeMainNav() {
+        mainMenuDrawer.classList.remove('translate-x-0', 'open');
+        mainMenuDrawer.classList.add('translate-x-full');
+        mainMenuOverlay.classList.remove('active');
+        document.body.style.overflow = ''; // Restore body scrolling
+      }
+
+      openMainMenuBtn.addEventListener('click', openMainNav);
+      closeMainMenuBtn.addEventListener('click', closeMainNav);
+      mainMenuOverlay.addEventListener('click', closeMainNav); // Close when overlay is clicked
+      // --- END MAIN MENU DRAWER CONTROL ---
+
       // Quick view
       const quickViewEl = document.getElementById('quickView');
+      const closeQuickBtn = document.getElementById('closeQuick');
+
       function quickView(e){
-        const id = e.currentTarget.dataset.id; const p = products.find(x=>x.id===id);
+        const id = e.currentTarget.dataset.id;
+        const p = products.find(x=>x.id===id);
         document.getElementById('quickContent').innerHTML = `
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <img src="${p.img}" alt="${p.title}" class="w-full rounded" />
@@ -424,15 +543,32 @@ const products = [
               <div class="text-2xl font-extrabold mb-4">$${p.price}</div>
               <div class="flex gap-2">
                 <button class="px-4 py-2 rounded-md bg-indigo-600 text-white" onclick="(function(){ const cart=getCart(); const found=cart.find(it=>it.id==='${p.id}'); if(found) found.qty++; else cart.push({id:'${p.id}',title:'${p.title}',price:'${p.price}',img:'${p.img}',qty:1}); saveCart(cart); })()">أضف إلى السلة</button>
-                <button class="px-4 py-2 rounded-md border" id="closeQV">إغلاق</button>
+                <button class="px-4 py-2 rounded-md border" id="closeQVLocal">إغلاق</button>
               </div>
             </div>
           </div>
         `;
         quickViewEl.classList.remove('hidden');
-        document.getElementById('closeQV').addEventListener('click', ()=> quickViewEl.classList.add('hidden'));
+        quickViewEl.classList.add('flex'); // Use flex to center
+        document.body.style.overflow = 'hidden'; // Prevent scrolling body
+
+        // Attach event listener for the local close button in quick view
+        document.getElementById('closeQVLocal').addEventListener('click', closeQuickView);
       }
-      document.getElementById('closeQuick').addEventListener('click', ()=> quickViewEl.classList.add('hidden'));
+
+      function closeQuickView() {
+          quickViewEl.classList.remove('flex');
+          quickViewEl.classList.add('hidden');
+          document.body.style.overflow = ''; // Restore body scrolling
+      }
+
+      closeQuickBtn.addEventListener('click', closeQuickView); // Global close button for quick view
+      quickViewEl.addEventListener('click', (e) => { // Close when clicking outside content
+          if (e.target === quickViewEl) {
+              closeQuickView();
+          }
+      });
+
 
       // Sorting
       document.getElementById('sortSelect').addEventListener('change', (e)=>{
@@ -444,65 +580,66 @@ const products = [
       });
 
       document.querySelectorAll('.filter-btn').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
+        btn.addEventListener('click', (e)=>{
+          // Remove active class from all filters and add to clicked one
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('bg-indigo-500', 'text-white'));
+          e.target.classList.add('bg-indigo-500', 'text-white');
+
           const f = btn.dataset.filter;
           if(f==='*') renderProducts(products.slice(0,loaded));
           else renderProducts(products.filter(p=>p.category===f.replace('.','')).slice(0,loaded));
         });
       });
+      // Set initial active filter
+      document.querySelector('.filter-btn[data-filter="*"]').classList.add('bg-indigo-500', 'text-white');
+
 
       window.saveCart = saveCart; window.getCart = getCart; window.updateCartUI = updateCartUI;
 
-      // --- WHATSAPP CHECKOUT ---
-      const waDialog = document.getElementById('whatsappCheckout');
-      const waForm = document.getElementById('waForm');
-      const closeWA = document.getElementById('closeWA');
+      // --- WHATSAPP CHECKOUT (Directly from Cart Drawer) ---
+      const checkoutForm = document.getElementById('checkoutForm');
 
-      document.getElementById('checkoutBtn').addEventListener('click', function() {
-        waDialog.classList.remove('hidden');
-        waDialog.classList.add('flex');
-      });
-
-      closeWA.addEventListener('click', function() {
-        waDialog.classList.add('hidden');
-        waDialog.classList.remove('flex');
-      });
-
-      waForm.addEventListener('submit', function(e){
+      checkoutForm.addEventListener('submit', function(e){
         e.preventDefault();
-        const data = new FormData(waForm);
+        const data = new FormData(checkoutForm);
         const name = data.get('name');
         const phone = data.get('phone');
         const address = data.get('address');
         const notes = data.get('notes');
         const cart = getCart();
+
         if(cart.length === 0) {
           alert('سلتك فارغة!');
           return;
         }
-        let orderMsg = ` طلب جديد من متجر نعومة نعومتك:\n`;
-        orderMsg += `الاسم: ${name}\nالجوال: ${phone}\nالعنوان: ${address}\n`;
-        if(notes) orderMsg += `ملاحظات: ${notes}\n`;
-        orderMsg += `\nالمنتجات:\n`;
+
+        if (!name || !phone || !address) {
+            alert('الرجاء تعبئة جميع الحقول المطلوبة (الاسم، الجوال، العنوان).');
+            return;
+        }
+
+        let orderMsg = `*طلب جديد من متجر نعومة نعومتك:*\n\n`;
+        orderMsg += `*الاسم:* ${name}\n`;
+        orderMsg += `*الجوال:* ${phone}\n`;
+        orderMsg += `*العنوان:* ${address}\n`;
+        if(notes) orderMsg += `*ملاحظات:* ${notes}\n`;
+        orderMsg += `\n*المنتجات:*\n`;
         cart.forEach(item=>{
           orderMsg += `- ${item.title} x${item.qty} = $${(item.qty*item.price).toFixed(2)}\n`;
         });
         const total = cart.reduce((sum, item) => sum + (item.qty * parseFloat(item.price)), 0);
-        orderMsg += `\nالمجموع: $${total.toFixed(2)}\n`;
-        const waNumber = '9665XXXXXXXX'; // ضع رقمك
+        orderMsg += `\n*المجموع الكلي:* $${total.toFixed(2)}\n`;
+
+        const waNumber = '9665XXXXXXXX'; // ضع رقمك هنا! تأكد من أن يكون بالصيغة الدولية بدون + أو 00 (مثال: 966501234567)
         const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(orderMsg)}`;
         window.open(waUrl, '_blank');
-        waDialog.classList.add('hidden');
-        waDialog.classList.remove('flex');
+
+        closeCartDrawer(); // Close cart drawer after sending order
+        saveCart([]); // Clear cart after successful order
+        checkoutForm.reset(); // Clear form fields
       });
     });
   </script>
 </body>
 
 </html>
-
-
-
-
-
-
