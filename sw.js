@@ -8,16 +8,26 @@ const ASSETS = [
   "/script2.js",
   "/images/logo.png",
 
-  // 🛍️ صفحات نعومة نعومتك
-  "/store-creams.html",       // 💆‍♀️ متجر الكريمات
-  "/store-serums.html",       // 💦 متجر السيرومات
-  "/store-cleansers.html",    // 🧴 متجر المنظفات
-  "/store-sunscreens.html",   // ☀️ متجر واقي الشمس
-  "/store-perfumes.html",     // 🌸 متجر العطور
-  "/store-toners.html",       // 💧 متجر التونر
-  "/store-exfoliants.html",   // 🍯 متجر المقشرات
-  "/consult.html",            // 💬 استشارة بشرتك
-  "/contact.html"             // 📞 اتصل بنا
+  // 🛍️ صفحات المتجر
+  "/store.html",
+  "/contact.html",
+  "/about.html",
+  "/privacy.html",
+  "/refund.html",
+  "/payment.html",
+  "/yourskin.html",
+  "/shipping.html",
+  "/cart.html",
+
+  // 💆‍♀️ مجموعات المتاجر
+  "/creams.html",
+  "/serums.html",
+  "/cleansers.html",
+  "/sunscreen.html",
+  "/peels.html",
+  "/toners.html",
+  "/perfumes.html",
+  "/masks.html"
 ];
 
 // عند التثبيت — يتم حفظ الملفات في الكاش
