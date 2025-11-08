@@ -225,4 +225,26 @@
 const menuBtn = document.getElementById('menuBtn');
 const sidebar = document.getElementById('sidebar');
 const menuOverlay = document.getElementById('menuOverlay');
-const closeSideba
+const closeSidebarBtn = document.getElementById('closeSidebar'); // تم تعديل اسم المتغير ليطابق الـ ID
+
+function openSidebar() {
+  sidebar.classList.remove('translate-x-full');
+  menuOverlay.classList.remove('opacity-0', 'pointer-events-none');
+  menuOverlay.classList.add('opacity-50', 'pointer-events-auto');
+}
+
+function closeSidebar() {
+  sidebar.classList.add('translate-x-full');
+  menuOverlay.classList.remove('opacity-50', 'pointer-events-auto');
+  menuOverlay.classList.add('opacity-0', 'pointer-events-none');
+}
+
+menuBtn.addEventListener('click', openSidebar);
+closeSidebarBtn.addEventListener('click', closeSidebar);
+menuOverlay.addEventListener('click', closeSidebar); // إغلاق القائمة عند النقر على الخلفية
+
+// Set current year in footer
+document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
