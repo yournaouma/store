@@ -6,7 +6,18 @@ const ASSETS = [
   "/style.css",
   "/script.js",
   "/script2.js",
-  "/images/logo.png"
+  "/images/logo.png",
+
+  // 🛍️ صفحات نعومة نعومتك
+  "/store-creams.html",       // 💆‍♀️ متجر الكريمات
+  "/store-serums.html",       // 💦 متجر السيرومات
+  "/store-cleansers.html",    // 🧴 متجر المنظفات
+  "/store-sunscreens.html",   // ☀️ متجر واقي الشمس
+  "/store-perfumes.html",     // 🌸 متجر العطور
+  "/store-toners.html",       // 💧 متجر التونر
+  "/store-exfoliants.html",   // 🍯 متجر المقشرات
+  "/consult.html",            // 💬 استشارة بشرتك
+  "/contact.html"             // 📞 اتصل بنا
 ];
 
 // عند التثبيت — يتم حفظ الملفات في الكاش
