@@ -1,65 +1,205 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>شحن وتوصيل - متجر نعومة نعومتك</title>
-  <link rel="canonical" href="https://yournaouma.github.io/store/shipping.html">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <title>🚚 شحن وتوصيل - نعومة نعومتك</title>
+  <meta name="description" content="سياسة الشحن والتوصيل لمتجر نعومة نعومتك: تفاصيل التوصيل لمنتجات ARVEA والمنتجات المتنوعة داخل وخارج بنغازي." />
+  <meta name="keywords" content="شحن، توصيل، ليبيا، ARVEA، بنغازي، نعومة نعومتك، شحن سريع" />
+  <meta name="author" content="عائلة نعومة نعومتك" />
+  <meta name="theme-color" content="#FF9800" />
+
+  <link rel="canonical" href="https://yournaouma.github.io/store/shipping.html" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#fff8e1" />
+
+  <!-- Open Graph (Facebook + WhatsApp) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ar_AR" />
+  <meta property="og:site_name" content="نعومة نعومتك" />
+  <meta property="og:title" content="🚚 شحن وتوصيل - نعومة نعومتك" />
+  <meta property="og:description" content="تعرف على سياسة الشحن والتوصيل في متجر نعومة نعومتك." />
+  <meta property="og:image" content="images/logo.png" />
+  <meta property="og:url" content="https://yournaouma.github.io/store/shipping.html" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="🚚 شحن وتوصيل - نعومة نعومتك" />
+  <meta name="twitter:description" content="تعرف على سياسة الشحن والتوصيل في متجر نعومة نعومتك." />
+  <meta name="twitter:image" content="images/logo.png" />
+
+  <!-- أيقونات المتصفح -->
+  <link rel="icon" type="image/png" sizes="256x256" href="images/logo.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="images/logo.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="images/logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/logo.png">
+
+  <!-- لأجهزة آبل -->
+  <link rel="apple-touch-icon" sizes="512x512" href="images/logo.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
+
+  <!-- Tailwind CSS + DaisyUI -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" />
+  <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
+
+  <!-- Google Fonts for Noto Sans Arabic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: "Noto Sans Arabic", system-ui; background: linear-gradient(180deg,#fff 0%, #fff5ea 100%); }
+    header { background: linear-gradient(90deg,#fff 0%, #ffedde 100%);}
+    /* Orange sidebar menu */
+    #sidebar { background: #ff9800; color: white; }
+    #sidebar a { color: #fff; }
+    #sidebar a:hover { background: #fff3e0; color: #ff9800; }
+    /* Responsive menu btn */
+    #menuBtn {background:#ff9800;}
+    #menuBtn:hover {background:#fb8c00;}
+    .btn-primary,.btn-primary:active {background:linear-gradient(90deg,#ff9800,#ffbd51);border:none;color:white;}
+    .btn-primary:hover {background:linear-gradient(90deg,#fb8c00,#fcc761);}
+    .btn-outline {border-color:#ff9800;color:#ff9800;}
+    .btn-outline:hover {background:#ff9800;color:white;}
+  </style>
 </head>
-<body class="bg-gray-50 font-sans p-6">
 
-  <!-- رأس الصفحة -->
-  <header class="bg-pink-200 p-4 rounded shadow mb-6">
-    <h1 class="text-2xl font-bold text-center text-white">شحن وتوصيل المنتجات</h1>
-  </header>
+<body class="antialiased text-gray-800 bg-[#fffbea]">
 
-  <!-- محتوى الصفحة -->
-  <main class="bg-white p-6 rounded shadow max-w-4xl mx-auto space-y-6">
+<!-- Menu Button -->
+<button id="menuBtn" class="fixed top-4 right-4 z-60 text-white px-3 py-2 rounded-lg shadow-md">☰ القائمة</button>
+<div id="menuOverlay" class="fixed inset-0 bg-black opacity-0 z-50 pointer-events-none transition-opacity duration-300"></div>
 
-    <p class="mb-4">
+<!-- Sidebar menu (orange) -->
+<aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto z-50">
+  <div class="p-5">
+    <h2 class="text-2xl font-bold mb-4 text-center">🛍️ نعومة نعومتك</h2>
+    <nav class="space-y-3 text-lg">
+    <a href="index.html" class="block p-2 rounded hover:bg-pink-100">🏠 الرئيسية</a>
+    <a href="store.html" class="block p-2 rounded hover:bg-pink-100">🛍️ المتجر</a>
+    <a href="contact.html" class="block p-2 rounded hover:bg-pink-100">📞 اتصل بنا</a>
+    <a href="about.html" class="block p-2 rounded hover:bg-pink-100">💖 عن نعومة نعومتك</a>
+    <a href="privacy.html" class="block p-2 rounded hover:bg-pink-100">🔒 سياسة الخصوصية</a>
+    <a href="refund.html" class="block p-2 rounded hover:bg-pink-100">💸 الاسترجاع</a>
+    <a href="payment.html" class="block p-2 rounded hover:bg-pink-100">💳 الدفع</a>
+    <a href="yourskin.html" class="block p-2 rounded hover:bg-pink-100">💬 استشارة بشرتك</a>
+    <a href="shipping.html" class="block p-2 rounded hover:bg-pink-100">🚚 شحن وتوصيل</a>
+    </nav>
+    <div class="mt-6 text-center">
+      <button id="closeSidebar" class="bg-white text-[#ff9800] px-4 py-2 rounded-lg shadow hover:bg-[#fff3e0]">إغلاق ✖</button>
+    </div>
+  </div>
+</aside>
+
+<header class="shadow-sm sticky top-0 z-30 mt-14">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+        <img src="images/logo.png" alt="شعار نعومة نعومتك" class="w-12 h-12 rounded-lg object-cover shadow-sm">
+      <div>
+        <h1 class="text-lg font-extrabold">🚚 شحن وتوصيل
+          <span class="text-sm text-gray-500 block">سياسة التوصيل لمنتجاتنا</span>
+        </h1>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <!-- يمكنك إضافة أيقونة سلة هنا إذا أردت، أو تركها فارغة كما في صفحة الاتصال -->
+    </div>
+  </div>
+</header>
+
+<!-- Main content for Shipping Policy Page -->
+<main class="max-w-3xl mx-auto p-4 bg-white rounded-xl shadow-sm my-8">
+
+    <p class="mb-6 text-center text-lg">
       نحرص في <strong>نعومة نعومتك</strong> على توصيل جميع منتجاتنا الأصلية والمتنوعة، بما في ذلك منتجات <strong>ARVEA</strong>، بأمان وسرعة إلى عملائنا في جميع مدن ليبيا.
     </p>
 
-    <h2 class="text-xl font-semibold mb-2">منتجات ARVEA</h2>
-    <p class="mb-4">
-      - متاحة لجميع مدن ليبيا.<br>
-      - مدة التوصيل: <strong>من 3 إلى 7 أيام</strong> حسب المدينة.<br>
-      - طريقة الدفع: بعد استلام المنتج عند باب البيت.
-    </p>
-
-    <h2 class="text-xl font-semibold mb-2">منتجات متنوعة داخل بنغازي</h2>
-    <p class="mb-4">
-      - مدة التوصيل: <strong>يوم واحد</strong> فقط.<br>
-      - طريقة الدفع: عند استلام المنتج مباشرة.
-    </p>
-
-    <h2 class="text-xl font-semibold mb-2">منتجات متنوعة خارج بنغازي</h2>
-    <p class="mb-4">
-      - طريقة الدفع: يتم إرسال المال أولًا عبر مكتب استلام الأموال.<br>
-      - التوصيل: يتم شحن المنتج في نفس الوقت عن طريق مكتب الشحن.<br>
-      - مدة التوصيل: حسب موقع العميل (عادة 3 إلى 5 أيام).
-    </p>
-
-    <h2 class="text-xl font-semibold mb-2">ملاحظات هامة</h2>
-    <ul class="list-disc list-inside space-y-1 mb-4">
-      <li>جميع منتجات ARVEA والمنتجات المتنوعة يتم توصيلها بأمان وبالتوقيت المحدد.</li>
-      <li>الدفع يتم فقط حسب الحالة الموضحة لكل نوع من المنتجات.</li>
-      <li>العملاء مسؤولون عن صحة عنوان التوصيل وبيانات التواصل لضمان سرعة الاستلام.</li>
-      <li>جميع المنتجات يتم تعبئتها وتغليفها بعناية لضمان وصولها بحالة ممتازة.</li>
-    </ul>
-
-    <div class="mt-6 bg-gray-100 p-4 rounded text-gray-800 text-center">
-      الدفع يكون عند استلام منتجات ARVEA والمنتجات المتنوعة داخل بنغازي، أما خارج بنغازي للمنتجات المتنوعة يتم إرسال المال أولًا عبر مكتب ثم شحن المنتج في نفس الوقت.
+    <!-- Section: ARVEA Products Shipping -->
+    <div class="mb-8 p-4 bg-orange-50 rounded-lg">
+      <h2 class="text-xl font-bold mb-3 text-center text-orange-700">منتجات ARVEA</h2>
+      <ul class="list-disc list-inside space-y-2 text-lg text-gray-700 px-4">
+        <li>متاحة لجميع مدن ليبيا.</li>
+        <li>مدة التوصيل: <strong>من 3 إلى 7 أيام</strong> حسب المدينة.</li>
+        <li>طريقة الدفع: بعد استلام المنتج عند باب البيت.</li>
+      </ul>
     </div>
 
-  </main>
+    <!-- Section: Diverse Products within Benghazi -->
+    <div class="mb-8 p-4 bg-orange-50 rounded-lg">
+      <h2 class="text-xl font-bold mb-3 text-center text-orange-700">منتجات متنوعة داخل بنغازي</h2>
+      <ul class="list-disc list-inside space-y-2 text-lg text-gray-700 px-4">
+        <li>مدة التوصيل: <strong>يوم واحد</strong> فقط.</li>
+        <li>طريقة الدفع: عند استلام المنتج مباشرة.</li>
+      </ul>
+    </div>
 
-  <!-- Footer -->
-  <footer class="mt-6 text-center text-gray-600">
-    &copy; 2025 متجر نعومة نعومتك. جميع الحقوق محفوظة.
-  </footer>
+    <!-- Section: Diverse Products outside Benghazi -->
+    <div class="mb-8 p-4 bg-orange-50 rounded-lg">
+      <h2 class="text-xl font-bold mb-3 text-center text-orange-700">منتجات متنوعة خارج بنغازي</h2>
+      <ul class="list-disc list-inside space-y-2 text-lg text-gray-700 px-4">
+        <li>طريقة الدفع: يتم إرسال المال أولًا عبر مكتب استلام الأموال.</li>
+        <li>التوصيل: يتم شحن المنتج في نفس الوقت عن طريق مكتب الشحن.</li>
+        <li>مدة التوصيل: حسب موقع العميل (عادة 3 إلى 5 أيام).</li>
+      </ul>
+    </div>
 
+    <!-- Section: Important Notes -->
+    <div class="mb-8 p-4 bg-orange-50 rounded-lg">
+      <h2 class="text-xl font-bold mb-3 text-center text-orange-700">ملاحظات هامة</h2>
+      <ul class="list-disc list-inside space-y-2 text-lg text-gray-700 px-4">
+        <li>جميع منتجات ARVEA والمنتجات المتنوعة يتم توصيلها بأمان وبالتوقيت المحدد.</li>
+        <li>الدفع يتم فقط حسب الحالة الموضحة لكل نوع من المنتجات.</li>
+        <li>العملاء مسؤولون عن صحة عنوان التوصيل وبيانات التواصل لضمان سرعة الاستلام.</li>
+        <li>جميع المنتجات يتم تعبئتها وتغليفها بعناية لضمان وصولها بحالة ممتازة.</li>
+      </ul>
+    </div>
+
+    <!-- Legal Disclaimer / General Info -->
+    <div class="mt-6 p-4 bg-gray-100 rounded text-gray-800 border-r-4 border-orange-500">
+      <p class="font-semibold mb-2">ملاحظة هامة:</p>
+      <p class="text-base">
+        جميع المنتجات المعروضة على موقع "نعومة نعومتك" هي منتجات أصلية 100%. 
+        نحن موزعون معتمدون فقط لمنتجات العلامات التجارية مثل <strong>ARVEA</strong>، 
+        <strong>Avène</strong>، <strong>La Roche-Posay</strong>، <strong>Bioderma</strong>، 
+        و <strong>Isis Pharma</strong>. لا نتحمل مسؤولية تصنيع المنتجات، 
+        ونتعهد بتوفير تجربة شراء آمنة وشفافة لعملائنا الكرام.
+      </p>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="mt-8 text-center text-gray-600 text-sm pb-8">
+  &copy; <span id="current-year-shipping"></span> نعومة نعومتك. جميع الحقوق محفوظة.
+</footer>
+
+<!-- Script for sidebar -->
+<script>
+// Orange sidebar logic
+const menuBtn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+const menuOverlay = document.getElementById('menuOverlay');
+const closeSidebarBtn = document.getElementById('closeSidebar');
+
+function openSidebar() {
+  sidebar.classList.remove('translate-x-full');
+  menuOverlay.classList.remove('opacity-0', 'pointer-events-none');
+  menuOverlay.classList.add('opacity-50', 'pointer-events-auto');
+}
+
+function closeSidebar() {
+  sidebar.classList.add('translate-x-full');
+  menuOverlay.classList.remove('opacity-50', 'pointer-events-auto');
+  menuOverlay.classList.add('opacity-0', 'pointer-events-none');
+}
+
+menuBtn.addEventListener('click', openSidebar);
+closeSidebarBtn.addEventListener('click', closeSidebar);
+menuOverlay.addEventListener('click', closeSidebar);
+
+// Set current year in footer
+document.getElementById('current-year-shipping').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
-
