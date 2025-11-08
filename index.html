@@ -95,7 +95,6 @@
   <meta http-equiv="Cache-Control" content="public, max-age=31536000">
 
   <!-- تحميل JS بشكل غير محظور -->
-  <script src="script.js" defer></script>
   <script src="splide.min.js" defer></script>
 </head>
 <body>
@@ -327,7 +326,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<!-- تحميل JS بشكل غير محظور -->
+<script src="script.js" defer></script>
+<script src="splide.min.js" defer></script>
 
+<!-- ✅ تسجيل Service Worker -->
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js")
+    .then(() => console.log("Service Worker تم تسجيله بنجاح ✅"))
+    .catch((err) => console.error("فشل التسجيل ❌:", err));
+}
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
 <!-- ✅ ضع سكريبتات JavaScript هنا مع defer -->
@@ -335,6 +345,7 @@
 <script src="script2.js" defer></script>
 </body>
 </html> 
+
 
 
 
