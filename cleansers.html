@@ -253,7 +253,7 @@ menuOverlay.addEventListener('click', () => toggleSidebar(false));
 // --- Products data (Cleansers only)
 const products = [
   // Cleansers
-  { id:"cln1", name:"غسول جل منظف للبشرة الدهنية", brand:"Brand A", type:"دهنية", price:65, image:"images/cleansers/cleanser1.png", description:"ينظف بعمق ويزيل الزيوت الزائدة دون تجفيف." },
+  { id:"cln1", name:"غسول جل منظف للبشرة الدهنية", brand:"Brand A", type:"مختلطة,دهنية", price:65, image:"images/cleansers/cleanser1.png", description:"جل شفاف غني بخلاصة الصبار، وهو جزء من مجموعة منتجات مصممة خصيصًا للعناية بالبشرة الدهنية والمختلطة. تركيبته الفريدة تنظف البشرة بعمق ولطف في آنٍ واحد، وتزيل الشوائب وآثار المكياج والدهون الزائدة دون أن تسبب جفافها أو تهيجها. غني بمكونات طبيعية فعالة مثل خلاصة الصبار والجلسرين ومستخلصات نباتية مهدئة تعمل على تنقية المسام وتحسين ملمس البشرة. يساعد على موازنة إفراز الزيوت مع الحفاظ على درجة حموضة البشرة الطبيعية، مما يمنحك بشرة نقية، منتعشة، وناعمة طوال اليوم. قوامه الجلّي الخفيف يترك إحساسًا بالراحة والانتعاش بعد كل استخدام، ليمنحك عناية يومية متكاملة وإشراقة صحية تدوم طويلاً.." },
   { id:"cln2", name:"رغوة تنظيف هيدرا ديب", brand:"Brand B", type:"حساسة,جافة", price:70, image:"images/cleansers/cleanser2.png", description:"هذه الرغوة المنظفة من مجموعة HYDRA-DEEP هي جزء من مجموعة منتجات مصممة خصيصًا للبشرة الجافة والحساسة. بتركيبة خاصة تحتوي على مواد فعالة سطحية لطيفة، تنظف البشرة بفعالية، وتزيل الشوائب وآثار المكياج والملوثات دون أن تسبب جفافها. غنية باليوريا والجلسرين والصبار والزيوت النباتية القابلة للذوبان في الماء والنياسيناميد وبروفيتامين B5، تُهدئ البشرة المشدودة وتُرطبها. قوامها الرغوي الكريمي والخفيف يمنحك شعورًا بالانتعاش والنعومة.." },
   { id:"cln3", name:"غسول رغوي للبشرة المختلطة", brand:"Brand C", type:"مختلطة", price:68, image:"images/cleansers/cleanser3.png", description:"يوازن بين المناطق الدهنية والجافة وينظف المسام." },
   { id:"cln4", name:"غسول مهدئ للبشرة الحساسة", brand:"Brand D", type:"حساسة", price:72, image:"images/cleansers/cleanser4.png", description:"ينظف ويهدئ البشرة الحساسة دون تهيج." },
@@ -463,6 +463,7 @@ window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart',
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 </body>
 </html>
+
 
 
 
