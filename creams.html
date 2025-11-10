@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -117,6 +116,101 @@
       background-color: #ff9800;
       color: white;
     }
+
+    /* Product Detail Sidebar - Now from LEFT */
+    .product-detail-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0; /* Changed to left for a right-to-left layout */
+        width: 100%; /* Full width on small screens */
+        max-width: 380px; /* Max width on larger screens */
+        height: 100%;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        transform: translateX(-100%); /* Hidden by default, slides in from left */
+        transition: transform 0.3s ease-in-out;
+        z-index: 101; 
+        padding: 1rem;
+        overflow-y: auto;
+        direction: rtl; /* Ensure RTL for the sidebar content */
+    }
+    .product-detail-sidebar.open {
+        transform: translateX(0);
+    }
+    .product-detail-sidebar .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px; /* Adjust position for RTL */
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 10; /* Ensure close button is above other content */
+    }
+    .product-detail-sidebar .section-title {
+        font-weight: bold;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        color: #ff9800; /* Orange color for titles */
+    }
+    .star-rating {
+        display: flex;
+        flex-direction: row-reverse; /* For RTL stars */
+        justify-content: flex-end; /* For RTL stars */
+    }
+    .star-rating input[type="radio"] {
+        display: none;
+    }
+    .star-rating label {
+        font-size: 1.5rem;
+        color: #ccc;
+        cursor: pointer;
+    }
+    .star-rating input[type="radio"]:checked ~ label {
+        color: #ffc107; /* Gold color for checked stars */
+    }
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: #ffc107;
+    }
+
+    /* Tab styles for product details sidebar */
+    .tab-buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    .tab-button {
+      flex: 1;
+      padding: 0.75rem 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+      color: #666;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease-in-out;
+    }
+    .tab-button.active {
+      color: #ff9800;
+      border-bottom-color: #ff9800;
+    }
+    .tab-content {
+      display: none;
+      padding-top: 1rem; /* Add some padding so content doesn't touch buttons */
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .product-image-zoom {
+      cursor: zoom-in;
+      transition: transform 0.2s ease-in-out;
+    }
+    .product-image-zoom.zoomed {
+      transform: scale(1.5); /* Adjust zoom level as needed */
+      cursor: zoom-out;
+    }
+    
   </style>
 </head>
 
@@ -237,6 +331,62 @@
   </div>
 </aside>
 
+<!-- Product Detail Sidebar (hidden by default) -->
+<aside id="productDetailSidebar" class="product-detail-sidebar">
+    <button class="close-btn" onclick="closeProductDetailSidebar()">✕</button>
+    <div class="p-4">
+        <h3 id="sidebarProductName" class="text-xl font-bold mb-4 text-center text-[#ff9800]"></h3>
+        
+        <!-- Tab Buttons for switching content -->
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="description">الوصف</button>
+            <button class="tab-button" data-tab="howToUse">كيفية الاستعمال</button>
+            <button class="tab-button" data-tab="reviews">آراء العملاء</button>
+        </div>
+
+        <!-- Content for each tab -->
+        <!-- Product Description Tab -->
+        <div id="descriptionTab" class="tab-content active">
+            <img id="sidebarProductImage" src="" alt="" class="w-48 h-48 object-contain mx-auto mb-4 product-image-zoom" onclick="toggleZoom(this)">
+            <p id="sidebarProductDescription" class="text-sm text-gray-700 text-center mb-4"></p>
+            <p class="text-lg font-bold text-center" id="sidebarProductPrice"></p>
+            <button class="btn btn-primary w-full mt-4" id="sidebarAddToCartBtn">أضف للسلة</button>
+        </div>
+
+        <!-- How to Use Tab -->
+        <div id="howToUseTab" class="tab-content">
+            <h4 class="section-title">كيفية الاستعمال</h4>
+            <div id="howToUseContent">
+                <img id="howToUseImage" src="" alt="كيفية الاستعمال" class="w-full h-auto object-contain mb-2 rounded hidden">
+                <p id="howToUseText" class="text-sm text-gray-700"></p>
+            </div>
+        </div>
+
+        <!-- Customer Reviews Tab -->
+        <div id="reviewsTab" class="tab-content">
+            <h4 class="section-title">آراء العملاء</h4>
+            <div id="customerReviews" class="space-y-3">
+                <!-- Reviews will be loaded here -->
+            </div>
+            <!-- Add New Review Form -->
+            <div class="mt-4 p-3 bg-white rounded-lg shadow-sm border border-orange-200">
+                <h5 class="font-semibold mb-2">أضف تعليقك</h5>
+                <input type="text" id="reviewName" placeholder="اسمك" class="input input-bordered w-full mb-2 input-sm" />
+                <textarea id="reviewText" placeholder="اكتب تعليقك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
+                <div class="star-rating mb-3">
+                    <input type="radio" id="rate-5" name="rating" value="5" /><label for="rate-5"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-4" name="rating" value="4" /><label for="rate-4"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-3" name="rating" value="3" /><label for="rate-3"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-2" name="rating" value="2" /><label for="rate-2"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-1" name="rating" value="1" /><label for="rate-1"><i class="fas fa-star"></i></label>
+                </div>
+                <button class="btn btn-primary btn-sm w-full" onclick="submitReview()">إرسال التعليق</button>
+            </div>
+        </div>
+
+    </div>
+</aside>
+
 <!-- Script for sidebar and products -->
 <script>
 // Sidebar logic (now white)
@@ -263,22 +413,22 @@ menuOverlay.addEventListener('click', () => toggleSidebar(false));
 // --- Products data
 const products = [
 // Avene
-{ id:"av1", name:"كريم الليل Tolérance Control", brand:"ARVEA", type:"جميع انواع البشرة", price:85, image:"images/products/kid2.png", description:"يجمع كريم الليل المضاد للتجاعيد بين خصائص الترطيب والتجديد التي يوفرها الصبار، وزيت الأرغان العضوي، وزبدة الشيا، وزيت الأفوكادو، وبروفيتامين B5، وزيت بذور العنب، وزيت الأوكالبتوس العطري، وزيت بذور التين الشوكي. يُعد زيت بذور التين الشوكي زيتًا ثمينًا يلعب دورًا أساسيًا في الوقاية من التجاعيد والخطوط الدقيقة وتوسع المسام والبقع البنية ومكافحتها، بالإضافة إلى تنظيم إفراز الدهون والحد من الجفاف. هذا العلاج المضاد للتجاعيد، الغني بمكونات طبيعية فعالة، يُجدد بشرتكِ بشكل استثنائي. فهو يمنع شيخوخة البشرة ويعزز تجديد الخلايا. مثالي لبشرة متجددة ومحصنة، ذات بشرة مشرقة ومضيئة تنضح بالشباب والصحة. تم تصميم هذا الكريم ليناسب جميع أنواع البشرة." },
-{ id:"av2", name:"أفين كريم Hydrance Riche", brand:"Avene", type:"عادية", price:65, image:"images/products/kid1.png", description:"كريم مغذٍ يمنح البشرة العادية ترطيبًا يدوم طويلاً." },
-{ id:"av3", name:"كريم الوجه هيدرا ديب / للبشرة الجافة والحساسة", brand:"ARVEA", type:"جافة,حساسة", price:105, image:"images/products/kid3.png", description:"هيدرا ديب هي مجموعة للعناية بالوجه من تطوير أرفيا. تنقسم إلى خطوط إنتاج تُقدم حلولاً تُركز على الترطيب العميق وتلبي احتياجات البشرة المُحددة. ينتمي كريم الوجه هذا من مجموعة HYDRA-DEEP إلى مجموعة منتجات البشرة الجافة والحساسة. صُمم خصيصًا لتوفير توازن مثالي بين التغذية والترطيب. غني بحمض الهيالورونيك والنياسيناميد والجلسرين وبروفيتامين B5، مما يمنح البشرة خصائص مُرطبة تُعزز ترطيبها. علاوة على ذلك، تُغذي تركيبته عالية التركيز من زيت الأرغان وزبدة الشيا والزيوت القابلة للذوبان في الماء البشرة بعمق وتُعزز غشاءها المائي الدهني. يُعزز هذا التوازن الفريد مكونات فعالة ومستخلصات طبيعية تُوحد لون البشرة وتُضفي عليها نعومةً ومرونةً وإشراقةً فورية." },
+{ id:"av1", name:"كريم الليل Tolérance Control", brand:"ARVEA", type:"جميع انواع البشرة", price:85, image:"images/products/kid2.png", description:"يجمع كريم الليل المضاد للتجاعيد بين خصائص الترطيب والتجديد التي يوفرها الصبار، وزيت الأرغان العضوي، وزبدة الشيا، وزيت الأفوكادو، وبروفيتامين B5، وزيت بذور العنب، وزيت الأوكالبتوس العطري، وزيت بذور التين الشوكي. يُعد زيت بذور التين الشوكي زيتًا ثمينًا يلعب دورًا أساسيًا في الوقاية من التجاعيد والخطوط الدقيقة وتوسع المسام والبقع البنية ومكافحتها، بالإضافة إلى تنظيم إفراز الدهون والحد من الجفاف. هذا العلاج المضاد للتجاعيد، الغني بمكونات طبيعية فعالة، يُجدد بشرتكِ بشكل استثنائي. فهو يمنع شيخوخة البشرة ويعزز تجديد الخلايا. مثالي لبشرة متجددة ومحصنة، ذات بشرة مشرقة ومضيئة تنضح بالشباب والصحة. تم تصميم هذا الكريم ليناسب جميع أنواع البشرة.", howToUse: { text: "يُوضع كمية صغيرة على بشرة نظيفة وجافة كل مساء قبل النوم. يُدلك بلطف بحركات دائرية حتى يتم امتصاصه بالكامل. للاستخدام الخارجي فقط.", image: "images/how-to-use-cream.png" }, longDescription: "هذا الكريم الليلي المبتكر من ARVEA يجمع بين قوة الطبيعة والعلم لتقديم تجربة تجديد فريدة. غني بالصبار لترطيب عميق، وزيت الأرغان العضوي وزبدة الشيا لتغذية مكثفة. زيت الأفوكادو وبروفيتامين B5 يعملان على تهدئة البشرة وإصلاحها، بينما زيت بذور العنب وزيت الأوكالبتوس العطري يساهمان في تحسين مرونة البشرة ونضارتها. نجم التركيبة هو زيت بذور التين الشوكي الثمين، المعروف بخصائصه الفائقة في مكافحة علامات الشيخوخة مثل التجاعيد والخطوط الدقيقة وتوسع المسام والبقع البنية. كما أنه يساعد في تنظيم إفراز الدهون ويحد من جفاف البشرة. مع الاستخدام المنتظم، ستبدو بشرتكِ أكثر شبابًا، إشراقًا وصحة. مناسب لجميع أنواع البشرة التي تبحث عن تجديد وحماية ليليين." },
+{ id:"av2", name:"أفين كريم Hydrance Riche", brand:"Avene", type:"عادية", price:65, image:"images/products/kid1.png", description:"كريم مغذٍ يمنح البشرة العادية ترطيبًا يدوم طويلاً.", howToUse: { text: "يوضع صباحاً ومساءً على الوجه والرقبة بعد التنظيف. مثالي كأساس للمكياج.", image: "images/how-to-use-cream.png" }, longDescription: "كريم Hydrance Riche من أفين هو الحل الأمثل للبشرة العادية التي تحتاج إلى ترطيب مكثف يدوم طويلاً. تركيبته الغنية بالمياه الحرارية من أفين تعمل على تهدئة البشرة وتقويتها، بينما المكونات المرطبة الأخرى تحافظ على حاجز البشرة وتحميها من الجفاف. يترك البشرة ناعمة، مرنة، ومشرقة طوال اليوم. قوامه الغني يجعله مثاليًا للاستخدام اليومي ويشكل أساسًا ممتازًا للمكياج." },
+{ id:"av3", name:"كريم الوجه هيدرا ديب / للبشرة الجافة والحساسة", brand:"ARVEA", type:"جافة,حساسة", price:105, image:"images/products/kid3.png", description:"هيدرا ديب هي مجموعة للعناية بالوجه من تطوير أرفيا. صُمم خصيصًا لتوفير توازن مثالي بين التغذية والترطيب.", howToUse: { text: "يوضع على بشرة نظيفة وجافة في الصباح والمساء. يُدلك بلطف حتى الامتصاص الكامل.", image: "images/how-to-use-cream.png" }, longDescription: "كريم الوجه HYDRA-DEEP من ARVEA هو كريم متخصص للبشرة الجافة والحساسة، يوفر ترطيبًا عميقًا وتغذية مكثفة. تركيبته الفريدة غنية بحمض الهيالورونيك الذي يجذب الرطوبة إلى البشرة ويحتفظ بها، والنياسيناميد (فيتامين B3) لتحسين مرونة البشرة وتقليل الاحمرار. الجلسرين وبروفيتامين B5 يعملان على تعزيز حاجز البشرة الطبيعي وتهدئة أي تهيج. بالإضافة إلى ذلك، يحتوي على زيوت مغذية مثل زيت الأرغان وزبدة الشيا والزيوت القابلة للذوبان في الماء التي تغذي البشرة بعمق وتساعد على استعادة غشاءها المائي الدهني. النتيجة هي بشرة موحدة اللون، ناعمة، مرنة، ومشرقة فورًا." },
 
 // Bioderma
-{ id:"av4", name:"كريم النهار المرطب", brand:"ARVEA", type:"جميع انواع البشرة", price:63, image:"images/products/kid4.png", description:"كريم النهار المرطب من أرفيا يُرطب البشرة بعمق ويُساعد على استعادة مرونتها وحيويتها، بفضل تركيبته الغنية بالصبار وزيت الأرغان وزيت بذور العنب وزبدة الشيا وبروفيتامين B5. يحتوي أيضًا على عامل حماية من الشمس SPF 15 لحماية البشرة من أضرار الأشعة فوق البنفسجية. هذا الكريم مُصمم ليناسب جميع أنواع البشرة." },
-{ id:"bio2", name:"بيوديرما كريم Sensibio AR", brand:"Bioderma", type:"حساسة", price:74, image:"images/creams/cream5.png", description:"يهدئ احمرار البشرة الحساسة ويقلل الالتهاب." },
-{ id:"bio3", name:"بيوديرما كريم Hydrabio Perfecteur", brand:"Bioderma", type:"عادية", price:45, image:"images/creams/cream6.png", description:"يوحد لون البشرة العادية ويمنحها إشراقة ناعمة." },
+{ id:"av4", name:"كريم النهار المرطب", brand:"ARVEA", type:"جميع انواع البشرة", price:63, image:"images/products/kid4.png", description:"كريم النهار المرطب من أرفيا يُرطب البشرة بعمق ويُساعد على استعادة مرونتها وحيويتها.", howToUse: { text: "يوضع كل صباح على الوجه والرقبة بعد تنظيف البشرة. يُجدد الترطيب ويحمي من الشمس.", image: "images/how-to-use-cream.png" }, longDescription: "يقدم كريم النهار المرطب من ARVEA ترطيبًا يوميًا أساسيًا لجميع أنواع البشرة. تركيبته الغنية بالصبار المهدئ، وزيت الأرغان المغذي، وزيت بذور العنب المضاد للأكسدة، وزبدة الشيا المرطبة، وبروفيتامين B5 المرمم، تعمل معًا لتجديد البشرة واستعادة حيويتها. يحتوي أيضًا على عامل حماية من الشمس SPF 15، مما يوفر حماية خفيفة ضد الأشعة فوق البنفسجية الضارة، مما يجعله مثاليًا للاستخدام اليومي لحماية بشرتك والحفاظ على نضارتها." },
+{ id:"bio2", name:"بيوديرما كريم Sensibio AR", brand:"Bioderma", type:"حساسة", price:74, image:"images/creams/cream5.png", description:"يهدئ احمرار البشرة الحساسة ويقلل الالتهاب.", howToUse: { text: "يوضع مرتين يومياً على بشرة نظيفة. يساعد في تخفيف الاحمرار والحساسية.", image: "images/how-to-use-cream.png" }, longDescription: "كريم Sensibio AR من Bioderma هو علاج يومي مصمم خصيصًا للبشرة الحساسة المعرضة للاحمرار. يحتوي على مركب Rosactiv® الحاصل على براءة اختراع، والذي يعمل مباشرة على توسع الأوعية الدموية المسؤولة عن الاحمرار. يقلل بشكل فعال من شدة الاحمرار ويمنع ظهوره. قوامه الخفيف وغير الدهني يمتص بسرعة، ويوفر راحة فورية ويترك البشرة ناعمة ومخملية. مثالي للاستخدام صباحًا ومساءً كجزء من روتين العناية بالبشرة لتهدئة الاحمرار وتحسين راحة البشرة." },
+{ id:"bio3", name:"بيوديرما كريم Hydrabio Perfecteur", brand:"Bioderma", type:"عادية", price:45, image:"images/creams/cream6.png", description:"يوحد لون البشرة العادية ويمنحها إشراقة ناعمة.", howToUse: { text: "يوضع في الصباح على الوجه والرقبة بعد تنظيفهما. يوفر ترطيبًا وإشراقة.", image: "images/how-to-use-cream.png" }, longDescription: "كريم Hydrabio Perfecteur من Bioderma هو مرطب مبتكر يوحد لون البشرة العادية ويمنحها إشراقة طبيعية. يحتوي على مركب Aquagenium™ الحاصل على براءة اختراع، والذي يعلم البشرة كيفية تنشيط قدراتها الطبيعية على الترطيب وإنتاج الماء. كما يضم فلاتر للأشعة فوق البنفسجية (SPF 30) لحماية البشرة من أضرار الشمس، ومساحيق اللؤلؤ لإضفاء إشراقة فورية. يترك البشرة رطبة، ناعمة، وموحدة اللون، مع لمسة نهائية مخملية ومضيئة. مناسب للاستخدام اليومي كأساس للمكياج أو بمفرده." },
 
 // La Roche
-{ id:"lr1", name:"لاروش بوزيه كريم Effaclar K+", brand:"La Roche", type:"دهنية", price:83, image:"images/creams/kid7.png", description:"ينقي البشرة الدهنية ويقلل من الرؤوس السوداء." },
-{ id:"lr2", name:"لاروش بوزيه كريم Toleriane Sensitive Fluide", brand:"La Roche", type:"مختلطة", price:79, image:"images/creams/kid8.png", description:"يرطب ويهدئ البشرة المختلطة الحساسة دون لمعان." },
-{ id:"lr3", name:"لاروش بوزيه كريم Cicaplast Baume B5+", brand:"La Roche", type:"حساسة", price:53, image:"images/creams/kid9.png", description:"كريم ترميمي غني لتهدئة وحماية البشرة الحساسة." },
+{ id:"lr1", name:"لاروش بوزيه كريم Effaclar K+", brand:"La Roche", type:"دهنية", price:83, image:"images/creams/kid7.png", description:"ينقي البشرة الدهنية ويقلل من الرؤوس السوداء.", howToUse: { text: "يوضع صباحاً ومساءً على كامل الوجه بعد تنظيفه جيداً. تجنب منطقة العين.", image: "images/how-to-use-cream.png" }, longDescription: "كريم Effaclar K+ من La Roche-Posay هو علاج مجدد للبشرة الدهنية والمعرضة للعيوب. يعمل على تقليل ظهور الرؤوس السوداء وتحسين نسيج البشرة. بتركيبته التي تحتوي على LHA و Sebulyse، يعمل هذا الكريم على تقشير البشرة بلطف وتضييق المسام وتنظيم إفراز الزيوت. يوفر لمسة نهائية غير لامعة تدوم طويلاً ويمنع ظهور عيوب جديدة. استخدميه يوميًا للحصول على بشرة أكثر نقاءً ونعومة وخالية من اللمعان." },
+{ id:"lr2", name:"لاروش بوزيه كريم Toleriane Sensitive Fluide", brand:"La Roche", type:"مختلطة", price:79, image:"images/creams/kid8.png", description:"يرطب ويهدئ البشرة المختلطة الحساسة دون لمعان.", howToUse: { text: "يوضع على الوجه والرقبة صباحاً ومساءً. مناسب للبشرة الحساسة والمختلطة.", image: "images/how-to-use-cream.png" }, longDescription: "Fluid Toleriane Sensitive من La Roche-Posay هو مرطب خفيف ومهدئ مصمم خصيصًا للبشرة المختلطة إلى الدهنية الحساسة. تركيبته البسيطة تحتوي على Prebiotic Thermal Water التي تعمل على استعادة حاجز البشرة وتقليل حساسيتها. يوفر ترطيبًا لمدة 48 ساعة ويقلل من الشعور بالضيق والحرقة. قوامه الخفيف غير الدهني يمتص بسرعة ولا يترك أي لمعان، مما يجعله مثاليًا للبشرة التي تحتاج إلى ترطيب دون زيادة الإفرازات الدهنية." },
+{ id:"lr3", name:"لاروش بوزيه كريم Cicaplast Baume B5+", brand:"La Roche", type:"حساسة", price:53, image:"images/creams/kid9.png", description:"كريم ترميمي غني لتهدئة وحماية البشرة الحساسة.", howToUse: { text: "يمكن تطبيقه مرتين يومياً على بشرة نظيفة وجافة. مناسب للجسم والوجه والشفتين.", image: "images/how-to-use-cream.png" }, longDescription: "Cicaplast Baume B5+ من La Roche-Posay هو بلسم متعدد الاستخدامات يعمل على تهدئة وإصلاح وحماية البشرة المتهيجة والحساسة. تركيبته الفريدة تحتوي على Madecassoside الذي يعزز الإصلاح الجلدي، والنحاس والزنك والمنغنيز التي تعمل كمضادات للبكتيريا، و Panthenol (فيتامين B5) بتركيز 5% لتهدئة البشرة وتقليل الشعور بالانزعاج. كما يحتوي على Prebiotic Tribioma الذي يساعد على استعادة توازن ميكروبيوم البشرة. يمكن استخدامه على الوجه والجسم والشفتين، ومناسب لجميع أفراد الأسرة، بما في ذلك الأطفال الرضع. مثالي للبشرة الجافة، المتهيجة، بعد الإجراءات الجلدية السطحية، أو لأي تهيج يومي." },
 
 // Arvia
-{ id:"arv1", name:"أرفيا كريم بزيت جوز الهند الطبيعي", brand:"Arvia", type:"عادية", price:39, image:"images/creams/kid10.png", description:"كريم طبيعي يرطب البشرة العادية ويمنحها نعومة فائقة." }
+{ id:"arv1", name:"أرفيا كريم بزيت جوز الهند الطبيعي", brand:"Arvia", type:"عادية", price:39, image:"images/creams/kid10.png", description:"كريم طبيعي يرطب البشرة العادية ويمنحها نعومة فائقة.", howToUse: { text: "يوضع على البشرة النظيفة والجافة كلما دعت الحاجة. مثالي لترطيب الجسم واليدين.", image: "images/how-to-use-cream.png" }, longDescription: "كريم أرفيا بزيت جوز الهند الطبيعي هو مرطب فاخر يمنح البشرة العادية ترطيبًا عميقًا ونعومة حريرية. غني بزيت جوز الهند النقي المعروف بخصائصه المرطبة والمغذية، يساعد هذا الكريم على استعادة ليونة البشرة ومرونتها. قوامه الخفيف يمتص بسرعة دون ترك أي بقايا دهنية، ويترك البشرة معطرة برائحة جوز الهند الطبيعية المنعشة. مثالي للاستخدام اليومي على الجسم واليدين لترطيب يدوم طويلاً وحماية من الجفاف." }
 ];
 
 // -- Mini cart logic
@@ -295,12 +445,202 @@ const openCartBtn = document.getElementById('openCartBtn');
 const closeCartBtn = document.getElementById('closeCartBtn');
 const clearCartBtn = document.getElementById('clearCartBtn');
 
+// --- Product Detail Sidebar elements
+const productDetailSidebar = document.getElementById('productDetailSidebar');
+const sidebarProductName = document.getElementById('sidebarProductName');
+const sidebarProductImage = document.getElementById('sidebarProductImage');
+const sidebarProductDescription = document.getElementById('sidebarProductDescription');
+const sidebarProductPrice = document.getElementById('sidebarProductPrice');
+const sidebarAddToCartBtn = document.getElementById('sidebarAddToCartBtn');
+
+const howToUseText = document.getElementById('howToUseText');
+const howToUseImage = document.getElementById('howToUseImage');
+const customerReviewsSection = document.getElementById('customerReviews');
+
+const tabButtons = document.querySelectorAll('.tab-button');
+const tabContents = document.querySelectorAll('.tab-content');
+
+let currentProductId = null; // To keep track of the product being viewed
+
+function openProductDetailSidebar(prod) {
+    currentProductId = prod.id;
+    sidebarProductName.innerText = prod.name;
+    sidebarProductImage.src = prod.image;
+    sidebarProductImage.classList.remove('zoomed'); // Reset zoom
+    sidebarProductDescription.innerText = prod.longDescription || prod.description; // Show long description if available, else short
+    sidebarProductPrice.innerText = `${prod.price.toFixed(2)} د.ل`;
+    sidebarAddToCartBtn.onclick = () => {
+        addToCart(prod.id);
+        closeProductDetailSidebar();
+    };
+
+    // Update How to Use section
+    if (prod.howToUse) {
+        howToUseText.innerText = prod.howToUse.text;
+        if (prod.howToUse.image) {
+            howToUseImage.src = prod.howToUse.image;
+            howToUseImage.classList.remove('hidden');
+        } else {
+            howToUseImage.classList.add('hidden');
+        }
+    } else {
+        howToUseText.innerText = "لا توجد تعليمات استخدام محددة لهذا المنتج.";
+        howToUseImage.classList.add('hidden');
+    }
+
+    // Load existing reviews (placeholder for now)
+    loadReviewsForProduct(prod.id);
+
+    productDetailSidebar.classList.add('open');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling body
+    overlay.classList.add('open'); // Open overlay with sidebar
+}
+
+function closeProductDetailSidebar() {
+    productDetailSidebar.classList.remove('open');
+    document.body.style.overflow = ''; // Restore body scrolling
+    overlay.classList.remove('open'); // Close overlay
+    currentProductId = null;
+    // Reset to default tab (description)
+    activateTab('description'); 
+}
+
+function toggleZoom(imgElement) {
+    imgElement.classList.toggle('zoomed');
+    imgElement.style.cursor = imgElement.classList.contains('zoomed') ? 'zoom-out' : 'zoom-in';
+}
+
+// Function to handle tab switching
+function activateTab(tabName) {
+    tabButtons.forEach(button => {
+        if (button.dataset.tab === tabName) {
+            button.classList.add('active');
+        } else {
+            button.classList.remove('active');
+        }
+    });
+    tabContents.forEach(content => {
+        if (content.id === tabName + 'Tab') {
+            content.classList.add('active');
+        } else {
+            content.classList.remove('active');
+        }
+    });
+}
+
+tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        activateTab(button.dataset.tab);
+    });
+});
+
+
+// Placeholder for reviews (in a real app, this would come from a backend)
+const productReviews = {
+    "av1": [
+        { name: "فاطمة ع.", rating: 5, text: "كريم ليلي ممتاز، بشرتي أصبحت ناعمة جداً.", likes: 10, supports: 3 },
+        { name: "ليلى خ.", rating: 4, text: "أحببته، لكن سعره مرتفع قليلاً.", likes: 7, supports: 1 }
+    ],
+    "av2": [
+        { name: "أحمد س.", rating: 5, text: "ترطيبه مثالي للبشرة العادية، لا يترك أثراً دهنياً.", likes: 8, supports: 2 }
+    ]
+    // Add more reviews for other products
+};
+
+function loadReviewsForProduct(productId) {
+    customerReviewsSection.innerHTML = ''; // Clear previous reviews
+    const reviews = productReviews[productId] || [];
+
+    if (reviews.length === 0) {
+        customerReviewsSection.innerHTML = '<p class="text-center text-gray-500">لا توجد آراء للعملاء بعد. كن أول من يترك تعليقاً!</p>';
+    } else {
+        reviews.forEach(review => {
+            const reviewEl = document.createElement('div');
+            reviewEl.className = 'bg-gray-50 p-3 rounded-lg shadow-sm';
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                starsHtml += `<label><i class="fas fa-star ${i <= review.rating ? 'text-yellow-500' : ''}"></i></label>`;
+            }
+            reviewEl.innerHTML = `
+                <div class="flex items-center mb-1">
+                    <span class="font-semibold text-sm">${review.name}</span>
+                    <div class="star-rating text-sm mr-auto flex-row-reverse">${starsHtml}</div>
+                </div>
+                <p class="text-xs text-gray-600 mb-2">"${review.text}"</p>
+                <div class="flex items-center text-xs text-gray-500">
+                    <button class="btn btn-ghost btn-xs flex items-center gap-1" onclick="handleReaction(this, 'like', '${productId}')">
+                        <i class="far fa-thumbs-up"></i> أحببته (<span class="like-count">${review.likes}</span>)
+                    </button>
+                    <button class="btn btn-ghost btn-xs flex items-center gap-1 mr-2" onclick="handleReaction(this, 'support', '${productId}')">
+                        <i class="far fa-heart"></i> أدعمه (<span class="support-count">${review.supports}</span>)
+                    </button>
+                </div>
+            `;
+            customerReviewsSection.appendChild(reviewEl);
+        });
+    }
+}
+
+function submitReview() {
+    const name = document.getElementById('reviewName').value.trim();
+    const text = document.getElementById('reviewText').value.trim();
+    const rating = document.querySelector('#reviewsTab input[name="rating"]:checked'); // Select only from reviews tab
+
+    if (!name || !text || !rating) {
+        Swal.fire({ icon: 'warning', title: 'يرجى ملء جميع حقول التعليق واختيار تقييم.' });
+        return;
+    }
+
+    const newReview = {
+        name: name,
+        rating: parseInt(rating.value),
+        text: text,
+        likes: 0,
+        supports: 0
+    };
+
+    if (!productReviews[currentProductId]) {
+        productReviews[currentProductId] = [];
+    }
+    productReviews[currentProductId].push(newReview);
+    
+    Swal.fire({ icon: 'success', title: 'تم إرسال تعليقك بنجاح!', showConfirmButton: false, timer: 1500 });
+
+    // Clear form
+    document.getElementById('reviewName').value = '';
+    document.getElementById('reviewText').value = '';
+    if (rating) rating.checked = false;
+
+    loadReviewsForProduct(currentProductId); // Reload reviews to show the new one
+}
+
+function handleReaction(button, type, productId) {
+    const reviewElement = button.closest('.bg-gray-50');
+    const reviewText = reviewElement.querySelector('p').innerText.replace(/"/g, ''); // Get review text to identify
+    
+    // Find the review in our dummy data
+    const reviews = productReviews[productId];
+    if (reviews) {
+        const targetReview = reviews.find(r => r.text === reviewText);
+        if (targetReview) {
+            if (type === 'like') {
+                targetReview.likes++;
+                reviewElement.querySelector('.like-count').innerText = targetReview.likes;
+            } else if (type === 'support') {
+                targetReview.supports++;
+                reviewElement.querySelector('.support-count').innerText = targetReview.supports;
+            }
+            // In a real app, you'd send this update to your backend
+        }
+    }
+}
+
 // --- Render products
 function renderProducts(filter='all', search='') {
   productsContainer.innerHTML = '';
   const term = (search || '').trim().toLowerCase();
   const filtered = products.filter(
-    p => (filter==='all' || p.type.split(',').includes(filter)) && (p.name + ' ' + p.description).toLowerCase().includes(term)
+    p => (filter==='all' || p.type.split(',').includes(filter)) && (p.name + ' ' + p.description + ' ' + (p.longDescription || '')).toLowerCase().includes(term)
   );
   if (!filtered.length) {
     productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500">لا توجد منتجات مطابقة.</div>`;
@@ -315,7 +655,7 @@ function renderProducts(filter='all', search='') {
       <h3 class="font-semibold">${p.name}</h3>
       <div class="text-xs text-gray-400 mb-1">${p.brand}</div>
       <div class="flex-grow text-sm text-gray-500 mb-2 overflow-hidden max-h-[4.5em] leading-tight">
-        <!-- Description will be shown in detail modal -->
+        <!-- Description will be shown in detail sidebar -->
       </div>
       <div class="flex items-center gap-2 mt-2">
         <div class="text-lg font-bold">${p.price.toFixed(2)} د.ل</div>
@@ -406,12 +746,7 @@ productsContainer.addEventListener('click', e => {
     if (action === 'detail') {
       const prod = products.find(p=>p.id===id);
       if (prod) {
-        Swal.fire({
-          title: prod.name,
-          html: `<img src="${prod.image}" alt="${prod.name}" loading="lazy" class="mx-auto w-40 h-40 object-contain mb-3"><p class="text-sm text-gray-600">${prod.description}</p><p class="mt-2 font-bold">${prod.price.toFixed(2)} د.ل</p>`,
-          showCloseButton: true,
-          showConfirmButton: false,
-        });
+        openProductDetailSidebar(prod);
       }
     }
 });
@@ -462,6 +797,7 @@ overlay.addEventListener('click', closeCart);
 window.addEventListener('keydown', (e)=> {
   if (e.key === 'Escape') {
     if (cartPanel.classList.contains('open')) closeCart();
+    if (productDetailSidebar.classList.contains('open')) closeProductDetailSidebar(); // Close sidebar on Escape
   }
 });
 
@@ -501,18 +837,9 @@ renderProducts();
 updateCartUI();
 window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart', JSON.stringify(cart)));
 </script>
+<!-- Font Awesome for star icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
