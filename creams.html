@@ -178,6 +178,7 @@
       <div class="flex flex-col gap-2">
         <button class="filter-btn btn btn-sm justify-start" data-type="all">جميع الأنواع</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="دهنية">دهنية</button>
+         <button class="filter-btn btn btn-sm justify-start" data-type="جافة">جافة</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="عادية">عادية</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="مختلطة">مختلطة</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="حساسة">حساسة</button>
@@ -298,7 +299,7 @@ function renderProducts(filter='all', search='') {
   productsContainer.innerHTML = '';
   const term = (search || '').trim().toLowerCase();
   const filtered = products.filter(
-    p => (filter==='all' || p.type===filter) && (p.name + ' ' + p.description).toLowerCase().includes(term)
+    p => (filter==='all' || p.type.split(',').includes(filter)) && (p.name + ' ' + p.description).toLowerCase().includes(term)
   );
   if (!filtered.length) {
     productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500">لا توجد منتجات مطابقة.</div>`;
@@ -503,6 +504,7 @@ window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart',
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 </body>
 </html>
+
 
 
 
