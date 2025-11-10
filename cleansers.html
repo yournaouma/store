@@ -116,6 +116,144 @@
       background-color: #ff9800;
       color: white;
     }
+
+    /* Product Detail Modal (instead of sidebar) */
+    .product-detail-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.8); /* Start smaller and hidden */
+        width: 90%;
+        max-width: 700px; /* Wider for better layout */
+        max-height: 90vh; /* Limit height for scrollability */
+        background-color: white;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        border-radius: 1rem;
+        transition: all 0.3s ease-in-out;
+        z-index: 101;
+        padding: 1.5rem;
+        overflow-y: auto;
+        opacity: 0;
+        pointer-events: none;
+        display: flex; /* Use flexbox for horizontal layout */
+        flex-direction: row-reverse; /* For RTL content */
+        gap: 1.5rem; /* Space between image/details and tabs */
+    }
+    .product-detail-modal.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, -50%) scale(1); /* Scale up to full size */
+    }
+    .product-detail-modal .close-btn {
+        position: absolute;
+        top: 1rem;
+        left: 1rem; /* Adjusted for RTL */
+        background: none;
+        border: none;
+        font-size: 1.8rem;
+        cursor: pointer;
+        color: #999;
+        z-index: 10;
+    }
+    .product-detail-modal .close-btn:hover {
+        color: #ff5722;
+    }
+    .product-detail-modal .section-title {
+        font-weight: bold;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        color: #ff9800; /* Orange color for titles */
+    }
+    .star-rating {
+        display: flex;
+        flex-direction: row-reverse; /* For RTL stars */
+        justify-content: flex-end; /* For RTL stars */
+    }
+    .star-rating input[type="radio"] {
+        display: none;
+    }
+    .star-rating label {
+        font-size: 1.5rem;
+        color: #ccc;
+        cursor: pointer;
+    }
+    .star-rating input[type="radio"]:checked ~ label {
+        color: #ffc107; /* Gold color for checked stars */
+    }
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: #ffc107;
+    }
+
+    /* Tab styles for product details modal */
+    .tab-buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    .tab-button {
+      flex: 1;
+      padding: 0.75rem 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+      color: #666;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease-in-out;
+    }
+    .tab-button.active {
+      color: #ff9800;
+      border-bottom-color: #ff9800;
+    }
+    .tab-content {
+      display: none;
+      padding-top: 1rem; /* Add some padding so content doesn't touch buttons */
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .product-image-zoom {
+      cursor: zoom-in;
+      transition: transform 0.2s ease-in-out;
+    }
+    .product-image-zoom.zoomed {
+      transform: scale(1.5); /* Adjust zoom level as needed */
+      cursor: zoom-out;
+    }
+
+    /* Layout for modal content (horizontal) */
+    .product-details-main {
+        flex: 1; /* Takes up available space */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .product-details-tabs-container {
+        flex: 2; /* Tabs take more space than image/basic details */
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Responsive adjustments for modal */
+    @media (max-width: 768px) {
+        .product-detail-modal {
+            flex-direction: column; /* Stack elements vertically on smaller screens */
+            max-width: 95%;
+            padding: 1rem;
+            gap: 1rem;
+        }
+        .product-detail-modal .close-btn {
+            top: 0.5rem;
+            left: 0.5rem;
+        }
+        .product-details-main, .product-details-tabs-container {
+            flex: none; /* Reset flex */
+            width: 100%;
+        }
+    }
   </style>
 </head>
 
@@ -238,12 +376,72 @@
   </div>
 </aside>
 
+<!-- Product Detail Modal (instead of sidebar) -->
+<aside id="productDetailModal" class="product-detail-modal">
+    <button class="close-btn" onclick="closeProductDetailModal()">✕</button>
+    
+    <!-- Left part (Product Image, Name, Price, Add to Cart) -->
+    <div class="product-details-main">
+        <h3 id="modalProductName" class="text-xl font-bold mb-4 text-[#ff9800]"></h3>
+        <img id="modalProductImage" src="" alt="" class="w-48 h-48 object-contain mx-auto mb-4 product-image-zoom" onclick="toggleZoom(this)">
+        <p class="text-lg font-bold" id="modalProductPrice"></p>
+        <button class="btn btn-primary w-full mt-4" id="modalAddToCartBtn">أضف للسلة</button>
+    </div>
+
+    <!-- Right part (Tabs: Description, How to Use, Reviews) -->
+    <div class="product-details-tabs-container">
+        <!-- Tab Buttons for switching content -->
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="description">الوصف</button>
+            <button class="tab-button" data-tab="howToUse">كيفية الاستعمال</button>
+            <button class="tab-button" data-tab="reviews">آراء العملاء</button>
+        </div>
+
+        <!-- Content for each tab -->
+        <!-- Product Description Tab -->
+        <div id="descriptionTab" class="tab-content active">
+            <p id="modalProductDescription" class="text-sm text-gray-700 text-center mb-4"></p>
+        </div>
+
+        <!-- How to Use Tab -->
+        <div id="howToUseTab" class="tab-content">
+            <h4 class="section-title">كيفية الاستعمال</h4>
+            <div id="howToUseContent">
+                <img id="howToUseImage" src="" alt="كيفية الاستعمال" class="w-full h-auto object-contain mb-2 rounded hidden">
+                <p id="howToUseText" class="text-sm text-gray-700"></p>
+            </div>
+        </div>
+
+        <!-- Customer Reviews Tab -->
+        <div id="reviewsTab" class="tab-content">
+            <h4 class="section-title">آراء العملاء</h4>
+            <div id="customerReviews" class="space-y-3">
+                <!-- Reviews will be loaded here -->
+            </div>
+            <!-- Add New Review Form -->
+            <div class="mt-4 p-3 bg-white rounded-lg shadow-sm border border-orange-200">
+                <h5 class="font-semibold mb-2">أضف تعليقك</h5>
+                <input type="text" id="reviewName" placeholder="اسمك" class="input input-bordered w-full mb-2 input-sm" />
+                <textarea id="reviewText" placeholder="اكتب تعليقك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
+                <div class="star-rating mb-3">
+                    <input type="radio" id="rate-5" name="rating" value="5" /><label for="rate-5"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-4" name="rating" value="4" /><label for="rate-4"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-3" name="rating" value="3" /><label for="rate-3"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-2" name="rating" value="2" /><label for="rate-2"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-1" name="rating" value="1" /><label for="rate-1"><i class="fas fa-star"></i></label>
+                </div>
+                <button class="btn btn-primary btn-sm w-full" onclick="submitReview()">إرسال التعليق</button>
+            </div>
+        </div>
+    </div>
+</aside>
+
 <!-- Script for sidebar and products -->
 <script>
-// Orange sidebar logic
+// Sidebar logic (now white)
 const menuBtn = document.getElementById('menuBtn');
 const sidebar = document.getElementById('sidebar');
-const menuOverlay = document.getElementById('menuOverlay'); // Added for the overlay
+const menuOverlay = document.getElementById('menuOverlay');
 const closeSidebar = document.getElementById('closeSidebar');
 
 function toggleSidebar(open) {
@@ -264,17 +462,38 @@ menuOverlay.addEventListener('click', () => toggleSidebar(false));
 // --- Products data (Cleansers only)
 const products = [
   // Cleansers
-  { id:"cln1", name:"غسول جل منظف للبشرة الدهنية", brand:"Brand A", type:"مختلطة,دهنية", price:38, image:"images/cleansers/cleanser1.png", description:"جل شفاف غني بخلاصة الصبار، وهو جزء من مجموعة منتجات مصممة خصيصًا للعناية بالبشرة الدهنية والمختلطة. تركيبته الفريدة تنظف البشرة بعمق ولطف في آنٍ واحد، وتزيل الشوائب وآثار المكياج والدهون الزائدة دون أن تسبب جفافها أو تهيجها. غني بمكونات طبيعية فعالة مثل خلاصة الصبار والجلسرين ومستخلصات نباتية مهدئة تعمل على تنقية المسام وتحسين ملمس البشرة. يساعد على موازنة إفراز الزيوت مع الحفاظ على درجة حموضة البشرة الطبيعية، مما يمنحك بشرة نقية، منتعشةً.." },
-  { id:"cln2", name:"رغوة تنظيف هيدرا ديب", brand:"Brand B", type:"حساسة,جافة", price:72, image:"images/cleansers/cleanser2.png", description:"هذه الرغوة المنظفة من مجموعة HYDRA-DEEP هي جزء من مجموعة منتجات مصممة خصيصًا للبشرة الجافة والحساسة. بتركيبة خاصة تحتوي على مواد فعالة سطحية لطيفة، تنظف البشرة بفعالية، وتزيل الشوائب وآثار المكياج والملوثات دون أن تسبب جفافها. غنية باليوريا والجلسرين والصبار والزيوت النباتية القابلة للذوبان في الماء والنياسيناميد وبروفيتامين B5، تُهدئ البشرة المشدودة وتُرطبها. قوامها الرغوي الكريمي والخفيف يمنحك شعورًا بالانتعاش والنعومة.." },
-  { id:"cln3", name:"غسول الفم ", brand:"Brand C", type:"غسول الفم", price:23, image:"images/cleansers/cleanser3.png", description:"صُمم هذا الغسول الفموي لعلاج الآفات الفموية المؤقتة، مثل قرح الفم. تركيزه في بيكربونات الصوديوم بنسبة 1.4% يمنح التركيبة تأثيرًا مُخففًا يُساعد على معادلة الحموضة واستعادة درجة الحموضة الطبيعية للفم. هذا يحد من تكاثر الميكروبات الانتهازية المُسببة لظهور قرح الفم والتهيجات والآفات السطحية، ويُعزز الإصلاح الطبيعي للغشاء المخاطي للفم. وفي الوقت نفسه، يُساعد على إذابة الرواسب السطحية المُسببة لفقدان لمعان الأسنان، مما يضمن تبييضًا طبيعيًا..." },
-  { id:"cln4", name:"غسول الفم", brand:"Brand D", type:"غسول الفم", price:38, image:"images/cleansers/cleanser4.png", description:"يُنصح باستخدام غسول الفم أرفيا يوميًا كمكمل لتنظيف الأسنان بالفرشاة، أو كعلاج موضعي إضافي لاضطرابات تجويف الفم (الهربس، التهاب اللثة، قرح الفم، التهاب الغشاء المخاطي للفم). يساعد على منع ظهور البلاك ومشاكل اللثة. يمنح النعناع والأوكالبتوس الفم شعورًا بالانتعاش والنظافة بفضل مذاقه اللذيذ. المكونات النشطة في هذا الغسول للفم لها تأثيرات مطهرة ومضادة للبكتيريا ومضادة للالتهابات لضمان نظافة الفم المثالية.  .." },
-  { id:"cln5", name:"ماء ميسيلار لإزالة المكياج", brand:"Brand E", type:"حساسة,جافة,جميع انواع البشرة,عادية,مختلطة,دهنية", price:66, image:"images/cleansers/cleanser5.png", description:"ماء ميسيلار مزيل للمكياج مصمم للوجه والعينين والشفاه، وهو مناسب لجميع أنواع البشرة، حتى الأكثر حساسية. ينظف ويزيل المكياج بفعالية، بما في ذلك المكياج المقاوم للماء والشوائب والدهون الزائدة، دون الحاجة إلى الشطف. تركيبته الغنية بالجلسرين تحافظ على حاجز البشرة وتمنحها نعومة وترطيبًا. لا تحتوي تركيبته على الكحول أو البارابين أو العطور الاصطناعية، لتمنح البشرة إحساسًا بالنظافة والانتعاش دون تهيج.." },
-  { id:"cln6", name:"جل الصبار للجسم كله", brand:"Brand F", type:"حساسة,جافة,جميع انواع البشرة,عادية,مختلطة,دهنية", price:57, image:"images/cleansers/cleanser6.png", description:"تم تركيبه باستخدام 85% من جل الصبار الأصلي، وهو يوفر خصائص الترطيب والتغذية والتنعيم والتهدئة والتجديد الموجودة في الصبار. يُستخدم ليلاً على الوجه والرقبة واليدين وسائر المناطق المعرضة للشمس، وعلى باقي الجسم في أي وقت من اليوم بعد تنظيف البشرة وتجفيفها جيدًا. جل الصبار علاج مثالي للبشرة المختلطة إلى الدهنية، حيث يُغلّف المسام بلطف دون أن يُسبّب تشبعًا، ويمكن استخدامه ككريم ليلي للوجه..." },
-  { id:"cln7", name:"غسول زيتي لإزالة المكياج", brand:"Brand G", type:"جميع الأنواع", price:80, image:"images/cleansers/cleanser7.png", description:"يزيل المكياج المقاوم للماء والشوائب بفعالية." },
-  { id:"cln8", name:"غسول معقم ومطهر للبشرة المعرضة لحب الشباب", brand:"Brand H", type:"دهنية", price:85, image:"images/cleansers/cleanser8.png", description:"يحارب البكتيريا ويمنع ظهور حب الشباب." },
-  { id:"cln9", name:"غسول بماء الورد للبشرة الباهتة", brand:"Brand I", type:"عادية", price:62, image:"images/cleansers/cleanser9.png", description:"يضيء البشرة الباهتة ويمنحها نضارة ورائحة عطرية." },
-  { id:"cln10", name:"غسول مقشر لطيف بحمض الساليسيليك", brand:"Brand J", type:"مختلطة", price:78, image:"images/cleansers/cleanser10.png", description:"يقشر الخلايا الميتة ويحسن مظهر المسام." }
+  { id:"cln1", name:"غسول جل منظف للبشرة الدهنية", brand:"ARVEA", type:"مختلطة,دهنية", price:38, image:"images/cleansers/cleanser1.png", description:"جل شفاف غني بخلاصة الصبار، وهو جزء من مجموعة منتجات مصممة خصيصًا للعناية بالبشرة الدهنية والمختلطة. تركيبته الفريدة تنظف البشرة بعمق ولطف في آنٍ واحد، وتزيل الشوائب وآثار المكياج والدهون الزائدة دون أن تسبب جفافها أو تهيجها. غني بمكونات طبيعية فعالة مثل خلاصة الصبار والجلسرين ومستخلصات نباتية مهدئة تعمل على تنقية المسام وتحسين ملمس البشرة. يساعد على موازنة إفراز الزيوت مع الحفاظ على درجة حموضة البشرة الطبيعية، مما يمنحك بشرة نقية، منتعشةً.",
+    howToUse: { text: "يوضع صباحاً ومساءً على بشرة مبللة، دلكي بلطف ثم اشطفي جيداً بالماء. تجنبي منطقة العين.", image: "images/how-to-use-cleanser.png" }
+  },
+  { id:"cln2", name:"رغوة تنظيف هيدرا ديب", brand:"ARVEA", type:"حساسة,جافة", price:72, image:"images/cleansers/cleanser2.png", description:"هذه الرغوة المنظفة من مجموعة HYDRA-DEEP هي جزء من مجموعة منتجات مصممة خصيصًا للبشرة الجافة والحساسة. بتركيبة خاصة تحتوي على مواد فعالة سطحية لطيفة، تنظف البشرة بفعالية، وتزيل الشوائب وآثار المكياج والملوثات دون أن تسبب جفافها. غنية باليوريا والجلسرين والصبار والزيوت النباتية القابلة للذوبان في الماء والنياسيناميد وبروفيتامين B5، تُهدئ البشرة المشدودة وتُرطبها. قوامها الرغوي الكريمي والخفيف يمنحك شعورًا بالانتعاش والنعومة.",
+    howToUse: { text: "ضعي كمية صغيرة على يديك المبللتين واصنعي رغوة، ثم دلكي الوجه والرقبة بلطف. اشطفي بالماء الفاتر.", image: "images/how-to-use-cleanser.png" }
+  },
+  { id:"cln3", name:"غسول الفم بيكربونات الصوديوم", brand:"ARVEA", type:"غسول الفم", price:23, image:"images/cleansers/cleanser3.png", description:"صُمم هذا الغسول الفموي لعلاج الآفات الفموية المؤقتة، مثل قرح الفم. تركيزه في بيكربونات الصوديوم بنسبة 1.4% يمنح التركيبة تأثيرًا مُخففًا يُساعد على معادلة الحموضة واستعادة درجة الحموضة الطبيعية للفم. هذا يحد من تكاثر الميكروبات الانتهازية المُسببة لظهور قرح الفم والتهيجات والآفات السطحية، ويُعزز الإصلاح الطبيعي للغشاء المخاطي للفم. وفي الوقت نفسه، يُساعد على إذابة الرواسب السطحية المُسببة لفقدان لمعان الأسنان، مما يضمن تبييضًا طبيعيًا.",
+    howToUse: { text: "اشطفي الفم بكمية مناسبة لمدة 30 ثانية بعد تنظيف الأسنان بالفرشاة، مرتين يوميًا. لا يُبلع.", image: "images/how-to-use-mouthwash.png" }
+  },
+  { id:"cln4", name:"غسول الفم بالنعناع والأوكالبتوس", brand:"ARVEA", type:"غسول الفم", price:38, image:"images/cleansers/cleanser4.png", description:"يُنصح باستخدام غسول الفم أرفيا يوميًا كمكمل لتنظيف الأسنان بالفرشاة، أو كعلاج موضعي إضافي لاضطرابات تجويف الفم (الهربس، التهاب اللثة، قرح الفم، التهاب الغشاء المخاطي للفم). يساعد على منع ظهور البلاك ومشاكل اللثة. يمنح النعناع والأوكالبتوس الفم شعورًا بالانتعاش والنظافة بفضل مذاقه اللذيذ. المكونات النشطة في هذا الغسول للفم لها تأثيرات مطهرة ومضادة للبكتيريا ومضادة للالتهابات لضمان نظافة الفم المثالية.",
+    howToUse: { text: "استخدمي كمية صغيرة لشطف الفم لمدة 30 ثانية صباحاً ومساءً. لا يُبلع.", image: "images/how-to-use-mouthwash.png" }
+  },
+  { id:"cln5", name:"ماء ميسيلار لإزالة المكياج بالصبار", brand:"ARVEA", type:"حساسة,جافة,جميع انواع البشرة,عادية,مختلطة,دهنية", price:66, image:"images/cleansers/cleanser5.png", description:"ماء ميسيلار مزيل للمكياج مصمم للوجه والعينين والشفاه، وهو مناسب لجميع أنواع البشرة، حتى الأكثر حساسية. ينظف ويزيل المكياج بفعالية، بما في ذلك المكياج المقاوم للماء والشوائب والدهون الزائدة، دون الحاجة إلى الشطف. تركيبته الغنية بالجلسرين تحافظ على حاجز البشرة وتمنحها نعومة وترطيبًا. لا تحتوي تركيبته على الكحول أو البارابين أو العطور الاصطناعية، لتمنح البشرة إحساسًا بالنظافة والانتعاش دون تهيج.",
+    howToUse: { text: "ضعي القليل على قطعة قطن وامسحي بها الوجه والعينين والشفاه حتى يصبح القطن نظيفاً. لا داعي للشطف.", image: "images/how-to-use-micellar-water.png" }
+  },
+  { id:"cln6", name:"جل الصبار للجسم كله", brand:"ARVEA", type:"حساسة,جافة,جميع انواع البشرة,عادية,مختلطة,دهنية", price:57, image:"images/cleansers/cleanser6.png", description:"تم تركيبه باستخدام 85% من جل الصبار الأصلي، وهو يوفر خصائص الترطيب والتغذية والتنعيم والتهدئة والتجديد الموجودة في الصبار. يُستخدم ليلاً على الوجه والرقبة واليدين وسائر المناطق المعرضة للشمس، وعلى باقي الجسم في أي وقت من اليوم بعد تنظيف البشرة وتجفيفها جيدًا. جل الصبار علاج مثالي للبشرة المختلطة إلى الدهنية، حيث يُغلّف المسام بلطف دون أن يُسبّب تشبعًا، ويمكن استخدامه ككريم ليلي للوجه.",
+    howToUse: { text: "يوضع على بشرة نظيفة وجافة (وجه، جسم، يدين) ويُدلك بلطف حتى يمتص بالكامل. يمكن استخدامه يومياً.", image: "images/how-to-use-aloe-gel.png" }
+  },
+  { id:"cln7", name:"غسول زيتي لإزالة المكياج", brand:"Dior", type:"جميع الأنواع", price:80, image:"images/cleansers/cleanser7.png", description:"يزيل المكياج المقاوم للماء والشوائب بفعالية، ويترك البشرة ناعمة ومرطبة دون بقايا دهنية.",
+    howToUse: { text: "ضعي كمية صغيرة على بشرة جافة ودلكي بلطف لإذابة المكياج. أضيفي الماء لعمل مستحلب ثم اشطفي جيداً.", image: "images/how-to-use-oil-cleanser.png" }
+  },
+  { id:"cln8", name:"غسول معقم ومطهر للبشرة المعرضة لحب الشباب", brand:"La Roche-Posay", type:"دهنية", price:85, image:"images/cleansers/cleanser8.png", description:"غسول جل فعال يحارب البكتيريا ويمنع ظهور حب الشباب، مع تنقية المسام وتنظيف البشرة بعمق دون تجفيفها.",
+    howToUse: { text: "استخدميه صباحاً ومساءً على بشرة مبللة، دلكي بلطف وركزي على المناطق الدهنية ثم اشطفي جيداً.", image: "images/how-to-use-cleanser.png" }
+  },
+  { id:"cln9", name:"غسول بماء الورد للبشرة الباهتة", brand:"NIVEA", type:"عادية", price:62, image:"images/cleansers/cleanser9.png", description:"غسول كريمي بماء الورد يضيء البشرة الباهتة ويمنحها نضارة وإشراقة طبيعية ورائحة عطرية منعشة.",
+    howToUse: { text: "دلكي كمية صغيرة على وجه مبلل بحركات دائرية، ثم اشطفي بالماء الفاتر.", image: "images/how-to-use-cleanser.png" }
+  },
+  { id:"cln10", name:"غسول مقشر لطيف بحمض الساليسيليك", brand:"CeraVe", type:"مختلطة", price:78, image:"images/cleansers/cleanser10.png", description:"غسول مقشر يحتوي على حمض الساليسيليك يقشر الخلايا الميتة بلطف، ويحسن مظهر المسام، ويترك البشرة ناعمة ونقية.",
+    howToUse: { text: "استخدميه 2-3 مرات في الأسبوع على بشرة مبللة، دلكي بلطف ثم اشطفي. تجنبي منطقة العين.", image: "images/how-to-use-cleanser.png" }
+  }
 ];
+
 // -- Mini cart logic
 let cart = JSON.parse(localStorage.getItem('orange_cart') || '[]');
 const productsContainer = document.getElementById('productsContainer');
@@ -288,6 +507,207 @@ const cartPanel = document.getElementById('cartPanel');
 const openCartBtn = document.getElementById('openCartBtn');
 const closeCartBtn = document.getElementById('closeCartBtn');
 const clearCartBtn = document.getElementById('clearCartBtn');
+
+// --- Product Detail Modal elements
+const productDetailModal = document.getElementById('productDetailModal');
+const modalProductName = document.getElementById('modalProductName');
+const modalProductImage = document.getElementById('modalProductImage');
+const modalProductDescription = document.getElementById('modalProductDescription');
+const modalProductPrice = document.getElementById('modalProductPrice');
+const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
+
+const howToUseText = document.getElementById('howToUseText');
+const howToUseImage = document.getElementById('howToUseImage');
+const customerReviewsSection = document.getElementById('customerReviews');
+
+const tabButtons = document.querySelectorAll('.tab-buttons .tab-button');
+const tabContents = document.querySelectorAll('.product-details-tabs-container .tab-content'); // Adjusted selector
+
+let currentProductId = null; // To keep track of the product being viewed
+
+function openProductDetailModal(prod) {
+    currentProductId = prod.id;
+    modalProductName.innerText = prod.name;
+    modalProductImage.src = prod.image;
+    modalProductImage.classList.remove('zoomed'); // Reset zoom
+    modalProductDescription.innerText = prod.longDescription || prod.description; // Show long description if available, else short
+    modalProductPrice.innerText = `${prod.price.toFixed(2)} د.ل`;
+    modalAddToCartBtn.onclick = () => {
+        addToCart(prod.id);
+        closeProductDetailModal();
+    };
+
+    // Update How to Use section
+    if (prod.howToUse) {
+        howToUseText.innerText = prod.howToUse.text;
+        if (prod.howToUse.image) {
+            howToUseImage.src = prod.howToUse.image;
+            howToUseImage.classList.remove('hidden');
+        } else {
+            howToUseImage.classList.add('hidden');
+        }
+    } else {
+        howToUseText.innerText = "لا توجد تعليمات استخدام محددة لهذا المنتج.";
+        howToUseImage.classList.add('hidden');
+    }
+
+    // Load existing reviews (placeholder for now)
+    loadReviewsForProduct(prod.id);
+
+    productDetailModal.classList.add('open');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling body
+    overlay.classList.add('open'); // Open overlay with modal
+}
+
+function closeProductDetailModal() {
+    productDetailModal.classList.remove('open');
+    document.body.style.overflow = ''; // Restore body scrolling
+    overlay.classList.remove('open'); // Close overlay
+    currentProductId = null;
+    // Reset to default tab (description)
+    activateTab('description'); 
+}
+
+function toggleZoom(imgElement) {
+    imgElement.classList.toggle('zoomed');
+    imgElement.style.cursor = imgElement.classList.contains('zoomed') ? 'zoom-out' : 'zoom-in';
+}
+
+// Function to handle tab switching
+function activateTab(tabName) {
+    tabButtons.forEach(button => {
+        if (button.dataset.tab === tabName) {
+            button.classList.add('active');
+        } else {
+            button.classList.remove('active');
+        }
+    });
+    tabContents.forEach(content => {
+        if (content.id === tabName + 'Tab') {
+            content.classList.add('active');
+        } else {
+            content.classList.remove('active');
+        }
+    });
+}
+
+tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        activateTab(button.dataset.tab);
+    });
+});
+
+
+// Placeholder for reviews (in a real app, this would come from a backend)
+const productReviews = {
+    "cln1": [
+        { name: "فاطمة ا.", rating: 5, text: "غسول رائع، بشرتي أصبحت أنظف وأقل دهنية.", likes: 10, supports: 4 },
+        { name: "ليلى س.", rating: 4, text: "يعمل جيداً لكن قد يسبب جفافاً بسيطاً.", likes: 7, supports: 1 }
+    ],
+    "cln2": [
+        { name: "أحمد ر.", rating: 5, text: "أفضل رغوة للبشرة الجافة، ترطب وتنظف بعمق.", likes: 15, supports: 8 },
+        { name: "ريم ط.", rating: 5, text: "بشرتي الحساسة تحبه كثيراً، لا يسبب أي تهيج.", likes: 12, supports: 5 }
+    ],
+    "cln3": [
+      { name: "نور ك.", rating: 4, text: "فعال لقرح الفم، ويترك شعوراً بالانتعاش.", likes: 6, supports: 2 }
+    ],
+    "cln4": [
+      { name: "خالد و.", rating: 5, text: "منعش جداً ومفيد لصحة اللثة.", likes: 9, supports: 3 }
+    ],
+    "cln5": [
+      { name: "سارة ز.", rating: 5, text: "يزيل المكياج بفاعلية ولا يترك أي بقايا.", likes: 11, supports: 6 }
+    ]
+    // Add more reviews for other products
+};
+
+function loadReviewsForProduct(productId) {
+    customerReviewsSection.innerHTML = ''; // Clear previous reviews
+    const reviews = productReviews[productId] || [];
+
+    if (reviews.length === 0) {
+        customerReviewsSection.innerHTML = '<p class="text-center text-gray-500">لا توجد آراء للعملاء بعد. كن أول من يترك تعليقاً!</p>';
+    } else {
+        reviews.forEach(review => {
+            const reviewEl = document.createElement('div');
+            reviewEl.className = 'bg-gray-50 p-3 rounded-lg shadow-sm';
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                starsHtml += `<label><i class="fas fa-star ${i <= review.rating ? 'text-yellow-500' : ''}"></i></label>`;
+            }
+            reviewEl.innerHTML = `
+                <div class="flex items-center mb-1">
+                    <span class="font-semibold text-sm">${review.name}</span>
+                    <div class="star-rating text-sm mr-auto flex-row-reverse">${starsHtml}</div>
+                </div>
+                <p class="text-xs text-gray-600 mb-2">"${review.text}"</p>
+                <div class="flex items-center text-xs text-gray-500">
+                    <button class="btn btn-ghost btn-xs flex items-center gap-1" onclick="handleReaction(this, 'like', '${productId}')">
+                        <i class="far fa-thumbs-up"></i> أحببته (<span class="like-count">${review.likes}</span>)
+                    </button>
+                    <button class="btn btn-ghost btn-xs flex items-center gap-1 mr-2" onclick="handleReaction(this, 'support', '${productId}')">
+                        <i class="far fa-heart"></i> أدعمه (<span class="support-count">${review.supports}</span>)
+                    </button>
+                </div>
+            `;
+            customerReviewsSection.appendChild(reviewEl);
+        });
+    }
+}
+
+function submitReview() {
+    const name = document.getElementById('reviewName').value.trim();
+    const text = document.getElementById('reviewText').value.trim();
+    const rating = document.querySelector('#reviewsTab input[name="rating"]:checked'); // Select only from reviews tab
+
+    if (!name || !text || !rating) {
+        Swal.fire({ icon: 'warning', title: 'يرجى ملء جميع حقول التعليق واختيار تقييم.' });
+        return;
+    }
+
+    const newReview = {
+        name: name,
+        rating: parseInt(rating.value),
+        text: text,
+        likes: 0,
+        supports: 0
+    };
+
+    if (!productReviews[currentProductId]) {
+        productReviews[currentProductId] = [];
+    }
+    productReviews[currentProductId].push(newReview);
+    
+    Swal.fire({ icon: 'success', title: 'تم إرسال تعليقك بنجاح!', showConfirmButton: false, timer: 1500 });
+
+    // Clear form
+    document.getElementById('reviewName').value = '';
+    document.getElementById('reviewText').value = '';
+    if (rating) rating.checked = false;
+
+    loadReviewsForProduct(currentProductId); // Reload reviews to show the new one
+}
+
+function handleReaction(button, type, productId) {
+    const reviewElement = button.closest('.bg-gray-50');
+    const reviewText = reviewElement.querySelector('p').innerText.replace(/"/g, ''); // Get review text to identify
+    
+    // Find the review in our dummy data
+    const reviews = productReviews[productId];
+    if (reviews) {
+        const targetReview = reviews.find(r => r.text === reviewText);
+        if (targetReview) {
+            if (type === 'like') {
+                targetReview.likes++;
+                reviewElement.querySelector('.like-count').innerText = targetReview.likes;
+            } else if (type === 'support') {
+                targetReview.supports++;
+                reviewElement.querySelector('.support-count').innerText = targetReview.supports;
+            }
+            // In a real app, you'd send this update to your backend
+        }
+    }
+}
+
 // --- Render products
 function renderProducts(filter='all', search='') {
   productsContainer.innerHTML = '';
@@ -306,7 +726,6 @@ function renderProducts(filter='all', search='') {
       <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-36 h-36 object-contain mb-3">
       <h3 class="font-semibold">${p.name}</h3>
       <div class="text-xs text-gray-400 mb-1">${p.brand}</div>
-      <!-- Removed direct description to show in modal -->
       <div class="flex items-center gap-2 mt-2">
         <div class="text-lg font-bold">${p.price.toFixed(2)} د.ل</div>
       </div>
@@ -389,12 +808,7 @@ productsContainer.addEventListener('click', e => {
     if (action === 'detail') {
       const prod = products.find(p=>p.id===id);
       if (prod) {
-        Swal.fire({
-          title: prod.name,
-          html: `<img src="${prod.image}" alt="${prod.name}" loading="lazy" class="mx-auto w-40 h-40 object-contain mb-3"><p class="text-sm text-gray-600">${prod.description}</p><p class="mt-2 font-bold">${prod.price.toFixed(2)} د.ل</p>`,
-          showCloseButton: true,
-          showConfirmButton: false,
-        });
+        openProductDetailModal(prod);
       }
     }
 });
@@ -438,6 +852,7 @@ overlay.addEventListener('click', closeCart);
 window.addEventListener('keydown', (e)=> {
   if (e.key === 'Escape') {
     if (cartPanel.classList.contains('open')) closeCart();
+    if (productDetailModal.classList.contains('open')) closeProductDetailModal(); // Close modal on Escape
   }
 });
 document.getElementById('city').addEventListener('change', (e)=>{
@@ -457,7 +872,6 @@ document.getElementById('checkoutBtn').addEventListener('click', ()=> {
   }
   let message = `طلب جديد من متجر غسولات نعومة نعومتك%0A`;
   message += `الاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0Aالعنوان: ${address}%0A%0A`; // Added address to message
-  message += `تفاصيل الطلب:%0A`;
   cart.forEach(item => {
     message += `• ${item.name} × ${item.qty} = ${ (item.price * item.qty).toFixed(2) } د.ل%0A`;
   });
@@ -472,6 +886,8 @@ renderProducts();
 updateCartUI();
 window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart', JSON.stringify(cart)));
 </script>
+<!-- Font Awesome for star icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 </body>
