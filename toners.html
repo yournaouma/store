@@ -47,18 +47,25 @@
   <style>
     body { font-family: "Noto Sans Arabic", system-ui; background: linear-gradient(180deg,#fff 0%, #fff5ea 100%); }
     header { background: linear-gradient(90deg,#fff 0%, #ffedde 100%);}
+    .product-card { 
+        transform: translateY(0); 
+        box-shadow: 0 2px 8px rgba(255,150,40,0.05);
+        display: flex; /* Ensures consistent height */
+        flex-direction: column;
+        justify-content: space-between; /* Pushes buttons to bottom */
+    }
     .product-card:hover { transform: translateY(-4px); box-shadow: 0 4px 16px rgba(255,150,40,0.08);}
     .pill { background: #ff9800; border-radius: 999px; padding: .2rem .7rem; font-size: .8rem; color: #fff; }
-    /* Orange sidebar menu */
-    #sidebar { background: #ff9800; color: white; }
-    #sidebar a { color: #fff; }
-    #sidebar a:hover { background: #fff3e0; color: #ff9800; }
+    /* White sidebar menu */
+    #sidebar { background: white; color: #333; } /* Changed to white background, dark text */
+    #sidebar a { color: #333; } /* Default link color for white sidebar */
+    #sidebar a:hover { background: #ff9800; color: #fff; } /* Hover for white sidebar */
     /* Mini cart drawer for mobile */
     .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.2); opacity:0; pointer-events:none; transition:opacity .25s; z-index:40; }
     .cart-overlay.open { opacity:1; pointer-events:auto; }
     .cart-drawer {
       position:fixed; top:0; right:0; height:100vh; width:100%; 
-      max-width:310px;
+      max-width:310px; /* كان 370px وقللته كي تبدو أصغر */
       transform:translateX(110%); 
       transition:transform .25s cubic-bezier(.2,.9,.2,1); 
       z-index:50; 
@@ -66,7 +73,7 @@
     }
     .cart-drawer.open { transform:translateX(0); }
     @media (max-width: 530px) {
-      .cart-drawer { max-width:90vw; }
+      .cart-drawer { max-width:90vw; } /* أصغر للجوال */
     }
     /* Responsive menu btn */
     #menuBtn {background:#ff9800;}
@@ -91,12 +98,12 @@
 
     /* Styling for input fields in cart (white background, dark text) */
     #cartPanel .input, #cartPanel .select {
-      background-color: white;
-      color: #333;
-      border-color: #ff9800;
+      background-color: white; /* White background */
+      color: #333; /* Dark text for readability */
+      border-color: #ff9800; /* Orange border */
     }
     #cartPanel .input::placeholder, #cartPanel .select option {
-      color: #777;
+      color: #777; /* Lighter placeholder text */
     }
     
     /* Styling for filter buttons in sidebar (white background, dark text when not active) */
@@ -109,6 +116,144 @@
       background-color: #ff9800;
       color: white;
     }
+
+    /* Product Detail Modal (instead of sidebar) */
+    .product-detail-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.8); /* Start smaller and hidden */
+        width: 90%;
+        max-width: 700px; /* Wider for better layout */
+        max-height: 90vh; /* Limit height for scrollability */
+        background-color: white;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        border-radius: 1rem;
+        transition: all 0.3s ease-in-out;
+        z-index: 101;
+        padding: 1.5rem;
+        overflow-y: auto;
+        opacity: 0;
+        pointer-events: none;
+        display: flex; /* Use flexbox for horizontal layout */
+        flex-direction: row-reverse; /* For RTL content */
+        gap: 1.5rem; /* Space between image/details and tabs */
+    }
+    .product-detail-modal.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, -50%) scale(1); /* Scale up to full size */
+    }
+    .product-detail-modal .close-btn {
+        position: absolute;
+        top: 1rem;
+        left: 1rem; /* Adjusted for RTL */
+        background: none;
+        border: none;
+        font-size: 1.8rem;
+        cursor: pointer;
+        color: #999;
+        z-index: 10;
+    }
+    .product-detail-modal .close-btn:hover {
+        color: #ff5722;
+    }
+    .product-detail-modal .section-title {
+        font-weight: bold;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        color: #ff9800; /* Orange color for titles */
+    }
+    .star-rating {
+        display: flex;
+        flex-direction: row-reverse; /* For RTL stars */
+        justify-content: flex-end; /* For RTL stars */
+    }
+    .star-rating input[type="radio"] {
+        display: none;
+    }
+    .star-rating label {
+        font-size: 1.5rem;
+        color: #ccc;
+        cursor: pointer;
+    }
+    .star-rating input[type="radio"]:checked ~ label {
+        color: #ffc107; /* Gold color for checked stars */
+    }
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: #ffc107;
+    }
+
+    /* Tab styles for product details modal */
+    .tab-buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    .tab-button {
+      flex: 1;
+      padding: 0.75rem 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+      color: #666;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease-in-out;
+    }
+    .tab-button.active {
+      color: #ff9800;
+      border-bottom-color: #ff9800;
+    }
+    .tab-content {
+      display: none;
+      padding-top: 1rem; /* Add some padding so content doesn't touch buttons */
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .product-image-zoom {
+      cursor: zoom-in;
+      transition: transform 0.2s ease-in-out;
+    }
+    .product-image-zoom.zoomed {
+      transform: scale(1.5); /* Adjust zoom level as needed */
+      cursor: zoom-out;
+    }
+
+    /* Layout for modal content (horizontal) */
+    .product-details-main {
+        flex: 1; /* Takes up available space */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .product-details-tabs-container {
+        flex: 2; /* Tabs take more space than image/basic details */
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Responsive adjustments for modal */
+    @media (max-width: 768px) {
+        .product-detail-modal {
+            flex-direction: column; /* Stack elements vertically on smaller screens */
+            max-width: 95%;
+            padding: 1rem;
+            gap: 1rem;
+        }
+        .product-detail-modal .close-btn {
+            top: 0.5rem;
+            left: 0.5rem;
+        }
+        .product-details-main, .product-details-tabs-container {
+            flex: none; /* Reset flex */
+            width: 100%;
+        }
+    }
   </style>
 </head>
 
@@ -118,25 +263,25 @@
 <button id="menuBtn" class="fixed top-4 right-4 z-60 text-white px-3 py-2 rounded-lg shadow-md">☰ القائمة</button>
 <div id="menuOverlay" class="fixed inset-0 bg-black opacity-0 z-50 pointer-events-none transition-opacity duration-300"></div>
 
-<!-- Sidebar menu (orange) -->
+<!-- Sidebar menu (white) -->
 <aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto z-50">
   <div class="p-5">
-    <h2 class="text-2xl font-bold mb-4 text-center">🛍️ نعومة نعومتك</h2>
+    <h2 class="text-2xl font-bold mb-4 text-center text-[#ff9800]">🛍️ نعومة نعومتك</h2>
     <nav class="space-y-3 text-lg">
-        <a href="index.html" class="block p-2 rounded hover:bg-pink-100">🏠 الصفحة الرئيسية</a>
-        <a href="creams.html" class="block p-2 rounded hover:bg-pink-100">🧴 متجر الكريمات</a>
-        <a href="serums.html" class="block p-2 rounded hover:bg-pink-100">💧 متجر السيرومات</a>
-        <a href="cleansers.html" class="block p-2 rounded hover:bg-pink-100">🧼 متجر المنظفات</a>
-        <a href="sunscreen.html" class="block p-2 rounded hover:bg-pink-100">🌞 متجر واقي الشمس</a>
-        <a href="toners.html" class="block p-2 rounded hover:bg-pink-100">💦 متجر التونر</a>
-        <a href="peels.html" class="block p-2 rounded hover:bg-pink-100">🍯 متجر المقشرات</a>
-        <a href="masks.html" class="block p-2 rounded hover:bg-pink-100">🛁 متجر الماسكات</a>
-        <a href="perfumes.html" class="block p-2 rounded hover:bg-pink-100">🌸 متجر العطور</a>
-        <a href="yourskin.html" class="block p-2 rounded hover:bg-pink-100">💬 استشارة بشرتك</a>
-        <a href="contact.html" class="block p-2 rounded hover:bg-pink-100">📞 اتصل بنا</a>
+        <a href="index.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🏠 الصفحة الرئيسية</a>
+        <a href="creams.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🧴 متجر الكريمات</a>
+        <a href="serums.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">💧 متجر السيرومات</a>
+        <a href="cleansers.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🧼 متجر المنظفات</a>
+        <a href="sunscreen.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🌞 متجر واقي الشمس</a>
+        <a href="toners.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">💦 متجر التونر</a>
+        <a href="peels.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🍯 متجر المقشرات</a>
+        <a href="masks.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🛁 متجر الماسكات</a>
+        <a href="perfumes.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🌸 متجر العطور</a>
+        <a href="yourskin.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">💬 استشارة بشرتك</a>
+        <a href="contact.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">📞 اتصل بنا</a>
     </nav>
     <div class="mt-6 text-center">
-      <button id="closeSidebar" class="bg-white text-[#ff9800] px-4 py-2 rounded-lg shadow hover:bg-[#fff3e0]">إغلاق ✖</button>
+      <button id="closeSidebar" class="bg-[#ff9800] text-white px-4 py-2 rounded-lg shadow hover:bg-[#fb8c00]">إغلاق ✖</button>
     </div>
   </div>
 </aside>
@@ -180,7 +325,7 @@
 
   <!-- Products Grid -->
   <section class="lg:col-span-3 space-y-4">
-    <div id="productsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+    <div id="productsContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4"></div> <!-- Adjusted for 2, 3, 3 cols -->
     <div class="flex justify-center">
       <nav class="pagination flex gap-2 items-center text-sm"></nav>
     </div>
@@ -220,6 +365,7 @@
           <option>طرابلس</option><option>بنغازي</option><option>مصراته</option><option>سبها</option><option>الخمس</option><option>مناطق أخرى</option>
         </select>
         <input id="otherCity" placeholder="اكتب مدينتك إذا مناطق أخرى" class="input input-bordered w-full hidden" />
+        <input id="address" placeholder="العنوان" class="input input-bordered w-full" /> <!-- Added address field -->
       </div>
       <button id="checkoutBtn" class="btn w-full btn-primary mb-0">✅ الدفع عبر واتساب</button>
     </div>
@@ -227,12 +373,72 @@
   </div>
 </aside>
 
+<!-- Product Detail Modal (instead of sidebar) -->
+<aside id="productDetailModal" class="product-detail-modal">
+    <button class="close-btn" onclick="closeProductDetailModal()">✕</button>
+    
+    <!-- Left part (Product Image, Name, Price, Add to Cart) -->
+    <div class="product-details-main">
+        <h3 id="modalProductName" class="text-xl font-bold mb-4 text-[#ff9800]"></h3>
+        <img id="modalProductImage" src="" alt="" class="w-48 h-48 object-contain mx-auto mb-4 product-image-zoom" onclick="toggleZoom(this)">
+        <p class="text-lg font-bold" id="modalProductPrice"></p>
+        <button class="btn btn-primary w-full mt-4" id="modalAddToCartBtn">أضف للسلة</button>
+    </div>
+
+    <!-- Right part (Tabs: Description, How to Use, Reviews) -->
+    <div class="product-details-tabs-container">
+        <!-- Tab Buttons for switching content -->
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="description">الوصف</button>
+            <button class="tab-button" data-tab="howToUse">كيفية الاستعمال</button>
+            <button class="tab-button" data-tab="reviews">آراء العملاء</button>
+        </div>
+
+        <!-- Content for each tab -->
+        <!-- Product Description Tab -->
+        <div id="descriptionTab" class="tab-content active">
+            <p id="modalProductDescription" class="text-sm text-gray-700 text-center mb-4"></p>
+        </div>
+
+        <!-- How to Use Tab -->
+        <div id="howToUseTab" class="tab-content">
+            <h4 class="section-title">كيفية الاستعمال</h4>
+            <div id="howToUseContent">
+                <img id="howToUseImage" src="" alt="كيفية الاستعمال" class="w-full h-auto object-contain mb-2 rounded hidden">
+                <p id="howToUseText" class="text-sm text-gray-700"></p>
+            </div>
+        </div>
+
+        <!-- Customer Reviews Tab -->
+        <div id="reviewsTab" class="tab-content">
+            <h4 class="section-title">آراء العملاء</h4>
+            <div id="customerReviews" class="space-y-3">
+                <!-- Reviews will be loaded here -->
+            </div>
+            <!-- Add New Review Form -->
+            <div class="mt-4 p-3 bg-white rounded-lg shadow-sm border border-orange-200">
+                <h5 class="font-semibold mb-2">أضف تعليقك</h5>
+                <input type="text" id="reviewName" placeholder="اسمك" class="input input-bordered w-full mb-2 input-sm" />
+                <textarea id="reviewText" placeholder="اكتب تعليقك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
+                <div class="star-rating mb-3">
+                    <input type="radio" id="rate-5" name="rating" value="5" /><label for="rate-5"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-4" name="rating" value="4" /><label for="rate-4"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-3" name="rating" value="3" /><label for="rate-3"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-2" name="rating" value="2" /><label for="rate-2"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-1" name="rating" value="1" /><label for="rate-1"><i class="fas fa-star"></i></label>
+                </div>
+                <button class="btn btn-primary btn-sm w-full" onclick="submitReview()">إرسال التعليق</button>
+            </div>
+        </div>
+    </div>
+</aside>
+
 <!-- Script for sidebar and products -->
 <script>
-// Orange sidebar logic
+// Sidebar logic (now white)
 const menuBtn = document.getElementById('menuBtn');
 const sidebar = document.getElementById('sidebar');
-const menuOverlay = document.getElementById('menuOverlay'); // Added for the overlay
+const menuOverlay = document.getElementById('menuOverlay');
 const closeSidebar = document.getElementById('closeSidebar');
 
 function toggleSidebar(open) {
@@ -253,17 +459,118 @@ menuOverlay.addEventListener('click', () => toggleSidebar(false));
 // --- Products data (Toners only)
 const products = [
   // Toners
-  { id:"ton1", name:"تونر قابض للمسام للبشرة الدهنية", brand:"Brand A", type:"دهنية", price:60, image:"images/toners/toner1.png", description:"يقلل حجم المسام ويتحكم في اللمعان." },
-  { id:"ton2", name:"تونر مرطب بالورد للبشرة الجافة", brand:"Brand B", type:"جافة", price:65, image:"images/toners/toner2.png", description:"يرطب وينعش البشرة الجافة ويمنحها نضارة." },
-  { id:"ton3", name:"تونر موازن للبشرة المختلطة", brand:"Brand C", type:"مختلطة", price:62, image:"images/toners/toner3.png", description:"يعادل درجة حموضة البشرة ويهيئها للترطيب." },
-  { id:"ton4", name:"تونر مهدئ بخلاصة البابونج للبشرة الحساسة", brand:"Brand D", type:"حساسة", price:70, image:"images/toners/toner4.png", description:"يهدئ الاحمرار ويقلل التهيج في البشرة الحساسة." },
-  { id:"ton5", name:"تونر فيتامين سي للإشراقة", brand:"Brand E", type:"عادية", price:75, image:"images/toners/toner5.png", description:"يمنح البشرة إشراقة ويساعد على توحيد اللون." },
-  { id:"ton6", name:"تونر حمض الساليسيليك لحب الشباب", brand:"Brand F", type:"دهنية", price:68, image:"images/toners/toner6.png", description:"يستهدف الشوائب وحب الشباب وينظف المسام." },
-  { id:"ton7", name:"تونر الترطيب العميق بالهيالورونيك", brand:"Brand G", type:"جميع الأنواع", price:80, image:"images/toners/toner7.png", description:"يوفر ترطيباً مكثفاً لجميع أنواع البشرة." },
-  { id:"ton8", name:"تونر التفتيح بخلاصة العرقسوس", brand:"Brand H", type:"عادية", price:72, image:"images/toners/toner8.png", description:"يساعد على تفتيح البقع الداكنة وتوحيد لون البشرة." },
-  { id:"ton9", name:"تونر مياه الورد النقي", brand:"Brand I", type:"جميع الأنواع", price:55, image:"images/toners/toner9.png", description:"تونر طبيعي ومنعش لجميع أنواع البشرة." },
-  { id:"ton10", name:"تونر مقشر لطيف بحمض الجليكوليك", brand:"Brand J", type:"مختلطة", price:78, image:"images/toners/toner10.png", description:"يقشر البشرة بلطف لتحسين نسيجها وإشراقتها." }
+  { 
+    id:"ton1", 
+    name:"تونر قابض للمسام للبشرة الدهنية", 
+    brand:"Brand A", 
+    type:"دهنية", 
+    price:60, 
+    image:"images/toners/toner1.png", 
+    description:"يقلل حجم المسام ويتحكم في اللمعان.",
+    longDescription: "تونر فعال مصمم خصيصًا للبشرة الدهنية والمعرضة للمسام الواسعة. يحتوي على مكونات قابضة للمسام مثل Witch Hazel وحمض الساليسيليك الذي يساعد على تقشير البشرة بلطف من الداخل، مما يقلل من ظهور المسام ويتحكم في إفراز الزيوت الزائدة. يترك البشرة منتعشة، مطفية، وخالية من اللمعان.",
+    howToUse: { text: "بعد تنظيف الوجه، ضع كمية صغيرة من التونر على قطعة قطن وامسح بها الوجه والرقبة، مع تجنب منطقة العين. استخدمه صباحًا ومساءً. لا يُشطف.", image: "images/how-to-use-toner.png" }
+  },
+  { 
+    id:"ton2", 
+    name:"تونر مرطب بالورد للبشرة الجافة", 
+    brand:"Brand B", 
+    type:"جافة", 
+    price:65, 
+    image:"images/toners/toner2.png", 
+    description:"يرطب وينعش البشرة الجافة ويمنحها نضارة.",
+    longDescription: "تونر غني بمستخلص ماء الورد النقي والجلسرين لترطيب عميق وتهدئة البشرة الجافة. يساعد على استعادة توازن الرطوبة الطبيعي للبشرة، ويتركها ناعمة، مرنة، ومشرقة. خالي من الكحول لتجنب الجفاف.",
+    howToUse: { text: "بعد التنظيف، رش التونر مباشرة على الوجه أو ضعه بقطعة قطن. ربت بلطف حتى تمتصه البشرة. استخدمه صباحًا ومساءً، أو في أي وقت تحتاج فيه بشرتك للترطيب.", image: "images/how-to-use-toner.png" }
+  },
+  { 
+    id:"ton3", 
+    name:"تونر موازن للبشرة المختلطة", 
+    brand:"Brand C", 
+    type:"مختلطة", 
+    price:62, 
+    image:"images/toners/toner3.png", 
+    description:"يعادل درجة حموضة البشرة ويهيئها للترطيب.",
+    longDescription: "صمم هذا التونر خصيصًا للبشرة المختلطة، حيث يعمل على موازنة درجة حموضة البشرة بعد التنظيف، ويهيئها لاستقبال المرطبات والعلاجات الأخرى. يحتوي على مكونات تساعد على تقليل اللمعان في منطقة T وتوفير ترطيب كافٍ للمناطق الجافة، مما يترك البشرة متوازنة ومريحة.",
+    howToUse: { text: "بعد غسل الوجه، ضع التونر على قطعة قطن وامسح بها الوجه والرقبة. ركز على المناطق الدهنية إذا لزم الأمر. استخدمه يوميًا صباحًا ومساءً.", image: "images/how-to-use-toner.png" }
+  },
+  { 
+    id:"ton4", 
+    name:"تونر مهدئ بخلاصة البابونج للبشرة الحساسة", 
+    brand:"Brand D", 
+    type:"حساسة", 
+    price:70, 
+    image:"images/toners/toner4.png", 
+    description:"يهدئ الاحمرار ويقلل التهيج في البشرة الحساسة.",
+    longDescription: "تونر لطيف وخالي من الكحول، غني بمستخلص البابونج المهدئ والألوفيرا. يقلل الاحمرار والتهيج ويترك البشرة الحساسة مرتاحة ومنتعشة. يساعد على تقوية حاجز البشرة الطبيعي وحمايتها من العوامل الخارجية المسببة للحساسية.",
+    howToUse: { text: "ضع كمية صغيرة على قطعة قطن وامسح بها الوجه والرقبة بلطف بعد التنظيف. لا تفرك. استخدمه صباحًا ومساءً.", image: "images/how-to-use-toner.png" }
+  },
+  { 
+    id:"ton5", 
+    name:"تونر فيتامين سي للإشراقة", 
+    brand:"Brand E", 
+    type:"عادية", 
+    price:75, 
+    image:"images/toners/toner5.png", 
+    description:"يمنح البشرة إشراقة ويساعد على توحيد اللون.",
+    longDescription: "تونر منعش وغني بفيتامين C ومضادات الأكسدة التي تساعد على تفتيح البشرة، توحيد لونها، ومنحها إشراقة طبيعية. يحفز إنتاج الكولاجين ويقلل من ظهور التصبغات. مثالي للبشرة الباهتة التي تحتاج إلى دفعة من الحيوية.",
+    howToUse: { text: "بعد التنظيف، ضع التونر على قطعة قطن وامسح بها الوجه والرقبة. استخدمه صباحًا ومساءً. يُتبع بمرطب وواقي شمسي في النهار.", image: "images/how-to-use-toner.png" }
+  },
+  { 
+    id:"ton6", 
+    name:"تونر حمض الساليسيليك لحب الشباب", 
+    brand:"Brand F", 
+    type:"دهنية", 
+    price:68, 
+    image:"images/toners/toner6.png", 
+    description:"يستهدف الشوائب وحب الشباب وينظف المسام.",
+    longDescription: "تونر علاجي يحتوي على حمض الساليسيليك (BHA) الذي يتغلغل بعمق في المسام لتنظيفها، إزالة خلايا الجلد الميتة، وتقليل الرؤوس السوداء والبيضاء. فعال في معالجة حب الشباب ومنع ظهوره. يساعد أيضًا على التحكم في إفراز الدهون.",
+    howToUse: { text: "بعد التنظيف، ضع التونر على قطعة قطن وامسح به المناطق المعرضة لحب الشباب. ابدأ بالاستخدام مرة واحدة يوميًا ثم زد التكرار تدريجيًا حسب تحمل البشرة. يُتبع بمرطب مناسب.", image: "images/how-to-use-toner.png" }
+  },
+  { 
+    id:"ton7", 
+    name:"تونر الترطيب العميق بالهيالورونيك", 
+    brand:"Brand G", 
+    type:"جميع الأنواع", 
+    price:80, 
+    image:"images/toners/toner7.png", 
+    description:"يوفر ترطيباً مكثفاً لجميع أنواع البشرة.",
+    longDescription: "تونر مرطب غني بحمض الهيالورونيك الذي يجذب الرطوبة إلى البشرة ويحتفظ بها، مما يوفر ترطيبًا فوريًا وطويل الأمد. مناسب لجميع أنواع البشرة، خاصةً الجافة والجافة جدًا. يترك البشرة ناعمة، ممتلئة، ومجهزة بشكل مثالي للخطوات التالية في روتين العناية بالبشرة.",
+    howToUse: { text: "بعد التنظيف، ضع التونر على راحة اليد وربت به بلطف على الوجه والرقبة حتى يتم امتصاصه. يمكن استخدامه صباحًا ومساءً.", image: "images/how-to-use-toner.png" }
+  },
+  { 
+    id:"ton8", 
+    name:"تونر التفتيح بخلاصة العرقسوس", 
+    brand:"Brand H", 
+    type:"عادية", 
+    price:72, 
+    image:"images/toners/toner8.png", 
+    description:"يساعد على تفتيح البقع الداكنة وتوحيد لون البشرة.",
+    longDescription: "تونر فعال في تفتيح البشرة وتقليل ظهور البقع الداكنة والتصبغات. يحتوي على خلاصة العرقسوس المعروفة بخصائصها المفتحة والمضادة للالتهاب. يمنح البشرة لونًا موحدًا ومشرقًا ويحسن من مظهرها العام.",
+    howToUse: { text: "ضع التونر على قطعة قطن وامسح بها الوجه بعد التنظيف. استخدمه صباحًا ومساءً للحصول على أفضل النتائج. احرص على استخدام واقي شمسي خلال النهار.", image: "images/how-to-use-toner.png" }
+  },
+  { 
+    id:"ton9", 
+    name:"تونر مياه الورد النقي", 
+    brand:"Brand I", 
+    type:"جميع الأنواع", 
+    price:55, 
+    image:"images/toners/toner9.png", 
+    description:"تونر طبيعي ومنعش لجميع أنواع البشرة.",
+    longDescription: "مياه الورد النقية 100% تعمل كمنشط طبيعي ومنعش للبشرة. تساعد على موازنة درجة حموضة البشرة، تهدئها، وتتركها برائحة الورد الرقيقة. مناسبة لجميع أنواع البشرة ويمكن استخدامها كبخاخ منعش في أي وقت من اليوم.",
+    howToUse: { text: "رش التونر مباشرة على الوجه بعد التنظيف، أو ضعه على قطعة قطن وامسح بها البشرة. استخدمه صباحًا ومساءً.", image: "images/how-to-use-toner.png" }
+  },
+  { 
+    id:"ton10", 
+    name:"تونر مقشر لطيف بحمض الجليكوليك", 
+    brand:"Brand J", 
+    type:"مختلطة", 
+    price:78, 
+    image:"images/toners/toner10.png", 
+    description:"يقشر البشرة بلطف لتحسين نسيجها وإشراقتها.",
+    longDescription: "تونر مقشر لطيف يحتوي على حمض الجليكوليك (AHA) الذي يساعد على إزالة خلايا الجلد الميتة من سطح البشرة، مما يكشف عن بشرة أكثر نعومة وإشراقًا. يحسن نسيج البشرة، ويقلل من ظهور الخطوط الدقيقة والتصبغات. مناسب للاستخدام المنتظم للبشرة المختلطة إلى العادية.",
+    howToUse: { text: "بعد التنظيف في المساء، ضع التونر على قطعة قطن وامسح بها الوجه والرقبة. لا يُشطف. ابدأ بالاستخدام 2-3 مرات في الأسبوع ثم زد التكرار حسب تحمل البشرة. يُتبع بمرطب. استخدم واقي شمسي في النهار.", image: "images/how-to-use-toner.png" }
+  }
 ];
+
 // -- Mini cart logic
 let cart = JSON.parse(localStorage.getItem('orange_cart') || '[]');
 const productsContainer = document.getElementById('productsContainer');
@@ -278,6 +585,140 @@ const openCartBtn = document.getElementById('openCartBtn');
 const closeCartBtn = document.getElementById('closeCartBtn');
 const clearCartBtn = document.getElementById('clearCartBtn');
 
+// --- Product Detail Modal elements
+const productDetailModal = document.getElementById('productDetailModal');
+const modalProductName = document.getElementById('modalProductName');
+const modalProductImage = document.getElementById('modalProductImage');
+const modalProductDescription = document.getElementById('modalProductDescription');
+const modalProductPrice = document.getElementById('modalProductPrice');
+const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
+
+const howToUseText = document.getElementById('howToUseText');
+const howToUseImage = document.getElementById('howToUseImage');
+const customerReviewsSection = document.getElementById('customerReviews');
+
+const tabButtons = document.querySelectorAll('.tab-buttons .tab-button');
+const tabContents = document.querySelectorAll('.product-details-tabs-container .tab-content'); // Adjusted selector
+
+let currentProductId = null; // To keep track of the product being viewed
+
+function openProductDetailModal(prod) {
+    currentProductId = prod.id;
+    modalProductName.innerText = prod.name;
+    modalProductImage.src = prod.image;
+    modalProductImage.classList.remove('zoomed'); // Reset zoom
+    modalProductDescription.innerText = prod.longDescription || prod.description; // Show long description if available, else short
+    modalProductPrice.innerText = `${prod.price.toFixed(2)} د.ل`;
+    modalAddToCartBtn.onclick = () => {
+        addToCart(prod.id);
+        closeProductDetailModal();
+    };
+
+    // Update How to Use section
+    if (prod.howToUse) {
+        howToUseText.innerText = prod.howToUse.text;
+        if (prod.howToUse.image) {
+            howToUseImage.src = prod.howToUse.image;
+            howToUseImage.classList.remove('hidden');
+        } else {
+            howToUseImage.classList.add('hidden');
+        }
+    } else {
+        howToUseText.innerText = "لا توجد تعليمات استخدام محددة لهذا المنتج.";
+        howToUseImage.classList.add('hidden');
+    }
+
+    // Load existing reviews (placeholder for now)
+    loadReviewsForProduct(prod.id);
+
+    productDetailModal.classList.add('open');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling body
+    overlay.classList.add('open'); // Open overlay with modal
+}
+
+function closeProductDetailModal() {
+    productDetailModal.classList.remove('open');
+    document.body.style.overflow = ''; // Restore body scrolling
+    overlay.classList.remove('open'); // Close overlay
+    currentProductId = null;
+    // Reset to default tab (description)
+    activateTab('description'); 
+}
+
+function toggleZoom(imgElement) {
+    imgElement.classList.toggle('zoomed');
+    imgElement.style.cursor = imgElement.classList.contains('zoomed') ? 'zoom-out' : 'zoom-in';
+}
+
+// Function to handle tab switching
+function activateTab(tabName) {
+    tabButtons.forEach(button => {
+        if (button.dataset.tab === tabName) {
+            button.classList.add('active');
+        } else {
+            button.classList.remove('active');
+        }
+    });
+    tabContents.forEach(content => {
+        if (content.id === tabName + 'Tab') {
+            content.classList.add('active');
+        } else {
+            content.classList.remove('active');
+        }
+    });
+}
+
+tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        activateTab(button.dataset.tab);
+    });
+});
+
+// سيتم فتح قسم آراء العملاء قريباً – حالياً لا يمكن إنشاء حساب أو إضافة تعليق
+const productReviews = {};
+
+function loadReviewsForProduct(productId) {
+    // عرض رسالة ثابتة بدلاً من التعليقات
+    customerReviewsSection.innerHTML = `
+        <div class="text-center text-gray-500 space-y-2 p-4">
+            <p>💬 سيتم فتح قسم آراء العملاء قريباً.</p>
+            <p>🔒 لا يمكنك التعليق إلا بعد إنشاء حساب.</p>
+            <p>⚠️ حالياً لا يمكن إنشاء حساب.</p>
+        </div>
+    `;
+}
+
+function submitReview() {
+    // منع أي محاولة لإرسال تعليق
+    Swal.fire({
+        icon: 'info',
+        title: '🚫 لا يمكنك التعليق حالياً',
+        text: 'سيتم فتح قسم آراء العملاء قريباً. حالياً لا يمكن إنشاء حساب أو كتابة تعليق.',
+        confirmButtonText: 'حسناً'
+    });
+}
+
+function handleReaction(button, type, productId) {
+    const reviewElement = button.closest('.bg-gray-50');
+    const reviewText = reviewElement.querySelector('p').innerText.replace(/"/g, ''); // Get review text to identify
+    
+    // Find the review in our dummy data
+    const reviews = productReviews[productId];
+    if (reviews) {
+        const targetReview = reviews.find(r => r.text === reviewText);
+        if (targetReview) {
+            if (type === 'like') {
+                targetReview.likes++;
+                reviewElement.querySelector('.like-count').innerText = targetReview.likes;
+            } else if (type === 'support') {
+                targetReview.supports++;
+                reviewElement.querySelector('.support-count').innerText = targetReview.supports;
+            }
+            // In a real app, you'd send this update to your backend
+        }
+    }
+}
+
 let currentFilterType = 'all'; // لتتبع نوع البشرة المحدد
 
 // --- Render products
@@ -286,8 +727,8 @@ function renderProducts() {
   const searchTerm = (document.getElementById('search').value || '').trim().toLowerCase();
   
   const filtered = products.filter(p => {
-    const matchesType = currentFilterType === 'all' || p.type === currentFilterType;
-    const matchesSearch = (p.name + ' ' + p.description + ' ' + p.brand).toLowerCase().includes(searchTerm);
+    const matchesType = currentFilterType === 'all' || p.type.split(',').includes(currentFilterType); // Check if type includes filter
+    const matchesSearch = (p.name + ' ' + p.description + ' ' + (p.longDescription || '')).toLowerCase().includes(searchTerm);
     return matchesType && matchesSearch;
   });
 
@@ -298,17 +739,20 @@ function renderProducts() {
   
   filtered.forEach(p => {
     const card = document.createElement('article');
+    // Ensure consistent card height with flexbox
     card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center animate__animated animate__fadeIn';
     card.innerHTML = `
       <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-36 h-36 object-contain mb-3">
       <h3 class="font-semibold">${p.name}</h3>
-      <div class="text-xs text-gray-400 mb-1">${p.brand} | للبشرة ${p.type}</div>
-      <p class="text-xs text-gray-500 mb-2">${p.description}</p>
+      <div class="text-xs text-gray-400 mb-1">${p.brand}</div>
+      <div class="flex-grow text-sm text-gray-500 mb-2 overflow-hidden max-h-[4.5em] leading-tight">
+        <!-- Description will be shown in detail modal -->
+      </div>
       <div class="flex items-center gap-2 mt-2">
         <div class="text-lg font-bold">${p.price.toFixed(2)} د.ل</div>
       </div>
       <div class="mt-3 w-full flex gap-2">
-        <button class="btn btn-sm btn-outline w-1/2" data-action="detail" data-id="${p.id}">عرض</button>
+        <button class="btn btn-sm btn-outline w-1/2" data-action="detail" data-id="${p.id}">عرض الوصف</button>
         <button class="btn btn-sm btn-primary w-1/2" data-action="add" data-id="${p.id}">أضف للسلة</button>
       </div>
     `;
@@ -386,12 +830,7 @@ productsContainer.addEventListener('click', e => {
     if (action === 'detail') {
       const prod = products.find(p=>p.id===id);
       if (prod) {
-        Swal.fire({
-          title: prod.name,
-          html: `<img src="${prod.image}" alt="${prod.name}" loading="lazy" class="mx-auto w-40 h-40 object-contain mb-3"><p class="text-sm text-gray-600">${prod.description}</p><p class="mt-2 font-bold">${prod.price.toFixed(2)} د.ل</p>`,
-          showCloseButton: true,
-          showConfirmButton: false,
-        });
+        openProductDetailModal(prod);
       }
     }
 });
@@ -408,6 +847,7 @@ cartItemsEl.addEventListener('click', e => {
 // Filter by skin type
 document.querySelectorAll('.filter-btn[data-type]').forEach(b => b.addEventListener('click', () => {
   currentFilterType = b.getAttribute('data-type');
+  document.getElementById('search').value = ''; // Clear search when filtering by type
   renderProducts();
 }));
 
@@ -438,6 +878,7 @@ overlay.addEventListener('click', closeCart);
 window.addEventListener('keydown', (e)=> {
   if (e.key === 'Escape') {
     if (cartPanel.classList.contains('open')) closeCart();
+    if (productDetailModal.classList.contains('open')) closeProductDetailModal(); // Close modal on Escape
   }
 });
 document.getElementById('city').addEventListener('change', (e)=>{
@@ -448,13 +889,15 @@ document.getElementById('checkoutBtn').addEventListener('click', ()=> {
   const phone = document.getElementById('phone').value.trim();
   let city = document.getElementById('city').value;
   const otherCity = document.getElementById('otherCity').value.trim();
+  const address = document.getElementById('address').value.trim(); // Get address
+  
   if (city === 'مناطق أخرى' && otherCity) city = otherCity;
-  if (!fullname || !phone || !city || cart.length === 0) {
-    Swal.fire({ icon:'warning', title:'يرجى إكمال البيانات وإضافة منتج على الأقل' });
+  if (!fullname || !phone || !city || !address || cart.length === 0) { // Check address
+    Swal.fire({ icon:'warning', title:'يرجى إكمال جميع البيانات المطلوبة وإضافة منتج على الأقل' });
     return;
   }
   let message = `طلب جديد من متجر تونر نعومة نعومتك%0A`;
-  message += `الاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0A%0A`;
+  message += `الاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0Aالعنوان: ${address}%0A%0A`; // Added address to message
   message += `تفاصيل الطلب:%0A`;
   cart.forEach(item => {
     message += `• ${item.name} × ${item.qty} = ${ (item.price * item.qty).toFixed(2) } د.ل%0A`;
@@ -470,6 +913,8 @@ renderProducts();
 updateCartUI();
 window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart', JSON.stringify(cart)));
 </script>
+<!-- Font Awesome for star icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 </body>
