@@ -674,13 +674,29 @@ tabButtons.forEach(button => {
     });
 });
 
-<div id="customer-reviews" class="space-y-4"></div>
+// سيتم فتح قسم آراء العملاء قريباً – حالياً لا يمكن إنشاء حساب أو إضافة تعليق
+const productReviews = {};
 
-<form id="review-form" data-product-id="id_المنتج" class="mt-4">
-  <textarea id="review-text" class="w-full border rounded-lg p-2" placeholder="✍️ اكتب رأيك هنا"></textarea>
-  <button type="submit" class="mt-2 px-4 py-2 bg-pink-500 text-white rounded-lg">إرسال التعليق</button>
-</form>
+function loadReviewsForProduct(productId) {
+    // عرض رسالة ثابتة بدلاً من التعليقات
+    customerReviewsSection.innerHTML = `
+        <div class="text-center text-gray-500 space-y-2 p-4">
+            <p>💬 سيتم فتح قسم آراء العملاء قريباً.</p>
+            <p>🔒 لا يمكنك التعليق إلا بعد إنشاء حساب.</p>
+            <p>⚠️ حالياً لا يمكن إنشاء حساب.</p>
+        </div>
+    `;
+}
 
+function submitReview() {
+    // منع أي محاولة لإرسال تعليق
+    Swal.fire({
+        icon: 'info',
+        title: '🚫 لا يمكنك التعليق حالياً',
+        text: 'سيتم فتح قسم آراء العملاء قريباً. حالياً لا يمكن إنشاء حساب أو كتابة تعليق.',
+        confirmButtonText: 'حسناً'
+    });
+}
 
 function handleReaction(button, type, productId) {
     const reviewElement = button.closest('.bg-gray-50');
@@ -901,7 +917,5 @@ window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart',
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
-<script type="module" src="firebase-setup.js"></script>
-<script type="module" src="reviews.js"></script>
 </body>
 </html>
