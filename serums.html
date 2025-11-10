@@ -302,7 +302,7 @@ function renderProducts(filter='all', search='') {
   productsContainer.innerHTML = '';
   const term = (search || '').trim().toLowerCase();
   const filtered = products.filter(
-    p => (filter==='all' || p.type===filter) && (p.name + ' ' + p.description).toLowerCase().includes(term)
+    p => (filter==='all' || p.type.split(',').includes(filter)) && (p.name + ' ' + p.description).toLowerCase().includes(term)
   );
   if (!filtered.length) {
     productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500">لا توجد منتجات مطابقة.</div>`;
@@ -485,4 +485,5 @@ window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart',
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 </body>
 </html>
+
 
