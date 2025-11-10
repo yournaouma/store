@@ -1,33 +1,60 @@
-import { db } from './firebase-setup.js';
-import { collection, addDoc, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+<script type="module">
+import { db, auth } from './firebase.js'; // إذا جعلتها في ملف مستقل
+import { collection, addDoc, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
-// تحديد القسم الذي ستعرض فيه التعليقات
-const reviewsContainer = document.getElementById("reviews");
-const submitBtn = document.getElementById("submitReview");
+const customerReviewsSection = document.getElementById("customer-reviews");
+const reviewForm = document.getElementById("review-form");
+const reviewText = document.getElementById("review-text");
 
-const productId = document.body.getAttribute("data-product-id"); // كل صفحة لها معرف منتج خاص
+// تحميل التعليقات لمنتج معيّن
+async function loadReviewsForProduct(productId) {
+  customerReviewsSection.innerHTML = `<p class="text-gray-500 text-center">⏳ جاري تحميل التعليقات...</p>`;
 
-// عرض التعليقات لحظياً من قاعدة البيانات
-const q = query(collection(db, "reviews"), where("productId", "==", productId));
-onSnapshot(q, (snapshot) => {
-  reviewsContainer.innerHTML = "";
-  snapshot.forEach(doc => {
-    const review = doc.data();
-    const div = document.createElement("div");
-    div.className = "p-3 bg-gray-50 rounded mb-2 shadow-sm";
-    div.innerHTML = `
-      <p class="font-semibold">${review.name}</p>
-      <p class="text-sm text-gray-600">${review.text}</p>
+  const q = query(collection(db, "reviews"), where("productId", "==", productId), orderBy("date", "desc"));
+  const querySnapshot = await getDocs(q);
+
+  if (querySnapshot.empty) {
+    customerReviewsSection.innerHTML = `<p class="text-gray-400 text-center">لا توجد تعليقات بعد 👇</p>`;
+    return;
+  }
+
+  let html = "";
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    html += `
+      <div class="border p-3 rounded-lg shadow-sm bg-white">
+        <p class="font-semibold">${data.userName || "مستخدم مجهول"}</p>
+        <p class="text-gray-700">${data.text}</p>
+        <p class="text-xs text-gray-400">${new Date(data.date.toDate()).toLocaleString()}</p>
+      </div>
     `;
-    reviewsContainer.appendChild(div);
   });
-});
 
-// عند الضغط على زر الإرسال
-submitBtn.addEventListener("click", async () => {
-  Swal.fire({
-    icon: "info",
-    title: "❌ لا يمكنك التعليق حالياً",
-    text: "يجب إنشاء حساب أولاً. سيتم فتح قسم الحسابات قريباً ❤️",
+  customerReviewsSection.innerHTML = html;
+}
+
+// إرسال تعليق جديد
+reviewForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const text = reviewText.value.trim();
+  if (!text) return alert("الرجاء كتابة تعليق");
+
+  const user = auth.currentUser;
+  if (!user) {
+    alert("يجب تسجيل الدخول أولاً لإضافة تعليق");
+    return;
+  }
+
+  await addDoc(collection(db, "reviews"), {
+    productId: reviewForm.dataset.productId, // من صفحة المنتج
+    userId: user.uid,
+    userName: user.displayName || "مستخدم",
+    text: text,
+    date: new Date()
   });
+
+  reviewText.value = "";
+  loadReviewsForProduct(reviewForm.dataset.productId);
 });
+</script>
