@@ -236,22 +236,22 @@ menuOverlay.addEventListener('click', () => toggleSidebar(false));
 // --- Products data (10 products: 3 Avene, 3 Bioderma, 3 La Roche, 1 Arvia)
 const products = [
   // Avene
-  { id:"av1", name:"أفين كريم مرطب Hydrance", brand:"Avene", type:"Avene", price:59, image:"images/products/kid1.png", description:"ترطيب عميق للبشرة الحساسة." },
-  { id:"av2", name:"أفين واقي شمس SPF50+", brand:"Avene", type:"Avene", price:65, image:"images/products/kid2.png", description:"حماية قوية للبشرة من أشعة الشمس." },
-  { id:"av3", name:"أفين تونر ملطف", brand:"Avene", type:"Avene", price:49, image:"images/products/kid3.png", description:"توازن لطيف وحماية للبشرة." },
+  { id:"av1", name:"أفين كريم مرطب Hydrance", brand:"Avene", type:"Avene", price:59, image:"images/products/kid11.png", description:"ترطيب عميق للبشرة الحساسة." },
+  { id:"av2", name:"أفين واقي شمس SPF50+", brand:"Avene", type:"Avene", price:65, image:"images/products/kid12.png", description:"حماية قوية للبشرة من أشعة الشمس." },
+  { id:"av3", name:"أفين تونر ملطف", brand:"Avene", type:"Avene", price:49, image:"images/products/kid13.png", description:"توازن لطيف وحماية للبشرة." },
 
   // Bioderma
-  { id:"bio1", name:"بيوديرما سيبيوم غسول", brand:"Bioderma", type:"Bioderma", price:61, image:"images/products/kid4.png", description:"غسول رغوي ينظف البشرة الدهنية." },
-  { id:"bio2", name:"بيوديرما كريم Sensibio", brand:"Bioderma", type:"Bioderma", price:74, image:"images/products/kid5.png", description:"ترطيب وتلطيف للبشرة الحساسة." },
-  { id:"bio3", name:"بيوديرما ماء ميسيلار", brand:"Bioderma", type:"Bioderma", price:45, image:"images/products/kid6.png", description:"إزالة فعالة للمكياج والشوائب." },
+  { id:"bio1", name:"بيوديرما سيبيوم غسول", brand:"Bioderma", type:"Bioderma", price:61, image:"images/products/kid14.png", description:"غسول رغوي ينظف البشرة الدهنية." },
+  { id:"bio2", name:"بيوديرما كريم Sensibio", brand:"Bioderma", type:"Bioderma", price:74, image:"images/products/kid15.png", description:"ترطيب وتلطيف للبشرة الحساسة." },
+  { id:"bio3", name:"بيوديرما ماء ميسيلار", brand:"Bioderma", type:"Bioderma", price:45, image:"images/products/kid16.png", description:"إزالة فعالة للمكياج والشوائب." },
 
   // La Roche
-  { id:"lr1", name:"لاروش بوزيه Effaclar Duo+", brand:"La Roche", type:"La Roche", price:83, image:"images/products/kid7.png", description:"علاج فعال لحب الشباب." },
-  { id:"lr2", name:"لاروش بوزيه واقي شمس Anthelios", brand:"La Roche", type:"La Roche", price:79, image:"images/products/kid8.png", description:"يحمي البشرة الدهنية من الشمس." },
-  { id:"lr3", name:"لاروش بوزيه سيكابلاست", brand:"La Roche", type:"La Roche", price:53, image:"images/products/kid9.png", description:"ترميم وتهدئة جلد الوجه والجسم." },
+  { id:"lr1", name:"لاروش بوزيه Effaclar Duo+", brand:"La Roche", type:"La Roche", price:83, image:"images/products/kid17.png", description:"علاج فعال لحب الشباب." },
+  { id:"lr2", name:"لاروش بوزيه واقي شمس Anthelios", brand:"La Roche", type:"La Roche", price:79, image:"images/products/kid18.png", description:"يحمي البشرة الدهنية من الشمس." },
+  { id:"lr3", name:"لاروش بوزيه سيكابلاست", brand:"La Roche", type:"La Roche", price:53, image:"images/products/kid19.png", description:"ترميم وتهدئة جلد الوجه والجسم." },
 
   // Arvia
-  { id:"arv1", name:"أرفيا زيت اللوز الحلو الطبيعي", brand:"Arvia", type:"Arvia", price:39, image:"images/products/kid10.png", description:"زيت مرطب ومغذي للبشرة والشعر." }
+  { id:"arv1", name:"أرفيا زيت اللوز الحلو الطبيعي", brand:"Arvia", type:"Arvia", price:39, image:"images/products/kid20.png", description:"زيت مرطب ومغذي للبشرة والشعر." }
 ];
 // -- Mini cart logic
 let cart = JSON.parse(localStorage.getItem('orange_cart') || '[]');
@@ -452,6 +452,7 @@ window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart',
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 </body>
 </html>
+
 
 
 
