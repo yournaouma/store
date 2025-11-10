@@ -117,37 +117,48 @@
       color: white;
     }
 
-    /* Product Detail Sidebar - Now from LEFT */
-    .product-detail-sidebar {
+    /* Product Detail Modal (instead of sidebar) */
+    .product-detail-modal {
         position: fixed;
-        top: 0;
-        left: 0; /* Changed to left for a right-to-left layout */
-        width: 100%; /* Full width on small screens */
-        max-width: 380px; /* Max width on larger screens */
-        height: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.8); /* Start smaller and hidden */
+        width: 90%;
+        max-width: 700px; /* Wider for better layout */
+        max-height: 90vh; /* Limit height for scrollability */
         background-color: white;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        transform: translateX(-100%); /* Hidden by default, slides in from left */
-        transition: transform 0.3s ease-in-out;
-        z-index: 101; 
-        padding: 1rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        border-radius: 1rem;
+        transition: all 0.3s ease-in-out;
+        z-index: 101;
+        padding: 1.5rem;
         overflow-y: auto;
-        direction: rtl; /* Ensure RTL for the sidebar content */
+        opacity: 0;
+        pointer-events: none;
+        display: flex; /* Use flexbox for horizontal layout */
+        flex-direction: row-reverse; /* For RTL content */
+        gap: 1.5rem; /* Space between image/details and tabs */
     }
-    .product-detail-sidebar.open {
-        transform: translateX(0);
+    .product-detail-modal.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, -50%) scale(1); /* Scale up to full size */
     }
-    .product-detail-sidebar .close-btn {
+    .product-detail-modal .close-btn {
         position: absolute;
-        top: 10px;
-        right: 10px; /* Adjust position for RTL */
+        top: 1rem;
+        left: 1rem; /* Adjusted for RTL */
         background: none;
         border: none;
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         cursor: pointer;
-        z-index: 10; /* Ensure close button is above other content */
+        color: #999;
+        z-index: 10;
     }
-    .product-detail-sidebar .section-title {
+    .product-detail-modal .close-btn:hover {
+        color: #ff5722;
+    }
+    .product-detail-modal .section-title {
         font-weight: bold;
         margin-top: 1rem;
         margin-bottom: 0.5rem;
@@ -174,7 +185,7 @@
         color: #ffc107;
     }
 
-    /* Tab styles for product details sidebar */
+    /* Tab styles for product details modal */
     .tab-buttons {
       display: flex;
       justify-content: space-around;
@@ -209,6 +220,39 @@
     .product-image-zoom.zoomed {
       transform: scale(1.5); /* Adjust zoom level as needed */
       cursor: zoom-out;
+    }
+
+    /* Layout for modal content (horizontal) */
+    .product-details-main {
+        flex: 1; /* Takes up available space */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .product-details-tabs-container {
+        flex: 2; /* Tabs take more space than image/basic details */
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Responsive adjustments for modal */
+    @media (max-width: 768px) {
+        .product-detail-modal {
+            flex-direction: column; /* Stack elements vertically on smaller screens */
+            max-width: 95%;
+            padding: 1rem;
+            gap: 1rem;
+        }
+        .product-detail-modal .close-btn {
+            top: 0.5rem;
+            left: 0.5rem;
+        }
+        .product-details-main, .product-details-tabs-container {
+            flex: none; /* Reset flex */
+            width: 100%;
+        }
     }
     
   </style>
@@ -331,12 +375,20 @@
   </div>
 </aside>
 
-<!-- Product Detail Sidebar (hidden by default) -->
-<aside id="productDetailSidebar" class="product-detail-sidebar">
-    <button class="close-btn" onclick="closeProductDetailSidebar()">✕</button>
-    <div class="p-4">
-        <h3 id="sidebarProductName" class="text-xl font-bold mb-4 text-center text-[#ff9800]"></h3>
-        
+<!-- Product Detail Modal (instead of sidebar) -->
+<aside id="productDetailModal" class="product-detail-modal">
+    <button class="close-btn" onclick="closeProductDetailModal()">✕</button>
+    
+    <!-- Left part (Product Image, Name, Price, Add to Cart) -->
+    <div class="product-details-main">
+        <h3 id="modalProductName" class="text-xl font-bold mb-4 text-[#ff9800]"></h3>
+        <img id="modalProductImage" src="" alt="" class="w-48 h-48 object-contain mx-auto mb-4 product-image-zoom" onclick="toggleZoom(this)">
+        <p class="text-lg font-bold" id="modalProductPrice"></p>
+        <button class="btn btn-primary w-full mt-4" id="modalAddToCartBtn">أضف للسلة</button>
+    </div>
+
+    <!-- Right part (Tabs: Description, How to Use, Reviews) -->
+    <div class="product-details-tabs-container">
         <!-- Tab Buttons for switching content -->
         <div class="tab-buttons">
             <button class="tab-button active" data-tab="description">الوصف</button>
@@ -347,10 +399,7 @@
         <!-- Content for each tab -->
         <!-- Product Description Tab -->
         <div id="descriptionTab" class="tab-content active">
-            <img id="sidebarProductImage" src="" alt="" class="w-48 h-48 object-contain mx-auto mb-4 product-image-zoom" onclick="toggleZoom(this)">
-            <p id="sidebarProductDescription" class="text-sm text-gray-700 text-center mb-4"></p>
-            <p class="text-lg font-bold text-center" id="sidebarProductPrice"></p>
-            <button class="btn btn-primary w-full mt-4" id="sidebarAddToCartBtn">أضف للسلة</button>
+            <p id="modalProductDescription" class="text-sm text-gray-700 text-center mb-4"></p>
         </div>
 
         <!-- How to Use Tab -->
@@ -383,7 +432,6 @@
                 <button class="btn btn-primary btn-sm w-full" onclick="submitReview()">إرسال التعليق</button>
             </div>
         </div>
-
     </div>
 </aside>
 
@@ -445,33 +493,33 @@ const openCartBtn = document.getElementById('openCartBtn');
 const closeCartBtn = document.getElementById('closeCartBtn');
 const clearCartBtn = document.getElementById('clearCartBtn');
 
-// --- Product Detail Sidebar elements
-const productDetailSidebar = document.getElementById('productDetailSidebar');
-const sidebarProductName = document.getElementById('sidebarProductName');
-const sidebarProductImage = document.getElementById('sidebarProductImage');
-const sidebarProductDescription = document.getElementById('sidebarProductDescription');
-const sidebarProductPrice = document.getElementById('sidebarProductPrice');
-const sidebarAddToCartBtn = document.getElementById('sidebarAddToCartBtn');
+// --- Product Detail Modal elements
+const productDetailModal = document.getElementById('productDetailModal');
+const modalProductName = document.getElementById('modalProductName');
+const modalProductImage = document.getElementById('modalProductImage');
+const modalProductDescription = document.getElementById('modalProductDescription');
+const modalProductPrice = document.getElementById('modalProductPrice');
+const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
 
 const howToUseText = document.getElementById('howToUseText');
 const howToUseImage = document.getElementById('howToUseImage');
 const customerReviewsSection = document.getElementById('customerReviews');
 
-const tabButtons = document.querySelectorAll('.tab-button');
-const tabContents = document.querySelectorAll('.tab-content');
+const tabButtons = document.querySelectorAll('.tab-buttons .tab-button');
+const tabContents = document.querySelectorAll('.product-details-tabs-container .tab-content'); // Adjusted selector
 
 let currentProductId = null; // To keep track of the product being viewed
 
-function openProductDetailSidebar(prod) {
+function openProductDetailModal(prod) {
     currentProductId = prod.id;
-    sidebarProductName.innerText = prod.name;
-    sidebarProductImage.src = prod.image;
-    sidebarProductImage.classList.remove('zoomed'); // Reset zoom
-    sidebarProductDescription.innerText = prod.longDescription || prod.description; // Show long description if available, else short
-    sidebarProductPrice.innerText = `${prod.price.toFixed(2)} د.ل`;
-    sidebarAddToCartBtn.onclick = () => {
+    modalProductName.innerText = prod.name;
+    modalProductImage.src = prod.image;
+    modalProductImage.classList.remove('zoomed'); // Reset zoom
+    modalProductDescription.innerText = prod.longDescription || prod.description; // Show long description if available, else short
+    modalProductPrice.innerText = `${prod.price.toFixed(2)} د.ل`;
+    modalAddToCartBtn.onclick = () => {
         addToCart(prod.id);
-        closeProductDetailSidebar();
+        closeProductDetailModal();
     };
 
     // Update How to Use section
@@ -491,13 +539,13 @@ function openProductDetailSidebar(prod) {
     // Load existing reviews (placeholder for now)
     loadReviewsForProduct(prod.id);
 
-    productDetailSidebar.classList.add('open');
+    productDetailModal.classList.add('open');
     document.body.style.overflow = 'hidden'; // Prevent scrolling body
-    overlay.classList.add('open'); // Open overlay with sidebar
+    overlay.classList.add('open'); // Open overlay with modal
 }
 
-function closeProductDetailSidebar() {
-    productDetailSidebar.classList.remove('open');
+function closeProductDetailModal() {
+    productDetailModal.classList.remove('open');
     document.body.style.overflow = ''; // Restore body scrolling
     overlay.classList.remove('open'); // Close overlay
     currentProductId = null;
@@ -655,7 +703,7 @@ function renderProducts(filter='all', search='') {
       <h3 class="font-semibold">${p.name}</h3>
       <div class="text-xs text-gray-400 mb-1">${p.brand}</div>
       <div class="flex-grow text-sm text-gray-500 mb-2 overflow-hidden max-h-[4.5em] leading-tight">
-        <!-- Description will be shown in detail sidebar -->
+        <!-- Description will be shown in detail modal -->
       </div>
       <div class="flex items-center gap-2 mt-2">
         <div class="text-lg font-bold">${p.price.toFixed(2)} د.ل</div>
@@ -746,7 +794,7 @@ productsContainer.addEventListener('click', e => {
     if (action === 'detail') {
       const prod = products.find(p=>p.id===id);
       if (prod) {
-        openProductDetailSidebar(prod);
+        openProductDetailModal(prod);
       }
     }
 });
@@ -797,7 +845,7 @@ overlay.addEventListener('click', closeCart);
 window.addEventListener('keydown', (e)=> {
   if (e.key === 'Escape') {
     if (cartPanel.classList.contains('open')) closeCart();
-    if (productDetailSidebar.classList.contains('open')) closeProductDetailSidebar(); // Close sidebar on Escape
+    if (productDetailModal.classList.contains('open')) closeProductDetailModal(); // Close modal on Escape
   }
 });
 
