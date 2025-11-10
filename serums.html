@@ -190,6 +190,7 @@
       <div class="flex flex-col gap-2">
         <button class="filter-btn btn btn-sm justify-start" data-type="all">جميع الأنواع</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="دهنية">دهنية</button>
+        <button class="filter-btn btn btn-sm justify-start" data-type="جافة">جافة</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="عادية">عادية</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="مختلطة">مختلطة</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="حساسة">حساسة</button>
@@ -273,7 +274,7 @@ menuOverlay.addEventListener('click', () => toggleSidebar(false));
 // --- Products data (Serums only)
 const products = [
   // Serums
-  { id:"ser1", name:"سيروم فيتامين سي للإشراقة", brand:"Brand A", type:"عادية", price:75, image:"images/serums/serums1.png", description:"يمنح البشرة إشراقة ويقلل البقع الداكنة." },
+  { id:"ser1", name:"سيروم الوجه هيدرا ديب / لجميع أنواع البشرة", brand:"Brand A", type:"حساسة,جافة,مختلطة,دهنية,عادية", price:165, image:"images/serums/serums1.png", description:"يمنح البشرة إشراقة ويقلل البقع الداكنة." },
   { id:"ser2", name:"سيروم حمض الهيالورونيك للترطيب", brand:"Brand B", type:"جافة", price:68, image:"images/serums2.png", description:"ترطيب عميق ومكثف للبشرة الجافة والعادية." },
   { id:"ser3", name:"سيروم النياسيناميد لتوازن البشرة", brand:"Brand C", type:"دهنية", price:82, image:"images/serums3.png", description:"يقلل المسام ويتحكم في إفراز الدهون للبشرة الدهنية والمختلطة." },
   { id:"ser4", name:"سيروم الريتينول لمكافحة التجاعيد", brand:"Brand D", type:"مختلطة", price:95, image:"images/serums4.png", description:"يقلل من الخطوط الدقيقة والتجاعيد ويحسن مرونة البشرة." },
@@ -485,5 +486,6 @@ window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart',
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 </body>
 </html>
+
 
 
