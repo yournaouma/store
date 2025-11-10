@@ -49,10 +49,10 @@
     header { background: linear-gradient(90deg,#fff 0%, #ffedde 100%);}
     .product-card:hover { transform: translateY(-4px); box-shadow: 0 4px 16px rgba(255,150,40,0.08);}
     .pill { background: #ff9800; border-radius: 999px; padding: .2rem .7rem; font-size: .8rem; color: #fff; }
-    /* Orange sidebar menu */
-    #sidebar { background: #ff9800; color: white; }
-    #sidebar a { color: #fff; }
-    #sidebar a:hover { background: #fff3e0; color: #ff9800; }
+    /* White sidebar menu */
+    #sidebar { background: #ffffff; color: #333; } /* Changed to white background */
+    #sidebar a { color: #333; } /* Changed link color to dark */
+    #sidebar a:hover { background: #fff3e0; color: #ff9800; } /* Hover effect remains orange */
     /* Mini cart drawer for mobile */
     .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.2); opacity:0; pointer-events:none; transition:opacity .25s; z-index:40; }
     .cart-overlay.open { opacity:1; pointer-events:auto; }
@@ -109,6 +109,25 @@
       background-color: #ff9800;
       color: white;
     }
+
+    /* Product card alignment */
+    .product-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      height: 100%; /* Ensure all cards try to take full height */
+    }
+    .product-card > *:not(.mt-3) { /* Exclude the buttons div to keep it at the bottom */
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+    }
+    .product-card h3, .product-card .text-xs.text-gray-400, .product-card .text-lg.font-bold {
+        flex-shrink: 0; /* Prevent these from shrinking */
+    }
   </style>
 </head>
 
@@ -118,7 +137,7 @@
 <button id="menuBtn" class="fixed top-4 right-4 z-60 text-white px-3 py-2 rounded-lg shadow-md">☰ القائمة</button>
 <div id="menuOverlay" class="fixed inset-0 bg-black opacity-0 z-50 pointer-events-none transition-opacity duration-300"></div>
 
-<!-- Sidebar menu (orange) -->
+<!-- Sidebar menu (white) -->
 <aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto z-50">
   <div class="p-5">
     <h2 class="text-2xl font-bold mb-4 text-center">🛍️ نعومة نعومتك</h2>
@@ -136,7 +155,7 @@
         <a href="contact.html" class="block p-2 rounded hover:bg-pink-100">📞 اتصل بنا</a>
     </nav>
     <div class="mt-6 text-center">
-      <button id="closeSidebar" class="bg-white text-[#ff9800] px-4 py-2 rounded-lg shadow hover:bg-[#fff3e0]">إغلاق ✖</button>
+      <button id="closeSidebar" class="bg-orange-500 text-white px-4 py-2 rounded-lg shadow hover:bg-orange-600">إغلاق ✖</button>
     </div>
   </div>
 </aside>
@@ -228,6 +247,7 @@
           <option>طرابلس</option><option>بنغازي</option><option>مصراته</option><option>سبها</option><option>الخمس</option><option>مناطق أخرى</option>
         </select>
         <input id="otherCity" placeholder="اكتب مدينتك إذا مناطق أخرى" class="input input-bordered w-full hidden" />
+        <input id="address" placeholder="العنوان" class="input input-bordered w-full" /> <!-- Added Address field -->
       </div>
       <button id="checkoutBtn" class="btn w-full btn-primary mb-0">✅ الدفع عبر واتساب</button>
     </div>
@@ -308,12 +328,12 @@ function renderProducts() {
   
   filtered.forEach(p => {
     const card = document.createElement('article');
+    // Removed description from the main product card view
     card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center animate__animated animate__fadeIn';
     card.innerHTML = `
       <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-36 h-36 object-contain mb-3">
       <h3 class="font-semibold">${p.name}</h3>
       <div class="text-xs text-gray-400 mb-1">${p.brand} | SPF ${p.spf}+</div>
-      <p class="text-xs text-gray-500 mb-2">${p.description}</p>
       <div class="flex items-center gap-2 mt-2">
         <div class="text-lg font-bold">${p.price.toFixed(2)} د.ل</div>
       </div>
@@ -464,13 +484,15 @@ document.getElementById('checkoutBtn').addEventListener('click', ()=> {
   const phone = document.getElementById('phone').value.trim();
   let city = document.getElementById('city').value;
   const otherCity = document.getElementById('otherCity').value.trim();
+  const address = document.getElementById('address').value.trim(); // Get address
+  
   if (city === 'مناطق أخرى' && otherCity) city = otherCity;
-  if (!fullname || !phone || !city || cart.length === 0) {
+  if (!fullname || !phone || !city || !address || cart.length === 0) { // Added address to validation
     Swal.fire({ icon:'warning', title:'يرجى إكمال البيانات وإضافة منتج على الأقل' });
     return;
   }
   let message = `طلب جديد من متجر واقي شمس نعومة نعومتك%0A`;
-  message += `الاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0A%0A`;
+  message += `الاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0Aالعنوان: ${address}%0A%0A`; // Added address to WhatsApp message
   message += `تفاصيل الطلب:%0A`;
   cart.forEach(item => {
     message += `• ${item.name} × ${item.qty} = ${ (item.price * item.qty).toFixed(2) } د.ل%0A`;
@@ -490,5 +512,3 @@ window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart',
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 </body>
 </html>
-
-
