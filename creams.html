@@ -1,1 +1,506 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <title>🛍️ متجر كريمات نعومة نعومتك</title>
+  <meta name="description" content="🛍️ متجر كريمات نعومة نعومتك — كريمات أصلية للعناية بالبشرة من أفين، بيوديرما، لاروش، أرفيا وغيرها. توصيل سريع داخل ليبيا." />
+  <meta name="keywords" content="Avene, Bioderma, La Roche, Arvia, كريمات, سيروم, واقي شمس, متجر مميز, نعومة نعومتك, بشرة دهنية, بشرة عادية, بشرة مختلطة, بشرة حساسة" />
+   <meta name="author" content="عائلة نعومة نعومتك" />
+  <meta name="theme-color" content="#FF9800" />
+
+  <link rel="canonical" href="https://yournaouma.github.io/store/creams.html" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#fff8e1" /> <!-- لون برتقالي فاتح جداً كـ theme-color -->
+
+  <!-- Open Graph (Facebook + WhatsApp) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ar_AR" />
+  <meta property="og:site_name" content="نعومة نعومتك" />
+  <meta property="og:title" content="🍊 متجر كريمات نعومة نعومتك" />
+  <meta property="og:description" content="أجمل مجموعة كريمات طبيعية للعناية بالبشرة — اطلب الآن عبر واتساب." />
+  <meta property="og:image" content="https://yournaouma.github.io/store/images/logo.png" />
+  <meta property="og:url" content="https://yournaouma.github.io/store/creams.html" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="🍊 متجر كريمات نعومة نعومتك" />
+  <meta name="twitter:description" content="كريمات طبيعية فاخرة للعناية بالبشرة من عائلة نعومة نعومتك — اطلب الآن." />
+  <meta name="twitter:image" content="https://yournaouma.github.io/store/images/logo.png" />
+
+  <!-- أيقونات المتصفح -->
+  <link rel="icon" type="image/png" sizes="256x256" href="images/logo.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="images/logo.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="images/logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/logo.png">
+
+  <!-- لأجهزة آبل -->
+  <link rel="apple-touch-icon" sizes="512x512" href="images/logo.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
+
+  <!-- Tailwind CSS + DaisyUI -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" />
+  <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
+
+  <style>
+    body { font-family: "Noto Sans Arabic", system-ui; background: linear-gradient(180deg,#fff 0%, #fff5ea 100%); }
+    header { background: linear-gradient(90deg,#fff 0%, #ffedde 100%);}
+    .product-card { 
+        transform: translateY(0); 
+        box-shadow: 0 2px 8px rgba(255,150,40,0.05);
+        display: flex; /* Ensures consistent height */
+        flex-direction: column;
+        justify-content: space-between; /* Pushes buttons to bottom */
+    }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 4px 16px rgba(255,150,40,0.08);}
+    .pill { background: #ff9800; border-radius: 999px; padding: .2rem .7rem; font-size: .8rem; color: #fff; }
+    /* White sidebar menu */
+    #sidebar { background: white; color: #333; } /* Changed to white background, dark text */
+    #sidebar a { color: #333; } /* Default link color for white sidebar */
+    #sidebar a:hover { background: #ff9800; color: #fff; } /* Hover for white sidebar */
+    /* Mini cart drawer for mobile */
+    .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.2); opacity:0; pointer-events:none; transition:opacity .25s; z-index:40; }
+    .cart-overlay.open { opacity:1; pointer-events:auto; }
+    .cart-drawer {
+      position:fixed; top:0; right:0; height:100vh; width:100%; 
+      max-width:310px; /* كان 370px وقللته كي تبدو أصغر */
+      transform:translateX(110%); 
+      transition:transform .25s cubic-bezier(.2,.9,.2,1); 
+      z-index:50; 
+      box-shadow:-6px 0 16px 0 rgba(255,152,0,0.04);
+    }
+    .cart-drawer.open { transform:translateX(0); }
+    @media (max-width: 530px) {
+      .cart-drawer { max-width:90vw; } /* أصغر للجوال */
+    }
+    /* Responsive menu btn */
+    #menuBtn {background:#ff9800;}
+    #menuBtn:hover {background:#fb8c00;}
+    .btn-primary,.btn-primary:active {background:linear-gradient(90deg,#ff9800,#ffbd51);border:none;color:white;}
+    .btn-primary:hover {background:linear-gradient(90deg,#fb8c00,#fcc761);}
+    .btn-outline {border-color:#ff9800;color:#ff9800;}
+    .btn-outline:hover {background:#ff9800;color:white;}
+    .btn-error {background:#ff5722;color:white;}
+    /* مهم: تأكد من بقاء أزرار الدفع ظاهرة دائماً في السلة */
+    #cartPanel .cart-actions-area { 
+      position: sticky;
+      bottom: 0;
+      background: white;
+      z-index: 2;
+      padding-top: 6px;
+      margin-top: 12px;
+      border-top: 1.5px solid #ffecbc;
+    }
+    #cartPanel .cart-actions-area button,
+    #cartPanel .cart-actions-area .flex {margin-bottom:0;}
+
+    /* Styling for input fields in cart (white background, dark text) */
+    #cartPanel .input, #cartPanel .select {
+      background-color: white; /* White background */
+      color: #333; /* Dark text for readability */
+      border-color: #ff9800; /* Orange border */
+    }
+    #cartPanel .input::placeholder, #cartPanel .select option {
+      color: #777; /* Lighter placeholder text */
+    }
+    
+    /* Styling for filter buttons in sidebar (white background, dark text when not active) */
+    .filter-btn {
+      background-color: white;
+      color: #333;
+      border-color: #ff9800;
+    }
+    .filter-btn:hover {
+      background-color: #ff9800;
+      color: white;
+    }
+  </style>
+</head>
+
+<body class="antialiased text-gray-800 bg-[#fffbea]">
+
+<!-- Menu Button -->
+<button id="menuBtn" class="fixed top-4 right-4 z-60 text-white px-3 py-2 rounded-lg shadow-md">☰ القائمة</button>
+<div id="menuOverlay" class="fixed inset-0 bg-black opacity-0 z-50 pointer-events-none transition-opacity duration-300"></div>
+
+<!-- Sidebar menu (white) -->
+<aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto z-50">
+  <div class="p-5">
+    <h2 class="text-2xl font-bold mb-4 text-center text-[#ff9800]">🛍️ نعومة نعومتك</h2> <!-- Changed text color -->
+    <nav class="space-y-3 text-lg">
+        <a href="index.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🏠 الصفحة الرئيسية</a>
+        <a href="creams.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🧴 متجر الكريمات</a>
+        <a href="serums.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">💧 متجر السيرومات</a>
+        <a href="cleansers.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🧼 متجر المنظفات</a>
+        <a href="sunscreen.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🌞 متجر واقي الشمس</a>
+        <a href="toners.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">💦 متجر التونر</a>
+        <a href="peels.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🍯 متجر المقشرات</a>
+        <a href="masks.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🛁 متجر الماسكات</a>
+        <a href="perfumes.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🌸 متجر العطور</a>
+        <a href="yourskin.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">💬 استشارة بشرتك</a>
+        <a href="contact.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">📞 اتصل بنا</a>
+    </nav>
+    <div class="mt-6 text-center">
+      <button id="closeSidebar" class="bg-[#ff9800] text-white px-4 py-2 rounded-lg shadow hover:bg-[#fb8c00]">إغلاق ✖</button> <!-- Changed button colors -->
+    </div>
+  </div>
+</aside>
+
+<header class="shadow-sm sticky top-0 z-30 mt-14">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+        <img src="images/logo.png" alt="شعار نعومة نعومتك" class="w-12 h-12 rounded-lg object-cover shadow-sm">
+      <div>
+        <h1 class="text-lg font-extrabold">متجر كريمات نعومة نعومتك
+          <span class="text-sm text-gray-500 block">أصناف أصلية للعناية بالبشرة</span>
+        </h1>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="pill text-sm">توصيل سريع داخل ليبيا</div>
+      <button id="openCartBtn" class="btn btn-ghost btn-sm">🛒 <span id="cartBadge">0</span></button>
+    </div>
+  </div>
+</header>
+
+<!-- Main -->
+<main class="max-w-7xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
+  <!-- Sidebar filters -->
+  <aside class="lg:col-span-1 space-y-4">
+    <div class="bg-white p-4 rounded-xl shadow-sm">
+      <input id="search" type="search" placeholder="ابحث عن منتج..." class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-orange-200" aria-label="ابحث عن منتج">
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow-sm">
+      <h3 class="font-semibold mb-2">نوع البشرة</h3>
+      <div class="flex flex-col gap-2">
+        <button class="filter-btn btn btn-sm justify-start" data-type="all">جميع الأنواع</button>
+        <button class="filter-btn btn btn-sm justify-start" data-type="دهنية">دهنية</button>
+        <button class="filter-btn btn btn-sm justify-start" data-type="عادية">عادية</button>
+        <button class="filter-btn btn btn-sm justify-start" data-type="مختلطة">مختلطة</button>
+        <button class="filter-btn btn btn-sm justify-start" data-type="حساسة">حساسة</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Products Grid -->
+  <section class="lg:col-span-3 space-y-4">
+    <div id="productsContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4"></div> <!-- Adjusted for 2, 3, 3 cols -->
+    <div class="flex justify-center">
+      <nav class="pagination flex gap-2 items-center text-sm"></nav>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow-sm lg:hidden">
+      <div class="flex justify-between items-center">
+        <div>🛒 <span id="mobileCartCount">0</span> عناصر</div>
+        <div class="font-bold">الإجمالي: <span id="mobileTotal">0.00</span> د.ل</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="overlay" class="cart-overlay" tabindex="-1" aria-hidden="true"></div>
+
+<!-- Cart Drawer -->
+<aside id="cartPanel" class="cart-drawer bg-white" role="dialog" aria-modal="true" aria-hidden="true" style="border-right:3px solid #ff9800">
+  <div class="h-full flex flex-col p-4">
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="text-lg font-bold">🛒 سلة مشترياتك</h2>
+      <div class="flex items-center gap-2">
+        <button id="clearCartBtn" class="btn btn-ghost btn-xs text-sm">تفريغ</button>
+        <button id="closeCartBtn" class="btn btn-ghost">إغلاق ✖</button>
+      </div>
+    </div>
+    <div id="cartItems" class="flex-1 overflow-auto space-y-3 p-1"></div>
+    <!-- ↓↓↓ منطقة أزرار الدفع (مثبتة دائماً بالأسفل) ↓↓↓  -->
+    <div class="cart-actions-area">
+      <div class="flex justify-between items-center mb-2">
+        <div class="font-semibold">الإجمالي الكلي</div>
+        <div class="font-bold" id="cartTotal">0.00 د.ل</div>
+      </div>
+      <div class="space-y-2 mb-2">
+        <input id="fullname" placeholder="الاسم الكامل" class="input input-bordered w-full" />
+        <input id="phone" placeholder="رقم الهاتف (مثال: 0915...)" class="input input-bordered w-full" />
+        <select id="city" class="select select-bordered w-full">
+          <option value="">اختر مدينتك</option>
+          <option>طرابلس</option><option>بنغازي</option><option>مصراته</option><option>سبها</option><option>الخمس</option><option>مناطق أخرى</option>
+        </select>
+        <input id="otherCity" placeholder="اكتب مدينتك إذا مناطق أخرى" class="input input-bordered w-full hidden" />
+        <input id="address" placeholder="العنوان" class="input input-bordered w-full" /> <!-- Added address field -->
+      </div>
+      <button id="checkoutBtn" class="btn w-full btn-primary mb-0">✅ الدفع عبر واتساب</button>
+    </div>
+    <!-- ↑↑↑ نهاية منطقة الدفع المثبتة ↑↑↑ -->
+  </div>
+</aside>
+
+<!-- Script for sidebar and products -->
+<script>
+// Sidebar logic (now white)
+const menuBtn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+const menuOverlay = document.getElementById('menuOverlay');
+const closeSidebar = document.getElementById('closeSidebar');
+
+function toggleSidebar(open) {
+  sidebar.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
+  if (open) {
+    menuOverlay.classList.add('opacity-40');
+    menuOverlay.classList.remove('pointer-events-none');
+  } else {
+    menuOverlay.classList.remove('opacity-40');
+    menuOverlay.classList.add('pointer-events-none');
+  }
+}
+
+menuBtn.addEventListener('click', () => toggleSidebar(true));
+closeSidebar.addEventListener('click', () => toggleSidebar(false));
+menuOverlay.addEventListener('click', () => toggleSidebar(false));
+
+// --- Products data
+const products = [
+// Avene
+{ id:"av1", name:"كريم الليل Tolérance Control", brand:"ARVEA", type:"حساسة,جافة,جميع انواع البشرة,عادية,مختلطة,دهنية", price:85, image:"/images/creams/cream1.png", description:"يجمع كريم الليل المضاد للتجاعيد بين خصائص الترطيب والتجديد التي يوفرها الصبار، وزيت الأرغان العضوي، وزبدة الشيا، وزيت الأفوكادو، وبروفيتامين B5، وزيت بذور العنب، وزيت الأوكالبتوس العطري، وزيت بذور التين الشوكي. يُعد زيت بذور التين الشوكي زيتًا ثمينًا يلعب دورًا أساسيًا في الوقاية من التجاعيد والخطوط الدقيقة وتوسع المسام والبقع البنية ومكافحتها، بالإضافة إلى تنظيم إفراز الدهون والحد من الجفاف. هذا العلاج المضاد للتجاعيد، الغني بمكونات طبيعية فعالة، يُجدد بشرتكِ بشكل استثنائي. فهو يمنع شيخوخة البشرة ويعزز تجديد الخلايا. مثالي لبشرة متجددة ومحصنة، ذات بشرة مشرقة ومضيئة تنضح بالشباب والصحة. تم تصميم هذا الكريم ليناسب جميع أنواع البشرة." },
+{ id:"av2", name:"أفين كريم Hydrance Riche", brand:"Avene", type:"عادية", price:65, image:"images/creams/cream2.png", description:"كريم مغذٍ يمنح البشرة العادية ترطيبًا يدوم طويلاً." },
+{ id:"av3", name:"أفين كريم Cleanance Expert", brand:"Avene", type:"مختلطة", price:49, image:"images/creams/cream3.png", description:"ينظم إفراز الدهون ويمنح توازنًا للبشرة المختلطة." },
+
+// Bioderma
+{ id:"bio1", name:"بيوديرما كريم Sébium Hydra", brand:"Bioderma", type:"دهنية", price:61, image:"images/creams/cream4.png", description:"يرطب ويعيد توازن البشرة الدهنية بعد التنظيف أو العلاج." },
+{ id:"bio2", name:"بيوديرما كريم Sensibio AR", brand:"Bioderma", type:"حساسة", price:74, image:"images/creams/cream5.png", description:"يهدئ احمرار البشرة الحساسة ويقلل الالتهاب." },
+{ id:"bio3", name:"بيوديرما كريم Hydrabio Perfecteur", brand:"Bioderma", type:"عادية", price:45, image:"images/creams/cream6.png", description:"يوحد لون البشرة العادية ويمنحها إشراقة ناعمة." },
+
+// La Roche
+{ id:"lr1", name:"لاروش بوزيه كريم Effaclar K+", brand:"La Roche", type:"دهنية", price:83, image:"images/creams/kid7.png", description:"ينقي البشرة الدهنية ويقلل من الرؤوس السوداء." },
+{ id:"lr2", name:"لاروش بوزيه كريم Toleriane Sensitive Fluide", brand:"La Roche", type:"مختلطة", price:79, image:"images/creams/kid8.png", description:"يرطب ويهدئ البشرة المختلطة الحساسة دون لمعان." },
+{ id:"lr3", name:"لاروش بوزيه كريم Cicaplast Baume B5+", brand:"La Roche", type:"حساسة", price:53, image:"images/creams/kid9.png", description:"كريم ترميمي غني لتهدئة وحماية البشرة الحساسة." },
+
+// Arvia
+{ id:"arv1", name:"أرفيا كريم بزيت جوز الهند الطبيعي", brand:"Arvia", type:"عادية", price:39, image:"images/creams/kid10.png", description:"كريم طبيعي يرطب البشرة العادية ويمنحها نعومة فائقة." }
+];
+
+// -- Mini cart logic
+let cart = JSON.parse(localStorage.getItem('orange_cart') || '[]');
+const productsContainer = document.getElementById('productsContainer');
+const cartItemsEl = document.getElementById('cartItems');
+const cartTotalEl = document.getElementById('cartTotal');
+const cartBadge = document.getElementById('cartBadge');
+const mobileCartCount = document.getElementById('mobileCartCount');
+const mobileTotal = document.getElementById('mobileTotal');
+const overlay = document.getElementById('overlay');
+const cartPanel = document.getElementById('cartPanel');
+const openCartBtn = document.getElementById('openCartBtn');
+const closeCartBtn = document.getElementById('closeCartBtn');
+const clearCartBtn = document.getElementById('clearCartBtn');
+
+// --- Render products
+function renderProducts(filter='all', search='') {
+  productsContainer.innerHTML = '';
+  const term = (search || '').trim().toLowerCase();
+  const filtered = products.filter(
+    p => (filter==='all' || p.type===filter) && (p.name + ' ' + p.description).toLowerCase().includes(term)
+  );
+  if (!filtered.length) {
+    productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500">لا توجد منتجات مطابقة.</div>`;
+    return;
+  }
+  filtered.forEach(p => {
+    const card = document.createElement('article');
+    // Ensure consistent card height with flexbox
+    card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center animate__animated animate__fadeIn';
+    card.innerHTML = `
+      <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-36 h-36 object-contain mb-3">
+      <h3 class="font-semibold">${p.name}</h3>
+      <div class="text-xs text-gray-400 mb-1">${p.brand}</div>
+      <div class="flex-grow text-sm text-gray-500 mb-2 overflow-hidden max-h-[4.5em] leading-tight">
+        <!-- Description will be shown in detail modal -->
+      </div>
+      <div class="flex items-center gap-2 mt-2">
+        <div class="text-lg font-bold">${p.price.toFixed(2)} د.ل</div>
+      </div>
+      <div class="mt-3 w-full flex gap-2">
+        <button class="btn btn-sm btn-outline w-1/2" data-action="detail" data-id="${p.id}">عرض الوصف</button>
+        <button class="btn btn-sm btn-primary w-1/2" data-action="add" data-id="${p.id}">أضف للسلة</button>
+      </div>
+    `;
+    productsContainer.appendChild(card);
+  });
+}
+
+// LocalStorage update
+function saveCart() {
+  localStorage.setItem('orange_cart', JSON.stringify(cart));
+  updateCartUI();
+}
+
+function addToCart(productId) {
+  const prod = products.find(p=>p.id===productId);
+  if (!prod) return;
+  const existing = cart.find(i=>i.id===productId);
+  if (existing) existing.qty++;
+  else cart.push({ id: prod.id, name: prod.name, price: prod.price, qty: 1, note: '' });
+  saveCart();
+  Swal.fire({ icon:'success', title: 'تمت الإضافة', text: prod.name + ' أُضيفت إلى السلة', timer: 1100, showConfirmButton:false });
+}
+
+function removeFromCart(index) { cart.splice(index,1); saveCart(); }
+
+function changeQty(index, delta) {
+  cart[index].qty += delta;
+  if (cart[index].qty < 1) cart[index].qty = 1;
+  saveCart();
+}
+
+clearCartBtn.addEventListener('click', ()=> {
+  if (!cart.length) return;
+  Swal.fire({
+    title: 'تفريغ السلة؟',
+    text: 'هل تريد تفريغ السلة؟',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'تفريغ',
+    cancelButtonText: 'إلغاء'
+  }).then(res => {
+    if (res.isConfirmed) {
+      cart = [];
+      saveCart();
+    }
+  });
+});
+
+function updateCartUI() {
+  cartItemsEl.innerHTML = '';
+  let total = 0;
+  cart.forEach((item, i) => {
+    total += item.price * item.qty;
+    const itemEl = document.createElement('div');
+    itemEl.className = 'p-2 bg-orange-50 rounded flex items-start justify-between gap-2';
+    itemEl.innerHTML = `
+      <div class="flex-1">
+        <div class="font-semibold">${item.name}</div>
+        <div class="text-xs text-gray-500">سعر الوحدة: ${item.price.toFixed(2)} د.ل</div>
+        <div class="mt-2 flex gap-2">
+          <button class="btn btn-xs" data-action="dec" data-i="${i}">-</button>
+          <div class="px-3 py-1 border rounded">${item.qty}</div>
+          <button class="btn btn-xs" data-action="inc" data-i="${i}">+</button>
+          <button class="btn btn-xs btn-error ml-auto" data-action="remove" data-i="${i}">حذف</button>
+        </div>
+      </div>
+    `;
+    cartItemsEl.appendChild(itemEl);
+  });
+  cartTotalEl.innerText = total.toFixed(2) + ' د.ل';
+  cartBadge.innerText = cart.reduce((s,i)=>s+i.qty,0);
+  mobileCartCount.innerText = cartBadge.innerText;
+  mobileTotal.innerText = total.toFixed(2);
+}
+
+productsContainer.addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const action = btn.getAttribute('data-action');
+    const id = btn.getAttribute('data-id');
+    if (action === 'add') addToCart(id);
+    if (action === 'detail') {
+      const prod = products.find(p=>p.id===id);
+      if (prod) {
+        Swal.fire({
+          title: prod.name,
+          html: `<img src="${prod.image}" alt="${prod.name}" loading="lazy" class="mx-auto w-40 h-40 object-contain mb-3"><p class="text-sm text-gray-600">${prod.description}</p><p class="mt-2 font-bold">${prod.price.toFixed(2)} د.ل</p>`,
+          showCloseButton: true,
+          showConfirmButton: false,
+        });
+      }
+    }
+});
+
+cartItemsEl.addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  const action = btn.getAttribute('data-action');
+  const i = Number(btn.getAttribute('data-i'));
+  if (action === 'remove') removeFromCart(i);
+  if (action === 'inc') changeQty(i, 1);
+  if (action === 'dec') changeQty(i, -1);
+});
+
+document.querySelectorAll('.filter-btn').forEach(b => b.addEventListener('click', () => {
+  const t = b.getAttribute('data-type');
+  document.getElementById('search').value = '';
+  renderProducts(t, '');
+}));
+
+document.getElementById('search').addEventListener('input', e => renderProducts('all', e.target.value));
+
+function openCart() {
+  overlay.classList.add('open');
+  cartPanel.classList.add('open');
+  cartPanel.setAttribute('aria-hidden','false');
+  overlay.setAttribute('aria-hidden','false');
+  openCartBtn.setAttribute('aria-expanded','true');
+  setTimeout(()=> {
+    const fname = document.getElementById('fullname');
+    if (fname) fname.focus();
+  }, 220);
+}
+
+function closeCart() {
+  overlay.classList.remove('open');
+  cartPanel.classList.remove('open');
+  cartPanel.setAttribute('aria-hidden','true');
+  overlay.setAttribute('aria-hidden','true');
+  openCartBtn.setAttribute('aria-expanded','false');
+  openCartBtn.focus();
+}
+
+openCartBtn.addEventListener('click', openCart);
+closeCartBtn.addEventListener('click', closeCart);
+overlay.addEventListener('click', closeCart);
+
+window.addEventListener('keydown', (e)=> {
+  if (e.key === 'Escape') {
+    if (cartPanel.classList.contains('open')) closeCart();
+  }
+});
+
+document.getElementById('city').addEventListener('change', (e)=>{
+  document.getElementById('otherCity').classList.toggle('hidden', e.target.value !== 'مناطق أخرى');
+});
+
+document.getElementById('checkoutBtn').addEventListener('click', ()=> {
+  const fullname = document.getElementById('fullname').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  let city = document.getElementById('city').value;
+  const otherCity = document.getElementById('otherCity').value.trim();
+  const address = document.getElementById('address').value.trim(); // Get address
+  
+  if (city === 'مناطق أخرى' && otherCity) city = otherCity;
+  if (!fullname || !phone || !city || !address || cart.length === 0) { // Check address
+    Swal.fire({ icon:'warning', title:'يرجى إكمال جميع البيانات المطلوبة وإضافة منتج على الأقل' });
+    return;
+  }
+
+  let message = `طلب جديد من متجر كريمات نعومة نعومتك%0A`;
+  message += `الاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0Aالعنوان: ${address}%0A%0A`; // Added address to message
+  message += `تفاصيل الطلب:%0A`;
+  cart.forEach(item => {
+    message += `• ${item.name} × ${item.qty} = ${ (item.price * item.qty).toFixed(2) } د.ل%0A`;
+  });
+  const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  message += `%0Aالإجمالي: ${total.toFixed(2)} د.ل`;
+
+  // رقم الواتساب للطلب
+  const whatsappNumber = "218915066938";
+  const url = `https://wa.me/${whatsappNumber}?text=${message}`;
+  window.open(url, '_blank');
+});
+
+renderProducts();
+updateCartUI();
+window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart', JSON.stringify(cart)));
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+<script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
+</body>
+</html>
+
