@@ -260,22 +260,22 @@ menuOverlay.addEventListener('click', () => toggleSidebar(false));
 // --- Products data
 const products = [
 // Avene
-{ id:"av1", name:"أفين كريم Tolérance Control", brand:"Avene", type:"حساسة", price:59, image:"images/products/kid1.png", description:"كريم مهدئ فوري للبشرة الحساسة والمتهيجة." },
-{ id:"av2", name:"أفين كريم Hydrance Riche", brand:"Avene", type:"عادية", price:65, image:"images/products/kid2.png", description:"كريم مغذٍ يمنح البشرة العادية ترطيبًا يدوم طويلاً." },
-{ id:"av3", name:"أفين كريم Cleanance Expert", brand:"Avene", type:"مختلطة", price:49, image:"images/products/kid3.png", description:"ينظم إفراز الدهون ويمنح توازنًا للبشرة المختلطة." },
+{ id:"av1", name:"كريم الليل Tolérance Control", brand:"ARVEA", type:"حساسة", price:59, image:"https://yournaouma.github.io/store/images/creams/cream1.png", description:"يجمع كريم الليل المضاد للتجاعيد بين خصائص الترطيب والتجديد التي يوفرها الصبار، وزيت الأرغان العضوي، وزبدة الشيا، وزيت الأفوكادو، وبروفيتامين B5، وزيت بذور العنب، وزيت الأوكالبتوس العطري، وزيت بذور التين الشوكي. يُعد زيت بذور التين الشوكي زيتًا ثمينًا يلعب دورًا أساسيًا في الوقاية من التجاعيد والخطوط الدقيقة وتوسع المسام والبقع البنية ومكافحتها، بالإضافة إلى تنظيم إفراز الدهون والحد من الجفاف. هذا العلاج المضاد للتجاعيد، الغني بمكونات طبيعية فعالة، يُجدد بشرتكِ بشكل استثنائي. فهو يمنع شيخوخة البشرة ويعزز تجديد الخلايا. مثالي لبشرة متجددة ومحصنة، ذات بشرة مشرقة ومضيئة تنضح بالشباب والصحة. تم تصميم هذا الكريم ليناسب جميع أنواع البشرة." },
+{ id:"av2", name:"أفين كريم Hydrance Riche", brand:"Avene", type:"عادية", price:65, image:"images/creams/cream2.png", description:"كريم مغذٍ يمنح البشرة العادية ترطيبًا يدوم طويلاً." },
+{ id:"av3", name:"أفين كريم Cleanance Expert", brand:"Avene", type:"مختلطة", price:49, image:"images/creams/cream3.png", description:"ينظم إفراز الدهون ويمنح توازنًا للبشرة المختلطة." },
 
 // Bioderma
-{ id:"bio1", name:"بيوديرما كريم Sébium Hydra", brand:"Bioderma", type:"دهنية", price:61, image:"images/products/kid4.png", description:"يرطب ويعيد توازن البشرة الدهنية بعد التنظيف أو العلاج." },
-{ id:"bio2", name:"بيوديرما كريم Sensibio AR", brand:"Bioderma", type:"حساسة", price:74, image:"images/products/kid5.png", description:"يهدئ احمرار البشرة الحساسة ويقلل الالتهاب." },
-{ id:"bio3", name:"بيوديرما كريم Hydrabio Perfecteur", brand:"Bioderma", type:"عادية", price:45, image:"images/products/kid6.png", description:"يوحد لون البشرة العادية ويمنحها إشراقة ناعمة." },
+{ id:"bio1", name:"بيوديرما كريم Sébium Hydra", brand:"Bioderma", type:"دهنية", price:61, image:"images/creams/cream4.png", description:"يرطب ويعيد توازن البشرة الدهنية بعد التنظيف أو العلاج." },
+{ id:"bio2", name:"بيوديرما كريم Sensibio AR", brand:"Bioderma", type:"حساسة", price:74, image:"images/creams/cream5.png", description:"يهدئ احمرار البشرة الحساسة ويقلل الالتهاب." },
+{ id:"bio3", name:"بيوديرما كريم Hydrabio Perfecteur", brand:"Bioderma", type:"عادية", price:45, image:"images/creams/cream6.png", description:"يوحد لون البشرة العادية ويمنحها إشراقة ناعمة." },
 
 // La Roche
-{ id:"lr1", name:"لاروش بوزيه كريم Effaclar K+", brand:"La Roche", type:"دهنية", price:83, image:"images/products/kid7.png", description:"ينقي البشرة الدهنية ويقلل من الرؤوس السوداء." },
-{ id:"lr2", name:"لاروش بوزيه كريم Toleriane Sensitive Fluide", brand:"La Roche", type:"مختلطة", price:79, image:"images/products/kid8.png", description:"يرطب ويهدئ البشرة المختلطة الحساسة دون لمعان." },
-{ id:"lr3", name:"لاروش بوزيه كريم Cicaplast Baume B5+", brand:"La Roche", type:"حساسة", price:53, image:"images/products/kid9.png", description:"كريم ترميمي غني لتهدئة وحماية البشرة الحساسة." },
+{ id:"lr1", name:"لاروش بوزيه كريم Effaclar K+", brand:"La Roche", type:"دهنية", price:83, image:"images/creams/kid7.png", description:"ينقي البشرة الدهنية ويقلل من الرؤوس السوداء." },
+{ id:"lr2", name:"لاروش بوزيه كريم Toleriane Sensitive Fluide", brand:"La Roche", type:"مختلطة", price:79, image:"images/creams/kid8.png", description:"يرطب ويهدئ البشرة المختلطة الحساسة دون لمعان." },
+{ id:"lr3", name:"لاروش بوزيه كريم Cicaplast Baume B5+", brand:"La Roche", type:"حساسة", price:53, image:"images/creams/kid9.png", description:"كريم ترميمي غني لتهدئة وحماية البشرة الحساسة." },
 
 // Arvia
-{ id:"arv1", name:"أرفيا كريم بزيت جوز الهند الطبيعي", brand:"Arvia", type:"عادية", price:39, image:"images/products/kid10.png", description:"كريم طبيعي يرطب البشرة العادية ويمنحها نعومة فائقة." }
+{ id:"arv1", name:"أرفيا كريم بزيت جوز الهند الطبيعي", brand:"Arvia", type:"عادية", price:39, image:"images/creams/kid10.png", description:"كريم طبيعي يرطب البشرة العادية ويمنحها نعومة فائقة." }
 ];
 
 // -- Mini cart logic
@@ -502,3 +502,4 @@ window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart',
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 </body>
 </html>
+
