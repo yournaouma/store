@@ -50,9 +50,10 @@
     .product-card {
         transform: translateY(0);
         box-shadow: 0 2px 8px rgba(255,150,40,0.05);
-        display: flex; /* Ensures consistent height */
+        display: flex; /* Use flexbox for internal layout */
         flex-direction: column;
         justify-content: space-between; /* Pushes buttons to bottom */
+        height: 100%; /* Ensure card fills the grid cell height for alignment */
     }
     .product-card:hover { transform: translateY(-4px); box-shadow: 0 4px 16px rgba(255,150,40,0.08);}
     .pill { background: #ff9800; border-radius: 999px; padding: .2rem .7rem; font-size: .8rem; color: #fff; }
@@ -156,7 +157,7 @@
     .comment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
     .comment-author { font-weight: bold; color: #ff9800; display: flex; align-items: center; }
     .comment-timestamp { font-size: 0.75rem; color: #888; }
-    .comment-text { color: #444; margin-bottom: 0.75rem; line-height: 1.4; } /* Ensuring comment text is readable */
+    .comment-text { color: #444; margin-bottom: 0.75rem; line-height: 1.4; }
     .comment-actions { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.5rem; }
     .reaction-button {
         display: flex; align-items: center; gap: 0.25rem; padding: 0.3rem 0.6rem;
@@ -171,6 +172,17 @@
         padding-right: 1rem; margin-top: 1rem;
     }
     .replies-container .comment-card { background-color: #fffdfa; border-color: #ffe0b2; margin-bottom: 0.75rem; }
+
+    /* === التحسين المطلوب: إصلاح خلفية حقول التعليقات === */
+    #reviewsTab #reviewNameInput,
+    #reviewsTab #reviewTextInput {
+        background-color: #ffffff !important;
+        color: #111827 !important;
+    }
+    #reviewsTab #reviewNameInput::placeholder,
+    #reviewsTab #reviewTextInput::placeholder {
+        color: #9ca3af;
+    }
   </style>
 </head>
 
@@ -316,7 +328,7 @@
         </div>
 
         <div id="descriptionTab" class="tab-content active">
-            <p id="modalProductDescription" class="text-sm text-gray-700 text-center mb-4"></p>
+            <p id="modalProductDescription" class="text-sm text-gray-700 text-right leading-relaxed mb-4"></p>
         </div>
 
         <div id="howToUseTab" class="tab-content">
@@ -358,7 +370,7 @@
 <script type="module">
 // Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, serverTimestamp, doc, updateDoc, getDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
 // Firebase Configuration
@@ -386,8 +398,13 @@ const closeSidebar = document.getElementById('closeSidebar');
 
 function toggleSidebar(open) {
   sidebar.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
-  menuOverlay.style.opacity = open ? '0.4' : '0';
-  menuOverlay.style.pointerEvents = open ? 'auto' : 'none';
+  if (open) {
+    menuOverlay.classList.add('opacity-40');
+    menuOverlay.classList.remove('pointer-events-none');
+  } else {
+    menuOverlay.classList.remove('opacity-40');
+    menuOverlay.classList.add('pointer-events-none');
+  }
 }
 
 menuBtn.addEventListener('click', () => toggleSidebar(true));
@@ -496,7 +513,7 @@ function renderProducts() {
         card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center';
         card.innerHTML = `
             <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-36 h-36 object-contain mb-3">
-            <h3 class="font-semibold">${p.name}</h3>
+            <h3 class="font-semibold text-sm h-14 flex items-center justify-center">${p.name}</h3>
             <div class="text-xs text-gray-400 mb-1">${p.brand}</div>
             <div class="flex-grow"></div>
             <div class="text-lg font-bold mt-2">${p.price.toFixed(2)} د.ل</div>
@@ -524,6 +541,13 @@ function addToCart(productId) {
     Swal.fire({ icon: 'success', title: 'تمت الإضافة', text: `${prod.name} أُضيفت إلى السلة`, timer: 1100, showConfirmButton: false });
 }
 
+function removeFromCart(index) { cart.splice(index,1); saveCart(); }
+function changeQty(index, delta) {
+  cart[index].qty += delta;
+  if (cart[index].qty < 1) cart[index].qty = 1;
+  saveCart();
+}
+
 function updateCartUI() {
     cartItemsEl.innerHTML = '';
     let total = 0;
@@ -532,16 +556,16 @@ function updateCartUI() {
         const itemEl = document.createElement('div');
         itemEl.className = 'p-2 bg-orange-50 rounded flex items-start justify-between gap-2';
         itemEl.innerHTML = `
-            <div>
+            <div class="flex-1">
                 <div class="font-semibold">${item.name}</div>
-                <div class="text-xs text-gray-500">${item.price.toFixed(2)} د.ل</div>
-                <div class="mt-2 flex gap-2 items-center">
+                <div class="text-xs text-gray-500">سعر الوحدة: ${item.price.toFixed(2)} د.ل</div>
+                <div class="mt-2 flex gap-2">
                     <button class="btn btn-xs" data-action="dec" data-i="${i}">-</button>
-                    <span>${item.qty}</span>
+                    <div class="px-3 py-1 border rounded">${item.qty}</div>
                     <button class="btn btn-xs" data-action="inc" data-i="${i}">+</button>
+                    <button class="btn btn-xs btn-error ml-auto" data-action="remove" data-i="${i}">حذف</button>
                 </div>
             </div>
-            <button class="btn btn-xs btn-error" data-action="remove" data-i="${i}">حذف</button>
         `;
         cartItemsEl.appendChild(itemEl);
     });
@@ -565,19 +589,19 @@ productsContainer.addEventListener('click', e => {
 });
 
 cartItemsEl.addEventListener('click', e => {
-    const btn = e.target.closest('button');
-    if (!btn) return;
-    const { action, i } = btn.dataset;
-    const index = Number(i);
-    if (action === 'remove') cart.splice(index, 1);
-    if (action === 'inc') cart[index].qty++;
-    if (action === 'dec') cart[index].qty = Math.max(1, cart[index].qty - 1);
-    saveCart();
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  const action = btn.getAttribute('data-action');
+  const i = Number(btn.getAttribute('data-i'));
+  if (action === 'remove') removeFromCart(i);
+  if (action === 'inc') changeQty(i, 1);
+  if (action === 'dec') changeQty(i, -1);
 });
 
 clearCartBtn.addEventListener('click', () => {
+    if (!cart.length) return;
     Swal.fire({
-        title: 'تفريغ السلة؟', icon: 'warning', showCancelButton: true,
+        title: 'تفريغ السلة؟', text: 'هل تريد تفريغ السلة؟', icon: 'warning', showCancelButton: true,
         confirmButtonText: 'تفريغ', cancelButtonText: 'إلغاء'
     }).then(res => { if (res.isConfirmed) { cart = []; saveCart(); }});
 });
@@ -585,6 +609,7 @@ clearCartBtn.addEventListener('click', () => {
 document.querySelectorAll('.filter-btn[data-type]').forEach(b => {
     b.addEventListener('click', () => {
         currentFilterType = b.dataset.type;
+        document.getElementById('search').value = '';
         renderProducts();
     });
 });
@@ -614,7 +639,7 @@ document.getElementById('checkoutBtn').addEventListener('click', () => {
     let city = document.getElementById('city').value;
     const otherCity = document.getElementById('otherCity').value.trim();
     const address = document.getElementById('address').value.trim();
-    if (city === 'مناطق أخرى') city = otherCity;
+    if (city === 'مناطق أخرى' && otherCity) city = otherCity;
     if (!fullname || !phone || !city || !address || !cart.length) {
         Swal.fire({ icon: 'warning', title: 'يرجى إكمال جميع البيانات وإضافة منتجات للسلة' });
         return;
@@ -630,8 +655,9 @@ document.getElementById('checkoutBtn').addEventListener('click', () => {
 
 // --- Firebase Comments and Reactions Logic ---
 const formatDate = (timestamp) => {
-    if (!timestamp?.toDate) return 'الآن';
-    return timestamp.toDate().toLocaleString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
+    if (!timestamp || !timestamp.toDate) return 'تاريخ غير معروف';
+    const dateOptions = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    return timestamp.toDate().toLocaleString('ar-EG', dateOptions);
 };
 
 async function renderComment(commentData, parentElement, isReply = false, parentCommentId = null) {
@@ -640,14 +666,16 @@ async function renderComment(commentData, parentElement, isReply = false, parent
     commentEl.className = `comment-card ${isReply ? 'ml-6 bg-orange-50' : ''}`;
 
     const user = auth.currentUser;
-    const currentUserId = user?.uid;
+    const currentUserId = user ? user.uid : null;
     const userName = commentData.userName || "مستخدم";
     const ratingStars = commentData.rating ? '⭐'.repeat(commentData.rating) : '';
+
     const reactions = commentData.reactions || {};
     const likes = reactions.like ? Object.keys(reactions.like).length : 0;
     const hearts = reactions.love ? Object.keys(reactions.love).length : 0;
     const angries = reactions.angry ? Object.keys(reactions.angry).length : 0;
-    const userReaction = currentUserId ? Object.keys(reactions).find(type => reactions[type]?.[currentUserId]) : null;
+
+    const userReaction = currentUserId ? Object.keys(reactions).find(type => reactions[type] && reactions[type][currentUserId]) : null;
 
     commentEl.innerHTML = `
         <div class="comment-header">
@@ -656,89 +684,112 @@ async function renderComment(commentData, parentElement, isReply = false, parent
         </div>
         <p class="comment-text">${commentData.text}</p>
         <div class="comment-actions">
-            <button class="reaction-button ${userReaction === 'like' ? 'active' : ''}" data-type="like">👍 <span>${likes}</span></button>
-            <button class="reaction-button ${userReaction === 'love' ? 'active' : ''}" data-type="love">❤️ <span>${hearts}</span></button>
-            <button class="reaction-button ${userReaction === 'angry' ? 'active' : ''}" data-type="angry">😡 <span>${angries}</span></button>
-            <button class="btn btn-xs btn-ghost text-orange-500 ml-auto" data-action="reply">💬 رد</button>
+            <button class="reaction-button ${userReaction === 'like' ? 'active' : ''}" data-type="like" data-comment-id="${commentData.id}" data-parent-id="${parentCommentId || ''}">👍 <span id="likes-${commentData.id}">${likes}</span></button>
+            <button class="reaction-button ${userReaction === 'love' ? 'active' : ''}" data-type="love" data-comment-id="${commentData.id}" data-parent-id="${parentCommentId || ''}">❤️ <span id="hearts-${commentData.id}">${hearts}</span></button>
+            <button class="reaction-button ${userReaction === 'angry' ? 'active' : ''}" data-type="angry" data-comment-id="${commentData.id}" data-parent-id="${parentCommentId || ''}">😡 <span id="angries-${commentData.id}">${angries}</span></button>
+            <button class="btn btn-xs btn-ghost text-orange-500 ml-auto" data-action="reply" data-comment-id="${commentData.id}">💬 رد</button>
         </div>
-        <div class="reply-form-container hidden">
-            <textarea placeholder="اكتب ردك..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
-            <button class="btn btn-primary btn-xs" data-action="submit-reply">إرسال الرد</button>
-            <button class="btn btn-ghost btn-xs" data-action="cancel-reply">إلغاء</button>
+        <div id="reply-form-${commentData.id}" class="reply-form-container hidden">
+            <textarea placeholder="اكتب ردك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
+            <button class="btn btn-primary btn-xs" data-action="submit-reply" data-comment-id="${commentData.id}">إرسال الرد</button>
+            <button class="btn btn-ghost btn-xs" data-action="cancel-reply" data-comment-id="${commentData.id}">إلغاء</button>
         </div>
-        <div class="replies-container mt-4"></div>
+        <div id="replies-container-${commentData.id}" class="replies-container mt-4"></div>
     `;
     parentElement.appendChild(commentEl);
 
-    const handleReactionClick = () => {
-        if (!currentUserId) { Swal.fire('🚫', 'يجب تسجيل الدخول للتفاعل', 'error'); return; }
-        const type = event.currentTarget.dataset.type;
-        handleReaction(commentData.id, type, currentUserId, parentCommentId);
+    const handleReactionClick = async (e) => {
+        if (!currentUserId) { Swal.fire({ icon: 'error', title: '🚫 يجب تسجيل الدخول للتفاعل' }); return; }
+        const type = e.currentTarget.dataset.type;
+        const commentId = e.currentTarget.dataset.commentId;
+        const parentId = e.currentTarget.dataset.parentId || null;
+        await handleReaction(commentId, type, currentUserId, parentId);
+        loadCommentsAndReplies(currentProductId, customerReviewsContainer);
     };
 
-    commentEl.querySelectorAll('.reaction-button').forEach(b => b.addEventListener('click', handleReactionClick));
+    commentEl.querySelectorAll('.reaction-button').forEach(button => button.addEventListener('click', handleReactionClick));
 
-    const replyForm = commentEl.querySelector('.reply-form-container');
-    commentEl.querySelector('[data-action="reply"]').addEventListener('click', () => {
-        if (!currentUserId) { Swal.fire('🚫', 'يجب تسجيل الدخول للرد', 'error'); return; }
+    commentEl.querySelector(`button[data-action="reply"]`).addEventListener('click', (e) => {
+        if (!currentUserId) { Swal.fire({ icon: 'error', title: '🚫 يجب تسجيل الدخول للرد' }); return; }
+        const replyForm = document.getElementById(`reply-form-${commentData.id}`);
         replyForm.classList.toggle('hidden');
+        if (!replyForm.classList.contains('hidden')) replyForm.querySelector('textarea').focus();
     });
-    commentEl.querySelector('[data-action="cancel-reply"]').addEventListener('click', () => replyForm.classList.add('hidden'));
-    commentEl.querySelector('[data-action="submit-reply"]').addEventListener('click', async () => {
-        const replyText = replyForm.querySelector('textarea').value.trim();
-        if (!replyText) return;
+
+    commentEl.querySelector(`button[data-action="submit-reply"]`).addEventListener('click', async (e) => {
+        const replyText = e.currentTarget.previousElementSibling.value.trim();
+        if (!replyText) { Swal.fire({ icon: 'warning', title: '✍️ الرجاء كتابة رد أولاً' }); return; }
         await submitReply(commentData.id, replyText);
-        replyForm.querySelector('textarea').value = '';
-        replyForm.classList.add('hidden');
+        e.currentTarget.previousElementSibling.value = '';
+        document.getElementById(`reply-form-${commentData.id}`).classList.add('hidden');
+        loadCommentsAndReplies(currentProductId, customerReviewsContainer);
+    });
+
+    commentEl.querySelector(`button[data-action="cancel-reply"]`).addEventListener('click', (e) => {
+        document.getElementById(`reply-form-${commentData.id}`).classList.add('hidden');
+        e.currentTarget.parentElement.querySelector('textarea').value = '';
     });
 
     if (!isReply) {
-        const repliesContainer = commentEl.querySelector('.replies-container');
-        const q = query(collection(db, "products", currentProductId, "comments", commentData.id, "replies"), orderBy("date", "asc"));
-        const snapshot = await getDocs(q);
-        snapshot.forEach(doc => renderComment({ id: doc.id, ...doc.data() }, repliesContainer, true, commentData.id));
+        const repliesContainer = document.getElementById(`replies-container-${commentData.id}`);
+        const repliesQuery = query(collection(db, "products", currentProductId, "comments", commentData.id, "replies"), orderBy("date", "asc"));
+        const repliesSnapshot = await getDocs(repliesQuery);
+        repliesSnapshot.forEach(replyDoc => {
+            renderComment({ id: replyDoc.id, ...replyDoc.data() }, repliesContainer, true, commentData.id);
+        });
     }
 }
 
 async function loadCommentsAndReplies(productId, targetElement) {
     if (!targetElement) return;
-    targetElement.innerHTML = `<p class="text-center">⏳ جاري تحميل الآراء...</p>`;
+    targetElement.innerHTML = `<p class="text-gray-500 text-center">⏳ جاري تحميل آراء العملاء...</p>`;
     const q = query(collection(db, "products", productId, "comments"), orderBy("date", "desc"));
-    const snapshot = await getDocs(q);
-    targetElement.innerHTML = snapshot.empty ? `<p class="text-center">لا توجد آراء بعد. كن أول من يعلق! 👇</p>` : '';
-    snapshot.forEach(doc => renderComment({ id: doc.id, ...doc.data() }, targetElement));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      targetElement.innerHTML = `<p class="text-gray-400 text-center">لا توجد آراء بعد. كن أول من يعلق! 👇</p>`;
+      return;
+    }
+
+    targetElement.innerHTML = '';
+    querySnapshot.forEach(docSnapshot => {
+        renderComment({ id: docSnapshot.id, ...docSnapshot.data() }, targetElement);
+    });
 }
 
 window.submitNewComment = async function() {
+    const reviewName = document.getElementById('reviewNameInput').value.trim();
+    const reviewText = document.getElementById('reviewTextInput').value.trim();
+    const reviewRating = document.querySelector('#reviewsTab input[name="rating"]:checked')?.value;
+  
+    if (!reviewText) { Swal.fire({ icon: 'warning', title: '✍️ الرجاء كتابة تعليق أولاً' }); return; }
     const user = auth.currentUser;
-    if (!user) { Swal.fire('🚫', 'يجب تسجيل الدخول أولاً', 'error'); return; }
-    const text = document.getElementById('reviewTextInput').value.trim();
-    if (!text) { Swal.fire('✍️', 'الرجاء كتابة تعليق', 'warning'); return; }
-    const name = document.getElementById('reviewNameInput').value.trim();
-    const rating = document.querySelector('#reviewsTab input[name="rating"]:checked')?.value;
+    if (!user) { Swal.fire({ icon: 'error', title: '🚫 يجب تسجيل الدخول أولاً' }); return; }
+    if (!currentProductId) { Swal.fire({ icon: 'error', title: 'لا يوجد منتج محدد.' }); return; }
 
     try {
         await addDoc(collection(db, "products", currentProductId, "comments"), {
             userId: user.uid,
-            userName: name || user.displayName || "مستخدم",
-            text: text,
-            rating: rating ? parseInt(rating) : 0,
+            userName: reviewName || user.displayName || "مستخدم",
+            text: reviewText,
+            rating: reviewRating ? parseInt(reviewRating) : 0,
             date: serverTimestamp(),
             reactions: {}
         });
-        document.getElementById('reviewTextInput').value = '';
         document.getElementById('reviewNameInput').value = '';
+        document.getElementById('reviewTextInput').value = '';
         document.querySelectorAll('#reviewsTab input[name="rating"]').forEach(r => r.checked = false);
-        Swal.fire('✅', 'تم إرسال التعليق بنجاح!', 'success');
+        Swal.fire({ icon: 'success', title: 'تم إرسال التعليق!' });
         loadCommentsAndReplies(currentProductId, customerReviewsContainer);
-    } catch (e) {
-        Swal.fire('❌', 'فشل إرسال التعليق', 'error');
+    } catch (error) {
+        console.error("Error submitting comment:", error);
+        Swal.fire({ icon: 'error', title: 'فشل إرسال التعليق' });
     }
 }
 
 async function submitReply(commentId, replyText) {
     const user = auth.currentUser;
-    if (!user) return;
+    if (!user || !currentProductId) return;
     try {
         await addDoc(collection(db, "products", currentProductId, "comments", commentId, "replies"), {
             userId: user.uid,
@@ -747,14 +798,18 @@ async function submitReply(commentId, replyText) {
             date: serverTimestamp(),
             reactions: {}
         });
-        loadCommentsAndReplies(currentProductId, customerReviewsContainer); // Reload all
-    } catch (e) { console.error("Error submitting reply:", e); }
+        Swal.fire({ icon: 'success', title: 'تم إرسال الرد!' });
+    } catch (error) {
+        console.error("Error submitting reply:", error);
+        Swal.fire({ icon: 'error', title: 'فشل إرسال الرد' });
+    }
 }
 
 async function handleReaction(commentOrReplyId, reactionType, userId, parentCommentId = null) {
-    const docRef = parentCommentId
-        ? doc(db, "products", currentProductId, "comments", parentCommentId, "replies", commentOrReplyId)
-        : doc(db, "products", currentProductId, "comments", commentOrReplyId);
+    const docPath = parentCommentId
+        ? `products/${currentProductId}/comments/${parentCommentId}/replies/${commentOrReplyId}`
+        : `products/${currentProductId}/comments/${commentOrReplyId}`;
+    const docRef = doc(db, docPath);
 
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return;
@@ -762,21 +817,31 @@ async function handleReaction(commentOrReplyId, reactionType, userId, parentComm
     const data = docSnap.data();
     const reactions = data.reactions || {};
     let updateData = {};
-    const userPreviousReaction = Object.keys(reactions).find(type => reactions[type]?.[userId]);
+    let userHasReacted = false;
 
-    // Remove previous reaction
-    if (userPreviousReaction) {
-        updateData[`reactions.${userPreviousReaction}.${userId}`] = null; // Firestore SDK needs null to delete map field
-    }
-    // Add new reaction if it's different from the previous one
-    if (userPreviousReaction !== reactionType) {
-        updateData[`reactions.${reactionType}.${userId}`] = true;
+    for (const type in reactions) {
+        if (reactions[type] && reactions[type][userId]) {
+            userHasReacted = true;
+            updateData[`reactions.${type}.${userId}`] = null;
+            if (type === reactionType) { 
+                break;
+            }
+        }
     }
 
-    try {
-        await updateDoc(docRef, updateData);
-        loadCommentsAndReplies(currentProductId, customerReviewsContainer); // Reload all
-    } catch (e) { console.error("Error updating reaction:", e); }
+    if (!userHasReacted || updateData[`reactions.${reactionType}.${userId}`] === null) {
+        if (!reactions[reactionType] || !reactions[reactionType][userId]) {
+             updateData[`reactions.${reactionType}.${userId}`] = true;
+        }
+    }
+
+    if (Object.keys(updateData).length > 0) {
+        try {
+            await updateDoc(docRef, updateData);
+        } catch (error) {
+            console.error("Error updating reaction:", error);
+        }
+    }
 }
 
 // --- Firebase Authentication Logic ---
@@ -784,18 +849,36 @@ const loginBtnHeader = document.getElementById("login-btn-header");
 const logoutBtnHeader = document.getElementById("logout-btn-header");
 const userInfoHeader = document.getElementById("user-info-header");
 
-loginBtnHeader.addEventListener("click", () => signInWithPopup(auth, provider).catch(err => console.error(err)));
-logoutBtnHeader.addEventListener("click", () => signOut(auth).catch(err => console.error(err)));
+loginBtnHeader.addEventListener("click", async () => {
+  try {
+      await signInWithPopup(auth, provider);
+      Swal.fire({ icon: 'success', title: 'تم تسجيل الدخول بنجاح!' });
+  } catch (error) {
+      console.error("خطأ في تسجيل الدخول:", error);
+      Swal.fire({ icon: 'error', title: 'فشل تسجيل الدخول', text: 'يرجى المحاولة مرة أخرى.' });
+  }
+});
+
+logoutBtnHeader.addEventListener("click", async () => {
+  try {
+      await signOut(auth);
+      Swal.fire({ icon: 'info', title: 'تم تسجيل الخروج.' });
+  } catch (error) {
+      console.error("خطأ في تسجيل الخروج:", error);
+      Swal.fire({ icon: 'error', title: 'فشل تسجيل الخروج' });
+  }
+});
 
 onAuthStateChanged(auth, (user) => {
-    const isLoggedIn = !!user;
-    loginBtnHeader.classList.toggle("hidden", isLoggedIn);
-    logoutBtnHeader.classList.toggle("hidden", !isLoggedIn);
-    userInfoHeader.classList.toggle("hidden", !isLoggedIn);
-    userInfoHeader.textContent = isLoggedIn ? `مرحباً، ${user.displayName || user.email.split('@')[0]}` : "";
-    if (currentProductId) {
-        loadCommentsAndReplies(currentProductId, customerReviewsContainer);
-    }
+  const isLoggedIn = !!user;
+  loginBtnHeader.classList.toggle("hidden", isLoggedIn);
+  logoutBtnHeader.classList.toggle("hidden", !isLoggedIn);
+  userInfoHeader.classList.toggle("hidden", !isLoggedIn);
+  userInfoHeader.textContent = isLoggedIn ? `مرحباً، ${user.displayName || user.email}` : "";
+  
+  if (currentProductId) {
+      loadCommentsAndReplies(currentProductId, customerReviewsContainer);
+  }
 });
 
 // Initial Load
