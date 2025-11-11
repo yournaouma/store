@@ -283,6 +283,93 @@
             width: auto; /* Allow buttons to size naturally */
         }
     }
+
+    /* Styles for comments and replies */
+    .comment-card {
+        background-color: #fcfcfc;
+        border: 1px solid #ffecbc;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+    .comment-author {
+        font-weight: bold;
+        color: #ff9800;
+        display: flex;
+        align-items: center;
+    }
+    .comment-timestamp {
+        font-size: 0.75rem;
+        color: #888;
+    }
+    .comment-text {
+        color: #444;
+        margin-bottom: 0.75rem;
+        line-height: 1.4;
+    }
+    .comment-actions {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        margin-top: 0.5rem;
+    }
+    .reaction-button {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.3rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        border: 1px solid #ddd;
+        color: #555;
+    }
+    .reaction-button:hover {
+        background-color: #fff3e0;
+        border-color: #ffbb77;
+        color: #ff9800;
+    }
+    .reaction-button.active {
+        background-color: #ffe0b2; /* Lighter orange for active */
+        border-color: #ff9800;
+        color: #d84315; /* Darker text for active */
+        font-weight: bold;
+    }
+    .reply-form-container {
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px dashed #eee;
+    }
+    .replies-container {
+        margin-right: 1.5rem; /* Indent replies */
+        border-right: 2px solid #ff9800; /* Visual indicator for replies */
+        padding-right: 1rem;
+        margin-top: 1rem;
+    }
+    .replies-container .comment-card {
+        background-color: #fffdfa;
+        border-color: #ffe0b2;
+        margin-bottom: 0.75rem;
+    }
+    .load-replies-btn {
+        font-size: 0.85rem;
+        color: #ff9800;
+        cursor: pointer;
+        margin-top: 0.5rem;
+        display: block;
+        text-align: center;
+    }
+    .load-replies-btn:hover {
+        text-decoration: underline;
+    }
+
   </style>
 </head>
 
@@ -450,22 +537,22 @@
         <!-- Customer Reviews Tab -->
         <div id="reviewsTab" class="tab-content">
             <h4 class="section-title">آراء العملاء</h4>
-            <div id="customerReviewsModal" class="space-y-3">
+            <div id="customerReviewsContainer" class="space-y-4 mt-3">
                 <!-- Reviews will be loaded here -->
             </div>
             <!-- Add New Review Form -->
             <div class="mt-4 p-3 bg-white rounded-lg shadow-sm border border-orange-200">
                 <h5 class="font-semibold mb-2">أضف تعليقك</h5>
-                <input type="text" id="reviewNameModal" placeholder="اسمك" class="input input-bordered w-full mb-2 input-sm" />
-                <textarea id="reviewTextModal" placeholder="اكتب تعليقك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
+                <input type="text" id="reviewNameInput" placeholder="اسمك (اختياري)" class="input input-bordered w-full mb-2 input-sm" />
+                <textarea id="reviewTextInput" placeholder="اكتب تعليقك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
                 <div class="star-rating mb-3">
-                    <input type="radio" id="rate-5-modal" name="rating-modal" value="5" /><label for="rate-5-modal"><i class="fas fa-star"></i></label>
-                    <input type="radio" id="rate-4-modal" name="rating-modal" value="4" /><label for="rate-4-modal"><i class="fas fa-star"></i></label>
-                    <input type="radio" id="rate-3-modal" name="rating-modal" value="3" /><label for="rate-3-modal"><i class="fas fa-star"></i></label>
-                    <input type="radio" id="rate-2-modal" name="rating-modal" value="2" /><label for="rate-2-modal"><i class="fas fa-star"></i></label>
-                    <input type="radio" id="rate-1-modal" name="rating-modal" value="1" /><label for="rate-1-modal"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-5" name="rating" value="5" /><label for="rate-5"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-4" name="rating" value="4" /><label for="rate-4"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-3" name="rating" value="3" /><label for="rate-3"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-2" name="rating" value="2" /><label for="rate-2"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-1" name="rating" value="1" /><label for="rate-1"><i class="fas fa-star"></i></label>
                 </div>
-                <button class="btn btn-primary btn-sm w-full" onclick="submitReviewModal()">إرسال التعليق</button>
+                <button class="btn btn-primary btn-sm w-full" onclick="submitNewComment()">إرسال التعليق</button>
             </div>
         </div>
     </div>
@@ -480,7 +567,7 @@
 <script type="module">
 // Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, serverTimestamp, doc, updateDoc, getDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
 // Firebase Configuration
@@ -772,7 +859,7 @@ const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
 
 const howToUseText = document.getElementById('howToUseText');
 const howToUseImage = document.getElementById('howToUseImage');
-const customerReviewsModal = document.getElementById('customerReviewsModal'); // Reviews section inside modal
+const customerReviewsContainer = document.getElementById('customerReviewsContainer'); // Reviews section inside modal
 
 const tabButtons = document.querySelectorAll('.tab-buttons .tab-button');
 const tabContents = document.querySelectorAll('.product-details-tabs-container .tab-content'); // Adjusted selector
@@ -806,7 +893,7 @@ function openProductDetailModal(prod) {
     }
 
     // Load existing reviews for this product in the modal
-    loadReviewsForProduct(prod.id, customerReviewsModal);
+    loadCommentsAndReplies(prod.id, customerReviewsContainer);
 
     productDetailModal.classList.add('open');
     document.body.style.overflow = 'hidden'; // Prevent scrolling body
@@ -1049,87 +1136,283 @@ updateCartUI();
 window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart', JSON.stringify(cart)));
 
 
-// --- Firebase Reviews Logic ---
+// --- Firebase Comments and Reactions Logic ---
 
-// 📦 تحميل التعليقات لمنتج معين
-async function loadReviewsForProduct(productId, targetElement) {
-    if (!targetElement) return; // Ensure a target element is provided
+// Helper to format date
+const formatDate = (timestamp) => {
+    if (!timestamp || !timestamp.toDate) return 'تاريخ غير معروف';
+    const dateOptions = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    return timestamp.toDate().toLocaleString('ar-EG', dateOptions);
+};
 
-    targetElement.innerHTML = `<p class="text-gray-500 text-center">⏳ جاري تحميل التعليقات...</p>`;
-    const q = query(collection(db, "reviews"), where("productId", "==", productId), orderBy("date", "desc"));
+// Function to render a single comment/reply
+async function renderComment(commentData, parentElement, isReply = false, parentCommentId = null) {
+    const commentEl = document.createElement('div');
+    commentEl.id = `comment-${commentData.id}`;
+    commentEl.className = `comment-card ${isReply ? 'ml-6 bg-orange-50' : ''}`; // Indent replies
+
+    const user = auth.currentUser;
+    const currentUserId = user ? user.uid : null;
+    const userName = commentData.userName || (user && user.uid === commentData.userId ? user.displayName : "مستخدم");
+    const ratingStars = commentData.rating ? '⭐'.repeat(commentData.rating) : '';
+
+    // Count reactions
+    const reactions = commentData.reactions || {};
+    const likes = reactions.like ? Object.keys(reactions.like).length : 0;
+    const hearts = reactions.love ? Object.keys(reactions.love).length : 0;
+    const angries = reactions.angry ? Object.keys(reactions.angry).length : 0;
+
+    // Check if current user has reacted
+    const userReaction = currentUserId ? Object.keys(reactions).find(type => reactions[type][currentUserId]) : null;
+
+    commentEl.innerHTML = `
+        <div class="comment-header">
+            <div class="comment-author">
+                ${userName} ${ratingStars}
+            </div>
+            <div class="comment-timestamp">${formatDate(commentData.date)}</div>
+        </div>
+        <p class="comment-text">${commentData.text}</p>
+        <div class="comment-actions">
+            <button class="reaction-button ${userReaction === 'like' ? 'active' : ''}" data-type="like" data-comment-id="${commentData.id}" data-parent-id="${parentCommentId || ''}">
+                👍 <span id="likes-${commentData.id}">${likes}</span>
+            </button>
+            <button class="reaction-button ${userReaction === 'love' ? 'active' : ''}" data-type="love" data-comment-id="${commentData.id}" data-parent-id="${parentCommentId || ''}">
+                ❤️ <span id="hearts-${commentData.id}">${hearts}</span>
+            </button>
+            <button class="reaction-button ${userReaction === 'angry' ? 'active' : ''}" data-type="angry" data-comment-id="${commentData.id}" data-parent-id="${parentCommentId || ''}">
+                😡 <span id="angries-${commentData.id}">${angries}</span>
+            </button>
+            <button class="btn btn-xs btn-ghost text-orange-500 ml-auto" data-action="reply" data-comment-id="${commentData.id}" data-parent-id="${parentCommentId || ''}">💬 رد</button>
+        </div>
+        <div id="reply-form-${commentData.id}" class="reply-form-container hidden">
+            <textarea placeholder="اكتب ردك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
+            <button class="btn btn-primary btn-xs" data-action="submit-reply" data-comment-id="${commentData.id}" data-parent-id="${parentCommentId || ''}">إرسال الرد</button>
+            <button class="btn btn-ghost btn-xs" data-action="cancel-reply" data-comment-id="${commentData.id}">إلغاء</button>
+        </div>
+        <div id="replies-container-${commentData.id}" class="replies-container mt-4">
+            <!-- Replies will be loaded here -->
+        </div>
+    `;
+    parentElement.appendChild(commentEl);
+
+    // Add event listeners for reactions
+    commentEl.querySelectorAll('.reaction-button').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            if (!currentUserId) {
+                Swal.fire({ icon: 'error', title: '🚫 يجب تسجيل الدخول للتفاعل' });
+                return;
+            }
+            const type = e.currentTarget.dataset.type;
+            const commentId = e.currentTarget.dataset.commentId;
+            const parentId = e.currentTarget.dataset.parentId || null;
+            await handleReaction(commentId, type, currentUserId, parentId);
+            loadCommentsAndReplies(currentProductId, customerReviewsContainer); // Reload to update reactions
+        });
+    });
+
+    // Add event listener for reply button
+    commentEl.querySelector(`button[data-action="reply"]`).addEventListener('click', (e) => {
+        if (!currentUserId) {
+            Swal.fire({ icon: 'error', title: '🚫 يجب تسجيل الدخول للرد' });
+            return;
+        }
+        const replyForm = document.getElementById(`reply-form-${commentData.id}`);
+        replyForm.classList.toggle('hidden');
+        if (!replyForm.classList.contains('hidden')) {
+            replyForm.querySelector('textarea').focus();
+        }
+    });
+
+    // Add event listener for submit reply button
+    commentEl.querySelector(`button[data-action="submit-reply"]`).addEventListener('click', async (e) => {
+        const replyText = e.currentTarget.previousElementSibling.value.trim();
+        if (!replyText) {
+            Swal.fire({ icon: 'warning', title: '✍️ الرجاء كتابة رد أولاً' });
+            return;
+        }
+        const commentId = e.currentTarget.dataset.commentId;
+        await submitReply(commentId, replyText);
+        // Clear and hide form
+        e.currentTarget.previousElementSibling.value = '';
+        document.getElementById(`reply-form-${commentData.id}`).classList.add('hidden');
+        loadCommentsAndReplies(currentProductId, customerReviewsContainer); // Reload comments/replies
+    });
+
+    // Add event listener for cancel reply button
+    commentEl.querySelector(`button[data-action="cancel-reply"]`).addEventListener('click', (e) => {
+        document.getElementById(`reply-form-${commentData.id}`).classList.add('hidden');
+        e.currentTarget.previousElementSibling.previousElementSibling.value = ''; // Clear textarea
+    });
+
+    // Load replies for this comment
+    if (!isReply) { // Only load replies for top-level comments initially
+        const repliesContainer = document.getElementById(`replies-container-${commentData.id}`);
+        const repliesQuery = query(collection(db, "products", currentProductId, "comments", commentData.id, "replies"), orderBy("date", "asc"));
+        const repliesSnapshot = await getDocs(repliesQuery);
+        if (!repliesSnapshot.empty) {
+             repliesSnapshot.forEach((replyDoc) => {
+                const replyData = replyDoc.data();
+                renderComment({ id: replyDoc.id, ...replyData }, repliesContainer, true, commentData.id); // isReply = true, pass parentCommentId
+            });
+        }
+    }
+}
+
+// 📦 تحميل التعليقات والردود لمنتج معين
+async function loadCommentsAndReplies(productId, targetElement) {
+    if (!targetElement) return;
+
+    targetElement.innerHTML = `<p class="text-gray-500 text-center">⏳ جاري تحميل آراء العملاء...</p>`;
+    const q = query(collection(db, "products", productId, "comments"), orderBy("date", "desc"));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      targetElement.innerHTML = `<p class="text-gray-400 text-center">لا توجد تعليقات بعد 👇</p>`;
+      targetElement.innerHTML = `<p class="text-gray-400 text-center">لا توجد آراء عملاء بعد. كن أول من يعلق! 👇</p>`;
       return;
     }
 
-    let html = "";
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      const rating = data.rating ? '⭐'.repeat(data.rating) : ''; // Display stars
-      // Format date
-      const dateOptions = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-      const formattedDate = data.date && data.date.toDate ? data.date.toDate().toLocaleString('ar-EG', dateOptions) : 'تاريخ غير معروف';
-
-      html += `
-        <div class="border p-3 rounded-lg shadow-sm bg-white">
-          <p class="font-semibold">${data.userName || "مستخدم مجهول"} ${rating}</p>
-          <p class="text-gray-700">${data.text}</p>
-          <p class="text-xs text-gray-400">${formattedDate}</p>
-        </div>
-      `;
+    targetElement.innerHTML = ''; // Clear previous comments
+    querySnapshot.forEach(async (docSnapshot) => {
+        const commentData = docSnapshot.data();
+        await renderComment({ id: docSnapshot.id, ...commentData }, targetElement);
     });
-
-    targetElement.innerHTML = html;
 }
 
-// 🧾 إرسال التعليق من داخل النافذة المنبثقة
-window.submitReviewModal = async function() {
-  const reviewNameModal = document.getElementById('reviewNameModal').value.trim();
-  const reviewTextModal = document.getElementById('reviewTextModal').value.trim();
-  const reviewRatingModal = document.querySelector('#productDetailModal input[name="rating-modal"]:checked')?.value;
+// 🧾 إرسال تعليق جديد (Comment)
+window.submitNewComment = async function() {
+    const reviewName = document.getElementById('reviewNameInput').value.trim();
+    const reviewText = document.getElementById('reviewTextInput').value.trim();
+    const reviewRating = document.querySelector('#reviewsTab input[name="rating"]:checked')?.value;
+  
+    console.log({ currentProductId, user: auth.currentUser });
 
-  if (!reviewTextModal) {
-    Swal.fire({ icon: 'warning', title: '✍️ الرجاء كتابة تعليق أولاً' });
-    return;
-  }
+    if (!reviewText) {
+        Swal.fire({ icon: 'warning', title: '✍️ الرجاء كتابة تعليق أولاً' });
+        return;
+    }
 
-  const user = auth.currentUser;
-  if (!user) {
-    Swal.fire({ icon: 'error', title: '🚫 يجب تسجيل الدخول أولاً لإضافة تعليق' });
-    return;
-  }
+    const user = auth.currentUser;
+    if (!user) {
+        Swal.fire({ icon: 'error', title: '🚫 يجب تسجيل الدخول أولاً لإضافة تعليق' });
+        return;
+    }
 
-  if (!currentProductId) {
-      Swal.fire({ icon: 'error', title: 'لا يوجد منتج محدد لإضافة تعليق له.' });
-      return;
-  }
+    if (!currentProductId) {
+        Swal.fire({ icon: 'error', title: 'لا يوجد منتج محدد لإضافة تعليق له.' });
+        return;
+    }
 
-  try {
-    await addDoc(collection(db, "reviews"), {
-      productId: currentProductId,
-      userId: user.uid,
-      userName: reviewNameModal || user.displayName || "مستخدم",
-      text: reviewTextModal,
-      rating: reviewRatingModal ? parseInt(reviewRatingModal) : 0,
-      date: serverTimestamp()
-    });
+    try {
+        await addDoc(collection(db, "products", currentProductId, "comments"), {
+            productId: currentProductId,
+            userId: user.uid,
+            userName: reviewName || user.displayName || "مستخدم",
+            text: reviewText,
+            rating: reviewRating ? parseInt(reviewRating) : 0,
+            date: serverTimestamp(),
+            reactions: {} // Initialize reactions object
+        });
 
-    // Clear form fields after successful submission
-    document.getElementById('reviewNameModal').value = '';
-    document.getElementById('reviewTextModal').value = '';
-    document.querySelectorAll('#productDetailModal input[name="rating-modal"]').forEach(radio => radio.checked = false);
+        // Clear form fields after successful submission
+        document.getElementById('reviewNameInput').value = '';
+        document.getElementById('reviewTextInput').value = '';
+        document.querySelectorAll('#reviewsTab input[name="rating"]').forEach(radio => radio.checked = false);
 
-    // Show success message to the user
-    Swal.fire({ icon: 'success', title: 'تم إرسال التعليق بنجاح!' });
+        Swal.fire({ icon: 'success', title: 'تم إرسال التعليق بنجاح!' });
+        loadCommentsAndReplies(currentProductId, customerReviewsContainer); // Reload to show new comment
+    } catch (error) {
+        console.error("Error submitting comment:", error);
+        Swal.fire({ icon: 'error', title: 'فشل إرسال التعليق', text: 'يرجى المحاولة مرة أخرى.' });
+    }
+}
 
-    // Reload existing reviews to show the new one
-    loadReviewsForProduct(currentProductId, customerReviewsModal);
-  } catch (error) {
-    console.error("Error submitting review:", error);
-    Swal.fire({ icon: 'error', title: 'فشل إرسال التعليق', text: 'يرجى المحاولة مرة أخرى.' });
-  }
+// 💬 إرسال رد على تعليق (Reply)
+async function submitReply(commentId, replyText) {
+    const user = auth.currentUser;
+    if (!user) {
+        Swal.fire({ icon: 'error', title: '🚫 يجب تسجيل الدخول أولاً للرد على تعليق' });
+        return;
+    }
+
+    if (!currentProductId) {
+        Swal.fire({ icon: 'error', title: 'لا يوجد منتج محدد للرد عليه.' });
+        return;
+    }
+
+    try {
+        await addDoc(collection(db, "products", currentProductId, "comments", commentId, "replies"), {
+            userId: user.uid,
+            userName: user.displayName || "مستخدم",
+            text: replyText,
+            date: serverTimestamp(),
+            reactions: {} // Initialize reactions object
+        });
+        Swal.fire({ icon: 'success', title: 'تم إرسال الرد بنجاح!' });
+    } catch (error) {
+        console.error("Error submitting reply:", error);
+        Swal.fire({ icon: 'error', title: 'فشل إرسال الرد', text: 'يرجى المحاولة مرة أخرى.' });
+    }
+}
+
+// 👍❤️😡 التعامل مع التفاعلات (Reactions)
+async function handleReaction(commentOrReplyId, reactionType, userId, parentCommentId = null) {
+    let docRef;
+    if (parentCommentId) { // It's a reply
+        docRef = doc(db, "products", currentProductId, "comments", parentCommentId, "replies", commentOrReplyId);
+    } else { // It's a top-level comment
+        docRef = doc(db, "products", currentProductId, "comments", commentOrReplyId);
+    }
+
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+        Swal.fire({ icon: 'error', title: 'التعليق أو الرد غير موجود.' });
+        return;
+    }
+
+    const data = docSnap.data();
+    const currentReactions = data.reactions || {};
+
+    let updateData = {};
+    let changed = false;
+
+    // Remove user's previous reaction if any
+    for (const type in currentReactions) {
+        if (currentReactions[type] && currentReactions[type][userId]) {
+            if (type === reactionType) { // User clicked the same reaction again, so un-react
+                updateData[`reactions.${type}.${userId}`] = null; // Set to null to remove from map in Firestore
+                changed = true;
+            } else { // User clicked a different reaction, so remove old one
+                updateData[`reactions.${type}.${userId}`] = null;
+                changed = true;
+            }
+        }
+    }
+
+    // Add new reaction if it's not an un-react of the same type
+    if (!changed || (changed && updateData[`reactions.${reactionType}.${userId}`] === null)) {
+        if (!currentReactions[reactionType] || !currentReactions[reactionType][userId]) {
+            // User did not have this reaction, so add it
+            updateData[`reactions.${reactionType}.${userId}`] = true;
+            changed = true;
+        } else if (currentReactions[reactionType] && currentReactions[reactionType][userId]) {
+            // User had this reaction, and we've already set it to null above to remove it.
+            // If `changed` is true and this reaction was also the one that was removed, we don't re-add it.
+            // If `changed` is false (meaning no previous reaction), then we set it.
+            // This logic ensures only one reaction per user.
+        }
+    }
+
+
+    if (Object.keys(updateData).length > 0) {
+        try {
+            await updateDoc(docRef, updateData);
+            console.log("Reaction updated successfully!");
+        } catch (error) {
+            console.error("Error updating reaction:", error);
+            Swal.fire({ icon: 'error', title: 'فشل تحديث التفاعل', text: 'يرجى المحاولة مرة أخرى.' });
+        }
+    }
 }
 
 // 🔑 تسجيل الدخول / تسجيل الخروج في الهيدر
@@ -1164,11 +1447,19 @@ onAuthStateChanged(auth, (user) => {
     logoutBtnHeader.classList.remove("hidden");
     userInfoHeader.textContent = `مرحباً، ${user.displayName || user.email}`;
     userInfoHeader.classList.remove("hidden"); // Show user info
+    // Reload comments when user state changes to update reactions/reply forms
+    if (currentProductId) {
+        loadCommentsAndReplies(currentProductId, customerReviewsContainer);
+    }
   } else {
     loginBtnHeader.classList.remove("hidden");
     logoutBtnHeader.classList.add("hidden");
     userInfoHeader.classList.add("hidden"); // Hide user info
     userInfoHeader.textContent = "";
+    // Reload comments when user logs out to remove reaction states
+    if (currentProductId) {
+        loadCommentsAndReplies(currentProductId, customerReviewsContainer);
+    }
   }
 });
 
