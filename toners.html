@@ -61,8 +61,11 @@
     #sidebar a { color: #333; } /* Default link color for white sidebar */
     #sidebar a:hover { background: #ff9800; color: #fff; } /* Hover for white sidebar */
     /* Mini cart drawer for mobile */
-    .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.2); opacity:0; pointer-events:none; transition:opacity .25s; z-index:40; }
-    .cart-overlay.open { opacity:1; pointer-events:auto; }
+    .cart-overlay, .modal-overlay { 
+      position:fixed; inset:0; background:rgba(0,0,0,0.2); opacity:0; pointer-events:none; transition:opacity .25s; z-index:40; 
+    }
+    .cart-overlay.open, .modal-overlay.open { opacity:1; pointer-events:auto; }
+
     .cart-drawer {
       position:fixed; top:0; right:0; height:100vh; width:100%; 
       max-width:310px; /* كان 370px وقللته كي تبدو أصغر */
@@ -147,16 +150,18 @@
     .product-detail-modal .close-btn {
         position: absolute;
         top: 1rem;
-        left: 1rem; /* Adjusted for RTL */
+        left: 1rem; /* Adjusted for RTL to be top-right */
         background: none;
         border: none;
         font-size: 1.8rem;
         cursor: pointer;
-        color: #999;
+        color: #ff5722; /* Make it more prominent */
+        font-weight: bold;
         z-index: 10;
+        padding: 0.5rem; /* Add padding for easier click */
     }
     .product-detail-modal .close-btn:hover {
-        color: #ff5722;
+        color: #e63946; /* Darker red on hover */
     }
     .product-detail-modal .section-title {
         font-weight: bold;
@@ -247,7 +252,7 @@
         }
         .product-detail-modal .close-btn {
             top: 0.5rem;
-            left: 0.5rem;
+            left: 0.5rem; /* Adjusted for RTL */
         }
         .product-details-main, .product-details-tabs-container {
             flex: none; /* Reset flex */
@@ -338,7 +343,8 @@
   </section>
 </main>
 
-<div id="overlay" class="cart-overlay" tabindex="-1" aria-hidden="true"></div>
+<div id="cartOverlay" class="cart-overlay" tabindex="-1" aria-hidden="true"></div>
+<div id="modalOverlay" class="modal-overlay" tabindex="-1" aria-hidden="true"></div> <!-- New overlay for modal -->
 
 <!-- Cart Drawer -->
 <aside id="cartPanel" class="cart-drawer bg-white" role="dialog" aria-modal="true" aria-hidden="true" style="border-right:3px solid #ff9800">
@@ -412,29 +418,56 @@
         <!-- Customer Reviews Tab -->
         <div id="reviewsTab" class="tab-content">
             <h4 class="section-title">آراء العملاء</h4>
-            <div id="customerReviews" class="space-y-3">
+            <div id="customerReviewsModal" class="space-y-3">
                 <!-- Reviews will be loaded here -->
             </div>
             <!-- Add New Review Form -->
             <div class="mt-4 p-3 bg-white rounded-lg shadow-sm border border-orange-200">
                 <h5 class="font-semibold mb-2">أضف تعليقك</h5>
-                <input type="text" id="reviewName" placeholder="اسمك" class="input input-bordered w-full mb-2 input-sm" />
-                <textarea id="reviewText" placeholder="اكتب تعليقك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
+                <input type="text" id="reviewNameModal" placeholder="اسمك" class="input input-bordered w-full mb-2 input-sm" />
+                <textarea id="reviewTextModal" placeholder="اكتب تعليقك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
                 <div class="star-rating mb-3">
-                    <input type="radio" id="rate-5" name="rating" value="5" /><label for="rate-5"><i class="fas fa-star"></i></label>
-                    <input type="radio" id="rate-4" name="rating" value="4" /><label for="rate-4"><i class="fas fa-star"></i></label>
-                    <input type="radio" id="rate-3" name="rating" value="3" /><label for="rate-3"><i class="fas fa-star"></i></label>
-                    <input type="radio" id="rate-2" name="rating" value="2" /><label for="rate-2"><i class="fas fa-star"></i></label>
-                    <input type="radio" id="rate-1" name="rating" value="1" /><label for="rate-1"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-5-modal" name="rating-modal" value="5" /><label for="rate-5-modal"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-4-modal" name="rating-modal" value="4" /><label for="rate-4-modal"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-3-modal" name="rating-modal" value="3" /><label for="rate-3-modal"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-2-modal" name="rating-modal" value="2" /><label for="rate-2-modal"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-1-modal" name="rating-modal" value="1" /><label for="rate-1-modal"><i class="fas fa-star"></i></label>
                 </div>
-                <button class="btn btn-primary btn-sm w-full" onclick="submitReview()">إرسال التعليق</button>
+                <button class="btn btn-primary btn-sm w-full" onclick="submitReviewModal()">إرسال التعليق</button>
             </div>
         </div>
     </div>
 </aside>
 
+<!-- Font Awesome for star icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+<script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
+
 <!-- Script for sidebar and products -->
-<script>
+<script type="module">
+// Import Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+
+// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDRiEZImvRhIl7zRzBY_y_OrcrNjhzz7bE", // تأكد من أن هذا المفتاح صحيح
+  authDomain: "naouma-store.firebaseapp.com",
+  projectId: "naouma-store",
+  storageBucket: "naouma-store.firebasestorage.app",
+  messagingSenderId: "522931583121",
+  appId: "1:522931583121:web:643f49ef0a81a0763b6730",
+  measurementId: "G-S0W0BYJ3RY"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
 // Sidebar logic (now white)
 const menuBtn = document.getElementById('menuBtn');
 const sidebar = document.getElementById('sidebar');
@@ -567,7 +600,7 @@ const products = [
     image:"images/toners/toner10.png", 
     description:"يقشر البشرة بلطف لتحسين نسيجها وإشراقتها.",
     longDescription: "تونر مقشر لطيف يحتوي على حمض الجليكوليك (AHA) الذي يساعد على إزالة خلايا الجلد الميتة من سطح البشرة، مما يكشف عن بشرة أكثر نعومة وإشراقًا. يحسن نسيج البشرة، ويقلل من ظهور الخطوط الدقيقة والتصبغات. مناسب للاستخدام المنتظم للبشرة المختلطة إلى العادية.",
-    howToUse: { text: "بعد التنظيف في المساء، ضع التونر على قطعة قطن وامسح بها الوجه والرقبة. لا يُشطف. ابدأ بالاستخدام 2-3 مرات في الأسبوع ثم زد التكرار حسب تحمل البشرة. يُتبع بمرطب. استخدم واقي شمسي في النهار.", image: "images/how-to-use-toner.png" }
+    howToUse: { text: "بعد التنظيف في المساء، ضع التونر على قطعة قطن وامسح بها الوجه والرقبة. لا يُشطف. ابدأ بالاستخدام 2-3 مرات في الأسبوع ثم زد التكرار تدريجيًا حسب تحمل البشرة. يُتبع بمرطب. استخدم واقي شمسي في النهار.", image: "images/how-to-use-toner.png" }
   }
 ];
 
@@ -579,7 +612,8 @@ const cartTotalEl = document.getElementById('cartTotal');
 const cartBadge = document.getElementById('cartBadge');
 const mobileCartCount = document.getElementById('mobileCartCount');
 const mobileTotal = document.getElementById('mobileTotal');
-const overlay = document.getElementById('overlay');
+const cartOverlay = document.getElementById('cartOverlay'); // Renamed from 'overlay'
+const modalOverlay = document.getElementById('modalOverlay'); // New modal overlay
 const cartPanel = document.getElementById('cartPanel');
 const openCartBtn = document.getElementById('openCartBtn');
 const closeCartBtn = document.getElementById('closeCartBtn');
@@ -595,10 +629,11 @@ const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
 
 const howToUseText = document.getElementById('howToUseText');
 const howToUseImage = document.getElementById('howToUseImage');
-const customerReviewsSection = document.getElementById('customerReviews');
+const customerReviewsModal = document.getElementById('customerReviewsModal'); // Reviews section inside modal
 
 const tabButtons = document.querySelectorAll('.tab-buttons .tab-button');
 const tabContents = document.querySelectorAll('.product-details-tabs-container .tab-content'); // Adjusted selector
+
 
 let currentProductId = null; // To keep track of the product being viewed
 
@@ -613,7 +648,8 @@ function openProductDetailModal(prod) {
         addToCart(prod.id);
         closeProductDetailModal();
     };
-
+        
+       
     // Update How to Use section
     if (prod.howToUse) {
         howToUseText.innerText = prod.howToUse.text;
@@ -628,18 +664,18 @@ function openProductDetailModal(prod) {
         howToUseImage.classList.add('hidden');
     }
 
-    // Load existing reviews (placeholder for now)
-    loadReviewsForProduct(prod.id);
+    // Load existing reviews for this product in the modal
+    loadReviewsForProduct(prod.id, customerReviewsModal);
 
     productDetailModal.classList.add('open');
     document.body.style.overflow = 'hidden'; // Prevent scrolling body
-    overlay.classList.add('open'); // Open overlay with modal
+    modalOverlay.classList.add('open'); // Open modal overlay with modal
 }
 
 function closeProductDetailModal() {
     productDetailModal.classList.remove('open');
     document.body.style.overflow = ''; // Restore body scrolling
-    overlay.classList.remove('open'); // Close overlay
+    modalOverlay.classList.remove('open'); // Close modal overlay
     currentProductId = null;
     // Reset to default tab (description)
     activateTab('description'); 
@@ -673,51 +709,6 @@ tabButtons.forEach(button => {
         activateTab(button.dataset.tab);
     });
 });
-
-// سيتم فتح قسم آراء العملاء قريباً – حالياً لا يمكن إنشاء حساب أو إضافة تعليق
-const productReviews = {};
-
-function loadReviewsForProduct(productId) {
-    // عرض رسالة ثابتة بدلاً من التعليقات
-    customerReviewsSection.innerHTML = `
-        <div class="text-center text-gray-500 space-y-2 p-4">
-            <p>💬 سيتم فتح قسم آراء العملاء قريباً.</p>
-            <p>🔒 لا يمكنك التعليق إلا بعد إنشاء حساب.</p>
-            <p>⚠️ حالياً لا يمكن إنشاء حساب.</p>
-        </div>
-    `;
-}
-
-function submitReview() {
-    // منع أي محاولة لإرسال تعليق
-    Swal.fire({
-        icon: 'info',
-        title: '🚫 لا يمكنك التعليق حالياً',
-        text: 'سيتم فتح قسم آراء العملاء قريباً. حالياً لا يمكن إنشاء حساب أو كتابة تعليق.',
-        confirmButtonText: 'حسناً'
-    });
-}
-
-function handleReaction(button, type, productId) {
-    const reviewElement = button.closest('.bg-gray-50');
-    const reviewText = reviewElement.querySelector('p').innerText.replace(/"/g, ''); // Get review text to identify
-    
-    // Find the review in our dummy data
-    const reviews = productReviews[productId];
-    if (reviews) {
-        const targetReview = reviews.find(r => r.text === reviewText);
-        if (targetReview) {
-            if (type === 'like') {
-                targetReview.likes++;
-                reviewElement.querySelector('.like-count').innerText = targetReview.likes;
-            } else if (type === 'support') {
-                targetReview.supports++;
-                reviewElement.querySelector('.support-count').innerText = targetReview.supports;
-            }
-            // In a real app, you'd send this update to your backend
-        }
-    }
-}
 
 let currentFilterType = 'all'; // لتتبع نوع البشرة المحدد
 
@@ -826,9 +817,10 @@ productsContainer.addEventListener('click', e => {
     if (!btn) return;
     const action = btn.getAttribute('data-action');
     const id = btn.getAttribute('data-id');
+    const prod = products.find(p => p.id === id); // Find the product object
+    
     if (action === 'add') addToCart(id);
     if (action === 'detail') {
-      const prod = products.find(p=>p.id===id);
       if (prod) {
         openProductDetailModal(prod);
       }
@@ -854,10 +846,10 @@ document.querySelectorAll('.filter-btn[data-type]').forEach(b => b.addEventListe
 document.getElementById('search').addEventListener('input', e => renderProducts());
 
 function openCart() {
-  overlay.classList.add('open');
+  cartOverlay.classList.add('open'); // Use cartOverlay
   cartPanel.classList.add('open');
   cartPanel.setAttribute('aria-hidden','false');
-  overlay.setAttribute('aria-hidden','false');
+  cartOverlay.setAttribute('aria-hidden','false');
   openCartBtn.setAttribute('aria-expanded','true');
   setTimeout(()=> {
     const fname = document.getElementById('fullname');
@@ -865,16 +857,18 @@ function openCart() {
   }, 220);
 }
 function closeCart() {
-  overlay.classList.remove('open');
+  cartOverlay.classList.remove('open'); // Use cartOverlay
   cartPanel.classList.remove('open');
   cartPanel.setAttribute('aria-hidden','true');
-  overlay.setAttribute('aria-hidden','true');
+  cartOverlay.setAttribute('aria-hidden','true');
   openCartBtn.setAttribute('aria-expanded','false');
   openCartBtn.focus();
 }
 openCartBtn.addEventListener('click', openCart);
 closeCartBtn.addEventListener('click', closeCart);
-overlay.addEventListener('click', closeCart);
+cartOverlay.addEventListener('click', closeCart); // Use cartOverlay
+modalOverlay.addEventListener('click', closeProductDetailModal); // Close modal when clicking its overlay
+
 window.addEventListener('keydown', (e)=> {
   if (e.key === 'Escape') {
     if (cartPanel.classList.contains('open')) closeCart();
@@ -912,10 +906,201 @@ document.getElementById('checkoutBtn').addEventListener('click', ()=> {
 renderProducts();
 updateCartUI();
 window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart', JSON.stringify(cart)));
+
+
+// --- Firebase Reviews Logic ---
+
+// Helper function to create a review HTML element
+function createReviewElement(reviewData) {
+    const reviewEl = document.createElement('div');
+    reviewEl.className = 'border p-3 rounded-lg shadow-sm bg-white';
+    const rating = reviewData.rating ? '⭐'.repeat(reviewData.rating) : ''; // Display stars
+    
+    // Format date - use current date for immediate display, or actual date if available
+    const dateOptions = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    let formattedDate;
+    if (reviewData.date && typeof reviewData.date.toDate === 'function') {
+        formattedDate = reviewData.date.toDate().toLocaleString('ar-EG', dateOptions);
+    } else {
+        // If date is not a Timestamp (e.g., when showing immediately), use current date
+        formattedDate = new Date().toLocaleString('ar-EG', dateOptions);
+    }
+
+    reviewEl.innerHTML = `
+      <p class="font-semibold">${reviewData.userName || "مستخدم مجهول"} ${rating}</p>
+      <p class="text-gray-700">${reviewData.text}</p>
+      <p class="text-xs text-gray-400">${formattedDate}</p>
+    `;
+    return reviewEl;
+}
+
+// 📦 تحميل التعليقات لمنتج معين
+async function loadReviewsForProduct(productId, targetElement) {
+    if (!targetElement) {
+        console.warn("Target element for reviews is not provided.");
+        return;
+    }
+
+    targetElement.innerHTML = `<p class="text-gray-500 text-center">⏳ جاري تحميل التعليقات...</p>`;
+    const q = query(collection(db, "reviews"), where("productId", "==", productId), orderBy("date", "desc"));
+    
+    try {
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          targetElement.innerHTML = `<p class="text-gray-400 text-center">لا توجد تعليقات بعد 👇</p>`;
+          return;
+        }
+
+        let reviewsHtmlElements = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          reviewsHtmlElements.push(createReviewElement(data));
+        });
+
+        // Clear existing and append new
+        targetElement.innerHTML = ''; 
+        reviewsHtmlElements.forEach(el => targetElement.appendChild(el));
+
+    } catch (error) {
+        console.error("خطأ في تحميل التعليقات:", error);
+        targetElement.innerHTML = `<p class="text-center text-red-500">حدث خطأ أثناء تحميل التعليقات 🔴</p>`;
+    }
+}
+
+// 🧾 إرسال التعليق من داخل النافذة المنبثقة
+window.submitReviewModal = async function() {
+  const reviewNameModal = document.getElementById('reviewNameModal').value.trim();
+  const reviewTextModal = document.getElementById('reviewTextModal').value.trim();
+  const reviewRatingModal = document.querySelector('#productDetailModal input[name="rating-modal"]:checked')?.value;
+
+  if (!reviewTextModal) {
+    Swal.fire({ icon: 'warning', title: '✍️ الرجاء كتابة تعليق أولاً' });
+    return;
+  }
+
+  const user = auth.currentUser;
+  if (!user) {
+    Swal.fire({ icon: 'error', title: '🚫 يجب تسجيل الدخول أولاً لإضافة تعليق' });
+    return;
+  }
+
+  if (!currentProductId) {
+      Swal.fire({ icon: 'error', title: 'لا يوجد منتج محدد لإضافة تعليق له.' });
+      return;
+  }
+
+  // Prepare data for immediate display and Firebase
+  const newReviewData = {
+    productId: currentProductId,
+    userId: user.uid,
+    userName: reviewNameModal || user.displayName || "مستخدم",
+    text: reviewTextModal,
+    rating: reviewRatingModal ? parseInt(reviewRatingModal) : 0,
+    date: new Date() // Use current local date for immediate display
+  };
+
+  // 1. Display the review immediately in the UI
+  const reviewElement = createReviewElement(newReviewData);
+  const customerReviewsContainer = document.getElementById('customerReviewsModal');
+
+  // Check if "لا توجد تعليقات بعد" message exists and remove it
+  const noReviewsMsg = customerReviewsContainer.querySelector('.text-gray-400.text-center');
+  if (noReviewsMsg) {
+      noReviewsMsg.remove();
+  }
+  
+  customerReviewsContainer.prepend(reviewElement); // Add new review at the top
+
+  // Clear form fields
+  document.getElementById('reviewNameModal').value = '';
+  document.getElementById('reviewTextModal').value = '';
+  document.querySelectorAll('#productDetailModal input[name="rating-modal"]').forEach(radio => radio.checked = false);
+  
+  // Show a temporary success message
+  Swal.fire({ icon: 'info', title: 'تمت إضافة تعليقك محليًا! جارٍ الحفظ...' , showConfirmButton:false, timer:1500 });
+
+
+  try {
+    // 2. Send the review to Firebase
+    await addDoc(collection(db, "reviews"), {
+      ...newReviewData, // Spread existing data
+      date: serverTimestamp() // Override date with serverTimestamp for Firebase
+    });
+
+    // If successful, show a more permanent success message
+    Swal.fire({ icon: 'success', title: '✅ تم حفظ التعليق بنجاح في قاعدة البيانات!' });
+    
+    // Optionally, you might want to reload the reviews from Firebase
+    // to ensure full consistency, especially if other users might add reviews.
+    // However, for immediate feedback, we've already added it.
+    // If you uncomment the line below, the review might briefly "jump" or refresh.
+    // loadReviewsForProduct(currentProductId, customerReviewsModal);
+
+  } catch (error) {
+    console.error("Error submitting review to Firebase:", error);
+    Swal.fire({ icon: 'error', title: 'فشل حفظ التعليق', text: 'حدث خطأ أثناء حفظ تعليقك في قاعدة البيانات. يرجى المحاولة مرة أخرى.' });
+    // If saving fails, you might want to remove the locally added review or show an error state.
+    reviewElement.remove(); // Remove the locally added review if saving fails
+    if(customerReviewsContainer.children.length === 0) { // If no reviews left, put back "no reviews" message
+        customerReviewsContainer.innerHTML = `<p class="text-gray-400 text-center">لا توجد تعليقات بعد 👇</p>`;
+    }
+  }
+}
+
+// 🔑 تسجيل الدخول / تسجيل الخروج
+// Add auth section dynamically or ensure it exists in HTML
+const authSection = document.createElement('div');
+authSection.id = 'auth-section';
+authSection.className = 'mb-4 text-center p-4 bg-white rounded-xl shadow-sm mt-8';
+authSection.innerHTML = `
+  <button id="login-btn-page" class="px-4 py-2 bg-pink-500 text-white rounded-lg">🔑 تسجيل الدخول بحساب Google</button>
+  <button id="logout-btn-page" class="hidden px-4 py-2 bg-gray-400 text-white rounded-lg">🚪 تسجيل الخروج</button>
+  <p id="user-info-page" class="text-sm text-gray-500 mt-2"></p>
+`;
+document.querySelector('main').insertAdjacentElement('afterend', authSection); // Insert after main content
+
+const loginBtnPage = document.getElementById("login-btn-page");
+const logoutBtnPage = document.getElementById("logout-btn-page");
+const userInfoPage = document.getElementById("user-info-page");
+
+loginBtnPage.addEventListener("click", async () => {
+  try {
+      await signInWithPopup(auth, provider);
+      Swal.fire({ icon: 'success', title: 'تم تسجيل الدخول بنجاح!' });
+  } catch (error) {
+      console.error("خطأ في تسجيل الدخول:", error);
+      Swal.fire({ icon: 'error', title: 'فشل تسجيل الدخول', text: 'يرجى المحاولة مرة أخرى.' });
+  }
+});
+
+logoutBtnPage.addEventListener("click", async () => {
+  try {
+      await signOut(auth);
+      Swal.fire({ icon: 'info', title: 'تم تسجيل الخروج.' });
+  } catch (error) {
+      console.error("خطأ في تسجيل الخروج:", error);
+      Swal.fire({ icon: 'error', title: 'فشل تسجيل الخروج', text: 'يرجى المحاولة مرة أخرى.' });
+  }
+});
+
+// 👀 مراقبة حالة المستخدم
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    loginBtnPage.classList.add("hidden");
+    logoutBtnPage.classList.remove("hidden");
+    userInfoPage.textContent = `مرحباً، ${user.displayName || user.email}`;
+  } else {
+    loginBtnPage.classList.remove("hidden");
+    logoutBtnPage.classList.add("hidden");
+    userInfoPage.textContent = "";
+  }
+});
+
+// Initial product rendering and cart UI update
+renderProducts();
+updateCartUI();
+
 </script>
-<!-- Font Awesome for star icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
-<script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 </body>
 </html>
