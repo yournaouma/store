@@ -12,7 +12,7 @@
 
   <link rel="canonical" href="https://yournaouma.github.io/store/creams.html" />
   <meta name="robots" content="index, follow" />
-  <meta name="theme-color" content="#fff8e1" /> <!-- لون برتقالي فاتح جداً كـ theme-color -->
+  <meta name="theme-color" content="#fff8e1" />
 
   <!-- Open Graph (Facebook + WhatsApp) -->
   <meta property="og:type" content="website" />
@@ -29,13 +29,13 @@
   <meta name="twitter:description" content="كريمات طبيعية فاخرة للعناية بالبشرة من عائلة نعومة نعومتك — اطلب الآن." />
   <meta name="twitter:image" content="https://yournaouma.github.io/store/images/logo.png" />
 
-  <!-- أيقونات المتصفح -->
+  <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="256x256" href="images/logo.png">
   <link rel="icon" type="image/png" sizes="128x128" href="images/logo.png">
   <link rel="icon" type="image/png" sizes="64x64" href="images/logo.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/logo.png">
 
-  <!-- لأجهزة آبل -->
+  <!-- For Apple devices -->
   <link rel="apple-touch-icon" sizes="512x512" href="images/logo.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
 
@@ -47,8 +47,8 @@
   <style>
     body { font-family: "Noto Sans Arabic", system-ui; background: linear-gradient(180deg,#fff 0%, #fff5ea 100%); }
     header { background: linear-gradient(90deg,#fff 0%, #ffedde 100%);}
-    .product-card { 
-        transform: translateY(0); 
+    .product-card {
+        transform: translateY(0);
         box-shadow: 0 2px 8px rgba(255,150,40,0.05);
         display: flex; /* Ensures consistent height */
         flex-direction: column;
@@ -61,14 +61,17 @@
     #sidebar a { color: #333; } /* Default link color for white sidebar */
     #sidebar a:hover { background: #ff9800; color: #fff; } /* Hover for white sidebar */
     /* Mini cart drawer for mobile */
-    .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.2); opacity:0; pointer-events:none; transition:opacity .25s; z-index:40; }
-    .cart-overlay.open { opacity:1; pointer-events:auto; }
+    .cart-overlay, .modal-overlay {
+      position:fixed; inset:0; background:rgba(0,0,0,0.2); opacity:0; pointer-events:none; transition:opacity .25s; z-index:40;
+    }
+    .cart-overlay.open, .modal-overlay.open { opacity:1; pointer-events:auto; }
+
     .cart-drawer {
-      position:fixed; top:0; right:0; height:100vh; width:100%; 
+      position:fixed; top:0; right:0; height:100vh; width:100%;
       max-width:310px; /* كان 370px وقللته كي تبدو أصغر */
-      transform:translateX(110%); 
-      transition:transform .25s cubic-bezier(.2,.9,.2,1); 
-      z-index:50; 
+      transform:translateX(110%);
+      transition:transform .25s cubic-bezier(.2,.9,.2,1);
+      z-index:50;
       box-shadow:-6px 0 16px 0 rgba(255,152,0,0.04);
     }
     .cart-drawer.open { transform:translateX(0); }
@@ -84,7 +87,7 @@
     .btn-outline:hover {background:#ff9800;color:white;}
     .btn-error {background:#ff5722;color:white;}
     /* مهم: تأكد من بقاء أزرار الدفع ظاهرة دائماً في السلة */
-    #cartPanel .cart-actions-area { 
+    #cartPanel .cart-actions-area {
       position: sticky;
       bottom: 0;
       background: white;
@@ -105,7 +108,7 @@
     #cartPanel .input::placeholder, #cartPanel .select option {
       color: #777; /* Lighter placeholder text */
     }
-    
+
     /* Styling for filter buttons in sidebar (white background, dark text when not active) */
     .filter-btn {
       background-color: white;
@@ -254,7 +257,119 @@
             width: 100%;
         }
     }
-    
+    /* Custom styles for auth buttons in header */
+    .auth-section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .auth-section-header .btn {
+      padding: 0.5rem 0.75rem; /* Adjust padding for smaller buttons */
+      font-size: 0.875rem; /* Smaller font size */
+      line-height: 1.25rem;
+    }
+    .auth-section-header #user-info-header {
+      margin: 0;
+      font-size: 0.875rem; /* Smaller font for user info */
+      color: #555;
+    }
+    @media (max-width: 640px) { /* Adjust for smaller screens like mobile */
+        .auth-section-header {
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.25rem;
+        }
+        .auth-section-header .btn {
+            width: auto; /* Allow buttons to size naturally */
+        }
+    }
+
+    /* Styles for comments and replies */
+    .comment-card {
+        background-color: #fcfcfc;
+        border: 1px solid #ffecbc;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+    .comment-author {
+        font-weight: bold;
+        color: #ff9800;
+        display: flex;
+        align-items: center;
+    }
+    .comment-timestamp {
+        font-size: 0.75rem;
+        color: #888;
+    }
+    .comment-text {
+        color: #444;
+        margin-bottom: 0.75rem;
+        line-height: 1.4;
+    }
+    .comment-actions {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        margin-top: 0.5rem;
+    }
+    .reaction-button {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.3rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        border: 1px solid #ddd;
+        color: #555;
+    }
+    .reaction-button:hover {
+        background-color: #fff3e0;
+        border-color: #ffbb77;
+        color: #ff9800;
+    }
+    .reaction-button.active {
+        background-color: #ffe0b2; /* Lighter orange for active */
+        border-color: #ff9800;
+        color: #d84315; /* Darker text for active */
+        font-weight: bold;
+    }
+    .reply-form-container {
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px dashed #eee;
+    }
+    .replies-container {
+        margin-right: 1.5rem; /* Indent replies */
+        border-right: 2px solid #ff9800; /* Visual indicator for replies */
+        padding-right: 1rem;
+        margin-top: 1rem;
+    }
+    .replies-container .comment-card {
+        background-color: #fffdfa;
+        border-color: #ffe0b2;
+        margin-bottom: 0.75rem;
+    }
+    .load-replies-btn {
+        font-size: 0.85rem;
+        color: #ff9800;
+        cursor: pointer;
+        margin-top: 0.5rem;
+        display: block;
+        text-align: center;
+    }
+    .load-replies-btn:hover {
+        text-decoration: underline;
+    }
+
   </style>
 </head>
 
@@ -267,7 +382,7 @@
 <!-- Sidebar menu (white) -->
 <aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto z-50">
   <div class="p-5">
-    <h2 class="text-2xl font-bold mb-4 text-center text-[#ff9800]">🛍️ نعومة نعومتك</h2> <!-- Changed text color -->
+    <h2 class="text-2xl font-bold mb-4 text-center text-[#ff9800]">🛍️ نعومة نعومتك</h2>
     <nav class="space-y-3 text-lg">
         <a href="index.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🏠 الصفحة الرئيسية</a>
         <a href="creams.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🧴 متجر الكريمات</a>
@@ -282,7 +397,7 @@
         <a href="contact.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">📞 اتصل بنا</a>
     </nav>
     <div class="mt-6 text-center">
-      <button id="closeSidebar" class="bg-[#ff9800] text-white px-4 py-2 rounded-lg shadow hover:bg-[#fb8c00]">إغلاق ✖</button> <!-- Changed button colors -->
+      <button id="closeSidebar" class="bg-[#ff9800] text-white px-4 py-2 rounded-lg shadow hover:bg-[#fb8c00]">إغلاق ✖</button>
     </div>
   </div>
 </aside>
@@ -297,9 +412,17 @@
         </h1>
       </div>
     </div>
+    
+    <!-- Auth Section and Cart Button -->
     <div class="flex items-center gap-3">
-      <div class="pill text-sm">توصيل سريع داخل ليبيا</div>
-      <button id="openCartBtn" class="btn btn-ghost btn-sm">🛒 <span id="cartBadge">0</span></button>
+        <!-- Auth Section in Header -->
+        <div id="auth-section-header" class="auth-section-header">
+            <button id="login-btn-header" class="btn btn-sm btn-outline text-pink-500 hover:bg-pink-500 hover:text-white">🔑 تسجيل الدخول</button>
+            <button id="logout-btn-header" class="btn btn-sm btn-ghost hidden">🚪 خروج</button>
+            <p id="user-info-header" class="text-sm hidden"></p>
+        </div>
+        <div class="pill text-sm hidden sm:block">توصيل سريع داخل ليبيا</div> <!-- Hide on small screens -->
+        <button id="openCartBtn" class="btn btn-ghost btn-sm">🛒 <span id="cartBadge">0</span></button>
     </div>
   </div>
 </header>
@@ -309,7 +432,7 @@
   <!-- Sidebar filters -->
   <aside class="lg:col-span-1 space-y-4">
     <div class="bg-white p-4 rounded-xl shadow-sm">
-      <input id="search" type="search" placeholder="ابحث عن منتج..." class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-orange-200" aria-label="ابحث عن منتج">
+      <input id="search" type="search" placeholder="ابحث عن كريم..." class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-orange-200" aria-label="ابحث عن كريم">
     </div>
     <div class="bg-white p-4 rounded-xl shadow-sm">
       <h3 class="font-semibold mb-2">نوع البشرة</h3>
@@ -318,7 +441,7 @@
         <button class="filter-btn btn btn-sm justify-start" data-type="جميع انواع البشرة">جميع أنواع البشرة</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="دهنية">دهنية</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="جافة">جافة</button>
-        <button class="filter-btn btn btn-sm justify-start" data-type="عادية">عادية</button>
+        <button class="filter-btn btn-sm justify-start" data-type="عادية">عادية</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="مختلطة">مختلطة</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="حساسة">حساسة</button>
       </div>
@@ -340,7 +463,8 @@
   </section>
 </main>
 
-<div id="overlay" class="cart-overlay" tabindex="-1" aria-hidden="true"></div>
+<div id="cartOverlay" class="cart-overlay" tabindex="-1" aria-hidden="true"></div>
+<div id="modalOverlay" class="modal-overlay" tabindex="-1" aria-hidden="true"></div> <!-- New overlay for modal -->
 
 <!-- Cart Drawer -->
 <aside id="cartPanel" class="cart-drawer bg-white" role="dialog" aria-modal="true" aria-hidden="true" style="border-right:3px solid #ff9800">
@@ -375,10 +499,10 @@
   </div>
 </aside>
 
-<!-- Product Detail Modal (instead of sidebar) -->
+<!-- Product Detail Modal -->
 <aside id="productDetailModal" class="product-detail-modal">
     <button class="close-btn" onclick="closeProductDetailModal()">✕</button>
-    
+
     <!-- Left part (Product Image, Name, Price, Add to Cart) -->
     <div class="product-details-main">
         <h3 id="modalProductName" class="text-xl font-bold mb-4 text-[#ff9800]"></h3>
@@ -414,14 +538,14 @@
         <!-- Customer Reviews Tab -->
         <div id="reviewsTab" class="tab-content">
             <h4 class="section-title">آراء العملاء</h4>
-            <div id="customerReviews" class="space-y-3">
+            <div id="customerReviewsContainer" class="space-y-4 mt-3">
                 <!-- Reviews will be loaded here -->
             </div>
             <!-- Add New Review Form -->
             <div class="mt-4 p-3 bg-white rounded-lg shadow-sm border border-orange-200">
                 <h5 class="font-semibold mb-2">أضف تعليقك</h5>
-                <input type="text" id="reviewName" placeholder="اسمك" class="input input-bordered w-full mb-2 input-sm" />
-                <textarea id="reviewText" placeholder="اكتب تعليقك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
+                <input type="text" id="reviewNameInput" placeholder="اسمك (اختياري)" class="input input-bordered w-full mb-2 input-sm" />
+                <textarea id="reviewTextInput" placeholder="اكتب تعليقك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
                 <div class="star-rating mb-3">
                     <input type="radio" id="rate-5" name="rating" value="5" /><label for="rate-5"><i class="fas fa-star"></i></label>
                     <input type="radio" id="rate-4" name="rating" value="4" /><label for="rate-4"><i class="fas fa-star"></i></label>
@@ -429,15 +553,42 @@
                     <input type="radio" id="rate-2" name="rating" value="2" /><label for="rate-2"><i class="fas fa-star"></i></label>
                     <input type="radio" id="rate-1" name="rating" value="1" /><label for="rate-1"><i class="fas fa-star"></i></label>
                 </div>
-                <button class="btn btn-primary btn-sm w-full" onclick="submitReview()">إرسال التعليق</button>
+                <button class="btn btn-primary btn-sm w-full" onclick="submitNewComment()">إرسال التعليق</button>
             </div>
         </div>
     </div>
 </aside>
 
-<!-- Script for sidebar and products -->
-<script>
-// Sidebar logic (now white)
+<!-- Font Awesome for star icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+<script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
+
+<!-- Script for sidebar, products, and FIREBASE -->
+<script type="module">
+// Import Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, serverTimestamp, doc, updateDoc, getDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+
+// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDRiEZImvRhIl7zRzBY_y_OrcrNjhzz7bE",
+  authDomain: "naouma-store.firebaseapp.com",
+  projectId: "naouma-store",
+  storageBucket: "naouma-store.firebasestorage.app",
+  messagingSenderId: "522931583121",
+  appId: "1:522931583121:web:643f49ef0a81a0763b6730",
+  measurementId: "G-S0W0BYJ3RY"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+// Sidebar logic
 const menuBtn = document.getElementById('menuBtn');
 const sidebar = document.getElementById('sidebar');
 const menuOverlay = document.getElementById('menuOverlay');
@@ -458,25 +609,18 @@ menuBtn.addEventListener('click', () => toggleSidebar(true));
 closeSidebar.addEventListener('click', () => toggleSidebar(false));
 menuOverlay.addEventListener('click', () => toggleSidebar(false));
 
-// --- Products data
+// --- Products data (Creams)
 const products = [
-// Avene
-{ id:"av1", name:"كريم الليل Tolérance Control", brand:"ARVEA", type:"جميع انواع البشرة", price:85, image:"images/products/kid2.png", description:"يجمع كريم الليل المضاد للتجاعيد بين خصائص الترطيب والتجديد التي يوفرها الصبار، وزيت الأرغان العضوي، وزبدة الشيا، وزيت الأفوكادو، وبروفيتامين B5، وزيت بذور العنب، وزيت الأوكالبتوس العطري، وزيت بذور التين الشوكي. يُعد زيت بذور التين الشوكي زيتًا ثمينًا يلعب دورًا أساسيًا في الوقاية من التجاعيد والخطوط الدقيقة وتوسع المسام والبقع البنية ومكافحتها، بالإضافة إلى تنظيم إفراز الدهون والحد من الجفاف. هذا العلاج المضاد للتجاعيد، الغني بمكونات طبيعية فعالة، يُجدد بشرتكِ بشكل استثنائي. فهو يمنع شيخوخة البشرة ويعزز تجديد الخلايا. مثالي لبشرة متجددة ومحصنة، ذات بشرة مشرقة ومضيئة تنضح بالشباب والصحة. تم تصميم هذا الكريم ليناسب جميع أنواع البشرة.", howToUse: { text: "يُوضع كمية صغيرة على بشرة نظيفة وجافة كل مساء قبل النوم. يُدلك بلطف بحركات دائرية حتى يتم امتصاصه بالكامل. للاستخدام الخارجي فقط.", image: "images/how-to-use-cream.png" }, longDescription: "هذا الكريم الليلي المبتكر من ARVEA يجمع بين قوة الطبيعة والعلم لتقديم تجربة تجديد فريدة. غني بالصبار لترطيب عميق، وزيت الأرغان العضوي وزبدة الشيا لتغذية مكثفة. زيت الأفوكادو وبروفيتامين B5 يعملان على تهدئة البشرة وإصلاحها، بينما زيت بذور العنب وزيت الأوكالبتوس العطري يساهمان في تحسين مرونة البشرة ونضارتها. نجم التركيبة هو زيت بذور التين الشوكي الثمين، المعروف بخصائصه الفائقة في مكافحة علامات الشيخوخة مثل التجاعيد والخطوط الدقيقة وتوسع المسام والبقع البنية. كما أنه يساعد في تنظيم إفراز الدهون ويحد من جفاف البشرة. مع الاستخدام المنتظم، ستبدو بشرتكِ أكثر شبابًا، إشراقًا وصحة. مناسب لجميع أنواع البشرة التي تبحث عن تجديد وحماية ليليين." },
-{ id:"av2", name:"أفين كريم Hydrance Riche", brand:"Avene", type:"عادية", price:65, image:"images/products/kid1.png", description:"كريم مغذٍ يمنح البشرة العادية ترطيبًا يدوم طويلاً.", howToUse: { text: "يوضع صباحاً ومساءً على الوجه والرقبة بعد التنظيف. مثالي كأساس للمكياج.", image: "images/how-to-use-cream.png" }, longDescription: "كريم Hydrance Riche من أفين هو الحل الأمثل للبشرة العادية التي تحتاج إلى ترطيب مكثف يدوم طويلاً. تركيبته الغنية بالمياه الحرارية من أفين تعمل على تهدئة البشرة وتقويتها، بينما المكونات المرطبة الأخرى تحافظ على حاجز البشرة وتحميها من الجفاف. يترك البشرة ناعمة، مرنة، ومشرقة طوال اليوم. قوامه الغني يجعله مثاليًا للاستخدام اليومي ويشكل أساسًا ممتازًا للمكياج." },
-{ id:"av3", name:"كريم الوجه هيدرا ديب / للبشرة الجافة والحساسة", brand:"ARVEA", type:"جافة,حساسة", price:105, image:"images/products/kid3.png", description:"هيدرا ديب هي مجموعة للعناية بالوجه من تطوير أرفيا. صُمم خصيصًا لتوفير توازن مثالي بين التغذية والترطيب.", howToUse: { text: "يوضع على بشرة نظيفة وجافة في الصباح والمساء. يُدلك بلطف حتى الامتصاص الكامل.", image: "images/how-to-use-cream.png" }, longDescription: "كريم الوجه HYDRA-DEEP من ARVEA هو كريم متخصص للبشرة الجافة والحساسة، يوفر ترطيبًا عميقًا وتغذية مكثفة. تركيبته الفريدة غنية بحمض الهيالورونيك الذي يجذب الرطوبة إلى البشرة ويحتفظ بها، والنياسيناميد (فيتامين B3) لتحسين مرونة البشرة وتقليل الاحمرار. الجلسرين وبروفيتامين B5 يعملان على تعزيز حاجز البشرة الطبيعي وتهدئة أي تهيج. بالإضافة إلى ذلك، يحتوي على زيوت مغذية مثل زيت الأرغان وزبدة الشيا والزيوت القابلة للذوبان في الماء التي تغذي البشرة بعمق وتساعد على استعادة غشاءها المائي الدهني. النتيجة هي بشرة موحدة اللون، ناعمة، مرنة، ومشرقة فورًا." },
-
-// Bioderma
-{ id:"av4", name:"كريم النهار المرطب", brand:"ARVEA", type:"جميع انواع البشرة", price:63, image:"images/products/kid4.png", description:"كريم النهار المرطب من أرفيا يُرطب البشرة بعمق ويُساعد على استعادة مرونتها وحيويتها.", howToUse: { text: "يوضع كل صباح على الوجه والرقبة بعد تنظيف البشرة. يُجدد الترطيب ويحمي من الشمس.", image: "images/how-to-use-cream.png" }, longDescription: "يقدم كريم النهار المرطب من ARVEA ترطيبًا يوميًا أساسيًا لجميع أنواع البشرة. تركيبته الغنية بالصبار المهدئ، وزيت الأرغان المغذي، وزيت بذور العنب المضاد للأكسدة، وزبدة الشيا المرطبة، وبروفيتامين B5 المرمم، تعمل معًا لتجديد البشرة واستعادة حيويتها. يحتوي أيضًا على عامل حماية من الشمس SPF 15، مما يوفر حماية خفيفة ضد الأشعة فوق البنفسجية الضارة، مما يجعله مثاليًا للاستخدام اليومي لحماية بشرتك والحفاظ على نضارتها." },
-{ id:"bio2", name:"بيوديرما كريم Sensibio AR", brand:"Bioderma", type:"حساسة", price:74, image:"images/creams/cream5.png", description:"يهدئ احمرار البشرة الحساسة ويقلل الالتهاب.", howToUse: { text: "يوضع مرتين يومياً على بشرة نظيفة. يساعد في تخفيف الاحمرار والحساسية.", image: "images/how-to-use-cream.png" }, longDescription: "كريم Sensibio AR من Bioderma هو علاج يومي مصمم خصيصًا للبشرة الحساسة المعرضة للاحمرار. يحتوي على مركب Rosactiv® الحاصل على براءة اختراع، والذي يعمل مباشرة على توسع الأوعية الدموية المسؤولة عن الاحمرار. يقلل بشكل فعال من شدة الاحمرار ويمنع ظهوره. قوامه الخفيف وغير الدهني يمتص بسرعة، ويوفر راحة فورية ويترك البشرة ناعمة ومخملية. مثالي للاستخدام صباحًا ومساءً كجزء من روتين العناية بالبشرة لتهدئة الاحمرار وتحسين راحة البشرة." },
-{ id:"bio3", name:"بيوديرما كريم Hydrabio Perfecteur", brand:"Bioderma", type:"عادية", price:45, image:"images/creams/cream6.png", description:"يوحد لون البشرة العادية ويمنحها إشراقة ناعمة.", howToUse: { text: "يوضع في الصباح على الوجه والرقبة بعد تنظيفهما. يوفر ترطيبًا وإشراقة.", image: "images/how-to-use-cream.png" }, longDescription: "كريم Hydrabio Perfecteur من Bioderma هو مرطب مبتكر يوحد لون البشرة العادية ويمنحها إشراقة طبيعية. يحتوي على مركب Aquagenium™ الحاصل على براءة اختراع، والذي يعلم البشرة كيفية تنشيط قدراتها الطبيعية على الترطيب وإنتاج الماء. كما يضم فلاتر للأشعة فوق البنفسجية (SPF 30) لحماية البشرة من أضرار الشمس، ومساحيق اللؤلؤ لإضفاء إشراقة فورية. يترك البشرة رطبة، ناعمة، وموحدة اللون، مع لمسة نهائية مخملية ومضيئة. مناسب للاستخدام اليومي كأساس للمكياج أو بمفرده." },
-
-// La Roche
-{ id:"lr1", name:"لاروش بوزيه كريم Effaclar K+", brand:"La Roche", type:"دهنية", price:83, image:"images/creams/kid7.png", description:"ينقي البشرة الدهنية ويقلل من الرؤوس السوداء.", howToUse: { text: "يوضع صباحاً ومساءً على كامل الوجه بعد تنظيفه جيداً. تجنب منطقة العين.", image: "images/how-to-use-cream.png" }, longDescription: "كريم Effaclar K+ من La Roche-Posay هو علاج مجدد للبشرة الدهنية والمعرضة للعيوب. يعمل على تقليل ظهور الرؤوس السوداء وتحسين نسيج البشرة. بتركيبته التي تحتوي على LHA و Sebulyse، يعمل هذا الكريم على تقشير البشرة بلطف وتضييق المسام وتنظيم إفراز الزيوت. يوفر لمسة نهائية غير لامعة تدوم طويلاً ويمنع ظهور عيوب جديدة. استخدميه يوميًا للحصول على بشرة أكثر نقاءً ونعومة وخالية من اللمعان." },
-{ id:"lr2", name:"لاروش بوزيه كريم Toleriane Sensitive Fluide", brand:"La Roche", type:"مختلطة", price:79, image:"images/creams/kid8.png", description:"يرطب ويهدئ البشرة المختلطة الحساسة دون لمعان.", howToUse: { text: "يوضع على الوجه والرقبة صباحاً ومساءً. مناسب للبشرة الحساسة والمختلطة.", image: "images/how-to-use-cream.png" }, longDescription: "Fluid Toleriane Sensitive من La Roche-Posay هو مرطب خفيف ومهدئ مصمم خصيصًا للبشرة المختلطة إلى الدهنية الحساسة. تركيبته البسيطة تحتوي على Prebiotic Thermal Water التي تعمل على استعادة حاجز البشرة وتقليل حساسيتها. يوفر ترطيبًا لمدة 48 ساعة ويقلل من الشعور بالضيق والحرقة. قوامه الخفيف غير الدهني يمتص بسرعة ولا يترك أي لمعان، مما يجعله مثاليًا للبشرة التي تحتاج إلى ترطيب دون زيادة الإفرازات الدهنية." },
-{ id:"lr3", name:"لاروش بوزيه كريم Cicaplast Baume B5+", brand:"La Roche", type:"حساسة", price:53, image:"images/creams/kid9.png", description:"كريم ترميمي غني لتهدئة وحماية البشرة الحساسة.", howToUse: { text: "يمكن تطبيقه مرتين يومياً على بشرة نظيفة وجافة. مناسب للجسم والوجه والشفتين.", image: "images/how-to-use-cream.png" }, longDescription: "Cicaplast Baume B5+ من La Roche-Posay هو بلسم متعدد الاستخدامات يعمل على تهدئة وإصلاح وحماية البشرة المتهيجة والحساسة. تركيبته الفريدة تحتوي على Madecassoside الذي يعزز الإصلاح الجلدي، والنحاس والزنك والمنغنيز التي تعمل كمضادات للبكتيريا، و Panthenol (فيتامين B5) بتركيز 5% لتهدئة البشرة وتقليل الشعور بالانزعاج. كما يحتوي على Prebiotic Tribioma الذي يساعد على استعادة توازن ميكروبيوم البشرة. يمكن استخدامه على الوجه والجسم والشفتين، ومناسب لجميع أفراد الأسرة، بما في ذلك الأطفال الرضع. مثالي للبشرة الجافة، المتهيجة، بعد الإجراءات الجلدية السطحية، أو لأي تهيج يومي." },
-
-// Arvia
-{ id:"arv1", name:"أرفيا كريم بزيت جوز الهند الطبيعي", brand:"Arvia", type:"عادية", price:39, image:"images/creams/kid10.png", description:"كريم طبيعي يرطب البشرة العادية ويمنحها نعومة فائقة.", howToUse: { text: "يوضع على البشرة النظيفة والجافة كلما دعت الحاجة. مثالي لترطيب الجسم واليدين.", image: "images/how-to-use-cream.png" }, longDescription: "كريم أرفيا بزيت جوز الهند الطبيعي هو مرطب فاخر يمنح البشرة العادية ترطيبًا عميقًا ونعومة حريرية. غني بزيت جوز الهند النقي المعروف بخصائصه المرطبة والمغذية، يساعد هذا الكريم على استعادة ليونة البشرة ومرونتها. قوامه الخفيف يمتص بسرعة دون ترك أي بقايا دهنية، ويترك البشرة معطرة برائحة جوز الهند الطبيعية المنعشة. مثالي للاستخدام اليومي على الجسم واليدين لترطيب يدوم طويلاً وحماية من الجفاف." }
+    { id:"av1", name:"كريم الليل Tolérance Control", brand:"ARVEA", type:"جميع انواع البشرة", price:85, image:"images/products/kid2.png", description:"يجمع كريم الليل المضاد للتجاعيد بين خصائص الترطيب والتجديد التي يوفرها الصبار...", howToUse: { text: "يُوضع كمية صغيرة على بشرة نظيفة وجافة كل مساء قبل النوم...", image: "images/how-to-use-cream.png" }, longDescription: "هذا الكريم الليلي المبتكر من ARVEA يجمع بين قوة الطبيعة والعلم لتقديم تجربة تجديد فريدة..." },
+    { id:"av2", name:"أفين كريم Hydrance Riche", brand:"Avene", type:"عادية", price:65, image:"images/products/kid1.png", description:"كريم مغذٍ يمنح البشرة العادية ترطيبًا يدوم طويلاً.", howToUse: { text: "يوضع صباحاً ومساءً على الوجه والرقبة بعد التنظيف. مثالي كأساس للمكياج.", image: "images/how-to-use-cream.png" }, longDescription: "كريم Hydrance Riche من أفين هو الحل الأمثل للبشرة العادية التي تحتاج إلى ترطيب مكثف يدوم طويلاً..." },
+    { id:"av3", name:"كريم الوجه هيدرا ديب / للبشرة الجافة والحساسة", brand:"ARVEA", type:"جافة,حساسة", price:105, image:"images/products/kid3.png", description:"هيدرا ديب هي مجموعة للعناية بالوجه من تطوير أرفيا...", howToUse: { text: "يوضع على بشرة نظيفة وجافة في الصباح والمساء...", image: "images/how-to-use-cream.png" }, longDescription: "كريم الوجه HYDRA-DEEP من ARVEA هو كريم متخصص للبشرة الجافة والحساسة، يوفر ترطيبًا عميقًا وتغذية مكثفة..." },
+    { id:"av4", name:"كريم النهار المرطب", brand:"ARVEA", type:"جميع انواع البشرة", price:63, image:"images/products/kid4.png", description:"كريم النهار المرطب من أرفيا يُرطب البشرة بعمق...", howToUse: { text: "يوضع كل صباح على الوجه والرقبة بعد تنظيف البشرة...", image: "images/how-to-use-cream.png" }, longDescription: "يقدم كريم النهار المرطب من ARVEA ترطيبًا يوميًا أساسيًا لجميع أنواع البشرة..." },
+    { id:"bio2", name:"بيوديرما كريم Sensibio AR", brand:"Bioderma", type:"حساسة", price:74, image:"images/creams/cream5.png", description:"يهدئ احمرار البشرة الحساسة ويقلل الالتهاب.", howToUse: { text: "يوضع مرتين يومياً على بشرة نظيفة...", image: "images/how-to-use-cream.png" }, longDescription: "كريم Sensibio AR من Bioderma هو علاج يومي مصمم خصيصًا للبشرة الحساسة المعرضة للاحمرار..." },
+    { id:"bio3", name:"بيوديرما كريم Hydrabio Perfecteur", brand:"Bioderma", type:"عادية", price:45, image:"images/creams/cream6.png", description:"يوحد لون البشرة العادية ويمنحها إشراقة ناعمة.", howToUse: { text: "يوضع في الصباح على الوجه والرقبة بعد تنظيفهما...", image: "images/how-to-use-cream.png" }, longDescription: "كريم Hydrabio Perfecteur من Bioderma هو مرطب مبتكر يوحد لون البشرة العادية ويمنحها إشراقة طبيعية..." },
+    { id:"lr1", name:"لاروش بوزيه كريم Effaclar K+", brand:"La Roche", type:"دهنية", price:83, image:"images/creams/kid7.png", description:"ينقي البشرة الدهنية ويقلل من الرؤوس السوداء.", howToUse: { text: "يوضع صباحاً ومساءً على كامل الوجه بعد تنظيفه جيداً...", image: "images/how-to-use-cream.png" }, longDescription: "كريم Effaclar K+ من La Roche-Posay هو علاج مجدد للبشرة الدهنية والمعرضة للعيوب..." },
+    { id:"lr2", name:"لاروش بوزيه كريم Toleriane Sensitive Fluide", brand:"La Roche", type:"مختلطة", price:79, image:"images/creams/kid8.png", description:"يرطب ويهدئ البشرة المختلطة الحساسة دون لمعان.", howToUse: { text: "يوضع على الوجه والرقبة صباحاً ومساءً...", image: "images/how-to-use-cream.png" }, longDescription: "Fluid Toleriane Sensitive من La Roche-Posay هو مرطب خفيف ومهدئ مصمم خصيصًا للبشرة المختلطة إلى الدهنية الحساسة..." },
+    { id:"lr3", name:"لاروش بوزيه كريم Cicaplast Baume B5+", brand:"La Roche", type:"حساسة", price:53, image:"images/creams/kid9.png", description:"كريم ترميمي غني لتهدئة وحماية البشرة الحساسة.", howToUse: { text: "يمكن تطبيقه مرتين يومياً على بشرة نظيفة وجافة...", image: "images/how-to-use-cream.png" }, longDescription: "Cicaplast Baume B5+ من La Roche-Posay هو بلسم متعدد الاستخدامات يعمل على تهدئة وإصلاح وحماية البشرة المتهيجة والحساسة..." },
+    { id:"arv1", name:"أرفيا كريم بزيت جوز الهند الطبيعي", brand:"Arvia", type:"عادية", price:39, image:"images/creams/kid10.png", description:"كريم طبيعي يرطب البشرة العادية ويمنحها نعومة فائقة.", howToUse: { text: "يوضع على البشرة النظيفة والجافة كلما دعت الحاجة...", image: "images/how-to-use-cream.png" }, longDescription: "كريم أرفيا بزيت جوز الهند الطبيعي هو مرطب فاخر يمنح البشرة العادية ترطيبًا عميقًا ونعومة حريرية..." }
 ];
 
 // -- Mini cart logic
@@ -487,7 +631,8 @@ const cartTotalEl = document.getElementById('cartTotal');
 const cartBadge = document.getElementById('cartBadge');
 const mobileCartCount = document.getElementById('mobileCartCount');
 const mobileTotal = document.getElementById('mobileTotal');
-const overlay = document.getElementById('overlay');
+const cartOverlay = document.getElementById('cartOverlay');
+const modalOverlay = document.getElementById('modalOverlay');
 const cartPanel = document.getElementById('cartPanel');
 const openCartBtn = document.getElementById('openCartBtn');
 const closeCartBtn = document.getElementById('closeCartBtn');
@@ -503,208 +648,89 @@ const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
 
 const howToUseText = document.getElementById('howToUseText');
 const howToUseImage = document.getElementById('howToUseImage');
-const customerReviewsSection = document.getElementById('customerReviews');
+const customerReviewsContainer = document.getElementById('customerReviewsContainer');
 
 const tabButtons = document.querySelectorAll('.tab-buttons .tab-button');
-const tabContents = document.querySelectorAll('.product-details-tabs-container .tab-content'); // Adjusted selector
+const tabContents = document.querySelectorAll('.product-details-tabs-container .tab-content');
 
-let currentProductId = null; // To keep track of the product being viewed
+let currentProductId = null;
 
 function openProductDetailModal(prod) {
     currentProductId = prod.id;
     modalProductName.innerText = prod.name;
     modalProductImage.src = prod.image;
-    modalProductImage.classList.remove('zoomed'); // Reset zoom
-    modalProductDescription.innerText = prod.longDescription || prod.description; // Show long description if available, else short
+    modalProductImage.classList.remove('zoomed');
+    modalProductDescription.innerText = prod.longDescription || prod.description;
     modalProductPrice.innerText = `${prod.price.toFixed(2)} د.ل`;
     modalAddToCartBtn.onclick = () => {
         addToCart(prod.id);
         closeProductDetailModal();
     };
 
-    // Update How to Use section
     if (prod.howToUse) {
         howToUseText.innerText = prod.howToUse.text;
-        if (prod.howToUse.image) {
-            howToUseImage.src = prod.howToUse.image;
-            howToUseImage.classList.remove('hidden');
-        } else {
-            howToUseImage.classList.add('hidden');
-        }
+        howToUseImage.src = prod.howToUse.image ? prod.howToUse.image : '';
+        howToUseImage.classList.toggle('hidden', !prod.howToUse.image);
     } else {
         howToUseText.innerText = "لا توجد تعليمات استخدام محددة لهذا المنتج.";
         howToUseImage.classList.add('hidden');
     }
 
-    // Load existing reviews (placeholder for now)
-    loadReviewsForProduct(prod.id);
+    loadCommentsAndReplies(prod.id, customerReviewsContainer);
 
     productDetailModal.classList.add('open');
-    document.body.style.overflow = 'hidden'; // Prevent scrolling body
-    overlay.classList.add('open'); // Open overlay with modal
+    document.body.style.overflow = 'hidden';
+    modalOverlay.classList.add('open');
 }
 
-function closeProductDetailModal() {
+window.closeProductDetailModal = function() {
     productDetailModal.classList.remove('open');
-    document.body.style.overflow = ''; // Restore body scrolling
-    overlay.classList.remove('open'); // Close overlay
+    document.body.style.overflow = '';
+    modalOverlay.classList.remove('open');
     currentProductId = null;
-    // Reset to default tab (description)
-    activateTab('description'); 
+    activateTab('description');
 }
 
-function toggleZoom(imgElement) {
+window.toggleZoom = function(imgElement) {
     imgElement.classList.toggle('zoomed');
     imgElement.style.cursor = imgElement.classList.contains('zoomed') ? 'zoom-out' : 'zoom-in';
 }
 
-// Function to handle tab switching
 function activateTab(tabName) {
-    tabButtons.forEach(button => {
-        if (button.dataset.tab === tabName) {
-            button.classList.add('active');
-        } else {
-            button.classList.remove('active');
-        }
-    });
-    tabContents.forEach(content => {
-        if (content.id === tabName + 'Tab') {
-            content.classList.add('active');
-        } else {
-            content.classList.remove('active');
-        }
-    });
+    tabButtons.forEach(button => button.classList.toggle('active', button.dataset.tab === tabName));
+    tabContents.forEach(content => content.classList.toggle('active', content.id === tabName + 'Tab'));
 }
 
 tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        activateTab(button.dataset.tab);
-    });
+    button.addEventListener('click', () => activateTab(button.dataset.tab));
 });
 
+let currentFilterType = 'all';
 
-// Placeholder for reviews (in a real app, this would come from a backend)
-const productReviews = {
-    "av1": [
-        { name: "فاطمة ع.", rating: 5, text: "كريم ليلي ممتاز، بشرتي أصبحت ناعمة جداً.", likes: 10, supports: 3 },
-        { name: "ليلى خ.", rating: 4, text: "أحببته، لكن سعره مرتفع قليلاً.", likes: 7, supports: 1 }
-    ],
-    "av2": [
-        { name: "أحمد س.", rating: 5, text: "ترطيبه مثالي للبشرة العادية، لا يترك أثراً دهنياً.", likes: 8, supports: 2 }
-    ]
-    // Add more reviews for other products
-};
-
-function loadReviewsForProduct(productId) {
-    customerReviewsSection.innerHTML = ''; // Clear previous reviews
-    const reviews = productReviews[productId] || [];
-
-    if (reviews.length === 0) {
-        customerReviewsSection.innerHTML = '<p class="text-center text-gray-500">لا توجد آراء للعملاء بعد. كن أول من يترك تعليقاً!</p>';
-    } else {
-        reviews.forEach(review => {
-            const reviewEl = document.createElement('div');
-            reviewEl.className = 'bg-gray-50 p-3 rounded-lg shadow-sm';
-            let starsHtml = '';
-            for (let i = 1; i <= 5; i++) {
-                starsHtml += `<label><i class="fas fa-star ${i <= review.rating ? 'text-yellow-500' : ''}"></i></label>`;
-            }
-            reviewEl.innerHTML = `
-                <div class="flex items-center mb-1">
-                    <span class="font-semibold text-sm">${review.name}</span>
-                    <div class="star-rating text-sm mr-auto flex-row-reverse">${starsHtml}</div>
-                </div>
-                <p class="text-xs text-gray-600 mb-2">"${review.text}"</p>
-                <div class="flex items-center text-xs text-gray-500">
-                    <button class="btn btn-ghost btn-xs flex items-center gap-1" onclick="handleReaction(this, 'like', '${productId}')">
-                        <i class="far fa-thumbs-up"></i> أحببته (<span class="like-count">${review.likes}</span>)
-                    </button>
-                    <button class="btn btn-ghost btn-xs flex items-center gap-1 mr-2" onclick="handleReaction(this, 'support', '${productId}')">
-                        <i class="far fa-heart"></i> أدعمه (<span class="support-count">${review.supports}</span>)
-                    </button>
-                </div>
-            `;
-            customerReviewsSection.appendChild(reviewEl);
-        });
-    }
-}
-
-function submitReview() {
-    const name = document.getElementById('reviewName').value.trim();
-    const text = document.getElementById('reviewText').value.trim();
-    const rating = document.querySelector('#reviewsTab input[name="rating"]:checked'); // Select only from reviews tab
-
-    if (!name || !text || !rating) {
-        Swal.fire({ icon: 'warning', title: 'يرجى ملء جميع حقول التعليق واختيار تقييم.' });
-        return;
-    }
-
-    const newReview = {
-        name: name,
-        rating: parseInt(rating.value),
-        text: text,
-        likes: 0,
-        supports: 0
-    };
-
-    if (!productReviews[currentProductId]) {
-        productReviews[currentProductId] = [];
-    }
-    productReviews[currentProductId].push(newReview);
-    
-    Swal.fire({ icon: 'success', title: 'تم إرسال تعليقك بنجاح!', showConfirmButton: false, timer: 1500 });
-
-    // Clear form
-    document.getElementById('reviewName').value = '';
-    document.getElementById('reviewText').value = '';
-    if (rating) rating.checked = false;
-
-    loadReviewsForProduct(currentProductId); // Reload reviews to show the new one
-}
-
-function handleReaction(button, type, productId) {
-    const reviewElement = button.closest('.bg-gray-50');
-    const reviewText = reviewElement.querySelector('p').innerText.replace(/"/g, ''); // Get review text to identify
-    
-    // Find the review in our dummy data
-    const reviews = productReviews[productId];
-    if (reviews) {
-        const targetReview = reviews.find(r => r.text === reviewText);
-        if (targetReview) {
-            if (type === 'like') {
-                targetReview.likes++;
-                reviewElement.querySelector('.like-count').innerText = targetReview.likes;
-            } else if (type === 'support') {
-                targetReview.supports++;
-                reviewElement.querySelector('.support-count').innerText = targetReview.supports;
-            }
-            // In a real app, you'd send this update to your backend
-        }
-    }
-}
-
-// --- Render products
-function renderProducts(filter='all', search='') {
+// --- Render products logic
+function renderProducts() {
   productsContainer.innerHTML = '';
-  const term = (search || '').trim().toLowerCase();
-  const filtered = products.filter(
-    p => (filter==='all' || p.type.split(',').includes(filter)) && (p.name + ' ' + p.description + ' ' + (p.longDescription || '')).toLowerCase().includes(term)
-  );
+  const searchTerm = (document.getElementById('search').value || '').trim().toLowerCase();
+
+  const filtered = products.filter(p => {
+    const matchesType = currentFilterType === 'all' || p.type.split(',').includes(currentFilterType);
+    const matchesSearch = (p.name + ' ' + p.description + ' ' + (p.longDescription || '')).toLowerCase().includes(searchTerm);
+    return matchesType && matchesSearch;
+  });
+
   if (!filtered.length) {
     productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500">لا توجد منتجات مطابقة.</div>`;
     return;
   }
+
   filtered.forEach(p => {
     const card = document.createElement('article');
-    // Ensure consistent card height with flexbox
-    card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center animate__animated animate__fadeIn';
+    card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center';
     card.innerHTML = `
       <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-36 h-36 object-contain mb-3">
       <h3 class="font-semibold">${p.name}</h3>
       <div class="text-xs text-gray-400 mb-1">${p.brand}</div>
-      <div class="flex-grow text-sm text-gray-500 mb-2 overflow-hidden max-h-[4.5em] leading-tight">
-        <!-- Description will be shown in detail modal -->
-      </div>
+      <div class="flex-grow text-sm text-gray-500 mb-2 overflow-hidden max-h-[4.5em] leading-tight"></div>
       <div class="flex items-center gap-2 mt-2">
         <div class="text-lg font-bold">${p.price.toFixed(2)} د.ل</div>
       </div>
@@ -716,13 +742,11 @@ function renderProducts(filter='all', search='') {
     productsContainer.appendChild(card);
   });
 }
-
 // LocalStorage update
 function saveCart() {
   localStorage.setItem('orange_cart', JSON.stringify(cart));
   updateCartUI();
 }
-
 function addToCart(productId) {
   const prod = products.find(p=>p.id===productId);
   if (!prod) return;
@@ -730,17 +754,14 @@ function addToCart(productId) {
   if (existing) existing.qty++;
   else cart.push({ id: prod.id, name: prod.name, price: prod.price, qty: 1, note: '' });
   saveCart();
-  Swal.fire({ icon:'success', title: 'تمت الإضافة', text: prod.name + ' أُضيفت إلى السلة', timer: 1100, showConfirmButton:false });
+  Swal.fire({ icon:'success', title: 'تمت الإضافة', text: `${prod.name} أُضيفت إلى السلة`, timer: 1100, showConfirmButton:false });
 }
-
 function removeFromCart(index) { cart.splice(index,1); saveCart(); }
-
 function changeQty(index, delta) {
   cart[index].qty += delta;
   if (cart[index].qty < 1) cart[index].qty = 1;
   saveCart();
 }
-
 clearCartBtn.addEventListener('click', ()=> {
   if (!cart.length) return;
   Swal.fire({
@@ -757,7 +778,6 @@ clearCartBtn.addEventListener('click', ()=> {
     }
   });
 });
-
 function updateCartUI() {
   cartItemsEl.innerHTML = '';
   let total = 0;
@@ -779,26 +799,22 @@ function updateCartUI() {
     `;
     cartItemsEl.appendChild(itemEl);
   });
+  const totalQty = cart.reduce((s,i)=>s+i.qty,0);
   cartTotalEl.innerText = total.toFixed(2) + ' د.ل';
-  cartBadge.innerText = cart.reduce((s,i)=>s+i.qty,0);
-  mobileCartCount.innerText = cartBadge.innerText;
+  cartBadge.innerText = totalQty;
+  mobileCartCount.innerText = totalQty;
   mobileTotal.innerText = total.toFixed(2);
 }
-
 productsContainer.addEventListener('click', e => {
     const btn = e.target.closest('button');
     if (!btn) return;
     const action = btn.getAttribute('data-action');
     const id = btn.getAttribute('data-id');
-    if (action === 'add') addToCart(id);
-    if (action === 'detail') {
-      const prod = products.find(p=>p.id===id);
-      if (prod) {
-        openProductDetailModal(prod);
-      }
-    }
-});
+    const prod = products.find(p => p.id === id);
 
+    if (action === 'add') addToCart(id);
+    if (action === 'detail' && prod) openProductDetailModal(prod);
+});
 cartItemsEl.addEventListener('click', e => {
   const btn = e.target.closest('button');
   if (!btn) return;
@@ -809,85 +825,296 @@ cartItemsEl.addEventListener('click', e => {
   if (action === 'dec') changeQty(i, -1);
 });
 
-document.querySelectorAll('.filter-btn').forEach(b => b.addEventListener('click', () => {
-  const t = b.getAttribute('data-type');
+// Filter by skin type
+document.querySelectorAll('.filter-btn[data-type]').forEach(b => b.addEventListener('click', () => {
+  currentFilterType = b.getAttribute('data-type');
   document.getElementById('search').value = '';
-  renderProducts(t, '');
+  renderProducts();
 }));
 
-document.getElementById('search').addEventListener('input', e => renderProducts('all', e.target.value));
+document.getElementById('search').addEventListener('input', renderProducts);
 
 function openCart() {
-  overlay.classList.add('open');
+  cartOverlay.classList.add('open');
   cartPanel.classList.add('open');
-  cartPanel.setAttribute('aria-hidden','false');
-  overlay.setAttribute('aria-hidden','false');
-  openCartBtn.setAttribute('aria-expanded','true');
-  setTimeout(()=> {
-    const fname = document.getElementById('fullname');
-    if (fname) fname.focus();
-  }, 220);
 }
-
 function closeCart() {
-  overlay.classList.remove('open');
+  cartOverlay.classList.remove('open');
   cartPanel.classList.remove('open');
-  cartPanel.setAttribute('aria-hidden','true');
-  overlay.setAttribute('aria-hidden','true');
-  openCartBtn.setAttribute('aria-expanded','false');
-  openCartBtn.focus();
 }
-
 openCartBtn.addEventListener('click', openCart);
 closeCartBtn.addEventListener('click', closeCart);
-overlay.addEventListener('click', closeCart);
+cartOverlay.addEventListener('click', closeCart);
+modalOverlay.addEventListener('click', closeProductDetailModal);
 
 window.addEventListener('keydown', (e)=> {
   if (e.key === 'Escape') {
     if (cartPanel.classList.contains('open')) closeCart();
-    if (productDetailModal.classList.contains('open')) closeProductDetailModal(); // Close modal on Escape
+    if (productDetailModal.classList.contains('open')) closeProductDetailModal();
   }
 });
-
 document.getElementById('city').addEventListener('change', (e)=>{
   document.getElementById('otherCity').classList.toggle('hidden', e.target.value !== 'مناطق أخرى');
 });
-
 document.getElementById('checkoutBtn').addEventListener('click', ()=> {
   const fullname = document.getElementById('fullname').value.trim();
   const phone = document.getElementById('phone').value.trim();
   let city = document.getElementById('city').value;
   const otherCity = document.getElementById('otherCity').value.trim();
-  const address = document.getElementById('address').value.trim(); // Get address
-  
+  const address = document.getElementById('address').value.trim();
+
   if (city === 'مناطق أخرى' && otherCity) city = otherCity;
-  if (!fullname || !phone || !city || !address || cart.length === 0) { // Check address
+  if (!fullname || !phone || !city || !address || cart.length === 0) {
     Swal.fire({ icon:'warning', title:'يرجى إكمال جميع البيانات المطلوبة وإضافة منتج على الأقل' });
     return;
   }
-
   let message = `طلب جديد من متجر كريمات نعومة نعومتك%0A`;
-  message += `الاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0Aالعنوان: ${address}%0A%0A`; // Added address to message
+  message += `الاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0Aالعنوان: ${address}%0A%0A`;
   message += `تفاصيل الطلب:%0A`;
   cart.forEach(item => {
-    message += `• ${item.name} × ${item.qty} = ${ (item.price * item.qty).toFixed(2) } د.ل%0A`;
+    message += `• ${item.name} × ${item.qty} = ${(item.price * item.qty).toFixed(2)} د.ل%0A`;
   });
   const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
   message += `%0Aالإجمالي: ${total.toFixed(2)} د.ل`;
-
-  // رقم الواتساب للطلب
   const whatsappNumber = "218915066938";
-  const url = `https://wa.me/${whatsappNumber}?text=${message}`;
-  window.open(url, '_blank');
+  window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
 });
 
+// --- Firebase Comments and Reactions Logic ---
+const formatDate = (timestamp) => {
+    if (!timestamp || !timestamp.toDate) return 'تاريخ غير معروف';
+    const dateOptions = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    return timestamp.toDate().toLocaleString('ar-EG', dateOptions);
+};
+
+async function renderComment(commentData, parentElement, isReply = false, parentCommentId = null) {
+    const commentEl = document.createElement('div');
+    commentEl.id = `comment-${commentData.id}`;
+    commentEl.className = `comment-card ${isReply ? 'ml-6 bg-orange-50' : ''}`;
+
+    const user = auth.currentUser;
+    const currentUserId = user ? user.uid : null;
+    const userName = commentData.userName || "مستخدم";
+    const ratingStars = commentData.rating ? '⭐'.repeat(commentData.rating) : '';
+
+    const reactions = commentData.reactions || {};
+    const likes = reactions.like ? Object.keys(reactions.like).length : 0;
+    const hearts = reactions.love ? Object.keys(reactions.love).length : 0;
+    const angries = reactions.angry ? Object.keys(reactions.angry).length : 0;
+
+    const userReaction = currentUserId ? Object.keys(reactions).find(type => reactions[type] && reactions[type][currentUserId]) : null;
+
+    commentEl.innerHTML = `
+        <div class="comment-header">
+            <div class="comment-author">${userName} ${ratingStars}</div>
+            <div class="comment-timestamp">${formatDate(commentData.date)}</div>
+        </div>
+        <p class="comment-text">${commentData.text}</p>
+        <div class="comment-actions">
+            <button class="reaction-button ${userReaction === 'like' ? 'active' : ''}" data-type="like" data-comment-id="${commentData.id}" data-parent-id="${parentCommentId || ''}">👍 <span id="likes-${commentData.id}">${likes}</span></button>
+            <button class="reaction-button ${userReaction === 'love' ? 'active' : ''}" data-type="love" data-comment-id="${commentData.id}" data-parent-id="${parentCommentId || ''}">❤️ <span id="hearts-${commentData.id}">${hearts}</span></button>
+            <button class="reaction-button ${userReaction === 'angry' ? 'active' : ''}" data-type="angry" data-comment-id="${commentData.id}" data-parent-id="${parentCommentId || ''}">😡 <span id="angries-${commentData.id}">${angries}</span></button>
+            <button class="btn btn-xs btn-ghost text-orange-500 ml-auto" data-action="reply" data-comment-id="${commentData.id}">💬 رد</button>
+        </div>
+        <div id="reply-form-${commentData.id}" class="reply-form-container hidden">
+            <textarea placeholder="اكتب ردك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
+            <button class="btn btn-primary btn-xs" data-action="submit-reply" data-comment-id="${commentData.id}">إرسال الرد</button>
+            <button class="btn btn-ghost btn-xs" data-action="cancel-reply" data-comment-id="${commentData.id}">إلغاء</button>
+        </div>
+        <div id="replies-container-${commentData.id}" class="replies-container mt-4"></div>
+    `;
+    parentElement.appendChild(commentEl);
+
+    const handleReactionClick = async (e) => {
+        if (!currentUserId) { Swal.fire({ icon: 'error', title: '🚫 يجب تسجيل الدخول للتفاعل' }); return; }
+        const type = e.currentTarget.dataset.type;
+        const commentId = e.currentTarget.dataset.commentId;
+        const parentId = e.currentTarget.dataset.parentId || null;
+        await handleReaction(commentId, type, currentUserId, parentId);
+        loadCommentsAndReplies(currentProductId, customerReviewsContainer);
+    };
+
+    commentEl.querySelectorAll('.reaction-button').forEach(button => button.addEventListener('click', handleReactionClick));
+
+    commentEl.querySelector(`button[data-action="reply"]`).addEventListener('click', (e) => {
+        if (!currentUserId) { Swal.fire({ icon: 'error', title: '🚫 يجب تسجيل الدخول للرد' }); return; }
+        const replyForm = document.getElementById(`reply-form-${commentData.id}`);
+        replyForm.classList.toggle('hidden');
+        if (!replyForm.classList.contains('hidden')) replyForm.querySelector('textarea').focus();
+    });
+
+    commentEl.querySelector(`button[data-action="submit-reply"]`).addEventListener('click', async (e) => {
+        const replyText = e.currentTarget.previousElementSibling.value.trim();
+        if (!replyText) { Swal.fire({ icon: 'warning', title: '✍️ الرجاء كتابة رد أولاً' }); return; }
+        await submitReply(commentData.id, replyText);
+        e.currentTarget.previousElementSibling.value = '';
+        document.getElementById(`reply-form-${commentData.id}`).classList.add('hidden');
+        loadCommentsAndReplies(currentProductId, customerReviewsContainer);
+    });
+
+    commentEl.querySelector(`button[data-action="cancel-reply"]`).addEventListener('click', (e) => {
+        document.getElementById(`reply-form-${commentData.id}`).classList.add('hidden');
+        e.currentTarget.parentElement.querySelector('textarea').value = '';
+    });
+
+    if (!isReply) {
+        const repliesContainer = document.getElementById(`replies-container-${commentData.id}`);
+        const repliesQuery = query(collection(db, "products", currentProductId, "comments", commentData.id, "replies"), orderBy("date", "asc"));
+        const repliesSnapshot = await getDocs(repliesQuery);
+        repliesSnapshot.forEach(replyDoc => {
+            renderComment({ id: replyDoc.id, ...replyDoc.data() }, repliesContainer, true, commentData.id);
+        });
+    }
+}
+
+async function loadCommentsAndReplies(productId, targetElement) {
+    if (!targetElement) return;
+    targetElement.innerHTML = `<p class="text-gray-500 text-center">⏳ جاري تحميل آراء العملاء...</p>`;
+    const q = query(collection(db, "products", productId, "comments"), orderBy("date", "desc"));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      targetElement.innerHTML = `<p class="text-gray-400 text-center">لا توجد آراء بعد. كن أول من يعلق! 👇</p>`;
+      return;
+    }
+
+    targetElement.innerHTML = '';
+    querySnapshot.forEach(docSnapshot => {
+        renderComment({ id: docSnapshot.id, ...docSnapshot.data() }, targetElement);
+    });
+}
+
+window.submitNewComment = async function() {
+    const reviewName = document.getElementById('reviewNameInput').value.trim();
+    const reviewText = document.getElementById('reviewTextInput').value.trim();
+    const reviewRating = document.querySelector('#reviewsTab input[name="rating"]:checked')?.value;
+  
+    if (!reviewText) { Swal.fire({ icon: 'warning', title: '✍️ الرجاء كتابة تعليق أولاً' }); return; }
+    const user = auth.currentUser;
+    if (!user) { Swal.fire({ icon: 'error', title: '🚫 يجب تسجيل الدخول أولاً' }); return; }
+    if (!currentProductId) { Swal.fire({ icon: 'error', title: 'لا يوجد منتج محدد.' }); return; }
+
+    try {
+        await addDoc(collection(db, "products", currentProductId, "comments"), {
+            userId: user.uid,
+            userName: reviewName || user.displayName || "مستخدم",
+            text: reviewText,
+            rating: reviewRating ? parseInt(reviewRating) : 0,
+            date: serverTimestamp(),
+            reactions: {}
+        });
+        document.getElementById('reviewNameInput').value = '';
+        document.getElementById('reviewTextInput').value = '';
+        document.querySelectorAll('#reviewsTab input[name="rating"]').forEach(r => r.checked = false);
+        Swal.fire({ icon: 'success', title: 'تم إرسال التعليق!' });
+        loadCommentsAndReplies(currentProductId, customerReviewsContainer);
+    } catch (error) {
+        console.error("Error submitting comment:", error);
+        Swal.fire({ icon: 'error', title: 'فشل إرسال التعليق' });
+    }
+}
+
+async function submitReply(commentId, replyText) {
+    const user = auth.currentUser;
+    if (!user || !currentProductId) return;
+    try {
+        await addDoc(collection(db, "products", currentProductId, "comments", commentId, "replies"), {
+            userId: user.uid,
+            userName: user.displayName || "مستخدم",
+            text: replyText,
+            date: serverTimestamp(),
+            reactions: {}
+        });
+        Swal.fire({ icon: 'success', title: 'تم إرسال الرد!' });
+    } catch (error) {
+        console.error("Error submitting reply:", error);
+        Swal.fire({ icon: 'error', title: 'فشل إرسال الرد' });
+    }
+}
+
+async function handleReaction(commentOrReplyId, reactionType, userId, parentCommentId = null) {
+    const docPath = parentCommentId
+        ? `products/${currentProductId}/comments/${parentCommentId}/replies/${commentOrReplyId}`
+        : `products/${currentProductId}/comments/${commentOrReplyId}`;
+    const docRef = doc(db, docPath);
+
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return;
+
+    const data = docSnap.data();
+    const reactions = data.reactions || {};
+    let updateData = {};
+    let userHasReacted = false;
+
+    // Remove user's previous reaction if any
+    for (const type in reactions) {
+        if (reactions[type] && reactions[type][userId]) {
+            userHasReacted = true;
+            updateData[`reactions.${type}.${userId}`] = null; // Mark for deletion
+            if (type === reactionType) { // Un-reacting
+                break;
+            }
+        }
+    }
+
+    // Add new reaction if it's a new one or a different one
+    if (!userHasReacted || updateData[`reactions.${reactionType}.${userId}`] === null) {
+        if (!reactions[reactionType] || !reactions[reactionType][userId]) {
+             updateData[`reactions.${reactionType}.${userId}`] = true;
+        }
+    }
+
+    if (Object.keys(updateData).length > 0) {
+        try {
+            await updateDoc(docRef, updateData);
+        } catch (error) {
+            console.error("Error updating reaction:", error);
+        }
+    }
+}
+
+
+// --- Firebase Authentication Logic ---
+const loginBtnHeader = document.getElementById("login-btn-header");
+const logoutBtnHeader = document.getElementById("logout-btn-header");
+const userInfoHeader = document.getElementById("user-info-header");
+
+loginBtnHeader.addEventListener("click", async () => {
+  try {
+      await signInWithPopup(auth, provider);
+      Swal.fire({ icon: 'success', title: 'تم تسجيل الدخول بنجاح!' });
+  } catch (error) {
+      console.error("خطأ في تسجيل الدخول:", error);
+      Swal.fire({ icon: 'error', title: 'فشل تسجيل الدخول', text: 'يرجى المحاولة مرة أخرى.' });
+  }
+});
+
+logoutBtnHeader.addEventListener("click", async () => {
+  try {
+      await signOut(auth);
+      Swal.fire({ icon: 'info', title: 'تم تسجيل الخروج.' });
+  } catch (error) {
+      console.error("خطأ في تسجيل الخروج:", error);
+      Swal.fire({ icon: 'error', title: 'فشل تسجيل الخروج' });
+  }
+});
+
+onAuthStateChanged(auth, (user) => {
+  const isLoggedIn = !!user;
+  loginBtnHeader.classList.toggle("hidden", isLoggedIn);
+  logoutBtnHeader.classList.toggle("hidden", !isLoggedIn);
+  userInfoHeader.classList.toggle("hidden", !isLoggedIn);
+  userInfoHeader.textContent = isLoggedIn ? `مرحباً، ${user.displayName || user.email}` : "";
+  
+  if (currentProductId) {
+      loadCommentsAndReplies(currentProductId, customerReviewsContainer);
+  }
+});
+
+// Initial Render
 renderProducts();
 updateCartUI();
-window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart', JSON.stringify(cart)));
+
 </script>
-<!-- Font Awesome for star icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
-<script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 </body>
 </html>
