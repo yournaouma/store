@@ -47,35 +47,33 @@
   <style>
     body { font-family: "Noto Sans Arabic", system-ui; background: linear-gradient(180deg,#fff 0%, #fff5ea 100%); }
     header { background: linear-gradient(90deg,#fff 0%, #ffedde 100%);}
-    .product-card { 
-        transform: translateY(0); 
+    .product-card {
+        transform: translateY(0);
         box-shadow: 0 2px 8px rgba(255,150,40,0.05);
-        display: flex; /* Ensures consistent height */
+        display: flex;
         flex-direction: column;
-        justify-content: space-between; /* Pushes buttons to bottom */
+        justify-content: space-between;
+        height: 100%;
     }
     .product-card:hover { transform: translateY(-4px); box-shadow: 0 4px 16px rgba(255,150,40,0.08);}
     .pill { background: #ff9800; border-radius: 999px; padding: .2rem .7rem; font-size: .8rem; color: #fff; }
-    /* White sidebar menu */
-    #sidebar { background: white; color: #333; } /* Changed to white background, dark text */
-    #sidebar a { color: #333; } /* Default link color for white sidebar */
-    #sidebar a:hover { background: #ff9800; color: #fff; } /* Hover for white sidebar */
-    /* Mini cart drawer for mobile */
-    .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.2); opacity:0; pointer-events:none; transition:opacity .25s; z-index:40; }
-    .cart-overlay.open { opacity:1; pointer-events:auto; }
+    #sidebar { background: white; color: #333; }
+    #sidebar a { color: #333; }
+    #sidebar a:hover { background: #ff9800; color: #fff; }
+    .cart-overlay, .modal-overlay {
+      position:fixed; inset:0; background:rgba(0,0,0,0.2); opacity:0; pointer-events:none; transition:opacity .25s; z-index:40;
+    }
+    .cart-overlay.open, .modal-overlay.open { opacity:1; pointer-events:auto; }
     .cart-drawer {
-      position:fixed; top:0; right:0; height:100vh; width:100%; 
+      position:fixed; top:0; right:0; height:100vh; width:100%;
       max-width:310px;
-      transform:translateX(110%); 
-      transition:transform .25s cubic-bezier(.2,.9,.2,1); 
-      z-index:50; 
+      transform:translateX(110%);
+      transition:transform .25s cubic-bezier(.2,.9,.2,1);
+      z-index:50;
       box-shadow:-6px 0 16px 0 rgba(255,152,0,0.04);
     }
     .cart-drawer.open { transform:translateX(0); }
-    @media (max-width: 530px) {
-      .cart-drawer { max-width:90vw; }
-    }
-    /* Responsive menu btn */
+    @media (max-width: 530px) { .cart-drawer { max-width:90vw; } }
     #menuBtn {background:#ff9800;}
     #menuBtn:hover {background:#fb8c00;}
     .btn-primary,.btn-primary:active {background:linear-gradient(90deg,#ff9800,#ffbd51);border:none;color:white;}
@@ -83,177 +81,75 @@
     .btn-outline {border-color:#ff9800;color:#ff9800;}
     .btn-outline:hover {background:#ff9800;color:white;}
     .btn-error {background:#ff5722;color:white;}
-    /* مهم: تأكد من بقاء أزرار الدفع ظاهرة دائماً في السلة */
-    #cartPanel .cart-actions-area { 
-      position: sticky;
-      bottom: 0;
-      background: white;
-      z-index: 2;
-      padding-top: 6px;
-      margin-top: 12px;
-      border-top: 1.5px solid #ffecbc;
+    #cartPanel .cart-actions-area {
+      position: sticky; bottom: 0; background: white; z-index: 2;
+      padding-top: 6px; margin-top: 12px; border-top: 1.5px solid #ffecbc;
     }
     #cartPanel .cart-actions-area button,
     #cartPanel .cart-actions-area .flex {margin-bottom:0;}
-
-    /* Styling for input fields in cart (white background, dark text) */
-    #cartPanel .input, #cartPanel .select {
-      background-color: white;
-      color: #333;
-      border-color: #ff9800;
-    }
-    #cartPanel .input::placeholder, #cartPanel .select option {
-      color: #777;
-    }
-    
-    /* Styling for filter buttons in sidebar (white background, dark text when not active) */
-    .filter-btn {
-      background-color: white;
-      color: #333;
-      border-color: #ff9800;
-    }
-    .filter-btn:hover {
-      background-color: #ff9800;
-      color: white;
-    }
-
-    /* Product Detail Modal (instead of sidebar) */
+    #cartPanel .input, #cartPanel .select { background-color: white; color: #333; border-color: #ff9800; }
+    #cartPanel .input::placeholder, #cartPanel .select option { color: #777; }
+    .filter-btn { background-color: white; color: #333; border-color: #ff9800; }
+    .filter-btn:hover { background-color: #ff9800; color: white; }
     .product-detail-modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0.8); /* Start smaller and hidden */
-        width: 90%;
-        max-width: 700px; /* Wider for better layout */
-        max-height: 90vh; /* Limit height for scrollability */
-        background-color: white;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        border-radius: 1rem;
-        transition: all 0.3s ease-in-out;
-        z-index: 101;
-        padding: 1.5rem;
-        overflow-y: auto;
-        opacity: 0;
-        pointer-events: none;
-        display: flex; /* Use flexbox for horizontal layout */
-        flex-direction: row-reverse; /* For RTL content */
-        gap: 1.5rem; /* Space between image/details and tabs */
+        position: fixed; top: 50%; left: 50%;
+        transform: translate(-50%, -50%) scale(0.8);
+        width: 90%; max-width: 700px; max-height: 90vh;
+        background-color: white; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        border-radius: 1rem; transition: all 0.3s ease-in-out;
+        z-index: 101; padding: 1.5rem; overflow-y: auto;
+        opacity: 0; pointer-events: none;
+        display: flex; flex-direction: row-reverse; gap: 1.5rem;
     }
-    .product-detail-modal.open {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translate(-50%, -50%) scale(1); /* Scale up to full size */
-    }
+    .product-detail-modal.open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
     .product-detail-modal .close-btn {
-        position: absolute;
-        top: 1rem;
-        left: 1rem; /* Adjusted for RTL */
-        background: none;
-        border: none;
-        font-size: 1.8rem;
-        cursor: pointer;
-        color: #999;
-        z-index: 10;
+        position: absolute; top: 1rem; left: 1rem; background: none;
+        border: none; font-size: 1.8rem; cursor: pointer; color: #999; z-index: 10;
     }
-    .product-detail-modal .close-btn:hover {
-        color: #ff5722;
-    }
-    .product-detail-modal .section-title {
-        font-weight: bold;
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
-        color: #ff9800; /* Orange color for titles */
-    }
-    .star-rating {
-        display: flex;
-        flex-direction: row-reverse; /* For RTL stars */
-        justify-content: flex-end; /* For RTL stars */
-    }
-    .star-rating input[type="radio"] {
-        display: none;
-    }
-    .star-rating label {
-        font-size: 1.5rem;
-        color: #ccc;
-        cursor: pointer;
-    }
-    .star-rating input[type="radio"]:checked ~ label {
-        color: #ffc107; /* Gold color for checked stars */
-    }
-    .star-rating label:hover,
-    .star-rating label:hover ~ label {
-        color: #ffc107;
-    }
-
-    /* Tab styles for product details modal */
-    .tab-buttons {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid #eee;
-    }
+    .product-detail-modal .close-btn:hover { color: #ff5722; }
+    .product-detail-modal .section-title { font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; color: #ff9800; }
+    .star-rating { display: flex; flex-direction: row-reverse; justify-content: flex-end; }
+    .star-rating input[type="radio"] { display: none; }
+    .star-rating label { font-size: 1.5rem; color: #ccc; cursor: pointer; }
+    .star-rating input[type="radio"]:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: #ffc107; }
+    .tab-buttons { display: flex; justify-content: space-around; margin-bottom: 1rem; border-bottom: 1px solid #eee; }
     .tab-button {
-      flex: 1;
-      padding: 0.75rem 0.5rem;
-      text-align: center;
-      cursor: pointer;
-      font-weight: bold;
-      color: #666;
-      border-bottom: 2px solid transparent;
-      transition: all 0.2s ease-in-out;
+      flex: 1; padding: 0.75rem 0.5rem; text-align: center; cursor: pointer;
+      font-weight: bold; color: #666; border-bottom: 2px solid transparent; transition: all 0.2s ease-in-out;
     }
-    .tab-button.active {
-      color: #ff9800;
-      border-bottom-color: #ff9800;
-    }
-    .tab-content {
-      display: none;
-      padding-top: 1rem; /* Add some padding so content doesn't touch buttons */
-    }
-    .tab-content.active {
-      display: block;
-    }
-    .product-image-zoom {
-      cursor: zoom-in;
-      transition: transform 0.2s ease-in-out;
-    }
-    .product-image-zoom.zoomed {
-      transform: scale(1.5); /* Adjust zoom level as needed */
-      cursor: zoom-out;
-    }
-
-    /* Layout for modal content (horizontal) */
-    .product-details-main {
-        flex: 1; /* Takes up available space */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .product-details-tabs-container {
-        flex: 2; /* Tabs take more space than image/basic details */
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Responsive adjustments for modal */
+    .tab-button.active { color: #ff9800; border-bottom-color: #ff9800; }
+    .tab-content { display: none; padding-top: 1rem; }
+    .tab-content.active { display: block; }
+    .product-image-zoom { cursor: zoom-in; transition: transform 0.2s ease-in-out; }
+    .product-image-zoom.zoomed { transform: scale(1.5); cursor: zoom-out; }
+    .product-details-main { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .product-details-tabs-container { flex: 2; display: flex; flex-direction: column; }
     @media (max-width: 768px) {
-        .product-detail-modal {
-            flex-direction: column; /* Stack elements vertically on smaller screens */
-            max-width: 95%;
-            padding: 1rem;
-            gap: 1rem;
-        }
-        .product-detail-modal .close-btn {
-            top: 0.5rem;
-            left: 0.5rem;
-        }
-        .product-details-main, .product-details-tabs-container {
-            flex: none; /* Reset flex */
-            width: 100%;
-        }
+        .product-detail-modal { flex-direction: column; max-width: 95%; padding: 1rem; gap: 1rem; }
+        .product-detail-modal .close-btn { top: 0.5rem; left: 0.5rem; }
+        .product-details-main, .product-details-tabs-container { flex: none; width: 100%; }
     }
+    .auth-section-header { display: flex; align-items: center; gap: 0.5rem; }
+    .auth-section-header .btn { padding: 0.5rem 0.75rem; font-size: 0.875rem; line-height: 1.25rem; }
+    .auth-section-header #user-info-header { margin: 0; font-size: 0.875rem; color: #555; }
+    @media (max-width: 640px) {
+        .auth-section-header { flex-direction: column; align-items: flex-end; gap: 0.25rem; }
+        .auth-section-header .btn { width: auto; }
+    }
+    .comment-card { background-color: #fcfcfc; border: 1px solid #ffecbc; border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem; }
+    .comment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .comment-author { font-weight: bold; color: #ff9800; display: flex; align-items: center; }
+    .comment-timestamp { font-size: 0.75rem; color: #888; }
+    .comment-text { color: #444; margin-bottom: 0.75rem; line-height: 1.4; }
+    .comment-actions { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.5rem; }
+    .reaction-button { display: flex; align-items: center; gap: 0.25rem; padding: 0.3rem 0.6rem; border-radius: 999px; font-size: 0.85rem; cursor: pointer; transition: background-color 0.2s; border: 1px solid #ddd; color: #555; }
+    .reaction-button:hover { background-color: #fff3e0; border-color: #ffbb77; color: #ff9800; }
+    .reaction-button.active { background-color: #ffe0b2; border-color: #ff9800; color: #d84315; font-weight: bold; }
+    .reply-form-container { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px dashed #eee; }
+    .replies-container { margin-right: 1.5rem; border-right: 2px solid #ff9800; padding-right: 1rem; margin-top: 1rem; }
+    .replies-container .comment-card { background-color: #fffdfa; border-color: #ffe0b2; margin-bottom: 0.75rem; }
+    #reviewsTab #reviewNameInput, #reviewsTab #reviewTextInput { background-color: #ffffff !important; color: #111827 !important; }
+    #reviewsTab #reviewNameInput::placeholder, #reviewsTab #reviewTextInput::placeholder { color: #9ca3af; }
   </style>
 </head>
 
@@ -266,7 +162,7 @@
 <!-- Sidebar menu (white) -->
 <aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto z-50">
   <div class="p-5">
-    <h2 class="text-2xl font-bold mb-4 text-center text-[#ff9800]">🛍️ نعومة نعومتك</h2> <!-- Changed text color -->
+    <h2 class="text-2xl font-bold mb-4 text-center text-[#ff9800]">🛍️ نعومة نعومتك</h2>
     <nav class="space-y-3 text-lg">
         <a href="index.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🏠 الصفحة الرئيسية</a>
         <a href="creams.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🧴 متجر الكريمات</a>
@@ -281,7 +177,7 @@
         <a href="contact.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">📞 اتصل بنا</a>
     </nav>
     <div class="mt-6 text-center">
-      <button id="closeSidebar" class="bg-[#ff9800] text-white px-4 py-2 rounded-lg shadow hover:bg-[#fb8c00]">إغلاق ✖</button> <!-- Changed button colors -->
+      <button id="closeSidebar" class="bg-[#ff9800] text-white px-4 py-2 rounded-lg shadow hover:bg-[#fb8c00]">إغلاق ✖</button>
     </div>
   </div>
 </aside>
@@ -297,8 +193,13 @@
       </div>
     </div>
     <div class="flex items-center gap-3">
-      <div class="pill text-sm">توصيل سريع داخل ليبيا</div>
-      <button id="openCartBtn" class="btn btn-ghost btn-sm">🛒 <span id="cartBadge">0</span></button>
+        <div id="auth-section-header" class="auth-section-header">
+            <button id="login-btn-header" class="btn btn-sm btn-outline text-pink-500 hover:bg-pink-500 hover:text-white">🔑 تسجيل الدخول</button>
+            <button id="logout-btn-header" class="btn btn-sm btn-ghost hidden">🚪 خروج</button>
+            <p id="user-info-header" class="text-sm hidden"></p>
+        </div>
+        <div class="pill text-sm hidden sm:block">توصيل سريع داخل ليبيا</div>
+        <button id="openCartBtn" class="btn btn-ghost btn-sm">🛒 <span id="cartBadge">0</span></button>
     </div>
   </div>
 </header>
@@ -315,6 +216,7 @@
       <div class="flex flex-col gap-2">
         <button class="filter-btn btn btn-sm justify-start" data-type="all">جميع الأنواع</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="دهنية">دهنية</button>
+        <button class="filter-btn btn btn-sm justify-start" data-type="جافة">جافة</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="عادية">عادية</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="مختلطة">مختلطة</button>
         <button class="filter-btn btn btn-sm justify-start" data-type="حساسة">حساسة</button>
@@ -331,13 +233,12 @@
     </div>
   </aside>
 
-  
   <!-- Products Grid -->
-<section class="lg:col-span-3 space-y-4">
-  <div id="productsContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4"></div>
-  <div class="flex justify-center">
-    <nav class="pagination flex gap-2 items-center text-sm"></nav>
-  </div>
+  <section class="lg:col-span-3 space-y-4">
+    <div id="productsContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4"></div>
+    <div class="flex justify-center">
+      <nav class="pagination flex gap-2 items-center text-sm"></nav>
+    </div>
     <div class="bg-white p-4 rounded-xl shadow-sm lg:hidden">
       <div class="flex justify-between items-center">
         <div>🛒 <span id="mobileCartCount">0</span> عناصر</div>
@@ -347,7 +248,8 @@
   </section>
 </main>
 
-<div id="overlay" class="cart-overlay" tabindex="-1" aria-hidden="true"></div>
+<div id="cartOverlay" class="cart-overlay" tabindex="-1" aria-hidden="true"></div>
+<div id="modalOverlay" class="modal-overlay" tabindex="-1" aria-hidden="true"></div>
 
 <!-- Cart Drawer -->
 <aside id="cartPanel" class="cart-drawer bg-white" role="dialog" aria-modal="true" aria-hidden="true" style="border-right:3px solid #ff9800">
@@ -360,7 +262,6 @@
       </div>
     </div>
     <div id="cartItems" class="flex-1 overflow-auto space-y-3 p-1"></div>
-    <!-- ↓↓↓ منطقة أزرار الدفع (مثبتة دائماً بالأسفل) ↓↓↓  -->
     <div class="cart-actions-area">
       <div class="flex justify-between items-center mb-2">
         <div class="font-semibold">الإجمالي الكلي</div>
@@ -374,42 +275,31 @@
           <option>طرابلس</option><option>بنغازي</option><option>مصراته</option><option>سبها</option><option>الخمس</option><option>مناطق أخرى</option>
         </select>
         <input id="otherCity" placeholder="اكتب مدينتك إذا مناطق أخرى" class="input input-bordered w-full hidden" />
-        <input id="address" placeholder="العنوان" class="input input-bordered w-full" /> <!-- Added address field -->
+        <input id="address" placeholder="العنوان" class="input input-bordered w-full" />
       </div>
       <button id="checkoutBtn" class="btn w-full btn-primary mb-0">✅ الدفع عبر واتساب</button>
     </div>
-    <!-- ↑↑↑ نهاية منطقة الدفع المثبتة ↑↑↑ -->
   </div>
 </aside>
 
-<!-- Product Detail Modal (instead of sidebar) -->
+<!-- Product Detail Modal -->
 <aside id="productDetailModal" class="product-detail-modal">
     <button class="close-btn" onclick="closeProductDetailModal()">✕</button>
-    
-    <!-- Left part (Product Image, Name, Price, Add to Cart) -->
     <div class="product-details-main">
         <h3 id="modalProductName" class="text-xl font-bold mb-4 text-[#ff9800]"></h3>
         <img id="modalProductImage" src="" alt="" class="w-48 h-48 object-contain mx-auto mb-4 product-image-zoom" onclick="toggleZoom(this)">
         <p class="text-lg font-bold" id="modalProductPrice"></p>
         <button class="btn btn-primary w-full mt-4" id="modalAddToCartBtn">أضف للسلة</button>
     </div>
-
-    <!-- Right part (Tabs: Description, How to Use, Reviews) -->
     <div class="product-details-tabs-container">
-        <!-- Tab Buttons for switching content -->
         <div class="tab-buttons">
             <button class="tab-button active" data-tab="description">الوصف</button>
             <button class="tab-button" data-tab="howToUse">كيفية الاستعمال</button>
             <button class="tab-button" data-tab="reviews">آراء العملاء</button>
         </div>
-
-        <!-- Content for each tab -->
-        <!-- Product Description Tab -->
         <div id="descriptionTab" class="tab-content active">
-            <p id="modalProductDescription" class="text-sm text-gray-700 text-center mb-4"></p>
+            <p id="modalProductDescription" class="text-sm text-gray-700 text-right leading-relaxed mb-4"></p>
         </div>
-
-        <!-- How to Use Tab -->
         <div id="howToUseTab" class="tab-content">
             <h4 class="section-title">كيفية الاستعمال</h4>
             <div id="howToUseContent">
@@ -417,18 +307,13 @@
                 <p id="howToUseText" class="text-sm text-gray-700"></p>
             </div>
         </div>
-
-        <!-- Customer Reviews Tab -->
         <div id="reviewsTab" class="tab-content">
             <h4 class="section-title">آراء العملاء</h4>
-            <div id="customerReviews" class="space-y-3">
-                <!-- Reviews will be loaded here -->
-            </div>
-            <!-- Add New Review Form -->
+            <div id="customerReviewsContainer" class="space-y-4 mt-3"></div>
             <div class="mt-4 p-3 bg-white rounded-lg shadow-sm border border-orange-200">
                 <h5 class="font-semibold mb-2">أضف تعليقك</h5>
-                <input type="text" id="reviewName" placeholder="اسمك" class="input input-bordered w-full mb-2 input-sm" />
-                <textarea id="reviewText" placeholder="اكتب تعليقك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
+                <input type="text" id="reviewNameInput" placeholder="اسمك (اختياري)" class="input input-bordered w-full mb-2 input-sm" />
+                <textarea id="reviewTextInput" placeholder="اكتب تعليقك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
                 <div class="star-rating mb-3">
                     <input type="radio" id="rate-5" name="rating" value="5" /><label for="rate-5"><i class="fas fa-star"></i></label>
                     <input type="radio" id="rate-4" name="rating" value="4" /><label for="rate-4"><i class="fas fa-star"></i></label>
@@ -436,15 +321,36 @@
                     <input type="radio" id="rate-2" name="rating" value="2" /><label for="rate-2"><i class="fas fa-star"></i></label>
                     <input type="radio" id="rate-1" name="rating" value="1" /><label for="rate-1"><i class="fas fa-star"></i></label>
                 </div>
-                <button class="btn btn-primary btn-sm w-full" onclick="submitReview()">إرسال التعليق</button>
+                <button class="btn btn-primary btn-sm w-full" onclick="submitNewComment()">إرسال التعليق</button>
             </div>
         </div>
     </div>
 </aside>
 
-<!-- Script for sidebar and products -->
-<script>
-// Sidebar logic (now white)
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+<script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDRiEZImvRhIl7zRzBY_y_OrcrNjhzz7bE",
+  authDomain: "naouma-store.firebaseapp.com",
+  projectId: "naouma-store",
+  storageBucket: "naouma-store.firebasestorage.app",
+  messagingSenderId: "522931583121",
+  appId: "1:522931583121:web:643f49ef0a81a0763b6730",
+  measurementId: "G-S0W0BYJ3RY"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
 const menuBtn = document.getElementById('menuBtn');
 const sidebar = document.getElementById('sidebar');
 const menuOverlay = document.getElementById('menuOverlay');
@@ -452,55 +358,27 @@ const closeSidebar = document.getElementById('closeSidebar');
 
 function toggleSidebar(open) {
   sidebar.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
-  if (open) {
-    menuOverlay.classList.add('opacity-40');
-    menuOverlay.classList.remove('pointer-events-none');
-  } else {
-    menuOverlay.classList.remove('opacity-40');
-    menuOverlay.classList.add('pointer-events-none');
-  }
+  menuOverlay.style.opacity = open ? '0.4' : '0';
+  menuOverlay.style.pointerEvents = open ? 'auto' : 'none';
 }
 
 menuBtn.addEventListener('click', () => toggleSidebar(true));
 closeSidebar.addEventListener('click', () => toggleSidebar(false));
 menuOverlay.addEventListener('click', () => toggleSidebar(false));
 
-// --- Products data (Sunscreen only)
 const products = [
-  // Sunscreens
-  { id:"sun1", name:"واقي شمس جل للبشرة الدهنية", brand:"ARVEA", type:"دهنية", spf:50, price:90, image:"images/sunscreen/sunscreen1.png", description:"حماية عالية جداً (SPF 50+) مع لمسة نهائية غير دهنية، مثالي للبشرة الدهنية والمعرضة لحب الشباب. يتميز بتركيبة خفيفة وسريعة الامتصاص توفر حماية واسعة الطيف ضد أشعة UVA و UVB، مما يساعد على منع حروق الشمس وتلف البشرة الناتج عن التعرض للشمس. كما أنه مقاوم للماء ومناسب للاستخدام اليومي أو أثناء الأنشطة الخارجية. لا يسبب انسداد المسام ولا يترك طبقة بيضاء على البشرة." ,
-    howToUse: { text: "يوضع بكمية وفيرة على الوجه والجسم قبل التعرض للشمس بـ 20 دقيقة. يُعاد تطبيقه كل ساعتين أو بعد السباحة أو التعرق.", image: "images/how-to-use-sunscreen.png" }
-  },
-  { id:"sun2", name:"واقي شمس كريمي مرطب", brand:"AVENE", type:"جافة", spf:30, price:85, image:"images/sunscreen/sunscreen2.png", description:"يوفر ترطيباً عميقاً وحماية فعالة (SPF 30+) ضد أشعة الشمس، مصمم خصيصًا للبشرة الجافة والعادية. تركيبته الغنية بالمرطبات تساعد على تغذية البشرة والحفاظ على نعومتها ومرونتها، بينما توفر مرشحات الشمس حماية واسعة الطيف من أشعة UVA و UVB. مقاوم للماء ولا يسبب الحساسية، مما يجعله مناسبًا للاستخدام اليومي وللبشرة الأكثر حساسية. يترك البشرة ناعمة ومحمية دون الشعور بالثقل.",
-    howToUse: { text: "يوضع بكمية كافية على الوجه والجسم قبل التعرض للشمس. يُجدد التطبيق بانتظام، خاصة بعد السباحة أو التجفيف بالمنشفة.", image: "images/how-to-use-sunscreen.png" }
-  },
-  { id:"sun3", name:"واقي شمس سائل للبشرة المختلطة", brand:"LA ROCHE-POSAY", type:"مختلطة", spf:50, price:95, image:"images/sunscreen/sunscreen3.png", description:"واقي شمس سائل خفيف الوزن (SPF 50+) يمتص بسرعة ويحمي المناطق الدهنية والجافة من البشرة المختلطة. تركيبته غير كوميدوجينيك (لا تسبب انسداد المسام) ومناسبة للبشرة الحساسة. يوفر حماية عالية جداً من أشعة UVA و UVB، ويساعد على التحكم في لمعان البشرة في منطقة T-zone (الجبهة والأنف والذقن) مع ترطيب الأجزاء الجافة. يترك لمسة نهائية غير مرئية ومات على البشرة، مما يجعله قاعدة ممتازة للمكياج.",
-    howToUse: { text: "رجّي العبوة جيداً قبل الاستخدام. طبقيه على الوجه والرقبة قبل التعرض للشمس مباشرة. كرري التطبيق بشكل متكرر للحفاظ على الحماية.", image: "images/how-to-use-sunscreen.png" }
-  },
-  { id:"sun4", name:"واقي شمس معدني للبشرة الحساسة", brand:"BIODERMA", type:"حساسة", spf:50, price:100, image:"images/sunscreen/sunscreen4.png", description:"تركيبة لطيفة وغير مهيجة، مثالية للبشرة الحساسة أو التي لا تتحمل الفلاتر الكيميائية. يوفر واقي الشمس المعدني (SPF 50+) حماية واسعة الطيف باستخدام أكسيد الزنك وثاني أكسيد التيتانيوم كفلاتر فيزيائية تعكس أشعة الشمس. خالي من العطور والبارابين، ومناسب حتى لبشرة الأطفال الرقيقة. يساعد على منع التهيجات والاحمرار مع توفير حماية فعالة من أشعة UVA و UVB.",
-    howToUse: { text: "يوضع بكمية وفيرة ومتساوية على البشرة قبل التعرض للشمس. يُجدد التطبيق بشكل متكرر للحفاظ على الحماية، خاصة بعد السباحة أو التعرق.", image: "images/how-to-use-sunscreen.png" }
-  },
-  { id:"sun5", name:"واقي شمس بخاخ للجسم", brand:"NIVEA", type:"عادية", spf:50, price:88, image:"images/sunscreen/sunscreen5.png", description:"بخاخ سهل الاستخدام يوفر حماية عالية (SPF 50+) من أشعة الشمس فوق البنفسجية UVA و UVB لكامل الجسم. تركيبته الخفيفة تمتص بسرعة ولا تترك أي بقايا دهنية، مما يجعله مريحًا للاستخدام اليومي. مقاوم للماء ومثالي للاستخدام أثناء الأنشطة الخارجية أو على الشاطئ. يوفر ترطيبًا للبشرة ويتركها ناعمة ومنتعشة ومحمية بشكل فعال.",
-    howToUse: { text: "رشي بكمية كافية على الجسم بالكامل قبل التعرض للشمس. يُعاد التطبيق بشكل متكرر، خاصة بعد السباحة أو التجفيف بالمنشفة.", image: "images/how-to-use-sunscreen.png" }
-  },
-  { id:"sun6", name:"واقي شمس ملون للبشرة", brand:"EUCERIN", type:"جميع الأنواع", spf:30, price:92, image:"images/sunscreen/sunscreen6.png", description:"يمنح واقي الشمس هذا (SPF 30+) البشرة لونًا موحدًا ولمسة نهائية طبيعية، مما يجعله مثاليًا للاستخدام اليومي بدلاً من كريم الأساس الخفيف. يوفر حماية واسعة الطيف من أشعة UVA و UVB، ويساعد على تغطية الشوائب الخفيفة وتوحيد لون البشرة. تركيبته غير دهنية ومناسبة لجميع أنواع البشرة، بما في ذلك الحساسة. يترك البشرة مشرقة ومحمية بمظهر طبيعي.",
-    howToUse: { text: "يوضع بالتساوي على الوجه بعد روتين العناية بالبشرة وقبل التعرض للشمس. يمكن استخدامه بمفرده أو تحت المكياج.", image: "images/how-to-use-sunscreen.png" }
-  },
-  { id:"sun7", name:"واقي شمس للأطفال", brand:"MUSTELA", type:"حساسة", spf:50, price:80, image:"images/sunscreen/sunscreen7.png", description:"واقي شمس مصمم خصيصًا لبشرة الأطفال الرقيقة والحساسة (SPF 50+). يتميز بتركيبة عالية التحمل، خالية من العطور والكحول والبارابين، ومقاومة للماء والعرق والرمل. يوفر حماية معدنية واسعة الطيف ضد أشعة UVA و UVB، ويحتوي على مكونات طبيعية لترطيب وتهدئة البشرة. سهل التطبيق ولا يترك آثارًا بيضاء، مما يضمن حماية فعالة ومريحة لصغارك.",
-    howToUse: { text: "يوضع بكمية وفيرة على بشرة الطفل الجافة قبل التعرض للشمس. يُعاد تطبيقه بانتظام كل ساعتين، وبعد السباحة أو اللعب في الماء.", image: "images/how-to-use-sunscreen.png" }
-  },
-  { id:"sun8", name:"واقي شمس بعامل حماية 100", brand:"ISDIN", type:"جميع الأنواع", spf:100, price:120, image:"images/sunscreen/sunscreen8.png", description:"يوفر هذا الواقي الشمسي أقصى حماية (SPF 100) من أشعة الشمس فوق البنفسجية، مصمم للحالات التي تتطلب حماية فائقة، مثل البشرة شديدة الحساسية، بعد الإجراءات التجميلية، أو في حالات التعرض الشديد للشمس. تركيبته خفيفة وسائلة، تمتص بسرعة وتوفر حماية واسعة الطيف ضد UVA و UVB. كما أنه مقاوم للماء ولا يسبب انسداد المسام، مما يجعله مثاليًا للحماية القصوى دون الشعور بالثقل.",
-    howToUse: { text: "يوضع بكمية سخية على الوجه والجسم قبل 30 دقيقة من التعرض للشمس. يُكرر التطبيق كل ساعتين أو بعد كل استحمام أو تجفيف بالمنشفة.", image: "images/how-to-use-sunscreen.png" }
-  },
-  { id:"sun9", name:"واقي شمس ستيك للمناطق الحساسة", brand:"AVENE", type:"جميع الأنواع", spf:50, price:75, image:"images/sunscreen/sunscreen9.png", description:"واقي شمس على شكل ستيك مريح وعملي (SPF 50+)، مثالي لحماية المناطق الحساسة والصغيرة والمعرضة بشكل خاص للشمس، مثل الشفاه، الأنف، الأذنين، وحول العينين. يوفر حماية عالية جداً ضد أشعة UVA و UVB بتركيبة مقاومة للماء. سهل التطبيق ولا يترك أي بقايا بيضاء، ومناسب للبشرة الحساسة. صغير الحجم ويمكن حمله في أي مكان لإعادة التطبيق السريع.",
-    howToUse: { text: "يوضع مباشرة على المناطق الحساسة (الشفاه، الأنف، الأذنين، الندوب) قبل التعرض للشمس. يُجدد التطبيق بشكل متكرر.", image: "images/how-to-use-sunscreen-stick.png" }
-  },
-  { id:"sun10", name:"واقي شمس مع خصائص مضادة للشيخوخة", brand:"FILORGA", type:"عادية", spf:50, price:110, image:"images/sunscreen/sunscreen10.png", description:"واقي شمس (SPF 50+) يجمع بين الحماية الفائقة من الشمس وخصائص قوية مضادة للشيخوخة. تركيبته المبتكرة تحمي البشرة من أشعة UVA و UVB الضارة وتأثيرات الضوء الأزرق، بينما تحتوي على مكونات نشطة لمكافحة علامات تقدم العمر، مثل التجاعيد وفقدان المرونة والبقع الداكنة. يترك البشرة ناعمة، موحدة اللون، ومشرقة، ويساعد على الحفاظ على شبابها وحيويتها.",
-    howToUse: { text: "يوضع يومياً على الوجه والرقبة قبل التعرض للشمس. يمكن استخدامه كجزء من روتين العناية اليومية بالبشرة.", image: "images/how-to-use-sunscreen.png" }
-  }
+  { id:"sun1", name:"واقي شمس جل للبشرة الدهنية", brand:"ARVEA", type:"دهنية", spf:50, price:90, image:"images/sunscreen/sunscreen1.png", longDescription:"حماية عالية جداً (SPF 50+) مع لمسة نهائية غير دهنية، مثالي للبشرة الدهنية والمعرضة لحب الشباب...", howToUse: { text: "يوضع بكمية وفيرة على الوجه والجسم قبل التعرض للشمس بـ 20 دقيقة. يُعاد تطبيقه كل ساعتين.", image: "images/how-to-use-sunscreen.png" } },
+  { id:"sun2", name:"واقي شمس كريمي مرطب", brand:"AVENE", type:"جافة", spf:30, price:85, image:"images/sunscreen/sunscreen2.png", longDescription:"يوفر ترطيباً عميقاً وحماية فعالة (SPF 30+) ضد أشعة الشمس، مصمم خصيصًا للبشرة الجافة والعادية...", howToUse: { text: "يوضع بكمية كافية على الوجه والجسم قبل التعرض للشمس. يُجدد التطبيق بانتظام.", image: "images/how-to-use-sunscreen.png" } },
+  { id:"sun3", name:"واقي شمس سائل للبشرة المختلطة", brand:"LA ROCHE-POSAY", type:"مختلطة", spf:50, price:95, image:"images/sunscreen/sunscreen3.png", longDescription:"واقي شمس سائل خفيف الوزن (SPF 50+) يمتص بسرعة ويحمي المناطق الدهنية والجافة من البشرة المختلطة...", howToUse: { text: "رجّي العبوة جيداً قبل الاستخدام. طبقيه على الوجه والرقبة قبل التعرض للشمس مباشرة.", image: "images/how-to-use-sunscreen.png" } },
+  { id:"sun4", name:"واقي شمس معدني للبشرة الحساسة", brand:"BIODERMA", type:"حساسة", spf:50, price:100, image:"images/sunscreen/sunscreen4.png", longDescription:"تركيبة لطيفة وغير مهيجة، مثالية للبشرة الحساسة أو التي لا تتحمل الفلاتر الكيميائية...", howToUse: { text: "يوضع بكمية وفيرة ومتساوية على البشرة قبل التعرض للشمس. يُجدد التطبيق بشكل متكرر.", image: "images/how-to-use-sunscreen.png" } },
+  { id:"sun5", name:"واقي شمس بخاخ للجسم", brand:"NIVEA", type:"عادية", spf:50, price:88, image:"images/sunscreen/sunscreen5.png", longDescription:"بخاخ سهل الاستخدام يوفر حماية عالية (SPF 50+) من أشعة الشمس فوق البنفسجية UVA و UVB لكامل الجسم...", howToUse: { text: "رشي بكمية كافية على الجسم بالكامل قبل التعرض للشمس. يُعاد التطبيق بشكل متكرر.", image: "images/how-to-use-sunscreen.png" } },
+  { id:"sun6", name:"واقي شمس ملون للبشرة", brand:"EUCERIN", type:"عادية", spf:30, price:92, image:"images/sunscreen/sunscreen6.png", longDescription:"يمنح واقي الشمس هذا (SPF 30+) البشرة لونًا موحدًا ولمسة نهائية طبيعية، مما يجعله مثاليًا للاستخدام اليومي...", howToUse: { text: "يوضع بالتساوي على الوجه بعد روتين العناية بالبشرة وقبل التعرض للشمس.", image: "images/how-to-use-sunscreen.png" } },
+  { id:"sun7", name:"واقي شمس للأطفال", brand:"MUSTELA", type:"حساسة", spf:50, price:80, image:"images/sunscreen/sunscreen7.png", longDescription:"واقي شمس مصمم خصيصًا لبشرة الأطفال الرقيقة والحساسة (SPF 50+). يتميز بتركيبة عالية التحمل...", howToUse: { text: "يوضع بكمية وفيرة على بشرة الطفل الجافة قبل التعرض للشمس. يُعاد تطبيقه بانتظام.", image: "images/how-to-use-sunscreen.png" } },
+  { id:"sun8", name:"واقي شمس بعامل حماية 100", brand:"ISDIN", type:"حساسة", spf:100, price:120, image:"images/sunscreen/sunscreen8.png", longDescription:"يوفر هذا الواقي الشمسي أقصى حماية (SPF 100) من أشعة الشمس، مصمم للحالات التي تتطلب حماية فائقة...", howToUse: { text: "يوضع بكمية سخية على الوجه والجسم قبل 30 دقيقة من التعرض للشمس. يُكرر التطبيق كل ساعتين.", image: "images/how-to-use-sunscreen.png" } },
+  { id:"sun9", name:"واقي شمس ستيك للمناطق الحساسة", brand:"AVENE", type:"حساسة", spf:50, price:75, image:"images/sunscreen/sunscreen9.png", longDescription:"واقي شمس على شكل ستيك مريح وعملي (SPF 50+), مثالي لحماية المناطق الحساسة والصغيرة...", howToUse: { text: "يوضع مباشرة على المناطق الحساسة (الشفاه، الأنف، الأذنين) قبل التعرض للشمس.", image: "images/how-to-use-sunscreen-stick.png" } },
+  { id:"sun10", name:"واقي شمس بخصائص مضادة للشيخوخة", brand:"FILORGA", type:"عادية", spf:50, price:110, image:"images/sunscreen/sunscreen10.png", longDescription:"واقي شمس (SPF 50+) يجمع بين الحماية الفائقة من الشمس وخصائص قوية مضادة للشيخوخة...", howToUse: { text: "يوضع يومياً على الوجه والرقبة قبل التعرض للشمس. يمكن استخدامه كجزء من روتين العناية اليومية.", image: "images/how-to-use-sunscreen.png" } }
 ];
 
-// -- Mini cart logic
 let cart = JSON.parse(localStorage.getItem('orange_cart') || '[]');
 const productsContainer = document.getElementById('productsContainer');
 const cartItemsEl = document.getElementById('cartItems');
@@ -508,411 +386,295 @@ const cartTotalEl = document.getElementById('cartTotal');
 const cartBadge = document.getElementById('cartBadge');
 const mobileCartCount = document.getElementById('mobileCartCount');
 const mobileTotal = document.getElementById('mobileTotal');
-const overlay = document.getElementById('overlay');
+const cartOverlay = document.getElementById('cartOverlay');
+const modalOverlay = document.getElementById('modalOverlay');
 const cartPanel = document.getElementById('cartPanel');
 const openCartBtn = document.getElementById('openCartBtn');
 const closeCartBtn = document.getElementById('closeCartBtn');
 const clearCartBtn = document.getElementById('clearCartBtn');
-
-// --- Product Detail Modal elements
 const productDetailModal = document.getElementById('productDetailModal');
 const modalProductName = document.getElementById('modalProductName');
 const modalProductImage = document.getElementById('modalProductImage');
 const modalProductDescription = document.getElementById('modalProductDescription');
 const modalProductPrice = document.getElementById('modalProductPrice');
 const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
-
 const howToUseText = document.getElementById('howToUseText');
 const howToUseImage = document.getElementById('howToUseImage');
-const customerReviewsSection = document.getElementById('customerReviews');
-
+const customerReviewsContainer = document.getElementById('customerReviewsContainer');
 const tabButtons = document.querySelectorAll('.tab-buttons .tab-button');
-const tabContents = document.querySelectorAll('.product-details-tabs-container .tab-content'); // Adjusted selector
+const tabContents = document.querySelectorAll('.product-details-tabs-container .tab-content');
 
-let currentProductId = null; // To keep track of the product being viewed
-let currentFilterType = 'all'; // لتتبع نوع البشرة المحدد
-let currentFilterSpf = 'all'; // لتتبع عامل الحماية المحدد
+let currentProductId = null;
+let currentFilterType = 'all';
+let currentFilterSpf = 'all';
 
 function openProductDetailModal(prod) {
     currentProductId = prod.id;
     modalProductName.innerText = prod.name;
     modalProductImage.src = prod.image;
-    modalProductImage.classList.remove('zoomed'); // Reset zoom
-    modalProductDescription.innerText = prod.longDescription || prod.description; // Show long description if available, else short
+    modalProductImage.classList.remove('zoomed');
+    modalProductDescription.innerText = prod.longDescription || prod.description;
     modalProductPrice.innerText = `${prod.price.toFixed(2)} د.ل`;
-    modalAddToCartBtn.onclick = () => {
-        addToCart(prod.id);
-        closeProductDetailModal();
-    };
-
-    // Update How to Use section
+    modalAddToCartBtn.onclick = () => { addToCart(prod.id); closeProductDetailModal(); };
     if (prod.howToUse) {
         howToUseText.innerText = prod.howToUse.text;
-        if (prod.howToUse.image) {
-            howToUseImage.src = prod.howToUse.image;
-            howToUseImage.classList.remove('hidden');
-        } else {
-            howToUseImage.classList.add('hidden');
-        }
+        howToUseImage.src = prod.howToUse.image || '';
+        howToUseImage.classList.toggle('hidden', !prod.howToUse.image);
     } else {
-        howToUseText.innerText = "لا توجد تعليمات استخدام محددة لهذا المنتج.";
+        howToUseText.innerText = "لا توجد تعليمات.";
         howToUseImage.classList.add('hidden');
     }
-
-    // Load existing reviews (placeholder for now)
-    loadReviewsForProduct(prod.id);
-
+    loadCommentsAndReplies(prod.id, customerReviewsContainer);
     productDetailModal.classList.add('open');
-    document.body.style.overflow = 'hidden'; // Prevent scrolling body
-    overlay.classList.add('open'); // Open overlay with modal
+    document.body.style.overflow = 'hidden';
+    modalOverlay.classList.add('open');
 }
 
-function closeProductDetailModal() {
+window.closeProductDetailModal = function() {
     productDetailModal.classList.remove('open');
-    document.body.style.overflow = ''; // Restore body scrolling
-    overlay.classList.remove('open'); // Close overlay
+    document.body.style.overflow = '';
+    modalOverlay.classList.remove('open');
     currentProductId = null;
-    // Reset to default tab (description)
-    activateTab('description'); 
+    activateTab('description');
 }
 
-function toggleZoom(imgElement) {
-    imgElement.classList.toggle('zoomed');
-    imgElement.style.cursor = imgElement.classList.contains('zoomed') ? 'zoom-out' : 'zoom-in';
-}
-
-// Function to handle tab switching
-function activateTab(tabName) {
-    tabButtons.forEach(button => {
-        if (button.dataset.tab === tabName) {
-            button.classList.add('active');
-        } else {
-            button.classList.remove('active');
-        }
-    });
-    tabContents.forEach(content => {
-        if (content.id === tabName + 'Tab') {
-            content.classList.add('active');
-        } else {
-            content.classList.remove('active');
-        }
-    });
-}
-
-tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        activateTab(button.dataset.tab);
-    });
-});
-
-
-// Placeholder for reviews (in a real app, this would come from a backend)
-const productReviews = {
-    "sun1": [
-        { name: "فاطمة م.", rating: 5, text: "أفضل واقي شمس للبشرة الدهنية، لا يترك لمعان.", likes: 12, supports: 5 },
-        { name: "علي ط.", rating: 4, text: "جيد جداً، لكن أحتاج لإعادة التطبيق باستمرار.", likes: 8, supports: 3 }
-    ],
-    "sun2": [
-        { name: "ليلى أ.", rating: 5, text: "يرطب ويحمي بشرتي الجافة بشكل رائع.", likes: 15, supports: 7 },
-        { name: "خالد س.", rating: 5, text: "تركيبة ممتازة لا تسبب أي تهيج.", likes: 9, supports: 4 }
-    ],
-    "sun3": [
-      { name: "مريم ع.", rating: 4, text: "خفيف جداً ومثالي لبشرتي المختلطة.", likes: 10, supports: 6 }
-    ],
-    "sun4": [
-      { name: 5, name: "نور ف.", rating: 5, text: "أحبه لبشرتي الحساسة، لا يسبب احمرار.", likes: 11, supports: 5 }
-    ],
-    "sun5": [
-      { name: "أحمد ر.", rating: 4, text: "سهل الاستخدام للجسم، ورائحته منعشة.", likes: 7, supports: 2 }
-    ]
-    // Add more reviews for other products
+window.toggleZoom = (img) => img.classList.toggle('zoomed');
+const activateTab = (tabName) => {
+    tabButtons.forEach(b => b.classList.toggle('active', b.dataset.tab === tabName));
+    tabContents.forEach(c => c.classList.toggle('active', c.id === `${tabName}Tab`));
 };
+tabButtons.forEach(b => b.addEventListener('click', () => activateTab(b.dataset.tab)));
 
-function loadReviewsForProduct(productId) {
-    customerReviewsSection.innerHTML = ''; // Clear previous reviews
-    const reviews = productReviews[productId] || [];
-
-    if (reviews.length === 0) {
-        customerReviewsSection.innerHTML = '<p class="text-center text-gray-500">لا توجد آراء للعملاء بعد. كن أول من يترك تعليقاً!</p>';
-    } else {
-        reviews.forEach(review => {
-            const reviewEl = document.createElement('div');
-            reviewEl.className = 'bg-gray-50 p-3 rounded-lg shadow-sm';
-            let starsHtml = '';
-            for (let i = 1; i <= 5; i++) {
-                starsHtml += `<label><i class="fas fa-star ${i <= review.rating ? 'text-yellow-500' : ''}"></i></label>`;
-            }
-            reviewEl.innerHTML = `
-                <div class="flex items-center mb-1">
-                    <span class="font-semibold text-sm">${review.name}</span>
-                    <div class="star-rating text-sm mr-auto flex-row-reverse">${starsHtml}</div>
-                </div>
-                <p class="text-xs text-gray-600 mb-2">"${review.text}"</p>
-                <div class="flex items-center text-xs text-gray-500">
-                    <button class="btn btn-ghost btn-xs flex items-center gap-1" onclick="handleReaction(this, 'like', '${productId}')">
-                        <i class="far fa-thumbs-up"></i> أحببته (<span class="like-count">${review.likes}</span>)
-                    </button>
-                    <button class="btn btn-ghost btn-xs flex items-center gap-1 mr-2" onclick="handleReaction(this, 'support', '${productId}')">
-                        <i class="far fa-heart"></i> أدعمه (<span class="support-count">${review.supports}</span>)
-                    </button>
-                </div>
-            `;
-            customerReviewsSection.appendChild(reviewEl);
-        });
-    }
-}
-
-function submitReview() {
-    const name = document.getElementById('reviewName').value.trim();
-    const text = document.getElementById('reviewText').value.trim();
-    const rating = document.querySelector('#reviewsTab input[name="rating"]:checked'); // Select only from reviews tab
-
-    if (!name || !text || !rating) {
-        Swal.fire({ icon: 'warning', title: 'يرجى ملء جميع حقول التعليق واختيار تقييم.' });
+function renderProducts() {
+    productsContainer.innerHTML = '';
+    const searchTerm = document.getElementById('search').value.toLowerCase();
+    const filtered = products.filter(p => 
+        (currentFilterType === 'all' || p.type.split(',').includes(currentFilterType)) &&
+        (currentFilterSpf === 'all' || p.spf >= parseInt(currentFilterSpf)) &&
+        (p.name + ' ' + (p.longDescription || '') + ' ' + p.brand).toLowerCase().includes(searchTerm)
+    );
+    if (!filtered.length) {
+        productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500">لا توجد منتجات مطابقة.</div>`;
         return;
     }
-
-    const newReview = {
-        name: name,
-        rating: parseInt(rating.value),
-        text: text,
-        likes: 0,
-        supports: 0
-    };
-
-    if (!productReviews[currentProductId]) {
-        productReviews[currentProductId] = [];
-    }
-    productReviews[currentProductId].push(newReview);
-    
-    Swal.fire({ icon: 'success', title: 'تم إرسال تعليقك بنجاح!', showConfirmButton: false, timer: 1500 });
-
-    // Clear form
-    document.getElementById('reviewName').value = '';
-    document.getElementById('reviewText').value = '';
-    if (rating) rating.checked = false;
-
-    loadReviewsForProduct(currentProductId); // Reload reviews to show the new one
+    filtered.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center';
+        card.innerHTML = `
+            <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-36 h-36 object-contain mb-3">
+            <h3 class="font-semibold text-sm h-14 flex items-center justify-center">${p.name}</h3>
+            <div class="text-xs text-gray-400 mb-1">${p.brand} | SPF ${p.spf}+</div>
+            <div class="flex-grow"></div>
+            <div class="text-lg font-bold mt-2">${p.price.toFixed(2)} د.ل</div>
+            <div class="mt-3 w-full flex gap-2">
+                <button class="btn btn-sm btn-outline w-1/2" data-action="detail" data-id="${p.id}">عرض الوصف</button>
+                <button class="btn btn-sm btn-primary w-1/2" data-action="add" data-id="${p.id}">أضف للسلة</button>
+            </div>
+        `;
+        productsContainer.appendChild(card);
+    });
 }
 
-function handleReaction(button, type, productId) {
-    const reviewElement = button.closest('.bg-gray-50');
-    const reviewText = reviewElement.querySelector('p').innerText.replace(/"/g, ''); // Get review text to identify
-    
-    // Find the review in our dummy data
-    const reviews = productReviews[productId];
-    if (reviews) {
-        const targetReview = reviews.find(r => r.text === reviewText);
-        if (targetReview) {
-            if (type === 'like') {
-                targetReview.likes++;
-                reviewElement.querySelector('.like-count').innerText = targetReview.likes;
-            } else if (type === 'support') {
-                targetReview.supports++;
-                reviewElement.querySelector('.support-count').innerText = targetReview.supports;
-            }
-            // In a real app, you'd send this update to your backend
-        }
-    }
-}
-
-// --- Render products
-function renderProducts() {
-  productsContainer.innerHTML = '';
-  const searchTerm = (document.getElementById('search').value || '').trim().toLowerCase();
-  
-  const filtered = products.filter(p => {
-    const matchesType = currentFilterType === 'all' || p.type === currentFilterType;
-    const matchesSpf = currentFilterSpf === 'all' || p.spf >= parseInt(currentFilterSpf);
-    const matchesSearch = (p.name + ' ' + p.description + ' ' + p.brand).toLowerCase().includes(searchTerm);
-    return matchesType && matchesSpf && matchesSearch;
-  });
-
-  if (!filtered.length) {
-    productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500">لا توجد منتجات مطابقة.</div>`;
-    return;
-  }
-  
-  filtered.forEach(p => {
-    const card = document.createElement('article');
-    card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center animate__animated animate__fadeIn';
-    card.innerHTML = `
-      <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-36 h-36 object-contain mb-3">
-      <h3 class="font-semibold">${p.name}</h3>
-      <div class="text-xs text-gray-400 mb-1">${p.brand} | SPF ${p.spf}+</div>
-      <div class="flex items-center gap-2 mt-2">
-        <div class="text-lg font-bold">${p.price.toFixed(2)} د.ل</div>
-      </div>
-      <div class="mt-3 w-full flex gap-2">
-        <button class="btn btn-sm btn-outline w-1/2" data-action="detail" data-id="${p.id}">عرض الوصف</button>
-        <button class="btn btn-sm btn-primary w-1/2" data-action="add" data-id="${p.id}">أضف للسلة</button>
-      </div>
-    `;
-    productsContainer.appendChild(card);
-  });
-}
-// LocalStorage update
 function saveCart() {
-  localStorage.setItem('orange_cart', JSON.stringify(cart));
-  updateCartUI();
+    localStorage.setItem('orange_cart', JSON.stringify(cart));
+    updateCartUI();
 }
 function addToCart(productId) {
-  const prod = products.find(p=>p.id===productId);
-  if (!prod) return;
-  const existing = cart.find(i=>i.id===productId);
-  if (existing) existing.qty++;
-  else cart.push({ id: prod.id, name: prod.name, price: prod.price, qty: 1, note: '' });
-  saveCart();
-  Swal.fire({ icon:'success', title: 'تمت الإضافة', text: prod.name + ' أُضيفت إلى السلة', timer: 1100, showConfirmButton:false });
+    const prod = products.find(p => p.id === productId);
+    if (!prod) return;
+    const existing = cart.find(i => i.id === productId);
+    if (existing) existing.qty++;
+    else cart.push({ id: prod.id, name: prod.name, price: prod.price, qty: 1 });
+    saveCart();
+    Swal.fire({ icon: 'success', title: 'تمت الإضافة', text: `${prod.name} أُضيفت إلى السلة`, timer: 1100, showConfirmButton: false });
 }
-function removeFromCart(index) { cart.splice(index,1); saveCart(); }
+function removeFromCart(index) { cart.splice(index, 1); saveCart(); }
 function changeQty(index, delta) {
-  cart[index].qty += delta;
-  if (cart[index].qty < 1) cart[index].qty = 1;
-  saveCart();
+    cart[index].qty += delta;
+    if (cart[index].qty < 1) cart[index].qty = 1;
+    saveCart();
 }
-clearCartBtn.addEventListener('click', ()=> {
-  if (!cart.length) return;
-  Swal.fire({
-    title: 'تفريغ السلة؟',
-    text: 'هل تريد تفريغ السلة؟',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'تفريغ',
-    cancelButtonText: 'إلغاء'
-  }).then(res => {
-    if (res.isConfirmed) {
-      cart = [];
-      saveCart();
-    }
-  });
-});
 function updateCartUI() {
-  cartItemsEl.innerHTML = '';
-  let total = 0;
-  cart.forEach((item, i) => {
-    total += item.price * item.qty;
-    const itemEl = document.createElement('div');
-    itemEl.className = 'p-2 bg-orange-50 rounded flex items-start justify-between gap-2';
-    itemEl.innerHTML = `
-      <div class="flex-1">
-        <div class="font-semibold">${item.name}</div>
-        <div class="text-xs text-gray-500">سعر الوحدة: ${item.price.toFixed(2)} د.ل</div>
-        <div class="mt-2 flex gap-2">
-          <button class="btn btn-xs" data-action="dec" data-i="${i}">-</button>
-          <div class="px-3 py-1 border rounded">${item.qty}</div>
-          <button class="btn btn-xs" data-action="inc" data-i="${i}">+</button>
-          <button class="btn btn-xs btn-error ml-auto" data-action="remove" data-i="${i}">حذف</button>
-        </div>
-      </div>
-    `;
-    cartItemsEl.appendChild(itemEl);
-  });
-  cartTotalEl.innerText = total.toFixed(2) + ' د.ل';
-  cartBadge.innerText = cart.reduce((s,i)=>s+i.qty,0);
-  mobileCartCount.innerText = cartBadge.innerText;
-  mobileTotal.innerText = total.toFixed(2);
+    cartItemsEl.innerHTML = '';
+    let total = 0;
+    cart.forEach((item, i) => {
+        total += item.price * item.qty;
+        const itemEl = document.createElement('div');
+        itemEl.className = 'p-2 bg-orange-50 rounded flex items-start justify-between gap-2';
+        itemEl.innerHTML = `
+            <div class="flex-1">
+                <div class="font-semibold">${item.name}</div>
+                <div class="text-xs text-gray-500">سعر الوحدة: ${item.price.toFixed(2)} د.ل</div>
+                <div class="mt-2 flex gap-2">
+                    <button class="btn btn-xs" data-action="dec" data-i="${i}">-</button>
+                    <div class="px-3 py-1 border rounded">${item.qty}</div>
+                    <button class="btn btn-xs" data-action="inc" data-i="${i}">+</button>
+                    <button class="btn btn-xs btn-error ml-auto" data-action="remove" data-i="${i}">حذف</button>
+                </div>
+            </div>
+        `;
+        cartItemsEl.appendChild(itemEl);
+    });
+    const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+    cartTotalEl.innerText = total.toFixed(2) + ' د.ل';
+    cartBadge.innerText = totalQty;
+    mobileCartCount.innerText = totalQty;
+    mobileTotal.innerText = total.toFixed(2);
 }
+
 productsContainer.addEventListener('click', e => {
     const btn = e.target.closest('button');
     if (!btn) return;
-    const action = btn.getAttribute('data-action');
-    const id = btn.getAttribute('data-id');
+    const { action, id } = btn.dataset;
     if (action === 'add') addToCart(id);
     if (action === 'detail') {
-      const prod = products.find(p=>p.id===id);
-      if (prod) {
-        openProductDetailModal(prod);
-      }
+        const prod = products.find(p => p.id === id);
+        if (prod) openProductDetailModal(prod);
     }
 });
 cartItemsEl.addEventListener('click', e => {
-  const btn = e.target.closest('button');
-  if (!btn) return;
-  const action = btn.getAttribute('data-action');
-  const i = Number(btn.getAttribute('data-i'));
-  if (action === 'remove') removeFromCart(i);
-  if (action === 'inc') changeQty(i, 1);
-  if (action === 'dec') changeQty(i, -1);
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const { action, i } = btn.dataset;
+    const index = Number(i);
+    if (action === 'remove') removeFromCart(index);
+    if (action === 'inc') changeQty(index, 1);
+    if (action === 'dec') changeQty(index, -1);
 });
-
-// Filter by skin type
-document.querySelectorAll('.filter-btn[data-type]').forEach(b => b.addEventListener('click', () => {
-  currentFilterType = b.getAttribute('data-type');
-  renderProducts();
-}));
-
-// Filter by SPF
-document.querySelectorAll('.filter-btn[data-spf]').forEach(b => b.addEventListener('click', () => {
-  currentFilterSpf = b.getAttribute('data-spf');
-  renderProducts();
-}));
-
-document.getElementById('search').addEventListener('input', e => renderProducts());
-
-function openCart() {
-  overlay.classList.add('open');
-  cartPanel.classList.add('open');
-  cartPanel.setAttribute('aria-hidden','false');
-  overlay.setAttribute('aria-hidden','false');
-  openCartBtn.setAttribute('aria-expanded','true');
-  setTimeout(()=> {
-    const fname = document.getElementById('fullname');
-    if (fname) fname.focus();
-  }, 220);
-}
-function closeCart() {
-  overlay.classList.remove('open');
-  cartPanel.classList.remove('open');
-  cartPanel.setAttribute('aria-hidden','true');
-  overlay.setAttribute('aria-hidden','true');
-  openCartBtn.setAttribute('aria-expanded','false');
-  openCartBtn.focus();
-}
+clearCartBtn.addEventListener('click', () => {
+    if (!cart.length) return;
+    Swal.fire({ title: 'تفريغ السلة؟', text: 'هل أنت متأكد؟', icon: 'warning', showCancelButton: true, confirmButtonText: 'نعم', cancelButtonText: 'لا' })
+        .then(result => { if (result.isConfirmed) { cart = []; saveCart(); } });
+});
+document.querySelectorAll('.filter-btn[data-type]').forEach(b => b.addEventListener('click', () => { currentFilterType = b.dataset.type; renderProducts(); }));
+document.querySelectorAll('.filter-btn[data-spf]').forEach(b => b.addEventListener('click', () => { currentFilterSpf = b.dataset.spf; renderProducts(); }));
+document.getElementById('search').addEventListener('input', renderProducts);
+const openCart = () => { cartOverlay.classList.add('open'); cartPanel.classList.add('open'); };
+const closeCart = () => { cartOverlay.classList.remove('open'); cartPanel.classList.remove('open'); };
 openCartBtn.addEventListener('click', openCart);
 closeCartBtn.addEventListener('click', closeCart);
-overlay.addEventListener('click', closeCart);
-window.addEventListener('keydown', (e)=> {
-  if (e.key === 'Escape') {
-    if (cartPanel.classList.contains('open')) closeCart();
-    if (productDetailModal.classList.contains('open')) closeProductDetailModal(); // Close modal on Escape
-  }
+cartOverlay.addEventListener('click', closeCart);
+modalOverlay.addEventListener('click', closeProductDetailModal);
+window.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        if (cartPanel.classList.contains('open')) closeCart();
+        if (productDetailModal.classList.contains('open')) closeProductDetailModal();
+    }
 });
-document.getElementById('city').addEventListener('change', (e)=>{
-  document.getElementById('otherCity').classList.toggle('hidden', e.target.value !== 'مناطق أخرى');
+document.getElementById('city').addEventListener('change', e => document.getElementById('otherCity').classList.toggle('hidden', e.target.value !== 'مناطق أخرى'));
+document.getElementById('checkoutBtn').addEventListener('click', () => {
+    const fullname = document.getElementById('fullname').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    let city = document.getElementById('city').value;
+    const otherCity = document.getElementById('otherCity').value.trim();
+    const address = document.getElementById('address').value.trim();
+    if (city === 'مناطق أخرى') city = otherCity;
+    if (!fullname || !phone || !city || !address || !cart.length) {
+        Swal.fire({ icon: 'warning', title: 'يرجى إكمال جميع البيانات وإضافة منتجات للسلة' });
+        return;
+    }
+    let message = `طلب جديد من متجر واقي الشمس ☀️%0Aالاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0Aالعنوان: ${address}%0A%0Aتفاصيل الطلب:%0A`;
+    cart.forEach(item => { message += `• ${item.name} × ${item.qty} = ${(item.price * item.qty).toFixed(2)} د.ل%0A`; });
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    message += `%0Aالإجمالي: ${total.toFixed(2)} د.ل`;
+    window.open(`https://wa.me/218915066938?text=${message}`, '_blank');
 });
-document.getElementById('checkoutBtn').addEventListener('click', ()=> {
-  const fullname = document.getElementById('fullname').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  let city = document.getElementById('city').value;
-  const otherCity = document.getElementById('otherCity').value.trim();
-  const address = document.getElementById('address').value.trim(); // Get address
-  
-  if (city === 'مناطق أخرى' && otherCity) city = otherCity;
-  if (!fullname || !phone || !city || !address || cart.length === 0) { // Added address to validation
-    Swal.fire({ icon:'warning', title:'يرجى إكمال البيانات وإضافة منتج على الأقل' });
-    return;
-  }
-  let message = `طلب جديد من متجر واقي شمس نعومة نعومتك%0A`;
-  message += `الاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0Aالعنوان: ${address}%0A%0A`; // Added address to WhatsApp message
-  message += `تفاصيل الطلب:%0A`;
-  cart.forEach(item => {
-    message += `• ${item.name} × ${item.qty} = ${ (item.price * item.qty).toFixed(2) } د.ل%0A`;
-  });
-  const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
-  message += `%0Aالإجمالي: ${total.toFixed(2)} د.ل`;
-  // رقم الواتساب للطلب
-  const whatsappNumber = "218915066938";
-  const url = `https://wa.me/${whatsappNumber}?text=${message}`;
-  window.open(url, '_blank');
+
+// --- Firebase Comments Logic ---
+const formatDate = ts => ts?.toDate ? ts.toDate().toLocaleString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' }) : 'الآن';
+async function renderComment(commentData, parentElement, isReply = false, parentCommentId = null) {
+    const commentEl = document.createElement('div');
+    commentEl.id = `comment-${commentData.id}`;
+    commentEl.className = `comment-card ${isReply ? 'ml-6 bg-orange-50' : ''}`;
+    const user = auth.currentUser;
+    const userId = user?.uid;
+    const reactions = commentData.reactions || {};
+    const likes = reactions.like ? Object.keys(reactions.like).length : 0;
+    const userReaction = userId ? Object.keys(reactions).find(type => reactions[type]?.[userId]) : null;
+    commentEl.innerHTML = `
+        <div class="comment-header">
+            <div class="comment-author">${commentData.userName || "مستخدم"} ${'⭐'.repeat(commentData.rating || 0)}</div>
+            <div class="comment-timestamp">${formatDate(commentData.date)}</div>
+        </div>
+        <p class="comment-text">${commentData.text}</p>
+        <div class="comment-actions">
+            <button class="reaction-button ${userReaction === 'like' ? 'active' : ''}" data-type="like">👍 <span>${likes}</span></button>
+            <button class="btn btn-xs btn-ghost text-orange-500 ml-auto" data-action="reply">💬 رد</button>
+        </div>
+        <div class="reply-form-container hidden">
+            <textarea placeholder="اكتب ردك..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
+            <button class="btn btn-primary btn-xs" data-action="submit-reply">إرسال</button>
+            <button class="btn btn-ghost btn-xs" data-action="cancel-reply">إلغاء</button>
+        </div>
+        <div class="replies-container mt-4"></div>`;
+    parentElement.appendChild(commentEl);
+    commentEl.querySelector('.reaction-button').addEventListener('click', e => {
+        if (!userId) return Swal.fire('🚫', 'يجب تسجيل الدخول للتفاعل', 'error');
+        handleReaction(commentData.id, e.currentTarget.dataset.type, userId, parentCommentId);
+    });
+}
+async function loadCommentsAndReplies(productId, targetEl) {
+    if (!targetEl) return;
+    targetEl.innerHTML = `<p class="text-center">⏳ تحميل الآراء...</p>`;
+    const q = query(collection(db, "products", productId, "comments"), orderBy("date", "desc"));
+    const snapshot = await getDocs(q);
+    targetEl.innerHTML = snapshot.empty ? `<p class="text-center">لا توجد آراء بعد. كن أول من يعلق!</p>` : '';
+    snapshot.forEach(doc => renderComment({ id: doc.id, ...doc.data() }, targetEl));
+}
+window.submitNewComment = async function() {
+    const user = auth.currentUser;
+    if (!user) return Swal.fire('🚫', 'يجب تسجيل الدخول أولاً', 'error');
+    const text = document.getElementById('reviewTextInput').value.trim();
+    if (!text) return Swal.fire('✍️', 'الرجاء كتابة تعليق', 'warning');
+    const name = document.getElementById('reviewNameInput').value.trim();
+    const rating = document.querySelector('#reviewsTab input[name="rating"]:checked')?.value;
+    try {
+        await addDoc(collection(db, "products", currentProductId, "comments"), {
+            userId: user.uid,
+            userName: name || user.displayName || "مستخدم",
+            text: text,
+            rating: rating ? parseInt(rating) : 0,
+            date: serverTimestamp(),
+            reactions: {}
+        });
+        document.getElementById('reviewTextInput').value = '';
+        document.getElementById('reviewNameInput').value = '';
+        if (rating) document.querySelector('#reviewsTab input[name="rating"]:checked').checked = false;
+        Swal.fire('✅', 'تم إرسال التعليق!', 'success');
+        loadCommentsAndReplies(currentProductId, customerReviewsContainer);
+    } catch (e) { Swal.fire('❌', 'فشل إرسال التعليق', 'error'); }
+}
+async function handleReaction(commentId, type, userId, parentId = null) {
+    const docRef = parentId ? doc(db, "products", currentProductId, "comments", parentId, "replies", commentId) : doc(db, "products", currentProductId, "comments", commentId);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return;
+    const reactions = docSnap.data().reactions || {};
+    const userPrevReaction = Object.keys(reactions).find(r => reactions[r]?.[userId]);
+    let update = {};
+    if (userPrevReaction) update[`reactions.${userPrevReaction}.${userId}`] = null;
+    if (userPrevReaction !== type) update[`reactions.${type}.${userId}`] = true;
+    await updateDoc(docRef, update);
+    loadCommentsAndReplies(currentProductId, customerReviewsContainer);
+}
+
+// --- Firebase Auth Logic ---
+const loginBtnHeader = document.getElementById("login-btn-header");
+const logoutBtnHeader = document.getElementById("logout-btn-header");
+const userInfoHeader = document.getElementById("user-info-header");
+loginBtnHeader.addEventListener("click", () => signInWithPopup(auth, provider).catch(err => console.error(err)));
+logoutBtnHeader.addEventListener("click", () => signOut(auth).catch(err => console.error(err)));
+onAuthStateChanged(auth, user => {
+    const isLoggedIn = !!user;
+    loginBtnHeader.classList.toggle("hidden", isLoggedIn);
+    logoutBtnHeader.classList.toggle("hidden", !isLoggedIn);
+    userInfoHeader.classList.toggle("hidden", !isLoggedIn);
+    userInfoHeader.textContent = isLoggedIn ? `مرحباً، ${user.displayName || user.email.split('@')[0]}` : "";
+    if (currentProductId) loadCommentsAndReplies(currentProductId, customerReviewsContainer);
 });
+
+// Initial Render
 renderProducts();
 updateCartUI();
-window.addEventListener('beforeunload', ()=> localStorage.setItem('orange_cart', JSON.stringify(cart)));
 </script>
-<!-- Font Awesome for star icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
-<script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 </body>
 </html>
