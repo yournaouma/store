@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -64,7 +63,7 @@
     #sidebar a { color: #333; }
     #sidebar a:hover { background: #ff9800; color: #fff; }
     .cart-overlay, .modal-overlay {
-      position:fixed; inset:0; background:rgba(0,0,0,0.2); opacity:0; pointer-events:none; transition:opacity .25s; z-index:40;
+      position:fixed; inset:0; background:rgba(0,0,0,0.4); opacity:0; pointer-events:none; transition:opacity .3s; z-index:40;
     }
     .cart-overlay.open, .modal-overlay.open { opacity:1; pointer-events:auto; }
     .cart-drawer {
@@ -88,16 +87,51 @@
       position: sticky; bottom: 0; background: white; z-index: 2;
       padding-top: 6px; margin-top: 12px; border-top: 1.5px solid #ffecbc;
     }
-    #cartPanel .cart-actions-area button,
-    #cartPanel .cart-actions-area .flex {margin-bottom:0;}
-    #cartPanel .input, #cartPanel .select, .form-section .input, .form-section .textarea { background-color: white; color: #333; border-color: #ff9800; }
-    #cartPanel .input::placeholder, #cartPanel .select option, .form-section .input::placeholder, .form-section .textarea::placeholder { color: #777; }
+    #cartPanel .input, #cartPanel .select, .form-section .input, .form-section .textarea, #reviewsTab .input, #reviewsTab .textarea { background-color: white !important; color: #333 !important; border-color: #ff9800 !important; }
+    #cartPanel .input::placeholder, #cartPanel .select option, .form-section .input::placeholder, .form-section .textarea::placeholder, #reviewsTab .input::placeholder, #reviewsTab .textarea::placeholder { color: #888 !important; }
     .auth-section-header { display: flex; align-items: center; gap: 0.5rem; }
     .auth-section-header .btn { padding: 0.5rem 0.75rem; font-size: 0.875rem; line-height: 1.25rem; }
     .auth-section-header #user-info-header { margin: 0; font-size: 0.875rem; color: #555; }
-    @media (max-width: 640px) {
+    
+    /* === التحسينات المطلوبة: تعديلات نافذة تفاصيل المنتج === */
+    .product-detail-modal {
+        position: fixed; top: 50%; left: 50%;
+        transform: translate(-50%, -50%) scale(0.95); /* تعديل: حركة دخول */
+        width: 90%; max-width: 900px; /* تعديل: زيادة العرض */
+        max-height: 90vh; background-color: white;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); border-radius: 1rem;
+        transition: all 0.3s ease-in-out; z-index: 101;
+        padding: 1.5rem; overflow-y: auto; opacity: 0;
+        pointer-events: none; display: flex; flex-direction: row-reverse; gap: 2rem;
+    }
+    .product-detail-modal.open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+    .product-detail-modal .close-btn { position: absolute; top: 1rem; left: 1rem; font-size: 1.8rem; cursor: pointer; color: #999; z-index: 10; }
+    .product-detail-modal .close-btn:hover { color: #ff5722; }
+    .product-details-main { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; } /* تعديل: الجزء الأصغر */
+    .product-details-tabs-container { flex: 2; display: flex; flex-direction: column; } /* تعديل: الجزء الأكبر */
+    .tab-buttons { display: flex; justify-content: space-around; margin-bottom: 1rem; border-bottom: 1px solid #eee; }
+    .tab-button { flex: 1; padding: 0.75rem 0.5rem; text-align: center; cursor: pointer; font-weight: bold; color: #666; border-bottom: 2px solid transparent; transition: all 0.2s; }
+    .tab-button.active { color: #ff9800; border-bottom-color: #ff9800; }
+    .tab-content { display: none; padding-top: 1rem; }
+    .tab-content.active { display: block; }
+    
+    /* === التحسينات المطلوبة: تصميم قسم الآراء === */
+    .comment-card { background-color: #fcfcfc; border: 1px solid #ffecbc; border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem; }
+    .comment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .comment-author { font-weight: bold; color: #ff9800; display: flex; align-items: center; gap: 0.5rem; }
+    .comment-author .avatar { font-size: 1.2rem; }
+    .comment-timestamp { font-size: 0.75rem; color: #888; }
+    .comment-text { color: #444; margin-bottom: 0.75rem; line-height: 1.5; }
+    .comment-actions { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.5rem; }
+    .reaction-button { display: flex; align-items: center; gap: 0.25rem; padding: 0.3rem 0.6rem; border-radius: 999px; font-size: 0.85rem; cursor: pointer; transition: background-color 0.2s; border: 1px solid #ddd; color: #555; }
+    .reaction-button:hover { background-color: #fff3e0; border-color: #ffbb77; color: #ff9800; }
+    .reaction-button.active { background-color: #ffe0b2; border-color: #ff9800; color: #d84315; font-weight: bold; }
+    .replies-container { margin-right: 1.5rem; border-right: 2px solid #ff9800; padding-right: 1rem; margin-top: 1rem; }
+    .replies-container .comment-card { background-color: #fffdfa; border-color: #ffe0b2; } /* لون مميز للردود */
+
+    @media (max-width: 768px) {
         .auth-section-header { flex-direction: column; align-items: flex-end; gap: 0.25rem; }
-        .auth-section-header .btn { width: auto; }
+        .product-detail-modal { flex-direction: column; max-width: 95%; padding: 1rem; gap: 1rem; }
     }
   </style>
 </head>
@@ -108,7 +142,7 @@
 <button id="menuBtn" class="fixed top-4 right-4 z-60 text-white px-3 py-2 rounded-lg shadow-md">☰ القائمة</button>
 <div id="menuOverlay" class="fixed inset-0 bg-black opacity-0 z-50 pointer-events-none transition-opacity duration-300"></div>
 
-<!-- Sidebar menu (white) -->
+<!-- Sidebar menu -->
 <aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto z-50">
   <div class="p-5">
     <h2 class="text-2xl font-bold mb-4 text-center text-[#ff9800]">🛍️ نعومة نعومتك</h2>
@@ -240,6 +274,46 @@
   </div>
 </aside>
 
+<!-- Product Detail Modal -->
+<aside id="productDetailModal" class="product-detail-modal">
+    <button class="close-btn" onclick="closeProductDetailModal()">✕</button>
+    <!-- Left part -->
+    <div class="product-details-main">
+        <h3 id="modalProductName" class="text-2xl font-bold mb-4 text-[#ff9800]"></h3>
+        <img id="modalProductImage" src="" alt="" class="w-48 h-48 object-contain mx-auto mb-4">
+        <p class="text-xl font-bold" id="modalProductPrice"></p>
+        <button class="btn btn-primary w-full mt-4" id="modalAddToCartBtn">أضف للسلة</button>
+    </div>
+    <!-- Right part (Tabs) -->
+    <div class="product-details-tabs-container">
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="description">الوصف</button>
+            <button class="tab-button" data-tab="howToUse">كيفية الاستعمال</button>
+            <button class="tab-button" data-tab="reviews">آراء العملاء</button>
+        </div>
+        <!-- Description Tab -->
+        <div id="descriptionTab" class="tab-content active">
+            <p id="modalProductDescription" class="text-gray-700 text-right leading-relaxed"></p>
+        </div>
+        <!-- How to Use Tab -->
+        <div id="howToUseTab" class="tab-content">
+            <div id="howToUseContent">
+                <img id="howToUseImage" src="" alt="كيفية الاستعمال" class="w-full h-auto object-contain mb-2 rounded hidden">
+                <p id="howToUseText" class="text-gray-700"></p>
+            </div>
+        </div>
+        <!-- Reviews Tab -->
+        <div id="reviewsTab" class="tab-content">
+            <div id="customerReviewsContainer" class="space-y-4 mt-3"></div>
+            <div class="mt-6 p-4 bg-white rounded-lg shadow-sm border border-orange-200">
+                <h5 class="font-semibold mb-3">أضف رأيك</h5>
+                <textarea id="reviewTextInput" placeholder="اكتب تعليقك هنا..." class="textarea textarea-bordered w-full mb-2"></textarea>
+                <button class="btn btn-primary btn-sm w-full" onclick="submitNewComment()">إرسال التعليق</button>
+            </div>
+        </div>
+    </div>
+</aside>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
@@ -247,7 +321,7 @@
 <script type="module">
 // --- Firebase Configuration ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -273,21 +347,24 @@ const menuOverlay = document.getElementById('menuOverlay');
 const closeSidebar = document.getElementById('closeSidebar');
 function toggleSidebar(open) {
   sidebar.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
-  menuOverlay.style.opacity = open ? '0.4' : '0';
+  menuOverlay.style.opacity = open ? '1' : '0';
   menuOverlay.style.pointerEvents = open ? 'auto' : 'none';
 }
 menuBtn.addEventListener('click', () => toggleSidebar(true));
 closeSidebar.addEventListener('click', () => toggleSidebar(false));
-menuOverlay.addEventListener('click', () => toggleSidebar(false));
+menuOverlay.addEventListener('click', () => {
+    toggleSidebar(false);
+    if (productDetailModal.classList.contains('open')) closeProductDetailModal();
+});
 
 // --- Data for Page Content ---
 const allProducts = [
-    { id:"av1", name:"قريبًا في المتجر", brand:"Avene", price:0, image:"images/products/kid21.png" },
-    { id:"lr1", name:"قريبًا في المتجر", brand:"La Roche", price:0, image:"images/products/kid22.png" },
-    { id:"bio1", name:"قريبًا في المتجر", brand:"Bioderma", price:0, image:"images/products/kid23.png" },
-    { id:"arv1", name:"قريبًا في المتجر", brand:"Arvia", price:0, image:"images/products/kid24.png" },
+    { id:"av1", name:"كريم الليل Tolérance Control", brand:"ARVEA", type:"جميع انواع البشرة", price:85, image:"images/products/kid2.png", description:"يجمع كريم الليل المضاد للتجاعيد بين خصائص الترطيب والتجديد التي يوفرها الصبار، وزيت الأرغان العضوي، وزبدة الشيا، وزيت الأفوكادو، وبروفيتامين B5، وزيت بذور العنب، وزيت الأوكالبتوس العطري، وزيت بذور التين الشوكي. هذا العلاج المضاد للتجاعيد، الغني بمكونات طبيعية فعالة، يُجدد بشرتكِ بشكل استثنائي.", howToUse: { text: "يُوضع كمية صغيرة على بشرة نظيفة وجافة كل مساء قبل النوم. يُدلك بلطف بحركات دائرية حتى يتم امتصاصه بالكامل." } },
+    { id:"av2", name:"أفين كريم Hydrance Riche", brand:"Avene", type:"عادية", price:65, image:"images/products/kid1.png", description:"كريم مغذٍ يمنح البشرة العادية ترطيبًا يدوم طويلاً. تركيبته الغنية بالمياه الحرارية من أفين تعمل على تهدئة البشرة وتقويتها، بينما المكونات المرطبة الأخرى تحافظ على حاجز البشرة وتحميها من الجفاف.", howToUse: { text: "يوضع صباحاً ومساءً على الوجه والرقبة بعد التنظيف. مثالي كأساس للمكياج." } },
+    { id:"lr3", name:"لاروش بوزيه Cicaplast Baume B5+", brand:"La Roche", type:"حساسة", price:53, image:"images/creams/kid9.png", description:"بلسم متعدد الاستخدامات يعمل على تهدئة وإصلاح وحماية البشرة المتهيجة والحساسة. تركيبته الفريدة تحتوي على Madecassoside الذي يعزز الإصلاح الجلدي، والنحاس والزنك والمنغنيز التي تعمل كمضادات للبكتيريا، و Panthenol (فيتامين B5) بتركيز 5% لتهدئة البشرة.", howToUse: { text: "يمكن تطبيقه مرتين يومياً على بشرة نظيفة وجافة. مناسب للجسم والوجه والشفتين." } },
+    { id:"arv1", name:"أرفيا كريم بزيت جوز الهند", brand:"Arvia", type:"عادية", price:39, image:"images/creams/kid10.png", description:"كريم طبيعي يرطب البشرة العادية ويمنحها نعومة فائقة. غني بزيت جوز الهند النقي المعروف بخصائصه المرطبة والمغذية، يساعد هذا الكريم على استعادة ليونة البشرة ومرونتها.", howToUse: { text: "يوضع على البشرة النظيفة والجافة كلما دعت الحاجة. مثالي لترطيب الجسم واليدين." } }
 ];
-const bestSellerIds = ["lr1", "bio1", "av1", "arv1"]; 
+const bestSellerIds = ["av1", "av2", "lr3", "arv1"];
 
 const storeCategories = [
     { name: "الكريمات", link: "creams.html", icon: "🧴", description: "ترطيب وعناية" },
@@ -307,15 +384,17 @@ const storesContainer = document.getElementById('storesContainer');
 function renderBestSellers() {
     bestSellersContainer.innerHTML = '';
     const bestSellerProducts = allProducts.filter(p => bestSellerIds.includes(p.id));
-    
     bestSellerProducts.forEach(p => {
         const card = document.createElement('article');
         card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center';
         card.innerHTML = `
-            <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-24 h-24 object-contain mb-2">
-            <h3 class="font-semibold text-sm flex-grow">${p.name}</h3>
+            <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-24 h-24 object-contain mb-2 cursor-pointer" data-action="detail" data-id="${p.id}">
+            <h3 class="font-semibold text-sm flex-grow cursor-pointer" data-action="detail" data-id="${p.id}">${p.name}</h3>
             <div class="text-lg font-bold mt-2">${p.price.toFixed(2)} د.ل</div>
-            <button class="btn btn-sm btn-primary w-full mt-2" data-action="add" data-id="${p.id}">أضف للسلة</button>
+            <div class="w-full mt-2 flex gap-2">
+                <button class="btn btn-xs btn-outline flex-1" data-action="detail" data-id="${p.id}">عرض</button>
+                <button class="btn btn-xs btn-primary flex-1" data-action="add" data-id="${p.id}">شراء</button>
+            </div>
         `;
         bestSellersContainer.appendChild(card);
     });
@@ -325,21 +404,15 @@ function renderStoreCategories() {
     storesContainer.innerHTML = '';
     const searchTerm = document.getElementById('search-store').value.toLowerCase();
     const filteredStores = storeCategories.filter(store => store.name.toLowerCase().includes(searchTerm));
-
     if (!filteredStores.length) {
         storesContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500">لا يوجد متجر مطابق للبحث.</div>`;
         return;
     }
-
     filteredStores.forEach(store => {
         const card = document.createElement('a');
         card.href = store.link;
         card.className = 'store-card bg-white rounded-xl p-4 shadow-sm flex flex-col items-center text-center';
-        card.innerHTML = `
-            <div class="store-icon mb-3">${store.icon}</div>
-            <h3 class="font-bold text-lg text-gray-800">${store.name}</h3>
-            <p class="text-sm text-gray-500">${store.description}</p>
-        `;
+        card.innerHTML = `<div class="store-icon mb-3">${store.icon}</div><h3 class="font-bold text-lg text-gray-800">${store.name}</h3><p class="text-sm text-gray-500">${store.description}</p>`;
         storesContainer.appendChild(card);
     });
 }
@@ -351,7 +424,6 @@ const cartTotalEl = document.getElementById('cartTotal');
 const cartBadge = document.getElementById('cartBadge');
 const cartOverlay = document.getElementById('cartOverlay');
 const cartPanel = document.getElementById('cartPanel');
-
 function saveCart() { localStorage.setItem('orange_cart', JSON.stringify(cart)); updateCartUI(); }
 function addToCart(productId) {
     const prod = allProducts.find(p => p.id === productId);
@@ -363,28 +435,13 @@ function addToCart(productId) {
     Swal.fire({ icon: 'success', title: 'تمت الإضافة للسلة', timer: 1100, showConfirmButton: false });
 }
 function updateCartUI() {
-    cartItemsEl.innerHTML = '';
-    let total = 0;
+    cartItemsEl.innerHTML = ''; let total = 0;
     cart.forEach((item, i) => {
         total += item.price * item.qty;
-        const itemEl = document.createElement('div');
-        itemEl.className = 'p-2 bg-orange-50 rounded flex items-start justify-between gap-2';
-        itemEl.innerHTML = `
-            <div class="flex-1">
-                <div class="font-semibold">${item.name}</div>
-                <div class="text-xs text-gray-500">سعر الوحدة: ${item.price.toFixed(2)} د.ل</div>
-                <div class="mt-2 flex gap-2">
-                    <button class="btn btn-xs" onclick="changeQtyWrapper(${i}, -1)">-</button>
-                    <div class="px-3 py-1 border rounded">${item.qty}</div>
-                    <button class="btn btn-xs" onclick="changeQtyWrapper(${i}, 1)">+</button>
-                    <button class="btn btn-xs btn-error ml-auto" onclick="removeFromCartWrapper(${i})">حذف</button>
-                </div>
-            </div>`;
-        cartItemsEl.appendChild(itemEl);
+        cartItemsEl.innerHTML += `<div class="p-2 bg-orange-50 rounded flex items-start justify-between gap-2"><div class="flex-1"><div class="font-semibold">${item.name}</div><div class="text-xs text-gray-500">سعر الوحدة: ${item.price.toFixed(2)} د.ل</div><div class="mt-2 flex gap-2"><button class="btn btn-xs" onclick="changeQtyWrapper(${i}, -1)">-</button><div class="px-3 py-1 border rounded">${item.qty}</div><button class="btn btn-xs" onclick="changeQtyWrapper(${i}, 1)">+</button><button class="btn btn-xs btn-error ml-auto" onclick="removeFromCartWrapper(${i})">حذف</button></div></div></div>`;
     });
-    const totalQty = cart.reduce((s, i) => s + i.qty, 0);
     cartTotalEl.innerText = total.toFixed(2) + ' د.ل';
-    cartBadge.innerText = totalQty;
+    cartBadge.innerText = cart.reduce((s, i) => s + i.qty, 0);
 }
 window.changeQtyWrapper = (index, delta) => { cart[index].qty = Math.max(1, cart[index].qty + delta); saveCart(); };
 window.removeFromCartWrapper = (index) => { cart.splice(index, 1); saveCart(); };
@@ -392,7 +449,7 @@ document.getElementById('clearCartBtn').addEventListener('click', () => { if(car
 document.getElementById('openCartBtn').addEventListener('click', () => { cartOverlay.classList.add('open'); cartPanel.classList.add('open'); });
 document.getElementById('closeCartBtn').addEventListener('click', () => { cartOverlay.classList.remove('open'); cartPanel.classList.remove('open'); });
 cartOverlay.addEventListener('click', () => { cartOverlay.classList.remove('open'); cartPanel.classList.remove('open'); });
-bestSellersContainer.addEventListener('click', e => { if (e.target.closest('button')?.dataset.action === 'add') addToCart(e.target.closest('button').dataset.id); });
+
 document.getElementById('checkoutBtn').addEventListener('click', () => {
     const fullname = document.getElementById('fullname').value.trim();
     const phone = document.getElementById('phone').value.trim();
@@ -400,71 +457,172 @@ document.getElementById('checkoutBtn').addEventListener('click', () => {
     const otherCity = document.getElementById('otherCity').value.trim();
     const address = document.getElementById('address').value.trim();
     if (city === 'مناطق أخرى' && otherCity) city = otherCity;
-    if (!fullname || !phone || !city || !address || !cart.length) {
-        Swal.fire({ icon: 'warning', title: 'يرجى إكمال جميع البيانات وإضافة منتجات للسلة' });
-        return;
-    }
+    if (!fullname || !phone || !city || !address || !cart.length) { Swal.fire({ icon: 'warning', title: 'يرجى إكمال جميع البيانات وإضافة منتجات للسلة' }); return; }
     let message = `طلب جديد من نعومة نعومتك ✨%0Aالاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0Aالعنوان: ${address}%0A%0Aتفاصيل الطلب:%0A`;
     cart.forEach(item => { message += `• ${item.name} × ${item.qty} = ${(item.price * item.qty).toFixed(2)} د.ل%0A`; });
-    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-    message += `%0Aالإجمالي: ${total.toFixed(2)} د.ل`;
+    message += `%0Aالإجمالي: ${cart.reduce((s, i) => s + i.price * i.qty, 0).toFixed(2)} د.ل`;
     window.open(`https://wa.me/218915066938?text=${message}`, '_blank');
 });
 
-// --- Firebase Form Submission Logic ---
-const feedbackText = document.getElementById('feedback-text');
-const submitFeedbackBtn = document.getElementById('submit-feedback-btn');
-const requestProductName = document.getElementById('request-product-name');
-const requestProductBrand = document.getElementById('request-product-brand');
-const submitRequestBtn = document.getElementById('submit-request-btn');
+// --- Product Modal Logic ---
+const productDetailModal = document.getElementById('productDetailModal');
+const modalOverlay = document.getElementById('modalOverlay');
+let currentProductId = null;
 
-// Event listener for submitting feedback
-submitFeedbackBtn.addEventListener('click', async () => {
-    const text = feedbackText.value.trim();
-    if (!text) {
-        Swal.fire({ icon: 'warning', title: 'الرجاء كتابة رأيك أولاً.' });
-        return;
-    }
-    const user = auth.currentUser;
-    try {
-        await addDoc(collection(db, "store_feedback"), {
-            feedback: text,
-            userId: user ? user.uid : 'anonymous',
-            userName: user ? user.displayName || 'مستخدم' : 'زائر',
-            timestamp: serverTimestamp()
-        });
-        feedbackText.value = '';
-        Swal.fire({ icon: 'success', title: 'شكراً لك!', text: 'تم إرسال رأيك بنجاح.' });
-    } catch (e) {
-        console.error("Error adding feedback: ", e);
-        Swal.fire({ icon: 'error', title: 'حدث خطأ', text: 'فشل إرسال الرأي. الرجاء المحاولة مرة أخرى.' });
-    }
+function openProductDetailModal(prod) {
+    currentProductId = prod.id;
+    productDetailModal.querySelector('#modalProductName').innerText = prod.name;
+    productDetailModal.querySelector('#modalProductImage').src = prod.image;
+    productDetailModal.querySelector('#modalProductDescription').innerText = prod.description;
+    productDetailModal.querySelector('#modalProductPrice').innerText = `${prod.price.toFixed(2)} د.ل`;
+    productDetailModal.querySelector('#modalAddToCartBtn').onclick = () => { addToCart(prod.id); closeProductDetailModal(); };
+    productDetailModal.querySelector('#howToUseText').innerText = prod.howToUse?.text || "لا توجد تعليمات محددة.";
+    productDetailModal.querySelector('#howToUseImage').classList.toggle('hidden', !prod.howToUse?.image);
+    if(prod.howToUse?.image) productDetailModal.querySelector('#howToUseImage').src = prod.howToUse.image;
+    
+    loadCommentsAndReplies(prod.id, productDetailModal.querySelector('#customerReviewsContainer'));
+    productDetailModal.classList.add('open');
+    modalOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+window.closeProductDetailModal = function() {
+    productDetailModal.classList.remove('open');
+    modalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+    currentProductId = null;
+    activateTab('description'); // Reset to first tab
+}
+
+bestSellersContainer.addEventListener('click', e => {
+    const target = e.target.closest('[data-action]');
+    if (!target) return;
+    const action = target.dataset.action;
+    const id = target.dataset.id;
+    const prod = allProducts.find(p => p.id === id);
+    if (action === 'add') addToCart(id);
+    if (action === 'detail' && prod) openProductDetailModal(prod);
 });
 
-// Event listener for requesting a product
-submitRequestBtn.addEventListener('click', async () => {
-    const productName = requestProductName.value.trim();
-    if (!productName) {
-        Swal.fire({ icon: 'warning', title: 'الرجاء كتابة اسم المنتج المطلوب.' });
-        return;
-    }
-    const brand = requestProductBrand.value.trim();
+// Tab switching logic in modal
+const tabButtons = document.querySelectorAll('.tab-buttons .tab-button');
+const tabContents = document.querySelectorAll('.product-details-tabs-container .tab-content');
+function activateTab(tabName) {
+    tabButtons.forEach(button => button.classList.toggle('active', button.dataset.tab === tabName));
+    tabContents.forEach(content => content.classList.toggle('active', content.id === tabName + 'Tab'));
+}
+tabButtons.forEach(button => button.addEventListener('click', () => activateTab(button.dataset.tab)));
+
+
+// --- Firebase Comments and Reactions Logic ---
+const formatDate = (timestamp) => {
+    if (!timestamp || !timestamp.toDate) return 'الآن';
+    const dateOptions = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    return timestamp.toDate().toLocaleString('ar-EG', dateOptions);
+};
+
+async function renderComment(commentData, parentElement, isReply = false, parentCommentId = null) {
+    const commentEl = document.createElement('div');
+    commentEl.id = `comment-${commentData.id}`;
+    commentEl.className = `comment-card ${isReply ? 'ml-6' : ''}`;
+
     const user = auth.currentUser;
-    try {
-        await addDoc(collection(db, "product_requests"), {
-            productName: productName,
-            brand: brand || 'غير محدد',
-            userId: user ? user.uid : 'anonymous',
-            userName: user ? user.displayName || 'مستخدم' : 'زائر',
-            timestamp: serverTimestamp()
-        });
-        requestProductName.value = '';
-        requestProductBrand.value = '';
-        Swal.fire({ icon: 'success', title: 'شكراً لطلبك!', text: 'تم إرسال طلبك وسنعمل على توفيره.' });
-    } catch (e) {
-        console.error("Error adding product request: ", e);
-        Swal.fire({ icon: 'error', title: 'حدث خطأ', text: 'فشل إرسال الطلب. الرجاء المحاولة مرة أخرى.' });
+    const reactions = commentData.reactions || {};
+    const likes = reactions.like ? Object.keys(reactions.like).length : 0;
+    const hearts = reactions.love ? Object.keys(reactions.love).length : 0;
+    const userReaction = user ? Object.keys(reactions).find(type => reactions[type]?.[user.uid]) : null;
+
+    commentEl.innerHTML = `
+        <div class="comment-header">
+            <div class="comment-author"><span class="avatar">👤</span> ${commentData.userName || "مستخدم"}</div>
+            <div class="comment-timestamp">${formatDate(commentData.date)}</div>
+        </div>
+        <p class="comment-text">${commentData.text}</p>
+        <div class="comment-actions">
+            <button class="reaction-button ${userReaction === 'like' ? 'active' : ''}" data-type="like" data-comment-id="${commentData.id}">👍 <span id="likes-${commentData.id}">${likes}</span></button>
+            <button class="reaction-button ${userReaction === 'love' ? 'active' : ''}" data-type="love" data-comment-id="${commentData.id}">❤️ <span id="hearts-${commentData.id}">${hearts}</span></button>
+            <!-- زر الرد تم إزالته مؤقتاً للتبسيط -->
+        </div>
+        <div id="replies-container-${commentData.id}" class="replies-container"></div>`;
+    parentElement.appendChild(commentEl);
+    
+    commentEl.querySelectorAll('.reaction-button').forEach(button => button.addEventListener('click', async (e) => {
+        if (!user) { Swal.fire({ icon: 'error', title: 'يجب تسجيل الدخول للتفاعل' }); return; }
+        await handleReaction(e.currentTarget.dataset.commentId, e.currentTarget.dataset.type, user.uid);
+        loadCommentsAndReplies(currentProductId, productDetailModal.querySelector('#customerReviewsContainer'));
+    }));
+}
+
+async function loadCommentsAndReplies(productId, targetElement) {
+    if (!targetElement) return;
+    targetElement.innerHTML = `<p class="text-gray-500 text-center">⏳ جاري تحميل آراء العملاء...</p>`;
+    const q = query(collection(db, "products", productId, "comments"), orderBy("date", "desc"));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      targetElement.innerHTML = `<p class="text-gray-400 text-center">لا توجد آراء بعد. كن أول من يعلق! 👇</p>`;
+      return;
     }
+    targetElement.innerHTML = '';
+    querySnapshot.forEach(docSnapshot => renderComment({ id: docSnapshot.id, ...docSnapshot.data() }, targetElement));
+}
+
+window.submitNewComment = async function() {
+    const reviewText = document.getElementById('reviewTextInput').value.trim();
+    if (!reviewText) { Swal.fire({ icon: 'warning', title: 'الرجاء كتابة تعليق أولاً' }); return; }
+    const user = auth.currentUser;
+    if (!user) { Swal.fire({ icon: 'error', title: 'يجب تسجيل الدخول أولاً' }); return; }
+    try {
+        await addDoc(collection(db, "products", currentProductId, "comments"), {
+            userId: user.uid,
+            userName: user.displayName || "مستخدم",
+            text: reviewText,
+            date: serverTimestamp(),
+            reactions: {}
+        });
+        document.getElementById('reviewTextInput').value = '';
+        Swal.fire({ icon: 'success', title: 'تم إرسال التعليق!' });
+        loadCommentsAndReplies(currentProductId, document.getElementById('customerReviewsContainer'));
+    } catch (error) { Swal.fire({ icon: 'error', title: 'فشل إرسال التعليق' }); }
+}
+
+async function handleReaction(commentId, reactionType, userId) {
+    const docRef = doc(db, `products/${currentProductId}/comments/${commentId}`);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return;
+
+    const reactions = docSnap.data().reactions || {};
+    let updateData = {};
+    // Remove user's previous reaction if any
+    Object.keys(reactions).forEach(type => {
+        if (reactions[type]?.[userId]) {
+            updateData[`reactions.${type}.${userId}`] = null; // Mark for deletion
+        }
+    });
+    // Add new reaction if it's different from the previous one
+    if (!reactions[reactionType]?.[userId]) {
+        updateData[`reactions.${reactionType}.${userId}`] = true;
+    }
+    if (Object.keys(updateData).length > 0) await updateDoc(docRef, updateData);
+}
+
+// --- Firebase Form Submission Logic ---
+document.getElementById('submit-feedback-btn').addEventListener('click', async () => {
+    const text = document.getElementById('feedback-text').value.trim();
+    if (!text) { Swal.fire({ icon: 'warning', title: 'الرجاء كتابة رأيك أولاً.' }); return; }
+    try {
+        await addDoc(collection(db, "store_feedback"), { feedback: text, userId: auth.currentUser?.uid || 'anonymous', userName: auth.currentUser?.displayName || 'زائر', timestamp: serverTimestamp() });
+        document.getElementById('feedback-text').value = '';
+        Swal.fire({ icon: 'success', title: 'شكراً لك!', text: 'تم إرسال رأيك بنجاح.' });
+    } catch (e) { Swal.fire({ icon: 'error', title: 'حدث خطأ' }); }
+});
+document.getElementById('submit-request-btn').addEventListener('click', async () => {
+    const productName = document.getElementById('request-product-name').value.trim();
+    if (!productName) { Swal.fire({ icon: 'warning', title: 'الرجاء كتابة اسم المنتج.' }); return; }
+    try {
+        await addDoc(collection(db, "product_requests"), { productName: productName, brand: document.getElementById('request-product-brand').value.trim() || 'غير محدد', userId: auth.currentUser?.uid || 'anonymous', userName: auth.currentUser?.displayName || 'زائر', timestamp: serverTimestamp() });
+        document.getElementById('request-product-name').value = ''; document.getElementById('request-product-brand').value = '';
+        Swal.fire({ icon: 'success', title: 'شكراً لطلبك!', text: 'تم إرسال طلبك.' });
+    } catch (e) { Swal.fire({ icon: 'error', title: 'حدث خطأ' }); }
 });
 
 // --- Firebase Auth & Initial Render ---
@@ -490,6 +648,3 @@ updateCartUI();
 </script>
 </body>
 </html>
-
-
-
