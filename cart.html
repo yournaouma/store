@@ -1,1 +1,678 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <title>🛍️ متجر منتجاتنا المميزة من نعومة نعومتك</title>
+  <meta name="description" content="🛍️ منتجاتنا المميزة من نعومة نعومتك — منتجات أصلية للعناية بالبشرة من أفين، بيوديرما، لاروش، أرفيا وغيرها. توصيل سريع داخل ليبيا." />
+  <meta name="keywords" content="Avene, Bioderma, La Roche, Arvia, كريمات, سيروم, واقي شمس, متجر مميز, نعومة نعومتك" />
+  <meta name="author" content="منتجاتنا المميزة من نعومة نعومتك" />
+
+  <meta name="theme-color" content="#FF9800" />
+
+  <!-- 🔍 أيقونة المتجر لمحركات البحث والمتصفحات -->
+  <link rel="icon" type="image/png" href="https://yournaouma.github.io/store/images/logo.png">
+  <link rel="shortcut icon" type="image/png" href="https://yournaouma.github.io/store/images/logo.png">
+
+  <!-- 📱 لمواقع التواصل (Open Graph + Twitter) -->
+  <meta property="og:site_name" content="نعومتك | متجر العناية بالبشرة" />
+  <meta property="og:title" content="نعومتك | متجر العناية بالبشرة النقية" />
+  <meta property="og:description" content="اكتشفي منتجات نعومتك الفاخرة للعناية بالبشرة – كريمات، سيرومات، واقيات شمس وأكثر." />
+  <meta property="og:image" content="https://yournaouma.github.io/store/images/logo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yournaouma.github.io/store/" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Tailwind CSS + DaisyUI -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" />
+  <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
+
+  <style>
+    body { font-family: "Noto Sans Arabic", system-ui; background: linear-gradient(180deg,#fff 0%, #fff5ea 100%); }
+    header { background: linear-gradient(90deg,#fff 0%, #ffedde 100%);}
+    .product-card {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(255,150,40,0.05);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 4px 16px rgba(255,150,40,0.08);}
+    .pill { background: #ff9800; border-radius: 999px; padding: .2rem .7rem; font-size: .8rem; color: #fff; }
+    #sidebar { background: white; color: #333; }
+    #sidebar a { color: #333; }
+    #sidebar a:hover { background: #ff9800; color: #fff; }
+    .cart-overlay, .modal-overlay {
+      position:fixed; inset:0; background:rgba(0,0,0,0.2); opacity:0; pointer-events:none; transition:opacity .25s; z-index:40;
+    }
+    .cart-overlay.open, .modal-overlay.open { opacity:1; pointer-events:auto; }
+    .cart-drawer {
+      position:fixed; top:0; right:0; height:100vh; width:100%;
+      max-width:310px;
+      transform:translateX(110%);
+      transition:transform .25s cubic-bezier(.2,.9,.2,1);
+      z-index:50;
+      box-shadow:-6px 0 16px 0 rgba(255,152,0,0.04);
+    }
+    .cart-drawer.open { transform:translateX(0); }
+    @media (max-width: 530px) { .cart-drawer { max-width:90vw; } }
+    #menuBtn {background:#ff9800;}
+    #menuBtn:hover {background:#fb8c00;}
+    .btn-primary,.btn-primary:active {background:linear-gradient(90deg,#ff9800,#ffbd51);border:none;color:white;}
+    .btn-primary:hover {background:linear-gradient(90deg,#fb8c00,#fcc761);}
+    .btn-outline {border-color:#ff9800;color:#ff9800;}
+    .btn-outline:hover {background:#ff9800;color:white;}
+    .btn-error {background:#ff5722;color:white;}
+    #cartPanel .cart-actions-area {
+      position: sticky; bottom: 0; background: white; z-index: 2;
+      padding-top: 6px; margin-top: 12px; border-top: 1.5px solid #ffecbc;
+    }
+    #cartPanel .cart-actions-area button,
+    #cartPanel .cart-actions-area .flex {margin-bottom:0;}
+    #cartPanel .input, #cartPanel .select { background-color: white; color: #333; border-color: #ff9800; }
+    #cartPanel .input::placeholder, #cartPanel .select option { color: #777; }
+    .filter-btn { background-color: white; color: #333; border-color: #ff9800; }
+    .filter-btn:hover { background-color: #ff9800; color: white; }
+    .product-detail-modal {
+        position: fixed; top: 50%; left: 50%;
+        transform: translate(-50%, -50%) scale(0.8);
+        width: 90%; max-width: 700px; max-height: 90vh;
+        background-color: white; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        border-radius: 1rem; transition: all 0.3s ease-in-out;
+        z-index: 101; padding: 1.5rem; overflow-y: auto;
+        opacity: 0; pointer-events: none;
+        display: flex; flex-direction: row-reverse; gap: 1.5rem;
+    }
+    .product-detail-modal.open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+    .product-detail-modal .close-btn {
+        position: absolute; top: 1rem; left: 1rem; background: none;
+        border: none; font-size: 1.8rem; cursor: pointer; color: #999; z-index: 10;
+    }
+    .product-detail-modal .close-btn:hover { color: #ff5722; }
+    .product-detail-modal .section-title { font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; color: #ff9800; }
+    .star-rating { display: flex; flex-direction: row-reverse; justify-content: flex-end; }
+    .star-rating input[type="radio"] { display: none; }
+    .star-rating label { font-size: 1.5rem; color: #ccc; cursor: pointer; }
+    .star-rating input[type="radio"]:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: #ffc107; }
+    .tab-buttons { display: flex; justify-content: space-around; margin-bottom: 1rem; border-bottom: 1px solid #eee; }
+    .tab-button {
+      flex: 1; padding: 0.75rem 0.5rem; text-align: center; cursor: pointer;
+      font-weight: bold; color: #666; border-bottom: 2px solid transparent; transition: all 0.2s ease-in-out;
+    }
+    .tab-button.active { color: #ff9800; border-bottom-color: #ff9800; }
+    .tab-content { display: none; padding-top: 1rem; }
+    .tab-content.active { display: block; }
+    .product-image-zoom { cursor: zoom-in; transition: transform 0.2s ease-in-out; }
+    .product-image-zoom.zoomed { transform: scale(1.5); cursor: zoom-out; }
+    .product-details-main { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .product-details-tabs-container { flex: 2; display: flex; flex-direction: column; }
+    @media (max-width: 768px) {
+        .product-detail-modal { flex-direction: column; max-width: 95%; padding: 1rem; gap: 1rem; }
+        .product-detail-modal .close-btn { top: 0.5rem; left: 0.5rem; }
+        .product-details-main, .product-details-tabs-container { flex: none; width: 100%; }
+    }
+    .auth-section-header { display: flex; align-items: center; gap: 0.5rem; }
+    .auth-section-header .btn { padding: 0.5rem 0.75rem; font-size: 0.875rem; line-height: 1.25rem; }
+    .auth-section-header #user-info-header { margin: 0; font-size: 0.875rem; color: #555; }
+    @media (max-width: 640px) {
+        .auth-section-header { flex-direction: column; align-items: flex-end; gap: 0.25rem; }
+        .auth-section-header .btn { width: auto; }
+    }
+    .comment-card { background-color: #fcfcfc; border: 1px solid #ffecbc; border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem; }
+    .comment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .comment-author { font-weight: bold; color: #ff9800; display: flex; align-items: center; }
+    .comment-timestamp { font-size: 0.75rem; color: #888; }
+    .comment-text { color: #444; margin-bottom: 0.75rem; line-height: 1.4; }
+    .comment-actions { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.5rem; }
+    .reaction-button { display: flex; align-items: center; gap: 0.25rem; padding: 0.3rem 0.6rem; border-radius: 999px; font-size: 0.85rem; cursor: pointer; transition: background-color 0.2s; border: 1px solid #ddd; color: #555; }
+    .reaction-button:hover { background-color: #fff3e0; border-color: #ffbb77; color: #ff9800; }
+    .reaction-button.active { background-color: #ffe0b2; border-color: #ff9800; color: #d84315; font-weight: bold; }
+    .reply-form-container { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px dashed #eee; }
+    .replies-container { margin-right: 1.5rem; border-right: 2px solid #ff9800; padding-right: 1rem; margin-top: 1rem; }
+    .replies-container .comment-card { background-color: #fffdfa; border-color: #ffe0b2; margin-bottom: 0.75rem; }
+    #reviewsTab #reviewNameInput, #reviewsTab #reviewTextInput { background-color: #ffffff !important; color: #111827 !important; border-color: #ff9800 !important; }
+    #reviewsTab #reviewNameInput::placeholder, #reviewsTab #reviewTextInput::placeholder { color: #9ca3af; }
+  </style>
+</head>
+
+<body class="antialiased text-gray-800 bg-[#fffbea]">
+
+<!-- Menu Button -->
+<button id="menuBtn" class="fixed top-4 right-4 z-60 text-white px-3 py-2 rounded-lg shadow-md">☰ القائمة</button>
+<div id="menuOverlay" class="fixed inset-0 bg-black opacity-0 z-50 pointer-events-none transition-opacity duration-300"></div>
+
+<!-- Sidebar menu (white) -->
+<aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto z-50">
+  <div class="p-5">
+    <h2 class="text-2xl font-bold mb-4 text-center text-[#ff9800]">🛍️ نعومة نعومتك</h2>
+    <nav class="space-y-3 text-lg">
+        <a href="index.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🏠 الصفحة الرئيسية</a>
+        <a href="creams.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🧴 متجر الكريمات</a>
+        <a href="serums.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">💧 متجر السيرومات</a>
+        <a href="cleansers.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🧼 متجر المنظفات</a>
+        <a href="sunscreen.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🌞 متجر واقي الشمس</a>
+        <a href="toners.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">💦 متجر التونر</a>
+        <a href="peels.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🍯 متجر المقشرات</a>
+        <a href="masks.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🛁 متجر الماسكات</a>
+        <a href="perfumes.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🌸 متجر العطور</a>
+        <a href="yourskin.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">💬 استشارة بشرتك</a>
+        <a href="contact.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">📞 اتصل بنا</a>
+    </nav>
+    <div class="mt-6 text-center">
+      <button id="closeSidebar" class="bg-[#ff9800] text-white px-4 py-2 rounded-lg shadow hover:bg-[#fb8c00]">إغلاق ✖</button>
+    </div>
+  </div>
+</aside>
+
+<header class="shadow-sm sticky top-0 z-30 mt-14">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+        <img src="images/logo.png" alt="شعار نعومة نعومتك" class="w-12 h-12 rounded-lg object-cover shadow-sm">
+      <div>
+        <h1 class="text-lg font-extrabold">منتجاتنا المميزة من نعومة نعومتك
+          <span class="text-sm text-gray-500 block">أصناف أصلية للعناية بالبشرة</span>
+        </h1>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+        <div id="auth-section-header" class="auth-section-header">
+            <button id="login-btn-header" class="btn btn-sm btn-outline text-pink-500 hover:bg-pink-500 hover:text-white">🔑 تسجيل الدخول</button>
+            <button id="logout-btn-header" class="btn btn-sm btn-ghost hidden">🚪 خروج</button>
+            <p id="user-info-header" class="text-sm hidden"></p>
+        </div>
+        <div class="pill text-sm hidden sm:block">توصيل سريع داخل ليبيا</div>
+        <button id="openCartBtn" class="btn btn-ghost btn-sm">🛒 <span id="cartBadge">0</span></button>
+    </div>
+  </div>
+</header>
+
+<!-- Main -->
+<main class="max-w-7xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
+  <!-- Sidebar filters -->
+  <aside class="lg:col-span-1 space-y-4">
+    <div class="bg-white p-4 rounded-xl shadow-sm">
+      <input id="search" type="search" placeholder="ابحث عن منتج..." class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-orange-200" aria-label="ابحث عن منتج">
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow-sm">
+      <h3 class="font-semibold mb-2">التصنيف</h3>
+      <div class="flex flex-col gap-2">
+        <button class="filter-btn btn btn-sm justify-start" data-type="all">جميع المنتجات</button>
+        <button class="filter-btn btn btn-sm justify-start" data-type="Avene">أفين</button>
+        <button class="filter-btn btn btn-sm justify-start" data-type="Bioderma">بيوديرما</button>
+        <button class="filter-btn btn btn-sm justify-start" data-type="La Roche">لاروش</button>
+        <button class="filter-btn btn btn-sm justify-start" data-type="Arvia">أرفيا</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Products Grid -->
+  <section class="lg:col-span-3 space-y-4">
+    <div id="productsContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4"></div>
+    <div class="bg-white p-4 rounded-xl shadow-sm lg:hidden">
+      <div class="flex justify-between items-center">
+        <div>🛒 <span id="mobileCartCount">0</span> عناصر</div>
+        <div class="font-bold">الإجمالي: <span id="mobileTotal">0.00</span> د.ل</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="cartOverlay" class="cart-overlay" tabindex="-1" aria-hidden="true"></div>
+<div id="modalOverlay" class="modal-overlay" tabindex="-1" aria-hidden="true"></div>
+
+<!-- Cart Drawer -->
+<aside id="cartPanel" class="cart-drawer bg-white" role="dialog" aria-modal="true" aria-hidden="true" style="border-right:3px solid #ff9800">
+  <div class="h-full flex flex-col p-4">
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="text-lg font-bold">🛒 سلة مشترياتك</h2>
+      <div class="flex items-center gap-2">
+        <button id="clearCartBtn" class="btn btn-ghost btn-xs text-sm">تفريغ</button>
+        <button id="closeCartBtn" class="btn btn-ghost">إغلاق ✖</button>
+      </div>
+    </div>
+    <div id="cartItems" class="flex-1 overflow-auto space-y-3 p-1"></div>
+    <div class="cart-actions-area">
+      <div class="flex justify-between items-center mb-2">
+        <div class="font-semibold">الإجمالي الكلي</div>
+        <div class="font-bold" id="cartTotal">0.00 د.ل</div>
+      </div>
+      <div class="space-y-2 mb-2">
+        <input id="fullname" placeholder="الاسم الكامل" class="input input-bordered w-full" />
+        <input id="phone" placeholder="رقم الهاتف (مثال: 0915...)" class="input input-bordered w-full" />
+        <select id="city" class="select select-bordered w-full">
+          <option value="">اختر مدينتك</option>
+          <option>طرابلس</option><option>بنغازي</option><option>مصراته</option><option>سبها</option><option>الخمس</option><option>مناطق أخرى</option>
+        </select>
+        <input id="otherCity" placeholder="اكتب مدينتك إذا مناطق أخرى" class="input input-bordered w-full hidden" />
+        <input id="address" placeholder="العنوان" class="input input-bordered w-full" />
+      </div>
+      <button id="checkoutBtn" class="btn w-full btn-primary mb-0">✅ الدفع عبر واتساب</button>
+    </div>
+  </div>
+</aside>
+
+<!-- Product Detail Modal -->
+<aside id="productDetailModal" class="product-detail-modal">
+    <button class="close-btn" onclick="closeProductDetailModal()">✕</button>
+    <div class="product-details-main">
+        <h3 id="modalProductName" class="text-xl font-bold mb-4 text-[#ff9800]"></h3>
+        <img id="modalProductImage" src="" alt="" class="w-48 h-48 object-contain mx-auto mb-4 product-image-zoom" onclick="toggleZoom(this)">
+        <p class="text-lg font-bold" id="modalProductPrice"></p>
+        <button class="btn btn-primary w-full mt-4" id="modalAddToCartBtn">أضف للسلة</button>
+    </div>
+    <div class="product-details-tabs-container">
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="description">الوصف</button>
+            <button class="tab-button" data-tab="howToUse">كيفية الاستعمال</button>
+            <button class="tab-button" data-tab="reviews">آراء العملاء</button>
+        </div>
+        <div id="descriptionTab" class="tab-content active">
+            <p id="modalProductDescription" class="text-sm text-gray-700 text-right leading-relaxed mb-4"></p>
+        </div>
+        <div id="howToUseTab" class="tab-content">
+            <h4 class="section-title">كيفية الاستعمال</h4>
+            <div id="howToUseContent">
+                <img id="howToUseImage" src="" alt="كيفية الاستعمال" class="w-full h-auto object-contain mb-2 rounded hidden">
+                <p id="howToUseText" class="text-sm text-gray-700"></p>
+            </div>
+        </div>
+        <div id="reviewsTab" class="tab-content">
+            <h4 class="section-title">آراء العملاء</h4>
+            <div id="customerReviewsContainer" class="space-y-4 mt-3"></div>
+            <div class="mt-4 p-3 bg-white rounded-lg shadow-sm border border-orange-200">
+                <h5 class="font-semibold mb-2">أضف تعليقك</h5>
+                <input type="text" id="reviewNameInput" placeholder="اسمك (اختياري)" class="input input-bordered w-full mb-2 input-sm" />
+                <textarea id="reviewTextInput" placeholder="اكتب تعليقك هنا..." class="textarea textarea-bordered w-full mb-2 textarea-sm"></textarea>
+                <div class="star-rating mb-3">
+                    <input type="radio" id="rate-5" name="rating" value="5" /><label for="rate-5"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-4" name="rating" value="4" /><label for="rate-4"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-3" name="rating" value="3" /><label for="rate-3"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-2" name="rating" value="2" /><label for="rate-2"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="rate-1" name="rating" value="1" /><label for="rate-1"><i class="fas fa-star"></i></label>
+                </div>
+                <button class="btn btn-primary btn-sm w-full" onclick="submitNewComment()">إرسال التعليق</button>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+<script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
+
+<script type="module">
+// --- Firebase Configuration ---
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDRiEZImvRhIl7zRzBY_y_OrcrNjhzz7bE",
+  authDomain: "naouma-store.firebaseapp.com",
+  projectId: "naouma-store",
+  storageBucket: "naouma-store.firebasestorage.app",
+  messagingSenderId: "522931583121",
+  appId: "1:522931583121:web:643f49ef0a81a0763b6730",
+  measurementId: "G-S0W0BYJ3RY"
+};
+
+// --- Initialize Firebase ---
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+// --- Sidebar Logic ---
+const menuBtn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+const menuOverlay = document.getElementById('menuOverlay');
+const closeSidebar = document.getElementById('closeSidebar');
+function toggleSidebar(open) {
+  sidebar.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
+  menuOverlay.style.opacity = open ? '0.4' : '0';
+  menuOverlay.style.pointerEvents = open ? 'auto' : 'none';
+}
+menuBtn.addEventListener('click', () => toggleSidebar(true));
+closeSidebar.addEventListener('click', () => toggleSidebar(false));
+menuOverlay.addEventListener('click', () => toggleSidebar(false));
+
+
+// =========================================================================
+// --- 🚨 [مهم جداً] قاعدة بيانات المنتجات الموحدة ---
+//  يجب استخدام نفس هذه القائمة `allProducts` في جميع صفحات المتاجر
+// =========================================================================
+const allProducts = [
+    // منتجات مميزة (من هذه الصفحة)
+    { id:"av1", name:"أفين كريم مرطب Hydrance", brand:"Avene", type:"Avene", price:59, image:"images/products/kid11.png", longDescription: "كريم أفين المرطب Hydrance يقدم ترطيبًا عميقًا ومستمرًا للبشرة الحساسة...", howToUse: { text: "يوضع صباحاً ومساءً على الوجه والرقبة بعد تنظيف البشرة.", image: "images/how-to-use-cream.png" } },
+    { id:"av2", name:"أفين واقي شمس SPF50+", brand:"Avene", type:"Avene", price:65, image:"images/products/kid12.png", longDescription: "واقي شمس أفين SPF50+ يوفر حماية عالية جدًا ضد الأشعة فوق البنفسجية...", howToUse: { text: "يوضع بكمية كافية قبل التعرض للشمس بـ 20 دقيقة على الأقل.", image: "images/how-to-use-sunscreen.png" } },
+    { id:"av3", name:"أفين تونر ملطف", brand:"Avene", type:"Avene", price:49, image:"images/products/kid13.png", longDescription: "تونر أفين الملطف غني بالمياه الحرارية من أفين، وهو مثالي لتهدئة وتوازن البشرة...", howToUse: { text: "يوضع باستخدام قطعة قطن على الوجه بعد الغسول صباحاً ومساءً.", image: "images/how-to-use-toner.png" } },
+    { id:"bio1", name:"بيوديرما سيبيوم غسول", brand:"Bioderma", type:"Bioderma", price:61, image:"images/products/kid14.png", longDescription: "غسول بيوديرما سيبيوم الرغوي ينظف البشرة الدهنية والمختلطة بلطف دون تجفيفها...", howToUse: { text: "يوضع على بشرة رطبة، يدلك بلطف ثم يشطف جيداً بالماء.", image: "images/how-to-use-cleanser.png" } },
+    { id:"bio2", name:"بيوديرما كريم Sensibio", brand:"Bioderma", type:"Bioderma", price:74, image:"images/products/kid15.png", longDescription: "كريم بيوديرما Sensibio هو مرطب يومي مهدئ ومناسب للبشرة الحساسة...", howToUse: { text: "يوضع مرة أو مرتين يومياً على الوجه والرقبة بعد التنظيف.", image: "images/how-to-use-cream.png" } },
+    { id:"bio3", name:"بيوديرما ماء ميسيلار", brand:"Bioderma", type:"Bioderma", price:45, image:"images/products/kid16.png", longDescription: "ماء ميسيلار بيوديرما هو منتج رائد في إزالة المكياج وتنظيف البشرة بلطف...", howToUse: { text: "تنقع قطعة قطن بالماء الميسيلار وتمسح بها الوجه والعينين. لا يتطلب الشطف.", image: "images/how-to-use-micellar-water.png" } },
+    { id:"lr1", name:"لاروش بوزيه Effaclar Duo+", brand:"La Roche", type:"La Roche", price:83, image:"images/products/kid17.png", longDescription: "كريم Effaclar Duo+ من لاروش بوزيه هو علاج شامل للبشرة المعرضة لحب الشباب...", howToUse: { text: "يوضع صباحاً ومساءً على الوجه بالكامل بعد تنظيفه.", image: "images/how-to-use-cream.png" } },
+    { id:"lr2", name:"لاروش بوزيه واقي شمس Anthelios", brand:"La Roche", type:"La Roche", price:79, image:"images/products/kid18.png", longDescription: "واقي شمس Anthelios من لاروش بوزيه مع عامل حماية SPF50+ مصمم خصيصًا للبشرة الدهنية...", howToUse: { text: "يطبق بكمية وفيرة قبل التعرض للشمس. يعاد التطبيق بشكل متكرر.", image: "images/how-to-use-sunscreen.png" } },
+    { id:"lr3", name:"لاروش بوزيه سيكابلاست", brand:"La Roche", type:"La Roche", price:53, image:"images/products/kid19.png", longDescription: "كريم Cicaplast Baume B5+ من لاروش بوزيه هو بلسم ترميمي متعدد الاستخدامات...", howToUse: { text: "يوضع مرتين يومياً على بشرة نظيفة وجافة حسب الحاجة.", image: "images/how-to-use-cream.png" } },
+    { id:"arv1", name:"أرفيا زيت اللوز الحلو الطبيعي", brand:"Arvia", type:"Arvia", price:39, image:"images/products/kid20.png", longDescription: "زيت اللوز الحلو الطبيعي من أرفيا هو زيت مغذٍ ومرطب متعدد الاستخدامات...", howToUse: { text: "يوضع كمية صغيرة على البشرة أو الشعر ويدلك بلطف حتى يتم الامتصاص.", image: "images/how-to-use-oil.png" } },
+
+    // مثال لمنتجات من متجر الكريمات
+    { id:"cream1", name:"كريم مرطب للبشرة الجافة", brand:"Brand C", price:75, image:"images/creams/cream1.png" },
+    { id:"cream2", name:"كريم ليلي مجدد للخلايا", brand:"Brand D", price:90, image:"images/creams/cream2.png" },
+    
+    // مثال لمنتجات من متجر السيرومات
+    { id:"serum1", name:"سيروم فيتامين سي", brand:"Brand S", price:110, image:"images/serums/serum1.png" },
+
+    // ... أضف هنا جميع منتجاتك الأخرى من كل المتاجر
+];
+
+// قائمة المنتجات التي سيتم عرضها في هذه الصفحة (المنتجات المميزة)
+const featuredProducts = allProducts.filter(p => ["av1", "av2", "av3", "bio1", "bio2", "bio3", "lr1", "lr2", "lr3", "arv1"].includes(p.id));
+
+
+// --- DOM Elements ---
+const productsContainer = document.getElementById('productsContainer');
+const cartItemsEl = document.getElementById('cartItems');
+const cartTotalEl = document.getElementById('cartTotal');
+const cartBadge = document.getElementById('cartBadge');
+const mobileCartCount = document.getElementById('mobileCartCount');
+const mobileTotal = document.getElementById('mobileTotal');
+const cartOverlay = document.getElementById('cartOverlay');
+const modalOverlay = document.getElementById('modalOverlay');
+const cartPanel = document.getElementById('cartPanel');
+const openCartBtn = document.getElementById('openCartBtn');
+const closeCartBtn = document.getElementById('closeCartBtn');
+const clearCartBtn = document.getElementById('clearCartBtn');
+const productDetailModal = document.getElementById('productDetailModal');
+const modalProductName = document.getElementById('modalProductName');
+const modalProductImage = document.getElementById('modalProductImage');
+const modalProductDescription = document.getElementById('modalProductDescription');
+const modalProductPrice = document.getElementById('modalProductPrice');
+const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
+const howToUseText = document.getElementById('howToUseText');
+const howToUseImage = document.getElementById('howToUseImage');
+const customerReviewsContainer = document.getElementById('customerReviewsContainer');
+const tabButtons = document.querySelectorAll('.tab-buttons .tab-button');
+const tabContents = document.querySelectorAll('.product-details-tabs-container .tab-content');
+
+let cart = JSON.parse(localStorage.getItem('orange_cart') || '[]');
+let currentProductId = null;
+let currentFilterType = 'all';
+
+function openProductDetailModal(prod) {
+    currentProductId = prod.id;
+    modalProductName.innerText = prod.name;
+    modalProductImage.src = prod.image;
+    modalProductImage.classList.remove('zoomed');
+    modalProductDescription.innerText = prod.longDescription || prod.description;
+    modalProductPrice.innerText = `${prod.price.toFixed(2)} د.ل`;
+    modalAddToCartBtn.onclick = () => { addToCart(prod.id); closeProductDetailModal(); };
+    if (prod.howToUse) {
+        howToUseText.innerText = prod.howToUse.text;
+        howToUseImage.src = prod.howToUse.image || '';
+        howToUseImage.classList.toggle('hidden', !prod.howToUse.image);
+    } else {
+        howToUseText.innerText = "لا توجد تعليمات استخدام محددة لهذا المنتج.";
+        howToUseImage.classList.add('hidden');
+    }
+    loadCommentsAndReplies(prod.id, customerReviewsContainer);
+    productDetailModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    modalOverlay.classList.add('open');
+}
+
+window.closeProductDetailModal = function() {
+    productDetailModal.classList.remove('open');
+    document.body.style.overflow = '';
+    modalOverlay.classList.remove('open');
+    currentProductId = null;
+    activateTab('description');
+}
+
+window.toggleZoom = (img) => img.classList.toggle('zoomed');
+const activateTab = (tabName) => {
+    tabButtons.forEach(b => b.classList.toggle('active', b.dataset.tab === tabName));
+    tabContents.forEach(c => c.classList.toggle('active', c.id === `${tabName}Tab`));
+};
+tabButtons.forEach(b => b.addEventListener('click', () => activateTab(b.dataset.tab)));
+
+function renderProducts() {
+    productsContainer.innerHTML = '';
+    const searchTerm = document.getElementById('search').value.toLowerCase();
+    const filtered = featuredProducts.filter(p => 
+        (currentFilterType === 'all' || p.type === currentFilterType) &&
+        (p.name + ' ' + (p.longDescription || '') + ' ' + p.brand).toLowerCase().includes(searchTerm)
+    );
+    if (!filtered.length) {
+        productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500">لا توجد منتجات مطابقة للبحث.</div>`;
+        return;
+    }
+    filtered.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center';
+        card.innerHTML = `
+            <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-36 h-36 object-contain mb-3">
+            <h3 class="font-semibold text-sm h-14 flex items-center justify-center">${p.name}</h3>
+            <div class="text-xs text-gray-400 mb-1">${p.brand}</div>
+            <div class="flex-grow"></div>
+            <div class="text-lg font-bold mt-2">${p.price.toFixed(2)} د.ل</div>
+            <div class="mt-3 w-full flex gap-2">
+                <button class="btn btn-sm btn-outline w-1/2" data-action="detail" data-id="${p.id}">عرض الوصف</button>
+                <button class="btn btn-sm btn-primary w-1/2" data-action="add" data-id="${p.id}">أضف للسلة</button>
+            </div>
+        `;
+        productsContainer.appendChild(card);
+    });
+}
+
+function saveCart() {
+    localStorage.setItem('orange_cart', JSON.stringify(cart));
+    updateCartUI();
+}
+
+function addToCart(productId) {
+    const prod = allProducts.find(p => p.id === productId); // [تصحيح] البحث في القائمة الموحدة
+    if (!prod) {
+        console.error(`Product with ID ${productId} not found.`);
+        return;
+    }
+    const existing = cart.find(i => i.id === productId);
+    if (existing) {
+        existing.qty++;
+    } else {
+        // [تصحيح] فقط نحفظ الـ ID والكمية في السلة
+        cart.push({ id: prod.id, qty: 1 });
+    }
+    saveCart();
+    Swal.fire({ icon: 'success', title: 'تمت الإضافة', text: `${prod.name} أُضيفت إلى السلة`, timer: 1100, showConfirmButton: false });
+}
+
+function removeFromCart(index) { cart.splice(index, 1); saveCart(); }
+
+function changeQty(index, delta) {
+    cart[index].qty += delta;
+    if (cart[index].qty < 1) cart[index].qty = 1;
+    saveCart();
+}
+
+function updateCartUI() {
+    cartItemsEl.innerHTML = '';
+    let total = 0;
+    let totalQty = 0;
+
+    cart.forEach((cartItem, i) => {
+        const productInfo = allProducts.find(p => p.id === cartItem.id); // [تصحيح] جلب معلومات المنتج من القائمة الموحدة
+        if (!productInfo) {
+            // يمكن إزالة المنتج من السلة إذا لم يعد موجوداً في المتجر
+            cart.splice(i, 1);
+            saveCart();
+            return;
+        }
+
+        total += productInfo.price * cartItem.qty;
+        totalQty += cartItem.qty;
+
+        const itemEl = document.createElement('div');
+        itemEl.className = 'p-2 bg-orange-50 rounded flex items-start justify-between gap-2';
+        itemEl.innerHTML = `
+            <div class="flex-1">
+                <div class="font-semibold">${productInfo.name}</div>
+                <div class="text-xs text-gray-500">سعر الوحدة: ${productInfo.price.toFixed(2)} د.ل</div>
+                <div class="mt-2 flex gap-2">
+                    <button class="btn btn-xs" data-action="dec" data-i="${i}">-</button>
+                    <div class="px-3 py-1 border rounded">${cartItem.qty}</div>
+                    <button class="btn btn-xs" data-action="inc" data-i="${i}">+</button>
+                    <button class="btn btn-xs btn-error ml-auto" data-action="remove" data-i="${i}">حذف</button>
+                </div>
+            </div>
+        `;
+        cartItemsEl.appendChild(itemEl);
+    });
+
+    cartTotalEl.innerText = total.toFixed(2) + ' د.ل';
+    cartBadge.innerText = totalQty;
+    mobileCartCount.innerText = totalQty;
+    mobileTotal.innerText = total.toFixed(2);
+
+    if (cart.length === 0) {
+        cartItemsEl.innerHTML = `<p class="text-center text-gray-500 p-4">سلتك فارغة حالياً.</p>`;
+    }
+}
+
+// --- Event Listeners ---
+productsContainer.addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const { action, id } = btn.dataset;
+    if (action === 'add') addToCart(id);
+    if (action === 'detail') {
+        const prod = featuredProducts.find(p => p.id === id); // البحث في منتجات الصفحة للعرض
+        if (prod) openProductDetailModal(prod);
+    }
+});
+cartItemsEl.addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const { action, i } = btn.dataset;
+    const index = Number(i);
+    if (action === 'remove') removeFromCart(index);
+    if (action === 'inc') changeQty(index, 1);
+    if (action === 'dec') changeQty(index, -1);
+});
+clearCartBtn.addEventListener('click', () => {
+    if (!cart.length) return;
+    Swal.fire({ title: 'تفريغ السلة؟', text: 'هل أنت متأكد؟', icon: 'warning', showCancelButton: true, confirmButtonText: 'نعم', cancelButtonText: 'لا' })
+        .then(result => { if (result.isConfirmed) { cart = []; saveCart(); } });
+});
+document.querySelectorAll('.filter-btn[data-type]').forEach(b => b.addEventListener('click', () => { currentFilterType = b.dataset.type; renderProducts(); }));
+document.getElementById('search').addEventListener('input', renderProducts);
+const openCart = () => { cartOverlay.classList.add('open'); cartPanel.classList.add('open'); };
+const closeCart = () => { cartOverlay.classList.remove('open'); cartPanel.classList.remove('open'); };
+openCartBtn.addEventListener('click', openCart);
+closeCartBtn.addEventListener('click', closeCart);
+cartOverlay.addEventListener('click', closeCart);
+modalOverlay.addEventListener('click', closeProductDetailModal);
+window.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        if (cartPanel.classList.contains('open')) closeCart();
+        if (productDetailModal.classList.contains('open')) closeProductDetailModal();
+    }
+});
+document.getElementById('city').addEventListener('change', e => document.getElementById('otherCity').classList.toggle('hidden', e.target.value !== 'مناطق أخرى'));
+document.getElementById('checkoutBtn').addEventListener('click', () => {
+    const fullname = document.getElementById('fullname').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    let city = document.getElementById('city').value;
+    const otherCity = document.getElementById('otherCity').value.trim();
+    const address = document.getElementById('address').value.trim();
+    if (city === 'مناطق أخرى') city = otherCity;
+    if (!fullname || !phone || !city || !address || !cart.length) {
+        Swal.fire({ icon: 'warning', title: 'يرجى إكمال جميع البيانات وإضافة منتجات للسلة' });
+        return;
+    }
+
+    let message = `طلب جديد من متجر نعومة نعومتك ✨%0Aالاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0Aالعنوان: ${address}%0A%0Aتفاصيل الطلب:%0A`;
+    cart.forEach(cartItem => {
+        const productInfo = allProducts.find(p => p.id === cartItem.id);
+        if (productInfo) {
+            message += `• ${productInfo.name} × ${cartItem.qty} = ${(productInfo.price * cartItem.qty).toFixed(2)} د.ل%0A`;
+        }
+    });
+    const total = cart.reduce((s, i) => {
+        const productInfo = allProducts.find(p => p.id === i.id);
+        return s + (productInfo ? productInfo.price * i.qty : 0);
+    }, 0);
+    message += `%0Aالإجمالي: ${total.toFixed(2)} د.ل`;
+    window.open(`https://wa.me/218915066938?text=${message}`, '_blank');
+});
+
+// --- Firebase Comments Logic (مبسط كمثال) ---
+const formatDate = ts => ts?.toDate ? ts.toDate().toLocaleString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' }) : 'الآن';
+async function renderComment(commentData, parentElement) {
+    const commentEl = document.createElement('div');
+    commentEl.className = `comment-card`;
+    commentEl.innerHTML = `
+        <div class="comment-header">
+            <div class="comment-author">${commentData.userName || "مستخدم"} ${'⭐'.repeat(commentData.rating || 0)}</div>
+            <div class="comment-timestamp">${formatDate(commentData.date)}</div>
+        </div>
+        <p class="comment-text">${commentData.text}</p>`;
+    parentElement.appendChild(commentEl);
+}
+async function loadCommentsAndReplies(productId, targetEl) {
+    if (!targetEl) return;
+    targetEl.innerHTML = `<p class="text-center">⏳ تحميل الآراء...</p>`;
+    const q = query(collection(db, "products", productId, "comments"), orderBy("date", "desc"));
+    const snapshot = await getDocs(q);
+    targetEl.innerHTML = snapshot.empty ? `<p class="text-center">لا توجد آراء بعد. كن أول من يعلق!</p>` : '';
+    snapshot.forEach(doc => renderComment({ id: doc.id, ...doc.data() }, targetEl));
+}
+window.submitNewComment = async function() {
+    const user = auth.currentUser;
+    if (!user) return Swal.fire('🚫', 'يجب تسجيل الدخول أولاً لإضافة تعليق.', 'error');
+    const text = document.getElementById('reviewTextInput').value.trim();
+    if (!text) return Swal.fire('✍️', 'الرجاء كتابة تعليق أولاً.', 'warning');
+    const name = document.getElementById('reviewNameInput').value.trim();
+    const rating = document.querySelector('#reviewsTab input[name="rating"]:checked')?.value;
+    try {
+        await addDoc(collection(db, "products", currentProductId, "comments"), {
+            userId: user.uid,
+            userName: name || user.displayName || "مستخدم",
+            text: text,
+            rating: rating ? parseInt(rating) : 0,
+            date: serverTimestamp(),
+            reactions: {}
+        });
+        document.getElementById('reviewTextInput').value = '';
+        document.getElementById('reviewNameInput').value = '';
+        if (rating) document.querySelector(`#rate-${rating}`).checked = false;
+        Swal.fire('✅', 'شكراً لتعليقك! تم إرساله بنجاح.', 'success');
+        loadCommentsAndReplies(currentProductId, customerReviewsContainer);
+    } catch (e) { Swal.fire('❌', 'حدث خطأ أثناء إرسال التعليق.', 'error'); }
+}
+
+// --- Firebase Auth Logic ---
+const loginBtnHeader = document.getElementById("login-btn-header");
+const logoutBtnHeader = document.getElementById("logout-btn-header");
+const userInfoHeader = document.getElementById("user-info-header");
+loginBtnHeader.addEventListener("click", () => signInWithPopup(auth, provider).catch(err => Swal.fire('خطأ', 'فشل تسجيل الدخول', 'error')));
+logoutBtnHeader.addEventListener("click", () => signOut(auth).catch(err => Swal.fire('خطأ', 'فشل تسجيل الخروج', 'error')));
+onAuthStateChanged(auth, user => {
+    const isLoggedIn = !!user;
+    loginBtnHeader.classList.toggle("hidden", isLoggedIn);
+    logoutBtnHeader.classList.toggle("hidden", !isLoggedIn);
+    userInfoHeader.classList.toggle("hidden", !isLoggedIn);
+    userInfoHeader.textContent = isLoggedIn ? `مرحباً، ${user.displayName || user.email.split('@')[0]}` : "";
+    if (currentProductId) loadCommentsAndReplies(currentProductId, customerReviewsContainer);
+});
+
+// Initial Render
+renderProducts();
+updateCartUI();
+</script>
+
+</body>
+</html>
 
