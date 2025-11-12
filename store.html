@@ -242,6 +242,7 @@
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 
 <script type="module">
+// --- Firebase Configuration ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
@@ -256,6 +257,7 @@ const firebaseConfig = {
   measurementId: "G-S0W0BYJ3RY"
 };
 
+// --- Initialize Firebase ---
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
@@ -413,6 +415,7 @@ const requestProductName = document.getElementById('request-product-name');
 const requestProductBrand = document.getElementById('request-product-brand');
 const submitRequestBtn = document.getElementById('submit-request-btn');
 
+// Event listener for submitting feedback
 submitFeedbackBtn.addEventListener('click', async () => {
     const text = feedbackText.value.trim();
     if (!text) {
@@ -430,10 +433,12 @@ submitFeedbackBtn.addEventListener('click', async () => {
         feedbackText.value = '';
         Swal.fire({ icon: 'success', title: 'شكراً لك!', text: 'تم إرسال رأيك بنجاح.' });
     } catch (e) {
+        console.error("Error adding feedback: ", e);
         Swal.fire({ icon: 'error', title: 'حدث خطأ', text: 'فشل إرسال الرأي. الرجاء المحاولة مرة أخرى.' });
     }
 });
 
+// Event listener for requesting a product
 submitRequestBtn.addEventListener('click', async () => {
     const productName = requestProductName.value.trim();
     if (!productName) {
@@ -454,6 +459,7 @@ submitRequestBtn.addEventListener('click', async () => {
         requestProductBrand.value = '';
         Swal.fire({ icon: 'success', title: 'شكراً لطلبك!', text: 'تم إرسال طلبك وسنعمل على توفيره.' });
     } catch (e) {
+        console.error("Error adding product request: ", e);
         Swal.fire({ icon: 'error', title: 'حدث خطأ', text: 'فشل إرسال الطلب. الرجاء المحاولة مرة أخرى.' });
     }
 });
@@ -474,6 +480,7 @@ onAuthStateChanged(auth, user => {
 
 document.getElementById('search-store').addEventListener('input', renderStoreCategories);
 
+// --- Initial Page Load ---
 renderBestSellers();
 renderStoreCategories();
 updateCartUI();
