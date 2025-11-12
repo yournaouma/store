@@ -113,6 +113,7 @@
     <h2 class="text-2xl font-bold mb-4 text-center text-[#ff9800]">🛍️ نعومة نعومتك</h2>
     <nav class="space-y-3 text-lg">
         <a href="index.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🏠 الصفحة الرئيسية</a>
+        <a href="store.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🛍️ تسوق الآن</a>
         <a href="creams.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🧴 متجر الكريمات</a>
         <a href="serums.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">💧 متجر السيرومات</a>
         <a href="cleansers.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🧼 متجر المنظفات</a>
@@ -121,6 +122,7 @@
         <a href="peels.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🍯 متجر المقشرات</a>
         <a href="masks.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🛁 متجر الماسكات</a>
         <a href="perfumes.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🌸 متجر العطور</a>
+        <a href="cart.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">⭐ منتجاتنا المميزة</a>
         <a href="yourskin.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">💬 استشارة بشرتك</a>
         <a href="contact.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">📞 اتصل بنا</a>
     </nav>
@@ -282,10 +284,10 @@ menuOverlay.addEventListener('click', () => toggleSidebar(false));
 // =========================================================================
 const allProducts = [
     // منتجات الأكثر مبيعاً
-    { id:"lr1", name:"لاروش بوزيه Effaclar Duo+", brand:"La Roche", price:83, image:"images/products/kid17.png" },
-    { id:"bio1", name:"بيوديرما سيبيوم غسول", brand:"Bioderma", price:61, image:"images/products/kid14.png" },
-    { id:"av1", name:"أفين كريم مرطب Hydrance", brand:"Avene", price:59, image:"images/products/kid11.png" },
-    { id:"arv1", name:"أرفيا زيت اللوز الحلو", brand:"Arvia", price:39, image:"images/products/kid20.png" },
+    { id:"av1", name:"قريبًا في المتجر", brand:"Avene", price:0, image:"images/products/kid11.png" },
+    { id:"lr1", name:"قريبًا في المتجر", brand:"La Roche", price:0, image:"images/products/kid17.png" },
+    { id:"bio1", name:"قريبًا في المتجر", brand:"Bioderma", price:0, image:"images/products/kid14.png" },
+    { id:"arv1", name:"قريبًا في المتجر", brand:"Arvia", price:0, image:"images/products/kid20.png" },
 
     // مثال لمنتجات من متجر الكريمات
     { id:"cream1", name:"كريم مرطب للبشرة الجافة", brand:"Brand C", price:75, image:"images/creams/cream1.png" },
@@ -547,3 +549,4 @@ updateCartUI();
 </script>
 </body>
 </html>
+
