@@ -93,11 +93,10 @@
     .auth-section-header .btn { padding: 0.5rem 0.75rem; font-size: 0.875rem; line-height: 1.25rem; }
     .auth-section-header #user-info-header { margin: 0; font-size: 0.875rem; color: #555; }
     
-    /* === التحسينات المطلوبة: تعديلات نافذة تفاصيل المنتج === */
     .product-detail-modal {
         position: fixed; top: 50%; left: 50%;
-        transform: translate(-50%, -50%) scale(0.95); /* تعديل: حركة دخول */
-        width: 90%; max-width: 900px; /* تعديل: زيادة العرض */
+        transform: translate(-50%, -50%) scale(0.95);
+        width: 90%; max-width: 900px;
         max-height: 90vh; background-color: white;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); border-radius: 1rem;
         transition: all 0.3s ease-in-out; z-index: 101;
@@ -107,15 +106,14 @@
     .product-detail-modal.open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
     .product-detail-modal .close-btn { position: absolute; top: 1rem; left: 1rem; font-size: 1.8rem; cursor: pointer; color: #999; z-index: 10; }
     .product-detail-modal .close-btn:hover { color: #ff5722; }
-    .product-details-main { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; } /* تعديل: الجزء الأصغر */
-    .product-details-tabs-container { flex: 2; display: flex; flex-direction: column; } /* تعديل: الجزء الأكبر */
+    .product-details-main { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .product-details-tabs-container { flex: 2; display: flex; flex-direction: column; }
     .tab-buttons { display: flex; justify-content: space-around; margin-bottom: 1rem; border-bottom: 1px solid #eee; }
     .tab-button { flex: 1; padding: 0.75rem 0.5rem; text-align: center; cursor: pointer; font-weight: bold; color: #666; border-bottom: 2px solid transparent; transition: all 0.2s; }
     .tab-button.active { color: #ff9800; border-bottom-color: #ff9800; }
     .tab-content { display: none; padding-top: 1rem; }
     .tab-content.active { display: block; }
     
-    /* === التحسينات المطلوبة: تصميم قسم الآراء === */
     .comment-card { background-color: #fcfcfc; border: 1px solid #ffecbc; border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem; }
     .comment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
     .comment-author { font-weight: bold; color: #ff9800; display: flex; align-items: center; gap: 0.5rem; }
@@ -127,7 +125,7 @@
     .reaction-button:hover { background-color: #fff3e0; border-color: #ffbb77; color: #ff9800; }
     .reaction-button.active { background-color: #ffe0b2; border-color: #ff9800; color: #d84315; font-weight: bold; }
     .replies-container { margin-right: 1.5rem; border-right: 2px solid #ff9800; padding-right: 1rem; margin-top: 1rem; }
-    .replies-container .comment-card { background-color: #fffdfa; border-color: #ffe0b2; } /* لون مميز للردود */
+    .replies-container .comment-card { background-color: #fffdfa; border-color: #ffe0b2; }
 
     @media (max-width: 768px) {
         .auth-section-header { flex-direction: column; align-items: flex-end; gap: 0.25rem; }
@@ -140,10 +138,10 @@
 
 <!-- Menu Button -->
 <button id="menuBtn" class="fixed top-4 right-4 z-60 text-white px-3 py-2 rounded-lg shadow-md">☰ القائمة</button>
-<div id="menuOverlay" class="fixed inset-0 bg-black opacity-0 z-50 pointer-events-none transition-opacity duration-300"></div>
+<!-- تم حذف menuOverlay من هنا -->
 
 <!-- Sidebar menu -->
-<aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto z-60">
+<aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto z-50">
   <div class="p-5">
     <h2 class="text-2xl font-bold mb-4 text-center text-[#ff9800]">🛍️ نعومة نعومتك</h2>
     <nav class="space-y-3 text-lg">
@@ -343,29 +341,22 @@ const provider = new GoogleAuthProvider();
 // --- Sidebar Logic ---
 const menuBtn = document.getElementById('menuBtn');
 const sidebar = document.getElementById('sidebar');
-const menuOverlay = document.getElementById('menuOverlay');
 const closeSidebar = document.getElementById('closeSidebar');
+
 function toggleSidebar(open) {
   sidebar.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
-  menuOverlay.style.opacity = open ? '1' : '0';
-  menuOverlay.style.pointerEvents = open ? 'auto' : 'none';
 }
+
 menuBtn.addEventListener('click', () => toggleSidebar(true));
 closeSidebar.addEventListener('click', () => toggleSidebar(false));
-menuOverlay.addEventListener('click', () => {
-    toggleSidebar(false);
-    if (productDetailModal.classList.contains('open')) closeProductDetailModal();
-});
 
 // --- Data for Page Content ---
-// تعديل: قائمة المنتجات الآن تحتوي على 4 منتجات "قريبًا"
 const allProducts = [
     { id:"new1", name:"قريبًا في المتجر", brand:"منتج جديد", price:0, image:"images/products/new1.png", description:"ترقبوا إطلاق هذا المنتج المميز قريبًا. نعمل على توفير أفضل المنتجات لكم.", howToUse: { text: "سيتم توفير تعليمات الاستخدام عند إطلاق المنتج." } },
     { id:"new2", name:"قريبًا في المتجر", brand:"منتج جديد", price:0, image:"images/products/new2.png", description:"ترقبوا إطلاق هذا المنتج المميز قريبًا. نعمل على توفير أفضل المنتجات لكم.", howToUse: { text: "سيتم توفير تعليمات الاستخدام عند إطلاق المنتج." } },
     { id:"new3", name:"قريبًا في المتجر", brand:"منتج جديد", price:0, image:"images/products/new3.png", description:"ترقبوا إطلاق هذا المنتج المميز قريبًا. نعمل على توفير أفضل المنتجات لكم.", howToUse: { text: "سيتم توفير تعليمات الاستخدام عند إطلاق المنتج." } },
     { id:"new4", name:"قريبًا في المتجر", brand:"منتج جديد", price:0, image:"images/products/new4.png", description:"ترقبوا إطلاق هذا المنتج المميز قريبًا. نعمل على توفير أفضل المنتجات لكم.", howToUse: { text: "سيتم توفير تعليمات الاستخدام عند إطلاق المنتج." } }
 ];
-// تعديل: قائمة IDs لتطابق المنتجات الجديدة
 const bestSellerIds = ["new1", "new2", "new3", "new4"];
 
 const storeCategories = [
@@ -383,7 +374,6 @@ const storeCategories = [
 const bestSellersContainer = document.getElementById('bestSellersContainer');
 const storesContainer = document.getElementById('storesContainer');
 
-// تعديل: تحسين عرض المنتجات التي "قريبًا"
 function renderBestSellers() {
     bestSellersContainer.innerHTML = '';
     const bestSellerProducts = allProducts.filter(p => bestSellerIds.includes(p.id));
@@ -439,7 +429,7 @@ const cartPanel = document.getElementById('cartPanel');
 function saveCart() { localStorage.setItem('orange_cart', JSON.stringify(cart)); updateCartUI(); }
 function addToCart(productId) {
     const prod = allProducts.find(p => p.id === productId);
-    if (!prod || prod.price === 0) return; // منع إضافة المنتجات المجانية
+    if (!prod || prod.price === 0) return;
     const existing = cart.find(i => i.id === productId);
     if (existing) existing.qty++;
     else cart.push({ id: prod.id, name: prod.name, price: prod.price, qty: 1 });
@@ -489,7 +479,6 @@ function openProductDetailModal(prod) {
     productDetailModal.querySelector('#modalProductImage').src = prod.image;
     productDetailModal.querySelector('#modalProductDescription').innerText = prod.description;
     
-    // إخفاء أو إظهار السعر والزر حسب حالة المنتج
     productDetailModal.querySelector('#modalProductPrice').classList.toggle('hidden', isComingSoon);
     productDetailModal.querySelector('#modalAddToCartBtn').classList.toggle('hidden', isComingSoon);
     
@@ -513,7 +502,7 @@ window.closeProductDetailModal = function() {
     modalOverlay.classList.remove('open');
     document.body.style.overflow = '';
     currentProductId = null;
-    activateTab('description'); // Reset to first tab
+    activateTab('description');
 }
 
 bestSellersContainer.addEventListener('click', e => {
@@ -615,7 +604,7 @@ async function handleReaction(commentId, reactionType, userId) {
     let updateData = {};
     Object.keys(reactions).forEach(type => {
         if (reactions[type]?.[userId]) {
-            updateData[`reactions.${type}.${userId}`] = null; // Mark for deletion
+            updateData[`reactions.${type}.${userId}`] = null;
         }
     });
     if (!reactions[reactionType]?.[userId]) {
