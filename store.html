@@ -237,8 +237,6 @@
   </div>
 </aside>
 
-<!-- (Product Detail Modal is not needed on this page, but keeping the overlay for consistency if needed later) -->
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
@@ -279,13 +277,12 @@ menuOverlay.addEventListener('click', () => toggleSidebar(false));
 
 // --- Data for Page Content ---
 const allProducts = [
-    // This should ideally be a shared list of all products from all stores
     { id:"av1", name:"أفين كريم مرطب Hydrance", brand:"Avene", price:59, image:"images/products/kid11.png" },
     { id:"lr1", name:"لاروش بوزيه Effaclar Duo+", brand:"La Roche", price:83, image:"images/products/kid17.png" },
     { id:"bio1", name:"بيوديرما سيبيوم غسول", brand:"Bioderma", price:61, image:"images/products/kid14.png" },
     { id:"arv1", name:"أرفيا زيت اللوز الحلو", brand:"Arvia", price:39, image:"images/products/kid20.png" },
 ];
-const bestSellerIds = ["lr1", "bio1", "av1", "arv1"]; // Example best seller IDs
+const bestSellerIds = ["lr1", "bio1", "av1", "arv1"]; 
 
 const storeCategories = [
     { name: "الكريمات", link: "creams.html", icon: "🧴", description: "ترطيب وعناية" },
@@ -342,7 +339,7 @@ function renderStoreCategories() {
     });
 }
 
-// --- Cart Logic (Copied from other pages) ---
+// --- Cart Logic ---
 let cart = JSON.parse(localStorage.getItem('orange_cart') || '[]');
 const cartItemsEl = document.getElementById('cartItems');
 const cartTotalEl = document.getElementById('cartTotal');
@@ -391,6 +388,23 @@ document.getElementById('openCartBtn').addEventListener('click', () => { cartOve
 document.getElementById('closeCartBtn').addEventListener('click', () => { cartOverlay.classList.remove('open'); cartPanel.classList.remove('open'); });
 cartOverlay.addEventListener('click', () => { cartOverlay.classList.remove('open'); cartPanel.classList.remove('open'); });
 bestSellersContainer.addEventListener('click', e => { if (e.target.closest('button')?.dataset.action === 'add') addToCart(e.target.closest('button').dataset.id); });
+document.getElementById('checkoutBtn').addEventListener('click', () => {
+    const fullname = document.getElementById('fullname').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    let city = document.getElementById('city').value;
+    const otherCity = document.getElementById('otherCity').value.trim();
+    const address = document.getElementById('address').value.trim();
+    if (city === 'مناطق أخرى' && otherCity) city = otherCity;
+    if (!fullname || !phone || !city || !address || !cart.length) {
+        Swal.fire({ icon: 'warning', title: 'يرجى إكمال جميع البيانات وإضافة منتجات للسلة' });
+        return;
+    }
+    let message = `طلب جديد من نعومة نعومتك ✨%0Aالاسم: ${fullname}%0Aالهاتف: ${phone}%0Aالمدينة: ${city}%0Aالعنوان: ${address}%0A%0Aتفاصيل الطلب:%0A`;
+    cart.forEach(item => { message += `• ${item.name} × ${item.qty} = ${(item.price * item.qty).toFixed(2)} د.ل%0A`; });
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    message += `%0Aالإجمالي: ${total.toFixed(2)} د.ل`;
+    window.open(`https://wa.me/218915066938?text=${message}`, '_blank');
+});
 
 // --- Firebase Form Submission Logic ---
 const feedbackText = document.getElementById('feedback-text');
@@ -410,7 +424,7 @@ submitFeedbackBtn.addEventListener('click', async () => {
         await addDoc(collection(db, "store_feedback"), {
             feedback: text,
             userId: user ? user.uid : 'anonymous',
-            userName: user ? user.displayName : 'زائر',
+            userName: user ? user.displayName || 'مستخدم' : 'زائر',
             timestamp: serverTimestamp()
         });
         feedbackText.value = '';
@@ -433,7 +447,7 @@ submitRequestBtn.addEventListener('click', async () => {
             productName: productName,
             brand: brand || 'غير محدد',
             userId: user ? user.uid : 'anonymous',
-            userName: user ? user.displayName : 'زائر',
+            userName: user ? user.displayName || 'مستخدم' : 'زائر',
             timestamp: serverTimestamp()
         });
         requestProductName.value = '';
