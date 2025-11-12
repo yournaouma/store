@@ -107,8 +107,8 @@
     .product-detail-modal.open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
     .product-detail-modal .close-btn { position: absolute; top: 1rem; left: 1rem; font-size: 1.8rem; cursor: pointer; color: #999; z-index: 10; }
     .product-detail-modal .close-btn:hover { color: #ff5722; }
-    .product-details-main { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; } 
-    .product-details-tabs-container { flex: 2; display: flex; flex-direction: column; } 
+    .product-details-main { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; } /* تعديل: الجزء الأصغر */
+    .product-details-tabs-container { flex: 2; display: flex; flex-direction: column; } /* تعديل: الجزء الأكبر */
     .tab-buttons { display: flex; justify-content: space-around; margin-bottom: 1rem; border-bottom: 1px solid #eee; }
     .tab-button { flex: 1; padding: 0.75rem 0.5rem; text-align: center; cursor: pointer; font-weight: bold; color: #666; border-bottom: 2px solid transparent; transition: all 0.2s; }
     .tab-button.active { color: #ff9800; border-bottom-color: #ff9800; }
@@ -204,7 +204,7 @@
     
     <!-- Best Sellers Section -->
     <div>
-      <h2 class="text-2xl font-bold mb-4 text-gray-800">🔥 الأكثر مبيعاً</h2>
+      <h2 class="text-2xl font-bold mb-4 text-gray-800">🔥 ترقبوا جديدنا</h2>
       <div id="bestSellersContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
     </div>
 
@@ -282,7 +282,7 @@
         <h3 id="modalProductName" class="text-2xl font-bold mb-4 text-[#ff9800]"></h3>
         <img id="modalProductImage" src="" alt="" class="w-48 h-48 object-contain mx-auto mb-4">
         <p class="text-xl font-bold" id="modalProductPrice"></p>
-        <button class="btn btn-primary w-full mt-4" id="modalAddToCartBtn"></button>
+        <button class="btn btn-primary w-full mt-4" id="modalAddToCartBtn">أضف للسلة</button>
     </div>
     <!-- Right part (Tabs) -->
     <div class="product-details-tabs-container">
@@ -357,14 +357,16 @@ menuOverlay.addEventListener('click', () => {
     if (productDetailModal.classList.contains('open')) closeProductDetailModal();
 });
 
-// --- Data for Page Content (Updated Image Paths and Content) ---
+// --- Data for Page Content ---
+// تعديل: قائمة المنتجات الآن تحتوي على 4 منتجات "قريبًا"
 const allProducts = [
-    { id:"p1", name:"قريبًا في المتجر", brand:"قريبًا", type:"جميع انواع البشرة", price:0, image:"images/news/new1.png", description:"🕒 هذا المنتج سيكون متاحًا قريبًا في متجر نعومة نعومتك. ترقبوا الإطلاق الرسمي قريبًا.", howToUse: { text: "سيتم الإعلان عن طريقة الاستخدام عند توفر المنتج." } },
-    { id:"p2", name:"قريبًا في المتجر", brand:"قريبًا", type:"جميع انواع البشرة", price:0, image:"images/news/new2.png", description:"🕒 قريبًا ستتوفر منتجات جديدة ضمن مجموعتنا المميزة.", howToUse: { text: "سيتم الإعلان عن طريقة الاستخدام عند توفر المنتج." } },
-    { id:"p3", name:"قريبًا في المتجر", brand:"قريبًا", type:"جميع انواع البشرة", price:0, image:"images/news/new3.png", description:"🕒 قريبًا ضمن مجموعة جديدة من منتجات نعومة نعومتك.", howToUse: { text: "سيتم الإعلان عن طريقة الاستخدام لاحقًا." } },
-    { id:"p4", name:"قريبًا في المتجر", brand:"قريبًا", type:"جميع انواع البشرة", price:0, image:"images/news/new4.png", description:"🕒 هذا المنتج تحت التحضير وسيكون متاحًا قريبًا بإذن الله.", howToUse: { text: "سيتم الإعلان عن طريقة الاستخدام عند الإطلاق." } },
+    { id:"new1", name:"قريبًا في المتجر", brand:"منتج جديد", price:0, image:"images/products/new1.png", description:"ترقبوا إطلاق هذا المنتج المميز قريبًا. نعمل على توفير أفضل المنتجات لكم.", howToUse: { text: "سيتم توفير تعليمات الاستخدام عند إطلاق المنتج." } },
+    { id:"new2", name:"قريبًا في المتجر", brand:"منتج جديد", price:0, image:"images/products/new2.png", description:"ترقبوا إطلاق هذا المنتج المميز قريبًا. نعمل على توفير أفضل المنتجات لكم.", howToUse: { text: "سيتم توفير تعليمات الاستخدام عند إطلاق المنتج." } },
+    { id:"new3", name:"قريبًا في المتجر", brand:"منتج جديد", price:0, image:"images/products/new3.png", description:"ترقبوا إطلاق هذا المنتج المميز قريبًا. نعمل على توفير أفضل المنتجات لكم.", howToUse: { text: "سيتم توفير تعليمات الاستخدام عند إطلاق المنتج." } },
+    { id:"new4", name:"قريبًا في المتجر", brand:"منتج جديد", price:0, image:"images/products/new4.png", description:"ترقبوا إطلاق هذا المنتج المميز قريبًا. نعمل على توفير أفضل المنتجات لكم.", howToUse: { text: "سيتم توفير تعليمات الاستخدام عند إطلاق المنتج." } }
 ];
-const bestSellerIds = ["av1", "av2", "lr3", "arv1"];
+// تعديل: قائمة IDs لتطابق المنتجات الجديدة
+const bestSellerIds = ["new1", "new2", "new3", "new4"];
 
 const storeCategories = [
     { name: "الكريمات", link: "creams.html", icon: "🧴", description: "ترطيب وعناية" },
@@ -381,24 +383,29 @@ const storeCategories = [
 const bestSellersContainer = document.getElementById('bestSellersContainer');
 const storesContainer = document.getElementById('storesContainer');
 
+// تعديل: تحسين عرض المنتجات التي "قريبًا"
 function renderBestSellers() {
     bestSellersContainer.innerHTML = '';
     const bestSellerProducts = allProducts.filter(p => bestSellerIds.includes(p.id));
     bestSellerProducts.forEach(p => {
         const isComingSoon = p.price === 0;
-        const priceDisplay = isComingSoon ? 'قريباً' : `${p.price.toFixed(2)} د.ل`;
-        const buttonText = isComingSoon ? 'قريباً' : 'شراء';
-        const buttonClass = isComingSoon ? 'btn-ghost text-gray-500 cursor-default' : 'btn-primary';
-
         const card = document.createElement('article');
         card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center';
         card.innerHTML = `
             <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-24 h-24 object-contain mb-2 cursor-pointer" data-action="detail" data-id="${p.id}">
             <h3 class="font-semibold text-sm flex-grow cursor-pointer" data-action="detail" data-id="${p.id}">${p.name}</h3>
-            <div class="text-lg font-bold mt-2">${priceDisplay}</div>
-            <div class="w-full mt-2 flex gap-2">
-                <button class="btn btn-xs btn-outline flex-1" data-action="detail" data-id="${p.id}">عرض</button>
-                <button class="btn btn-xs flex-1 ${buttonClass}" data-action="${isComingSoon ? 'info' : 'add'}" data-id="${p.id}" ${isComingSoon ? 'disabled' : ''}>${buttonText}</button>
+            
+            <div class="text-lg font-bold mt-2 ${isComingSoon ? 'hidden' : ''}">${p.price.toFixed(2)} د.ل</div>
+            
+            <div class="w-full mt-2">
+                ${isComingSoon ? 
+                    `<button class="btn btn-xs btn-outline w-full" data-action="detail" data-id="${p.id}">التفاصيل</button>` 
+                    : 
+                    `<div class="flex gap-2">
+                        <button class="btn btn-xs btn-outline flex-1" data-action="detail" data-id="${p.id}">عرض</button>
+                        <button class="btn btn-xs btn-primary flex-1" data-action="add" data-id="${p.id}">شراء</button>
+                    </div>`
+                }
             </div>
         `;
         bestSellersContainer.appendChild(card);
@@ -432,7 +439,7 @@ const cartPanel = document.getElementById('cartPanel');
 function saveCart() { localStorage.setItem('orange_cart', JSON.stringify(cart)); updateCartUI(); }
 function addToCart(productId) {
     const prod = allProducts.find(p => p.id === productId);
-    if (!prod || prod.price === 0) return; // Prevent adding 0-priced items
+    if (!prod || prod.price === 0) return; // منع إضافة المنتجات المجانية
     const existing = cart.find(i => i.id === productId);
     if (existing) existing.qty++;
     else cart.push({ id: prod.id, name: prod.name, price: prod.price, qty: 1 });
@@ -477,18 +484,20 @@ let currentProductId = null;
 function openProductDetailModal(prod) {
     currentProductId = prod.id;
     const isComingSoon = prod.price === 0;
-
+    
     productDetailModal.querySelector('#modalProductName').innerText = prod.name;
     productDetailModal.querySelector('#modalProductImage').src = prod.image;
     productDetailModal.querySelector('#modalProductDescription').innerText = prod.description;
-    productDetailModal.querySelector('#modalProductPrice').innerText = isComingSoon ? 'قريباً' : `${prod.price.toFixed(2)} د.ل`;
     
-    const modalAddToCartBtn = productDetailModal.querySelector('#modalAddToCartBtn');
-    modalAddToCartBtn.innerText = isComingSoon ? 'قريباً' : 'أضف للسلة';
-    modalAddToCartBtn.classList.toggle('btn-primary', !isComingSoon);
-    modalAddToCartBtn.classList.toggle('btn-disabled', isComingSoon);
-    modalAddToCartBtn.onclick = () => { if (!isComingSoon) { addToCart(prod.id); closeProductDetailModal(); } };
-
+    // إخفاء أو إظهار السعر والزر حسب حالة المنتج
+    productDetailModal.querySelector('#modalProductPrice').classList.toggle('hidden', isComingSoon);
+    productDetailModal.querySelector('#modalAddToCartBtn').classList.toggle('hidden', isComingSoon);
+    
+    if(!isComingSoon) {
+        productDetailModal.querySelector('#modalProductPrice').innerText = `${prod.price.toFixed(2)} د.ل`;
+        productDetailModal.querySelector('#modalAddToCartBtn').onclick = () => { addToCart(prod.id); closeProductDetailModal(); };
+    }
+    
     productDetailModal.querySelector('#howToUseText').innerText = prod.howToUse?.text || "لا توجد تعليمات محددة.";
     productDetailModal.querySelector('#howToUseImage').classList.toggle('hidden', !prod.howToUse?.image);
     if(prod.howToUse?.image) productDetailModal.querySelector('#howToUseImage').src = prod.howToUse.image;
@@ -513,17 +522,8 @@ bestSellersContainer.addEventListener('click', e => {
     const action = target.dataset.action;
     const id = target.dataset.id;
     const prod = allProducts.find(p => p.id === id);
-
-    if (action === 'add' && prod && prod.price > 0) addToCart(id);
+    if (action === 'add') addToCart(id);
     if (action === 'detail' && prod) openProductDetailModal(prod);
-    if (action === 'info' && prod && prod.price === 0) {
-        Swal.fire({
-            icon: 'info',
-            title: 'قريباً!',
-            text: 'هذا المنتج قيد الإطلاق وسيصبح متوفراً للشراء قريباً.',
-            confirmButtonText: 'حسناً'
-        });
-    }
 });
 
 // Tab switching logic in modal
@@ -613,13 +613,11 @@ async function handleReaction(commentId, reactionType, userId) {
 
     const reactions = docSnap.data().reactions || {};
     let updateData = {};
-    // Remove user's previous reaction if any
     Object.keys(reactions).forEach(type => {
         if (reactions[type]?.[userId]) {
             updateData[`reactions.${type}.${userId}`] = null; // Mark for deletion
         }
     });
-    // Add new reaction if it's different from the previous one
     if (!reactions[reactionType]?.[userId]) {
         updateData[`reactions.${reactionType}.${userId}`] = true;
     }
