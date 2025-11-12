@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+  <style>
+  /* يجعل خلفية منطقة إضافة التعليق بيضاء تمامًا */
+  #reviewsTab input,
+  #reviewsTab textarea {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #ddd !important;
+  }
+
+  /* إصلاح الحواف والأزرار داخل نفس القسم */
+  #reviewsTab input::placeholder,
+  #reviewsTab textarea::placeholder {
+    color: #666 !important;
+  }
+</style>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
@@ -1368,4 +1384,5 @@ updateCartUI();
 
 </body>
 </html>
+
 
