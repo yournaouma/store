@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -10,7 +11,7 @@
   <meta name="author" content="عائلة نعومة نعومتك" />
   <meta name="theme-color" content="#FF9800" />
 
-  <link rel="canonical" href="https://yournaouma.github.io/store/index.html" />
+  <link rel="canonical" href="https://yournaouma.github.io/store/store.html" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#fff8e1" />
 
@@ -206,6 +207,7 @@
 </main>
 
 <div id="cartOverlay" class="cart-overlay" tabindex="-1" aria-hidden="true"></div>
+<div id="modalOverlay" class="modal-overlay" tabindex="-1" aria-hidden="true"></div>
 
 <!-- Cart Drawer -->
 <aside id="cartPanel" class="cart-drawer bg-white" role="dialog" aria-modal="true" aria-hidden="true" style="border-right:3px solid #ff9800">
@@ -278,21 +280,15 @@ menuBtn.addEventListener('click', () => toggleSidebar(true));
 closeSidebar.addEventListener('click', () => toggleSidebar(false));
 menuOverlay.addEventListener('click', () => toggleSidebar(false));
 
-// =========================================================================
-// --- 🚨 [مهم جداً] قاعدة بيانات المنتجات الموحدة ---
-//  يجب استخدام نفس هذه القائمة `allProducts` في جميع صفحات المتاجر
-// =========================================================================
+// --- Data for Page Content ---
 const allProducts = [
-    // منتجات الأكثر مبيعاً
-    { id:"av1", name:"قريبًا في المتجر", brand:"Avene", price:0, image:"images/products/kid30.png" },
-    { id:"lr1", name:"قريبًا في المتجر", brand:"La Roche", price:0, image:"images/products/kid31.png" },
-    { id:"bio1", name:"قريبًا في المتجر", brand:"Bioderma", price:0, image:"images/products/kid32.png" },
-    { id:"arv1", name:"قريبًا في المتجر", brand:"Arvia", price:0, image:"images/products/kid33.png" },
-
-// قائمة IDs للمنتجات الأكثر مبيعاً
+    { id:"av1", name:"قريبًا في المتجر", brand:"Avene", price:0, image:"images/products/kid21.png" },
+    { id:"lr1", name:"قريبًا في المتجر", brand:"La Roche", price:0, image:"images/products/kid22.png" },
+    { id:"bio1", name:"قريبًا في المتجر", brand:"Bioderma", price:0, image:"images/products/kid23.png" },
+    { id:"arv1", name:"قريبًا في المتجر", brand:"Arvia", price:0, image:"images/products/kid24.png" },
+];
 const bestSellerIds = ["lr1", "bio1", "av1", "arv1"]; 
 
-// --- Data for Page Content ---
 const storeCategories = [
     { name: "الكريمات", link: "creams.html", icon: "🧴", description: "ترطيب وعناية" },
     { name: "السيرومات", link: "serums.html", icon: "💧", description: "علاجات مركزة" },
@@ -356,90 +352,47 @@ const cartBadge = document.getElementById('cartBadge');
 const cartOverlay = document.getElementById('cartOverlay');
 const cartPanel = document.getElementById('cartPanel');
 
-function saveCart() { 
-    localStorage.setItem('orange_cart', JSON.stringify(cart)); 
-    updateCartUI(); 
-}
-
+function saveCart() { localStorage.setItem('orange_cart', JSON.stringify(cart)); updateCartUI(); }
 function addToCart(productId) {
-    // [تصحيح] البحث في القائمة الموحدة `allProducts`
-    const prod = allProducts.find(p => p.id === productId); 
-    if (!prod) {
-        console.error("Product not found:", productId);
-        return;
-    }
-
+    const prod = allProducts.find(p => p.id === productId);
+    if (!prod) return;
     const existing = cart.find(i => i.id === productId);
-    if (existing) {
-        existing.qty++;
-    } else {
-        cart.push({ id: prod.id, name: prod.name, price: prod.price, qty: 1 });
-    }
+    if (existing) existing.qty++;
+    else cart.push({ id: prod.id, name: prod.name, price: prod.price, qty: 1 });
     saveCart();
     Swal.fire({ icon: 'success', title: 'تمت الإضافة للسلة', timer: 1100, showConfirmButton: false });
 }
-
 function updateCartUI() {
     cartItemsEl.innerHTML = '';
     let total = 0;
-    if (cart.length === 0) {
-        cartItemsEl.innerHTML = `<p class="text-center text-gray-500 p-4">سلتك فارغة حالياً.</p>`;
-    } else {
-        cart.forEach((item, i) => {
-            total += item.price * item.qty;
-            const itemEl = document.createElement('div');
-            itemEl.className = 'p-2 bg-orange-50 rounded flex items-start justify-between gap-2';
-            itemEl.innerHTML = `
-                <div class="flex-1">
-                    <div class="font-semibold">${item.name}</div>
-                    <div class="text-xs text-gray-500">سعر الوحدة: ${item.price.toFixed(2)} د.ل</div>
-                    <div class="mt-2 flex gap-2">
-                        <button class="btn btn-xs" data-action="dec" data-index="${i}">-</button>
-                        <div class="px-3 py-1 border rounded">${item.qty}</div>
-                        <button class="btn btn-xs" data-action="inc" data-index="${i}">+</button>
-                        <button class="btn btn-xs btn-error ml-auto" data-action="remove" data-index="${i}">حذف</button>
-                    </div>
-                </div>`;
-            cartItemsEl.appendChild(itemEl);
-        });
-    }
+    cart.forEach((item, i) => {
+        total += item.price * item.qty;
+        const itemEl = document.createElement('div');
+        itemEl.className = 'p-2 bg-orange-50 rounded flex items-start justify-between gap-2';
+        itemEl.innerHTML = `
+            <div class="flex-1">
+                <div class="font-semibold">${item.name}</div>
+                <div class="text-xs text-gray-500">سعر الوحدة: ${item.price.toFixed(2)} د.ل</div>
+                <div class="mt-2 flex gap-2">
+                    <button class="btn btn-xs" onclick="changeQtyWrapper(${i}, -1)">-</button>
+                    <div class="px-3 py-1 border rounded">${item.qty}</div>
+                    <button class="btn btn-xs" onclick="changeQtyWrapper(${i}, 1)">+</button>
+                    <button class="btn btn-xs btn-error ml-auto" onclick="removeFromCartWrapper(${i})">حذف</button>
+                </div>
+            </div>`;
+        cartItemsEl.appendChild(itemEl);
+    });
     const totalQty = cart.reduce((s, i) => s + i.qty, 0);
     cartTotalEl.innerText = total.toFixed(2) + ' د.ل';
     cartBadge.innerText = totalQty;
 }
-
-function changeQty(index, delta) {
-    cart[index].qty += delta;
-    if (cart[index].qty < 1) {
-        cart[index].qty = 1; // لا تسمح بأن تكون الكمية أقل من 1
-    }
-    saveCart();
-}
-
-function removeFromCart(index) {
-    cart.splice(index, 1);
-    saveCart();
-}
-
-// Event Listeners for Cart
-cartItemsEl.addEventListener('click', e => {
-    const target = e.target.closest('button');
-    if (!target) return;
-    
-    const action = target.dataset.action;
-    const index = parseInt(target.dataset.index);
-
-    if (action === 'inc') changeQty(index, 1);
-    if (action === 'dec') changeQty(index, -1);
-    if (action === 'remove') removeFromCart(index);
-});
-
+window.changeQtyWrapper = (index, delta) => { cart[index].qty = Math.max(1, cart[index].qty + delta); saveCart(); };
+window.removeFromCartWrapper = (index) => { cart.splice(index, 1); saveCart(); };
 document.getElementById('clearCartBtn').addEventListener('click', () => { if(cart.length > 0) Swal.fire({title: 'تفريغ السلة؟', icon: 'warning', showCancelButton: true, confirmButtonText: 'نعم', cancelButtonText: 'لا'}).then(r => { if(r.isConfirmed) { cart = []; saveCart(); } }); });
 document.getElementById('openCartBtn').addEventListener('click', () => { cartOverlay.classList.add('open'); cartPanel.classList.add('open'); });
 document.getElementById('closeCartBtn').addEventListener('click', () => { cartOverlay.classList.remove('open'); cartPanel.classList.remove('open'); });
 cartOverlay.addEventListener('click', () => { cartOverlay.classList.remove('open'); cartPanel.classList.remove('open'); });
 bestSellersContainer.addEventListener('click', e => { if (e.target.closest('button')?.dataset.action === 'add') addToCart(e.target.closest('button').dataset.id); });
-
 document.getElementById('checkoutBtn').addEventListener('click', () => {
     const fullname = document.getElementById('fullname').value.trim();
     const phone = document.getElementById('phone').value.trim();
@@ -457,9 +410,6 @@ document.getElementById('checkoutBtn').addEventListener('click', () => {
     message += `%0Aالإجمالي: ${total.toFixed(2)} د.ل`;
     window.open(`https://wa.me/218915066938?text=${message}`, '_blank');
 });
-document.getElementById('city').addEventListener('change', (e)=>{
-  document.getElementById('otherCity').classList.toggle('hidden', e.target.value !== 'مناطق أخرى');
-});
 
 // --- Firebase Form Submission Logic ---
 const feedbackText = document.getElementById('feedback-text');
@@ -468,6 +418,7 @@ const requestProductName = document.getElementById('request-product-name');
 const requestProductBrand = document.getElementById('request-product-brand');
 const submitRequestBtn = document.getElementById('submit-request-btn');
 
+// Event listener for submitting feedback
 submitFeedbackBtn.addEventListener('click', async () => {
     const text = feedbackText.value.trim();
     if (!text) {
@@ -485,10 +436,12 @@ submitFeedbackBtn.addEventListener('click', async () => {
         feedbackText.value = '';
         Swal.fire({ icon: 'success', title: 'شكراً لك!', text: 'تم إرسال رأيك بنجاح.' });
     } catch (e) {
+        console.error("Error adding feedback: ", e);
         Swal.fire({ icon: 'error', title: 'حدث خطأ', text: 'فشل إرسال الرأي. الرجاء المحاولة مرة أخرى.' });
     }
 });
 
+// Event listener for requesting a product
 submitRequestBtn.addEventListener('click', async () => {
     const productName = requestProductName.value.trim();
     if (!productName) {
@@ -509,6 +462,7 @@ submitRequestBtn.addEventListener('click', async () => {
         requestProductBrand.value = '';
         Swal.fire({ icon: 'success', title: 'شكراً لطلبك!', text: 'تم إرسال طلبك وسنعمل على توفيره.' });
     } catch (e) {
+        console.error("Error adding product request: ", e);
         Swal.fire({ icon: 'error', title: 'حدث خطأ', text: 'فشل إرسال الطلب. الرجاء المحاولة مرة أخرى.' });
     }
 });
@@ -536,5 +490,6 @@ updateCartUI();
 </script>
 </body>
 </html>
+
 
 
