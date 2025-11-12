@@ -1,645 +1,468 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>عائلة نعومة نعومتك — متجر عائلة نعومة نعومتك </title>
-  <meta name="description" content="متجر إلكتروني فخم وسريع مع بحث، سلة، ومعرض منتجات متعدد" />
-  <!-- Performance & Fonts -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <title>🛍️ تسوق الآن من نعومة نعومتك</title>
+  <meta name="description" content="🛍️ تسوق الآن من نعومة نعومتك — استكشف جميع مجموعاتنا من كريمات، سيرومات، عطور، والمزيد. كل ما تحتاجينه لجمالك في مكان واحد. توصيل سريع داخل ليبيا." />
+  <meta name="keywords" content="تسوق, متجر, كريمات, سيروم, عطور, واقي شمس, نعومة نعومتك, Avene, Bioderma, La Roche, Arvia" />
+  <meta name="author" content="عائلة نعومة نعومتك" />
+  <meta name="theme-color" content="#FF9800" />
+
   <link rel="canonical" href="https://yournaouma.github.io/store/store.html" />
-    <!-- أيقونات المتصفح -->
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#fff8e1" />
+
+  <!-- Open Graph (Facebook + WhatsApp) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ar_AR" />
+  <meta property="og:site_name" content="نعومة نعومتك" />
+  <meta property="og:title" content="🛍️ تسوق الآن من جميع متاجر نعومة نعومتك" />
+  <meta property="og:description" content="استكشف مجموعاتنا الكاملة من منتجات العناية بالبشرة الفاخرة — اطلب الآن." />
+  <meta property="og:image" content="https://yournaouma.github.io/store/images/logo.png" />
+  <meta property="og:url" content="https://yournaouma.github.io/store/index.html" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="🛍️ تسوق الآن من نعومة نعومتك" />
+  <meta name="twitter:description" content="كل ما تحتاجينه لجمالك في مكان واحد. كريمات، سيرومات، عطور، والمزيد." />
+  <meta name="twitter:image" content="https://yournaouma.github.io/store/images/logo.png" />
+
+  <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="256x256" href="images/logo.png">
   <link rel="icon" type="image/png" sizes="128x128" href="images/logo.png">
   <link rel="icon" type="image/png" sizes="64x64" href="images/logo.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/logo.png">
 
-  <!-- لأجهزة آبل -->
+  <!-- For Apple devices -->
   <link rel="apple-touch-icon" sizes="512x512" href="images/logo.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
 
-  <!-- خطوط Google -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <!-- Tailwind (CDN - for demo; in production build with PurgeCSS) -->
+  <!-- Tailwind CSS + DaisyUI -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config = {theme:{extend:{fontFamily:{sans:['Inter','ui-sans-serif','system-ui']}}}};</script>
-
-  <!-- Swiper for carousels -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-
-  <!-- AOS for scroll animations -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
-
-  <!-- Font Awesome for icons -->
-  <!-- تأكد من استبدال yourkitid.js بمعرف مجموعتك الخاص من Font Awesome -->
-  <script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script>
-
-  <!-- Isotope for filtering & layout (optional) -->
-  <script defer src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-
-  <!-- Lazysizes for lazy-loading images -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" />
+  <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
 
   <style>
-    :root{--accent:#caa0ff}
-    body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial}
-    .glass {background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); backdrop-filter: blur(6px);}
-
-    /* Adjusted fixed cart button position for RTL and menu on right */
-    #cartFixedBtn {
-      position: fixed;
-      top: 1.5rem;
-      right: 1.5rem; /* Changed to right */
-      left: auto; /* Ensure it's not also left */
-      z-index: 60;
+    body { font-family: "Noto Sans Arabic", system-ui; background: linear-gradient(180deg,#fff 0%, #fff5ea 100%); }
+    header { background: linear-gradient(90deg,#fff 0%, #ffedde 100%);}
+    .product-card, .store-card {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(255,150,40,0.05);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     }
-    @media (max-width: 768px) {
-      #cartFixedBtn {
-        top: 1rem;
-        right: 1rem; /* Changed to right */
-        left: auto;
-      }
+    .product-card:hover, .store-card:hover { transform: translateY(-4px); box-shadow: 0 4px 16px rgba(255,150,40,0.08);}
+    .store-card .store-icon { font-size: 3rem; line-height: 1; }
+    .pill { background: #ff9800; border-radius: 999px; padding: .2rem .7rem; font-size: .8rem; color: #fff; }
+    #sidebar { background: white; color: #333; }
+    #sidebar a { color: #333; }
+    #sidebar a:hover { background: #ff9800; color: #fff; }
+    .cart-overlay, .modal-overlay {
+      position:fixed; inset:0; background:rgba(0,0,0,0.2); opacity:0; pointer-events:none; transition:opacity .25s; z-index:40;
     }
-
-    #cartDrawer {
-      top: 0; right: 0; /* Changed to right */
-      width: 100%; max-width: 370px;
-      height: 100vh;
-      transition: transform 0.3s;
-      z-index: 100;
-      transform: translateX(110%); /* Start off-screen to the right */
+    .cart-overlay.open, .modal-overlay.open { opacity:1; pointer-events:auto; }
+    .cart-drawer {
+      position:fixed; top:0; right:0; height:100vh; width:100%;
+      max-width:310px;
+      transform:translateX(110%);
+      transition:transform .25s cubic-bezier(.2,.9,.2,1);
+      z-index:50;
+      box-shadow:-6px 0 16px 0 rgba(255,152,0,0.04);
     }
-    #cartDrawer.open {
-      transform: translateX(0); /* Slide in from right */
+    .cart-drawer.open { transform:translateX(0); }
+    @media (max-width: 530px) { .cart-drawer { max-width:90vw; } }
+    #menuBtn {background:#ff9800;}
+    #menuBtn:hover {background:#fb8c00;}
+    .btn-primary,.btn-primary:active {background:linear-gradient(90deg,#ff9800,#ffbd51);border:none;color:white;}
+    .btn-primary:hover {background:linear-gradient(90deg,#fb8c00,#fcc761);}
+    .btn-outline {border-color:#ff9800;color:#ff9800;}
+    .btn-outline:hover {background:#ff9800;color:white;}
+    .btn-error {background:#ff5722;color:white;}
+    #cartPanel .cart-actions-area {
+      position: sticky; bottom: 0; background: white; z-index: 2;
+      padding-top: 6px; margin-top: 12px; border-top: 1.5px solid #ffecbc;
     }
-    #cartOverlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.35);
-      z-index: 90;
-    }
-    #cartOverlay.active {
-      display: block;
-    }
-    .cart-btn {
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-      font-weight: bold;
-      border: 1px solid #ddd;
-      background: #f8f8f8;
-      transition: background .2s;
-    }
-    .cart-btn:hover {background: #ececec;}
-    .cart-delete-btn { color: #d32f2f; }
-    .cart-delete-btn:hover { background: #fdeaea; }
-
-    /* Main Navigation Drawer Specific Styles - Now opens from RIGHT for RTL */
-    #mainMenuDrawer {
-      transition: transform 0.3s ease-out;
-      transform: translateX(100%); /* Start off-screen to the right */
-      position: fixed; /* Ensure it's fixed */
-      inset-y: 0; /* Top to bottom */
-      left: auto; /* Not tied to left */
-      right: 0; /* Appears from right */
-      width: 100%; /* Full width on small screens */
-      max-width: 280px; /* Max width on larger screens */
-      background-color: white;
-      box-shadow: -2px 0 5px rgba(0,0,0,0.1); /* Shadow for drawer */
-      z-index: 50;
-    }
-    #mainMenuDrawer.open {
-      transform: translateX(0); /* Slide in from right */
-    }
-    #mainMenuOverlay {
-      display: none;
-      background: rgba(0,0,0,0.5);
-      z-index: 49; /* Below cart overlay but above main content */
-    }
-    #mainMenuOverlay.active {
-      display: block;
-    }
-
-    /* Filters scrollable on small screens */
-    .filter-buttons-container {
-      overflow-x: auto;
-      white-space: nowrap;
-      padding-bottom: 0.5rem; /* For scrollbar visibility */
-      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-      scrollbar-width: none; /* Hide scrollbar for Firefox */
-    }
-    .filter-buttons-container::-webkit-scrollbar {
-      display: none; /* Hide scrollbar for Chrome, Safari, Opera */
-    }
-    .filter-btn {
-      flex-shrink: 0; /* Prevent buttons from shrinking */
-    }
-
-    /* Quick View Modal Styles */
-    #quickView {
-        display: none; /* Hidden by default */
-        position: fixed;
-        inset: 0;
-        z-index: 50;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(0, 0, 0, 0.4);
-        padding: 1rem;
-    }
-    #quickView.flex {
-        display: flex; /* Show when active */
-    }
-    #quickView > div {
-        background-color: white;
-        border-radius: 0.5rem;
-        max-width: 48rem; /* Equivalent to max-w-3xl */
-        width: 100%;
-        padding: 1.5rem;
-        position: relative;
+    #cartPanel .cart-actions-area button,
+    #cartPanel .cart-actions-area .flex {margin-bottom:0;}
+    #cartPanel .input, #cartPanel .select, .form-section .input, .form-section .textarea { background-color: white; color: #333; border-color: #ff9800; }
+    #cartPanel .input::placeholder, #cartPanel .select option, .form-section .input::placeholder, .form-section .textarea::placeholder { color: #777; }
+    .auth-section-header { display: flex; align-items: center; gap: 0.5rem; }
+    .auth-section-header .btn { padding: 0.5rem 0.75rem; font-size: 0.875rem; line-height: 1.25rem; }
+    .auth-section-header #user-info-header { margin: 0; font-size: 0.875rem; color: #555; }
+    @media (max-width: 640px) {
+        .auth-section-header { flex-direction: column; align-items: flex-end; gap: 0.25rem; }
+        .auth-section-header .btn { width: auto; }
     }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased">
 
-  <!-- Main Menu Overlay -->
-  <div id="mainMenuOverlay" class="fixed inset-0 hidden"></div>
+<body class="antialiased text-gray-800 bg-[#fffbea]">
 
-  <!-- Main Navigation Drawer (Used for all screen sizes) -->
-  <nav id="mainMenuDrawer" class="fixed inset-y-0 right-0 bg-white shadow-lg p-6 z-50 transform translate-x-full">
-    <div class="flex justify-between items-center mb-6">
-      <h3 class="text-xl font-bold">القائمة</h3>
-      <button id="closeMainMenu" class="p-2 rounded-full hover:bg-gray-100">
-        <i class="fas fa-times"></i>
-      </button>
+<!-- Menu Button -->
+<button id="menuBtn" class="fixed top-4 right-4 z-60 text-white px-3 py-2 rounded-lg shadow-md">☰ القائمة</button>
+<div id="menuOverlay" class="fixed inset-0 bg-black opacity-0 z-50 pointer-events-none transition-opacity duration-300"></div>
+
+<!-- Sidebar menu (white) -->
+<aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto z-50">
+  <div class="p-5">
+    <h2 class="text-2xl font-bold mb-4 text-center text-[#ff9800]">🛍️ نعومة نعومتك</h2>
+    <nav class="space-y-3 text-lg">
+        <a href="index.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🏠 الصفحة الرئيسية</a>
+        <a href="creams.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🧴 متجر الكريمات</a>
+        <a href="serums.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">💧 متجر السيرومات</a>
+        <a href="cleansers.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🧼 متجر المنظفات</a>
+        <a href="sunscreen.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🌞 متجر واقي الشمس</a>
+        <a href="toners.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">💦 متجر التونر</a>
+        <a href="peels.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🍯 متجر المقشرات</a>
+        <a href="masks.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🛁 متجر الماسكات</a>
+        <a href="perfumes.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">🌸 متجر العطور</a>
+        <a href="yourskin.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">💬 استشارة بشرتك</a>
+        <a href="contact.html" class="block p-2 rounded hover:bg-[#ff9800] hover:text-white">📞 اتصل بنا</a>
+    </nav>
+    <div class="mt-6 text-center">
+      <button id="closeSidebar" class="bg-[#ff9800] text-white px-4 py-2 rounded-lg shadow hover:bg-[#fb8c00]">إغلاق ✖</button>
     </div>
-    <ul class="space-y-4 text-lg">
-      <li><a class="block px-3 py-2 rounded hover:bg-gray-100" href="index.html">الرئيسية</a></li>
-      <li><a class="block px-3 py-2 rounded hover:bg-gray-100" href="#collections">المجموعات</a></li>
-      <li><a class="block px-3 py-2 rounded hover:bg-gray-100" href="#best">الأكثر مبيعًا</a></li>
-      <!-- يمكنك إضافة المزيد من الروابط هنا -->
-    </ul>
-  </nav>
+  </div>
+</aside>
 
-  <!-- HEADER -->
-  <header class="w-full shadow-sm glass sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
-      <div class="flex items-center gap-4">
-        <a href="#" class="text-2xl font-extrabold text-gray-900">نعومة نعومتك</a>
+<header class="shadow-sm sticky top-0 z-30 mt-14">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+        <img src="images/logo.png" alt="شعار نعومة نعومتك" class="w-12 h-12 rounded-lg object-cover shadow-sm">
+      <div>
+        <h1 class="text-lg font-extrabold">تسوق الآن من نعومة نعومتك
+          <span class="text-sm text-gray-500 block">استكشف جميع مجموعاتنا</span>
+        </h1>
       </div>
-      <div class="flex items-center gap-3 w-full max-w-lg">
-        <div class="relative flex-1">
-          <input id="searchInput" type="search" placeholder="ابحث عن منتج، ماركة أو مكوّن..." class="w-full rounded-full border border-gray-200 px-4 py-2 pr-10 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-200" />
-          <button id="searchBtn" class="absolute left-0 top-1/2 -translate-y-1/2 px-3 text-sm">
-            <i class="fas fa-search"></i>
-          </button>
+    </div>
+    <div class="flex items-center gap-3">
+        <div id="auth-section-header" class="auth-section-header">
+            <button id="login-btn-header" class="btn btn-sm btn-outline text-pink-500 hover:bg-pink-500 hover:text-white">🔑 تسجيل الدخول</button>
+            <button id="logout-btn-header" class="btn btn-sm btn-ghost hidden">🚪 خروج</button>
+            <p id="user-info-header" class="text-sm hidden"></p>
         </div>
-        <!-- Main Menu Button (Moved to the left side, as it's RTL and opens from right) -->
-        <button id="openMainMenu" class="p-2 rounded-full hover:bg-gray-100">
-            <i class="fas fa-bars text-lg"></i>
-        </button>
-      </div>
+        <div class="pill text-sm hidden sm:block">توصيل سريع داخل ليبيا</div>
+        <button id="openCartBtn" class="btn btn-ghost btn-sm">🛒 <span id="cartBadge">0</span></button>
     </div>
-  </header>
+  </div>
+</header>
 
-  <!-- CART FIXED BUTTON (Moved to top-right to match new layout logic) -->
-  <button id="cartFixedBtn" class="relative p-3 rounded-full bg-white shadow hover:bg-gray-100" aria-label="عرض السلة">
-    <i class="fas fa-shopping-cart text-lg"></i>
-    <span id="cartCount" class="absolute -top-1 -left-1 bg-red-500 text-white text-xs rounded-full px-1">0</span>
-  </button>
-
-  <!-- HERO -->
-  <section class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-    <div data-aos="fade-up">
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-4">متجر عائلة نعومة نعومتك للعناية بالبشرة النقية </h1>
-      <p class="text-gray-600 mb-6">مجموعة واسعة من المنتجات الفاخرة — سيرومات، كريمات، مستحضرات وقاية، وكل ما تحتاجه لبشرة متوهجة.</p>
-      <div class="flex gap-3">
-        <a href="#products" class="px-5 py-3 rounded-md bg-gradient-to-l from-violet-400 to-indigo-500 text-white font-semibold">تسوّق الآن</a>
-        <a href="#collections" class="px-5 py-3 rounded-md border border-gray-200">المجموعات</a>
-        <a href="index.html" class="px-5 py-3 rounded-md border border-gray-200">الصفحة الرئيسية</a>
- </div>
-    </div>
-
-    <div>
-      <!-- Swiper showcase -->
-      <div class="swiper w-full h-64 rounded-2xl overflow-hidden shadow-lg" data-aos="zoom-in">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide flex items-center justify-center bg-gradient-to-tr from-pink-50 to-indigo-50">
-            <img data-src="images/logo.png" class="lazyload object-contain h-64" alt="عرض 1" />
-          </div>
-          <div class="swiper-slide flex items-center justify-center bg-gradient-to-tr from-amber-50 to-yellow-50">
-            <img data-src="images/logo.png" class="lazyload object-contain h-64" alt="عرض 2" />
-          </div>
-          <div class="swiper-slide flex items-center justify-center bg-gradient-to-tr from-teal-50 to-cyan-50">
-            <img data-src="images/logo.png" class="lazyload object-contain h-64" alt="عرض 3" />
-          </div>
-        </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-pagination"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Filters & Collections -->
-  <section id="products" class="max-w-7xl mx-auto px-4 pb-12">
-    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
-      <h2 class="text-2xl font-bold">منتجاتنا</h2>
-      <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
-        <select id="sortSelect" class="rounded-full border px-3 py-2">
-          <option value="default">ترتيب افتراضي</option>
-          <option value="price-asc">السعر من الأقل</option>
-          <option value="price-desc">السعر من الأعلى</option>
-        </select>
-        <!-- Scrollable filter buttons for mobile -->
-        <div class="filter-buttons-container flex gap-2">
-          <button class="filter-btn px-3 py-2 rounded-full border" data-filter="*">الكل</button>
-          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".serum">سيرومات</button>
-          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".cream">كريمات</button>
-          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".spf">واقي شمس</button>
-          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".cleanser">منظفات</button>
-          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".mask">أقنعة</button>
-          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".toner">تونر</button>
-          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".scrub">مقشرات</button>
-          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".oil">زيوت</button>
-          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".eye">العناية بالعين</button>
-          <button class="filter-btn px-3 py-2 rounded-full border" data-filter=".body">العناية بالجسم</button>
-        </div>
-      </div>
-    </div>
-    <div id="grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6"></div>
-    <div class="mt-8 flex justify-center">
-      <button id="loadMore" class="px-6 py-3 rounded-md border">تحميل المزيد</button>
-    </div>
-  </section>
-
-  <!-- CART DRAWER RIGHT (Adjusted to open from right) -->
-  <div id="cartOverlay"></div>
-  <aside id="cartDrawer" class="fixed closed bg-white shadow-xl p-6 overflow-auto h-full">
-    <div class="h-full flex flex-col">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-xl font-semibold">سلة المشتريات</h3>
-        <button id="closeCart" class="p-2 rounded-full hover:bg-gray-100"><i class="fas fa-times"></i></button>
-      </div>
-      <div id="cartItems" class="space-y-4 flex-1">لا توجد منتجات في السلة.</div>
-      <div class="mt-6 border-t pt-4">
-        <div class="flex items-center justify-between font-semibold">المجموع: <span id="cartTotal">$0.00</span></div>
-        <div class="mt-4">
-          <!-- Checkout form directly in cart drawer -->
-          <form id="checkoutForm" class="space-y-3">
-            <h4 class="text-lg font-semibold mt-6 mb-3">تفاصيل الدفع</h4>
-            <input required type="text" class="w-full rounded border px-3 py-2" placeholder="الاسم الكامل" name="name">
-            <input required type="tel" class="w-full rounded border px-3 py-2" placeholder="رقم الجوال" name="phone">
-            <input required type="text" class="w-full rounded border px-3 py-2" placeholder="العنوان" name="address">
-            <textarea class="w-full rounded border px-3 py-2" placeholder="ملاحظات (اختياري)" name="notes"></textarea>
-            <button type="submit" class="w-full px-4 py-3 rounded-md bg-green-600 text-white">إرسال الطلب عبر واتساب</button>
-          </form>
-        </div>
-      </div>
+<!-- Main -->
+<main class="max-w-7xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
+  <!-- Sidebar for Search -->
+  <aside class="lg:col-span-1 space-y-4">
+    <div class="bg-white p-4 rounded-xl shadow-sm">
+      <h3 class="font-semibold mb-2">ابحث عن متجر</h3>
+      <input id="search-store" type="search" placeholder="مثال: كريمات، عطور..." class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-orange-200" aria-label="ابحث عن متجر">
     </div>
   </aside>
 
-  <!-- PRODUCT QUICK VIEW MODAL -->
-  <div id="quickView" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-4">
-    <div class="bg-white rounded-lg max-w-3xl w-full p-6 relative">
-      <button id="closeQuick" class="absolute left-4 top-4 p-2 rounded-full hover:bg-gray-100"><i class="fas fa-times"></i></button>
-      <div id="quickContent" class="pt-8 md:pt-0">...جاري التحميل</div>
+  <!-- Main Content Section -->
+  <section class="lg:col-span-3 space-y-8">
+    
+    <!-- Best Sellers Section -->
+    <div>
+      <h2 class="text-2xl font-bold mb-4 text-gray-800">🔥 الأكثر مبيعاً</h2>
+      <div id="bestSellersContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
+    </div>
+
+    <!-- Store Categories Section -->
+    <div>
+      <h2 class="text-2xl font-bold mb-4 text-gray-800">🛍️ تصفح متاجرنا</h2>
+      <div id="storesContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
+    </div>
+
+    <!-- Customer Feedback and Product Request Section -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Customer Feedback for Store Improvement -->
+        <div class="bg-white p-4 rounded-xl shadow-sm form-section">
+            <h3 class="text-xl font-semibold mb-3 text-[#ff9800]">🌟 رأيك يهمنا لتحسين متجرنا</h3>
+            <p class="text-sm text-gray-600 mb-4">شاركنا رأيك أو أي اقتراح لمساعدتنا على تقديم أفضل تجربة تسوق لك.</p>
+            <div class="space-y-3">
+                <textarea id="feedback-text" placeholder="اكتب رأيك أو اقتراحك هنا..." class="textarea textarea-bordered w-full"></textarea>
+                <button id="submit-feedback-btn" class="btn btn-primary w-full">إرسال الرأي</button>
+            </div>
+        </div>
+
+        <!-- Request a Product -->
+        <div class="bg-white p-4 rounded-xl shadow-sm form-section">
+            <h3 class="text-xl font-semibold mb-3 text-[#ff9800]">🤔 هل تبحث عن منتج معين؟</h3>
+            <p class="text-sm text-gray-600 mb-4">أخبرنا عن المنتج الذي لم تجده، وسنحاول توفيره في أقرب وقت ممكن.</p>
+            <div class="space-y-3">
+                <input id="request-product-name" type="text" placeholder="اسم المنتج المطلوب" class="input input-bordered w-full" />
+                <input id="request-product-brand" type="text" placeholder="الماركة (اختياري)" class="input input-bordered w-full" />
+                <button id="submit-request-btn" class="btn btn-outline w-full">إرسال الطلب</button>
+            </div>
+        </div>
+    </div>
+  </section>
+</main>
+
+<div id="cartOverlay" class="cart-overlay" tabindex="-1" aria-hidden="true"></div>
+<div id="modalOverlay" class="modal-overlay" tabindex="-1" aria-hidden="true"></div>
+
+<!-- Cart Drawer -->
+<aside id="cartPanel" class="cart-drawer bg-white" role="dialog" aria-modal="true" aria-hidden="true" style="border-right:3px solid #ff9800">
+  <div class="h-full flex flex-col p-4">
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="text-lg font-bold">🛒 سلة مشترياتك</h2>
+      <div class="flex items-center gap-2">
+        <button id="clearCartBtn" class="btn btn-ghost btn-xs text-sm">تفريغ</button>
+        <button id="closeCartBtn" class="btn btn-ghost">إغلاق ✖</button>
+      </div>
+    </div>
+    <div id="cartItems" class="flex-1 overflow-auto space-y-3 p-1"></div>
+    <div class="cart-actions-area">
+      <div class="flex justify-between items-center mb-2">
+        <div class="font-semibold">الإجمالي الكلي</div>
+        <div class="font-bold" id="cartTotal">0.00 د.ل</div>
+      </div>
+      <div class="space-y-2 mb-2">
+        <input id="fullname" placeholder="الاسم الكامل" class="input input-bordered w-full" />
+        <input id="phone" placeholder="رقم الهاتف (مثال: 0915...)" class="input input-bordered w-full" />
+        <select id="city" class="select select-bordered w-full">
+          <option value="">اختر مدينتك</option>
+          <option>طرابلس</option><option>بنغازي</option><option>مصراته</option><option>سبها</option><option>الخمس</option><option>مناطق أخرى</option>
+        </select>
+        <input id="otherCity" placeholder="اكتب مدينتك إذا مناطق أخرى" class="input input-bordered w-full hidden" />
+        <input id="address" placeholder="العنوان" class="input input-bordered w-full" />
+      </div>
+      <button id="checkoutBtn" class="btn w-full btn-primary mb-0">✅ الدفع عبر واتساب</button>
     </div>
   </div>
+</aside>
 
-  <!-- FOOTER -->
-  <footer class="mt-12 bg-white border-t py-8">
-    <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500">© 2025 نعومة — جميع الحقوق محفوظة</div>
-  </footer>
+<!-- (Product Detail Modal is not needed on this page, but keeping the overlay for consistency if needed later) -->
 
-  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" defer></script>
-  <script defer>
-    document.addEventListener('DOMContentLoaded', function(){
-      if(window.AOS) AOS.init({duration:700, once:true});
-      new Swiper('.swiper', {loop:true, pagination:{el:'.swiper-pagination'}, navigation:{nextEl:'.swiper-button-next', prevEl:'.swiper-button-prev'}, autoplay:{delay:3000}});
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+<script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js" defer></script>
 
-      // ✨ منتجاتك الحقيقية — يمكنك تعديلها بحرية
-      const products = [
-        { id:'p1', title:'سيروم فيتامين C لتفتيح البشرة', price:'79.00', category:'serum', img:'images/serum1.jpg' },
-        { id:'p2', title:'سيروم حمض الهيالورونيك لترطيب عميق', price:'85.00', category:'serum', img:'images/serum2.jpg' },
-        { id:'p3', title:'سيروم نيكوتيناميد لتوحيد اللون', price:'89.00', category:'serum', img:'images/serum3.jpg' },
-        { id:'p4', title:'سيروم مضاد للأكسدة بخلاصة الشاي الأخضر', price:'92.00', category:'serum', img:'images/serum4.jpg' },
-        { id:'p5', title:'سيروم تفتيح بالببتيدات الطبيعية', price:'99.00', category:'serum', img:'images/serum5.jpg' },
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
-        { id:'p6', title:'كريم ترطيب ليلي بخلاصة الورد', price:'65.00', category:'cream', img:'images/cream1.jpg' },
-        { id:'p7', title:'كريم نهاري غني بالكولاجين', price:'70.00', category:'cream', img:'images/cream2.jpg' },
-        { id:'p8', title:'كريم تفتيح للبشرة الحساسة', price:'75.00', category:'cream', img:'images/cream3.jpg' },
-        { id:'p9', title:'كريم تجديد البشرة الليلي', price:'78.00', category:'cream', img:'images/cream4.jpg' },
-        { id:'p10', title:'كريم مغذي بزيت الأرغان الطبيعي', price:'82.00', category:'cream', img:'images/cream5.jpg' },
+const firebaseConfig = {
+  apiKey: "AIzaSyDRiEZImvRhIl7zRzBY_y_OrcrNjhzz7bE",
+  authDomain: "naouma-store.firebaseapp.com",
+  projectId: "naouma-store",
+  storageBucket: "naouma-store.firebasestorage.app",
+  messagingSenderId: "522931583121",
+  appId: "1:522931583121:web:643f49ef0a81a0763b6730",
+  measurementId: "G-S0W0BYJ3RY"
+};
 
-        { id:'p11', title:'واقي شمس SPF 30 بخلاصة الصبار', price:'50.00', category:'spf', img:'images/spf1.jpg' },
-        { id:'p12', title:'واقي شمس SPF 50 مقاوم للماء', price:'55.00', category:'spf', img:'images/spf2.jpg' },
-        { id:'p13', title:'واقي شمس خفيف للبشرة الدهنية', price:'52.00', category:'spf', img:'images/spf3.jpg' },
-        { id:'p14', title:'واقي شمس طبيعي بدون عطور', price:'57.00', category:'spf', img:'images/spf4.jpg' },
-        { id:'p15', title:'واقي شمس مع ترطيب وحماية مزدوجة', price:'60.00', category:'spf', img:'images/spf5.jpg' },
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-        { id:'p16', title:'منظف رغوي للبشرة الحساسة', price:'45.00', category:'cleanser', img:'images/cleanser1.jpg' },
-        { id:'p17', title:'غسول يومي باللافندر المهدئ', price:'48.00', category:'cleanser', img:'images/cleanser2.jpg' },
-        { id:'p18', title:'غسول الفحم لإزالة الشوائب', price:'49.00', category:'cleanser', img:'images/cleanser3.jpg' },
-        { id:'p19', title:'غسول الجل بالورد الطبيعي', price:'47.00', category:'cleanser', img:'images/cleanser4.jpg' },
-        { id:'p20', title:'منظف رغوي غني بالفيتامينات', price:'50.00', category:'cleanser', img:'images/cleanser5.jpg' },
+// --- Sidebar Logic ---
+const menuBtn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+const menuOverlay = document.getElementById('menuOverlay');
+const closeSidebar = document.getElementById('closeSidebar');
+function toggleSidebar(open) {
+  sidebar.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
+  menuOverlay.style.opacity = open ? '0.4' : '0';
+  menuOverlay.style.pointerEvents = open ? 'auto' : 'none';
+}
+menuBtn.addEventListener('click', () => toggleSidebar(true));
+closeSidebar.addEventListener('click', () => toggleSidebar(false));
+menuOverlay.addEventListener('click', () => toggleSidebar(false));
 
-        { id:'p21', title:'قناع الطين الطبيعي لإزالة السموم', price:'60.00', category:'mask', img:'images/mask1.jpg' },
-        { id:'p22', title:'قناع الفحم لتصفية المسام', price:'63.00', category:'mask', img:'images/mask2.jpg' },
-        { id:'p23', title:'قناع الذهب لتغذية البشرة', price:'75.00', category:'mask', img:'images/mask3.jpg' },
-        { id:'p24', title:'قناع الطمي المغربي المنقّي', price:'68.00', category:'mask', img:'images/mask4.jpg' },
-        { id:'p25', title:'قناع الألوفيرا المهدئ', price:'58.00', category:'mask', img:'images/mask5.jpg' },
+// --- Data for Page Content ---
+const allProducts = [
+    // This should ideally be a shared list of all products from all stores
+    { id:"av1", name:"أفين كريم مرطب Hydrance", brand:"Avene", price:59, image:"images/products/kid11.png" },
+    { id:"lr1", name:"لاروش بوزيه Effaclar Duo+", brand:"La Roche", price:83, image:"images/products/kid17.png" },
+    { id:"bio1", name:"بيوديرما سيبيوم غسول", brand:"Bioderma", price:61, image:"images/products/kid14.png" },
+    { id:"arv1", name:"أرفيا زيت اللوز الحلو", brand:"Arvia", price:39, image:"images/products/kid20.png" },
+];
+const bestSellerIds = ["lr1", "bio1", "av1", "arv1"]; // Example best seller IDs
 
-        { id:'p26', title:'تونر الورد الطبيعي', price:'55.00', category:'toner', img:'images/toner1.jpg' },
-        { id:'p27', title:'تونر الخيار المنعش', price:'52.00', category:'toner', img:'images/toner2.jpg' },
-        { id:'p28', title:'تونر الكاميليا اليابانية', price:'59.00', category:'toner', img:'images/toner3.jpg' },
-        { id:'p29', title:'تونر تفتيح بحمض الجليكوليك', price:'64.00', category:'toner', img:'images/toner4.jpg' },
-        { id:'p30', title:'تونر ماء جوز الهند الطبيعي', price:'60.00', category:'toner', img:'images/toner5.jpg' },
+const storeCategories = [
+    { name: "الكريمات", link: "creams.html", icon: "🧴", description: "ترطيب وعناية" },
+    { name: "السيرومات", link: "serums.html", icon: "💧", description: "علاجات مركزة" },
+    { name: "المنظفات", link: "cleansers.html", icon: "🧼", description: "تنظيف عميق" },
+    { name: "واقي الشمس", link: "sunscreen.html", icon: "🌞", description: "حماية فائقة" },
+    { name: "التونر", link: "toners.html", icon: "💦", description: "توازن وانتعاش" },
+    { name: "المقشرات", link: "peels.html", icon: "🍯", description: "تجديد وتقشير" },
+    { name: "الماسكات", link: "masks.html", icon: "🛁", description: "عناية أسبوعية" },
+    { name: "العطور", link: "perfumes.html", icon: "🌸", description: "جاذبية وأناقة" }
+];
 
-        { id:'p31', title:'مقشر الوجه بخلاصة القهوة', price:'62.00', category:'scrub', img:'images/scrub1.jpg' },
-        { id:'p32', title:'مقشر السكر البني الطبيعي', price:'58.00', category:'scrub', img:'images/scrub2.jpg' },
-        { id:'p33', title:'مقشر الشوفان المهدئ', price:'55.00', category:'scrub', img:'images/scrub3.jpg' },
-        { id:'p34', title:'مقشر الكرز لتجديد البشرة', price:'65.00', category:'scrub', img:'images/scrub4.jpg' },
-        { id:'p35', title:'مقشر الورد الفاخر', price:'68.00', category:'scrub', img:'images/scrub5.jpg' },
+// --- Rendering Functions ---
+const bestSellersContainer = document.getElementById('bestSellersContainer');
+const storesContainer = document.getElementById('storesContainer');
 
-        { id:'p36', title:'زيت الأرغان المغربي النقي', price:'90.00', category:'oil', img:'images/oil1.jpg' },
-        { id:'p37', title:'زيت جوز الهند العضوي', price:'75.00', category:'oil', img:'images/oil2.jpg' },
-        { id:'p38', title:'زيت الورد الدمشقي الفاخر', price:'88.00', category:'oil', img:'images/oil3.jpg' },
-        { id:'p39', title:'زيت اللوز الحلو للبشرة الجافة', price:'70.00', category:'oil', img:'images/oil4.jpg' },
-        { id:'p40', title:'زيت الجوجوبا المرطب', price:'72.00', category:'oil', img:'images/oil5.jpg' },
-
-        { id:'p41', title:'كريم تحت العين بخلاصة الخيار', price:'58.00', category:'eye', img:'images/eye1.jpg' },
-        { id:'p42', title:'كريم شد منطقة العين بالكافيين', price:'64.00', category:'eye', img:'images/eye2.jpg' },
-        { id:'p43', title:'جل ترطيب العين بخلاصة الألوفيرا', price:'60.00', category:'eye', img:'images/eye3.jpg' },
-        { id:'p44', title:'كريم مضاد للتجاعيد حول العين', price:'70.00', category:'eye', img:'images/eye4.jpg' },
-        { id:'p45', title:'كريم تفتيح الهالات الداكنة', price:'66.00', category:'eye', img:'images/eye5.jpg' },
-
-        { id:'p46', title:'غسول الجسم برائحة الفانيليا', price:'55.00', category:'body', img:'images/body1.jpg' },
-        { id:'p47', title:'لوشن الجسم بزبدة الشيا', price:'62.00', category:'body', img:'images/body2.jpg' },
-        { id:'p48', title:'كريم يدين مرطب بخلاصة العسل', price:'40.00', category:'body', img:'images/body3.jpg' }
-      ];
-
-
-      const grid = document.getElementById('grid');
-      function renderProducts(list){
-        grid.innerHTML = '';
-        list.forEach(p=>{
-          const div = document.createElement('div');
-          div.className = `product-card ${p.category} bg-white rounded-xl shadow p-3 flex flex-col`;
-          div.innerHTML = `
-            <div class="relative overflow-hidden rounded-lg" style="padding-top:100%">
-              <img data-src="${p.img}" class="lazyload absolute inset-0 w-full h-full object-cover" alt="${p.title}" />
-              <button data-id="${p.id}" class="quick-btn absolute top-2 left-2 bg-white/80 rounded-full p-2 border"><i class="fas fa-eye"></i></button>
-            </div>
-            <div class="mt-3 flex-1 flex flex-col">
-              <h3 class="font-semibold text-sm">${p.title}</h3>
-              <div class="mt-2 flex items-center justify-between">
-                <div class="text-lg font-bold">$${p.price}</div>
-                <button class="add-btn px-3 py-1 rounded-full border text-sm" data-id="${p.id}">أضف</button>
-              </div>
-            </div>
-          `;
-          grid.appendChild(div);
-        });
-        document.querySelectorAll('.add-btn').forEach(b=>b.onclick=addToCart);
-        document.querySelectorAll('.quick-btn').forEach(b=>b.onclick=quickView);
-      }
-      renderProducts(products.slice(0,16));
-      let loaded = 16;
-      document.getElementById('loadMore').addEventListener('click', ()=>{
-        const next = products.slice(loaded, loaded+16);
-        if(next.length) {
-          renderProducts(products.slice(0, loaded+16));
-          loaded += next.length;
-        } else {
-            // Optionally, hide the load more button if no more products
-            document.getElementById('loadMore').style.display = 'none';
-        }
-      });
-
-      const searchInput = document.getElementById('searchInput');
-      const searchBtn = document.getElementById('searchBtn');
-      function doSearch(){
-        const q = searchInput.value.trim().toLowerCase();
-        const filtered = products.filter(p => p.title.toLowerCase().includes(q) || p.category.includes(q));
-        renderProducts(filtered);
-      }
-      searchBtn.addEventListener('click', doSearch);
-      searchInput.addEventListener('keyup', (e)=>{ if(e.key==='Enter') doSearch(); });
-
-      // --- CART FUNCTIONS ---
-      const cartKey = 'shop_cart_v1';
-      function getCart(){ return JSON.parse(localStorage.getItem(cartKey) || '[]'); }
-      function saveCart(c){ localStorage.setItem(cartKey, JSON.stringify(c)); updateCartUI(); }
-      function addToCart(e){
-        const id = e.currentTarget.dataset.id; const prod = products.find(p=>p.id===id);
-        const cart = getCart();
-        const found = cart.find(it=>it.id===id);
-        if(found) found.qty++;
-        else cart.push({id:prod.id,title:prod.title,price:prod.price,img:prod.img,qty:1});
-        saveCart(cart);
-      }
-      function updateCartUI(){
-        const cart = getCart();
-        document.getElementById('cartCount').innerText = cart.reduce((s,i)=>s+i.qty,0) || 0;
-        const container = document.getElementById('cartItems');
-        if(cart.length===0) { container.innerHTML = '<div class="text-sm text-gray-500">لا توجد منتجات في السلة.</div>'; document.getElementById('cartTotal').innerText = '$0.00'; return; }
-        container.innerHTML = '';
-        let total = 0;
-        cart.forEach((item, idx)=>{
-          total += item.qty * parseFloat(item.price);
-          const row = document.createElement('div');
-          row.className = 'flex items-center gap-2 border-b pb-3 mb-3';
-          row.innerHTML = `
-            <img src="${item.img}" alt="${item.title}" class="w-14 h-14 object-cover rounded-lg border" />
-            <div class="flex-1">
-              <div class="font-semibold text-sm">${item.title}</div>
-              <div class="flex items-center gap-2 mt-2">
-                <button class="cart-btn" data-action="minus" data-idx="${idx}" ${item.qty<=1?'disabled':''}>-</button>
-                <span class="px-2">${item.qty}</span>
-                <button class="cart-btn" data-action="plus" data-idx="${idx}">+</button>
-                <button class="cart-btn cart-delete-btn" data-action="delete" data-idx="${idx}"><i class="fas fa-trash"></i></button>
-                <span class="text-xs text-gray-600 ml-2">$${(item.price*item.qty).toFixed(2)}</span>
-              </div>
-            </div>
-          `;
-          container.appendChild(row);
-        });
-        document.getElementById('cartTotal').innerText = `$${total.toFixed(2)}`;
-        // Event delegation for +, -, delete
-        container.querySelectorAll('.cart-btn').forEach(btn=>{
-          btn.onclick = function(){
-            const action = btn.dataset.action;
-            const idx = parseInt(btn.dataset.idx);
-            let cart = getCart();
-            if(action==='plus') { cart[idx].qty++; }
-            else if(action==='minus') { if(cart[idx].qty>1) cart[idx].qty--; }
-            else if(action==='delete') { cart.splice(idx,1);}
-            saveCart(cart);
-          }
-        });
-      }
-      updateCartUI();
-
-      // --- CART DRAWER CONTROL ---
-      function openCartDrawer() {
-        document.getElementById('cartDrawer').classList.remove('closed');
-        document.getElementById('cartDrawer').classList.add('open');
-        document.getElementById('cartOverlay').classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent scrolling body
-      }
-      function closeCartDrawer() {
-        document.getElementById('cartDrawer').classList.remove('open');
-        document.getElementById('cartDrawer').classList.add('closed');
-        document.getElementById('cartOverlay').classList.remove('active');
-        document.body.style.overflow = ''; // Restore body scrolling
-      }
-      document.getElementById('cartFixedBtn').addEventListener('click', openCartDrawer);
-      document.getElementById('closeCart').addEventListener('click', closeCartDrawer);
-      document.getElementById('cartOverlay').addEventListener('click', closeCartDrawer);
-      // --- END CART DRAWER CONTROL ---
-
-      // --- MAIN MENU DRAWER CONTROL (for all screen sizes) ---
-      const mainMenuDrawer = document.getElementById('mainMenuDrawer');
-      const openMainMenuBtn = document.getElementById('openMainMenu');
-      const closeMainMenuBtn = document.getElementById('closeMainMenu');
-      const mainMenuOverlay = document.getElementById('mainMenuOverlay');
-
-      function openMainNav() {
-        mainMenuDrawer.classList.remove('translate-x-full');
-        mainMenuDrawer.classList.add('translate-x-0', 'open');
-        mainMenuOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent scrolling body
-      }
-
-      function closeMainNav() {
-        mainMenuDrawer.classList.remove('translate-x-0', 'open');
-        mainMenuDrawer.classList.add('translate-x-full');
-        mainMenuOverlay.classList.remove('active');
-        document.body.style.overflow = ''; // Restore body scrolling
-      }
-
-      openMainMenuBtn.addEventListener('click', openMainNav);
-      closeMainMenuBtn.addEventListener('click', closeMainNav);
-      mainMenuOverlay.addEventListener('click', closeMainNav); // Close when overlay is clicked
-      // --- END MAIN MENU DRAWER CONTROL ---
-
-      // Quick view
-      const quickViewEl = document.getElementById('quickView');
-      const closeQuickBtn = document.getElementById('closeQuick');
-
-      function quickView(e){
-        const id = e.currentTarget.dataset.id;
-        const p = products.find(x=>x.id===id);
-        document.getElementById('quickContent').innerHTML = `
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <img src="${p.img}" alt="${p.title}" class="w-full rounded" />
-            <div>
-              <h3 class="text-xl font-bold mb-2">${p.title}</h3>
-              <p class="text-gray-600 mb-4">وصف موجز وجميل للمنتج الفاخر.</p>
-              <div class="text-2xl font-extrabold mb-4">$${p.price}</div>
-              <div class="flex gap-2">
-                <button class="px-4 py-2 rounded-md bg-indigo-600 text-white" onclick="(function(){ const cart=getCart(); const found=cart.find(it=>it.id==='${p.id}'); if(found) found.qty++; else cart.push({id:'${p.id}',title:'${p.title}',price:'${p.price}',img:'${p.img}',qty:1}); saveCart(cart); })()">أضف إلى السلة</button>
-                <button class="px-4 py-2 rounded-md border" id="closeQVLocal">إغلاق</button>
-              </div>
-            </div>
-          </div>
+function renderBestSellers() {
+    bestSellersContainer.innerHTML = '';
+    const bestSellerProducts = allProducts.filter(p => bestSellerIds.includes(p.id));
+    
+    bestSellerProducts.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'product-card bg-white rounded-xl p-3 shadow-sm flex flex-col items-center text-center';
+        card.innerHTML = `
+            <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-24 h-24 object-contain mb-2">
+            <h3 class="font-semibold text-sm flex-grow">${p.name}</h3>
+            <div class="text-lg font-bold mt-2">${p.price.toFixed(2)} د.ل</div>
+            <button class="btn btn-sm btn-primary w-full mt-2" data-action="add" data-id="${p.id}">أضف للسلة</button>
         `;
-        quickViewEl.classList.remove('hidden');
-        quickViewEl.classList.add('flex'); // Use flex to center
-        document.body.style.overflow = 'hidden'; // Prevent scrolling body
-
-        // Attach event listener for the local close button in quick view
-        document.getElementById('closeQVLocal').addEventListener('click', closeQuickView);
-      }
-
-      function closeQuickView() {
-          quickViewEl.classList.remove('flex');
-          quickViewEl.classList.add('hidden');
-          document.body.style.overflow = ''; // Restore body scrolling
-      }
-
-      closeQuickBtn.addEventListener('click', closeQuickView); // Global close button for quick view
-      quickViewEl.addEventListener('click', (e) => { // Close when clicking outside content
-          if (e.target === quickViewEl) {
-              closeQuickView();
-          }
-      });
-
-
-      // Sorting
-      document.getElementById('sortSelect').addEventListener('change', (e)=>{
-        const v = e.target.value;
-        let arr = [...products];
-        if(v==='price-asc') arr.sort((a,b)=>parseFloat(a.price)-parseFloat(b.price));
-        if(v==='price-desc') arr.sort((a,b)=>parseFloat(b.price)-parseFloat(a.price));
-        renderProducts(arr.slice(0,loaded));
-      });
-
-      document.querySelectorAll('.filter-btn').forEach(btn=>{
-        btn.addEventListener('click', (e)=>{
-          // Remove active class from all filters and add to clicked one
-          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('bg-indigo-500', 'text-white'));
-          e.target.classList.add('bg-indigo-500', 'text-white');
-
-          const f = btn.dataset.filter;
-          if(f==='*') renderProducts(products.slice(0,loaded));
-          else renderProducts(products.filter(p=>p.category===f.replace('.','')).slice(0,loaded));
-        });
-      });
-      // Set initial active filter
-      document.querySelector('.filter-btn[data-filter="*"]').classList.add('bg-indigo-500', 'text-white');
-
-
-      window.saveCart = saveCart; window.getCart = getCart; window.updateCartUI = updateCartUI;
-
-      // --- WHATSAPP CHECKOUT (Directly from Cart Drawer) ---
-      const checkoutForm = document.getElementById('checkoutForm');
-
-      checkoutForm.addEventListener('submit', function(e){
-        e.preventDefault();
-        const data = new FormData(checkoutForm);
-        const name = data.get('name');
-        const phone = data.get('phone');
-        const address = data.get('address');
-        const notes = data.get('notes');
-        const cart = getCart();
-
-        if(cart.length === 0) {
-          alert('سلتك فارغة!');
-          return;
-        }
-
-        if (!name || !phone || !address) {
-            alert('الرجاء تعبئة جميع الحقول المطلوبة (الاسم، الجوال، العنوان).');
-            return;
-        }
-
-        let orderMsg = `*طلب جديد من متجر نعومة نعومتك:*\n\n`;
-        orderMsg += `*الاسم:* ${name}\n`;
-        orderMsg += `*الجوال:* ${phone}\n`;
-        orderMsg += `*العنوان:* ${address}\n`;
-        if(notes) orderMsg += `*ملاحظات:* ${notes}\n`;
-        orderMsg += `\n*المنتجات:*\n`;
-        cart.forEach(item=>{
-          orderMsg += `- ${item.title} x${item.qty} = $${(item.qty*item.price).toFixed(2)}\n`;
-        });
-        const total = cart.reduce((sum, item) => sum + (item.qty * parseFloat(item.price)), 0);
-        orderMsg += `\n*المجموع الكلي:* $${total.toFixed(2)}\n`;
-
-        const waNumber = '9665XXXXXXXX'; // ضع رقمك هنا! تأكد من أن يكون بالصيغة الدولية بدون + أو 00 (مثال: 966501234567)
-        const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(orderMsg)}`;
-        window.open(waUrl, '_blank');
-
-        closeCartDrawer(); // Close cart drawer after sending order
-        saveCart([]); // Clear cart after successful order
-        checkoutForm.reset(); // Clear form fields
-      });
+        bestSellersContainer.appendChild(card);
     });
-  </script>
-</body>
+}
 
+function renderStoreCategories() {
+    storesContainer.innerHTML = '';
+    const searchTerm = document.getElementById('search-store').value.toLowerCase();
+    const filteredStores = storeCategories.filter(store => store.name.toLowerCase().includes(searchTerm));
+
+    if (!filteredStores.length) {
+        storesContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500">لا يوجد متجر مطابق للبحث.</div>`;
+        return;
+    }
+
+    filteredStores.forEach(store => {
+        const card = document.createElement('a');
+        card.href = store.link;
+        card.className = 'store-card bg-white rounded-xl p-4 shadow-sm flex flex-col items-center text-center';
+        card.innerHTML = `
+            <div class="store-icon mb-3">${store.icon}</div>
+            <h3 class="font-bold text-lg text-gray-800">${store.name}</h3>
+            <p class="text-sm text-gray-500">${store.description}</p>
+        `;
+        storesContainer.appendChild(card);
+    });
+}
+
+// --- Cart Logic (Copied from other pages) ---
+let cart = JSON.parse(localStorage.getItem('orange_cart') || '[]');
+const cartItemsEl = document.getElementById('cartItems');
+const cartTotalEl = document.getElementById('cartTotal');
+const cartBadge = document.getElementById('cartBadge');
+const cartOverlay = document.getElementById('cartOverlay');
+const cartPanel = document.getElementById('cartPanel');
+
+function saveCart() { localStorage.setItem('orange_cart', JSON.stringify(cart)); updateCartUI(); }
+function addToCart(productId) {
+    const prod = allProducts.find(p => p.id === productId);
+    if (!prod) return;
+    const existing = cart.find(i => i.id === productId);
+    if (existing) existing.qty++;
+    else cart.push({ id: prod.id, name: prod.name, price: prod.price, qty: 1 });
+    saveCart();
+    Swal.fire({ icon: 'success', title: 'تمت الإضافة للسلة', timer: 1100, showConfirmButton: false });
+}
+function updateCartUI() {
+    cartItemsEl.innerHTML = '';
+    let total = 0;
+    cart.forEach((item, i) => {
+        total += item.price * item.qty;
+        const itemEl = document.createElement('div');
+        itemEl.className = 'p-2 bg-orange-50 rounded flex items-start justify-between gap-2';
+        itemEl.innerHTML = `
+            <div class="flex-1">
+                <div class="font-semibold">${item.name}</div>
+                <div class="text-xs text-gray-500">سعر الوحدة: ${item.price.toFixed(2)} د.ل</div>
+                <div class="mt-2 flex gap-2">
+                    <button class="btn btn-xs" onclick="changeQtyWrapper(${i}, -1)">-</button>
+                    <div class="px-3 py-1 border rounded">${item.qty}</div>
+                    <button class="btn btn-xs" onclick="changeQtyWrapper(${i}, 1)">+</button>
+                    <button class="btn btn-xs btn-error ml-auto" onclick="removeFromCartWrapper(${i})">حذف</button>
+                </div>
+            </div>`;
+        cartItemsEl.appendChild(itemEl);
+    });
+    const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+    cartTotalEl.innerText = total.toFixed(2) + ' د.ل';
+    cartBadge.innerText = totalQty;
+}
+window.changeQtyWrapper = (index, delta) => { cart[index].qty = Math.max(1, cart[index].qty + delta); saveCart(); };
+window.removeFromCartWrapper = (index) => { cart.splice(index, 1); saveCart(); };
+document.getElementById('clearCartBtn').addEventListener('click', () => { if(cart.length > 0) Swal.fire({title: 'تفريغ السلة؟', icon: 'warning', showCancelButton: true, confirmButtonText: 'نعم', cancelButtonText: 'لا'}).then(r => { if(r.isConfirmed) { cart = []; saveCart(); } }); });
+document.getElementById('openCartBtn').addEventListener('click', () => { cartOverlay.classList.add('open'); cartPanel.classList.add('open'); });
+document.getElementById('closeCartBtn').addEventListener('click', () => { cartOverlay.classList.remove('open'); cartPanel.classList.remove('open'); });
+cartOverlay.addEventListener('click', () => { cartOverlay.classList.remove('open'); cartPanel.classList.remove('open'); });
+bestSellersContainer.addEventListener('click', e => { if (e.target.closest('button')?.dataset.action === 'add') addToCart(e.target.closest('button').dataset.id); });
+
+// --- Firebase Form Submission Logic ---
+const feedbackText = document.getElementById('feedback-text');
+const submitFeedbackBtn = document.getElementById('submit-feedback-btn');
+const requestProductName = document.getElementById('request-product-name');
+const requestProductBrand = document.getElementById('request-product-brand');
+const submitRequestBtn = document.getElementById('submit-request-btn');
+
+submitFeedbackBtn.addEventListener('click', async () => {
+    const text = feedbackText.value.trim();
+    if (!text) {
+        Swal.fire({ icon: 'warning', title: 'الرجاء كتابة رأيك أولاً.' });
+        return;
+    }
+    const user = auth.currentUser;
+    try {
+        await addDoc(collection(db, "store_feedback"), {
+            feedback: text,
+            userId: user ? user.uid : 'anonymous',
+            userName: user ? user.displayName : 'زائر',
+            timestamp: serverTimestamp()
+        });
+        feedbackText.value = '';
+        Swal.fire({ icon: 'success', title: 'شكراً لك!', text: 'تم إرسال رأيك بنجاح.' });
+    } catch (e) {
+        Swal.fire({ icon: 'error', title: 'حدث خطأ', text: 'فشل إرسال الرأي. الرجاء المحاولة مرة أخرى.' });
+    }
+});
+
+submitRequestBtn.addEventListener('click', async () => {
+    const productName = requestProductName.value.trim();
+    if (!productName) {
+        Swal.fire({ icon: 'warning', title: 'الرجاء كتابة اسم المنتج المطلوب.' });
+        return;
+    }
+    const brand = requestProductBrand.value.trim();
+    const user = auth.currentUser;
+    try {
+        await addDoc(collection(db, "product_requests"), {
+            productName: productName,
+            brand: brand || 'غير محدد',
+            userId: user ? user.uid : 'anonymous',
+            userName: user ? user.displayName : 'زائر',
+            timestamp: serverTimestamp()
+        });
+        requestProductName.value = '';
+        requestProductBrand.value = '';
+        Swal.fire({ icon: 'success', title: 'شكراً لطلبك!', text: 'تم إرسال طلبك وسنعمل على توفيره.' });
+    } catch (e) {
+        Swal.fire({ icon: 'error', title: 'حدث خطأ', text: 'فشل إرسال الطلب. الرجاء المحاولة مرة أخرى.' });
+    }
+});
+
+// --- Firebase Auth & Initial Render ---
+const loginBtnHeader = document.getElementById("login-btn-header");
+const logoutBtnHeader = document.getElementById("logout-btn-header");
+const userInfoHeader = document.getElementById("user-info-header");
+loginBtnHeader.addEventListener("click", () => signInWithPopup(auth, provider).catch(err => console.error(err)));
+logoutBtnHeader.addEventListener("click", () => signOut(auth).catch(err => console.error(err)));
+onAuthStateChanged(auth, user => {
+    const isLoggedIn = !!user;
+    loginBtnHeader.classList.toggle("hidden", isLoggedIn);
+    logoutBtnHeader.classList.toggle("hidden", !isLoggedIn);
+    userInfoHeader.classList.toggle("hidden", !isLoggedIn);
+    userInfoHeader.textContent = isLoggedIn ? `مرحباً، ${user.displayName || user.email.split('@')[0]}` : "";
+});
+
+document.getElementById('search-store').addEventListener('input', renderStoreCategories);
+
+renderBestSellers();
+renderStoreCategories();
+updateCartUI();
+</script>
+</body>
 </html>
