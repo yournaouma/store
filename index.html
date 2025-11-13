@@ -374,15 +374,28 @@
 <script>
 if ('serviceWorker' in navigator) {
 
-  // 🔹 Service Worker الرئيسي (التخزين)
-  navigator.serviceWorker.register('/store/sw.js', { scope: '/store/' })
-  .then((reg) => console.log('✅ Service Worker الرئيسي مسجل:', reg.scope))
-  .catch((err) => console.error('❌ خطأ في SW الرئيسي:', err));
+  // 🔹 تسجيل service worker الخاص بالتطبيق العام (التخزين / العمل بدون اتصال)
+  navigator.serviceWorker.register('/store/sw.js').then((reg) => {   
+    console.log('✅ Service Worker الرئيسي مسجل:', reg.scope);
 
-  // 🔹 Service Worker الخاص بالإشعارات (Firebase)
-  navigator.serviceWorker.register('/store/firebase-messaging-sw.js', { scope: '/store/' })
-  .then((reg) => console.log('✅ Firebase Messaging Service Worker مسجل:', reg.scope))
-  .catch((err) => console.error('❌ خطأ في Firebase SW:', err));
+    // 🔁 التحقق من وجود تحديث جديد
+    reg.onupdatefound = () => {
+      const newWorker = reg.installing;
+      newWorker.onstatechange = () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          console.log('🔁 تم العثور على تحديث جديد!');
+          if (confirm('✨ تم إصدار تحديث جديد! هل ترغب بتحديث الصفحة الآن؟')) {
+            window.location.reload();
+          }
+        }
+      };
+    };
+  }).catch((err) => console.error('❌ خطأ في SW الرئيسي:', err));
+
+  // 🔹 تسجيل service worker الخاص بالإشعارات (Firebase Messaging)
+  navigator.serviceWorker.register('/store/firebase-messaging-sw.js').then((reg) => {
+    console.log('✅ Firebase Messaging Service Worker مسجل:', reg.scope);
+  }).catch((err) => console.error('❌ خطأ في Firebase SW:', err));
 }
 </script>
 
@@ -395,11 +408,12 @@ if ('serviceWorker' in navigator) {
 </div>
 
 <script type="module">
-  import { requestNotificationPermission } from '/store/firebase-messaging.js';
+  import { requestNotificationPermission } from './firebase-messaging.js';
 
   document.getElementById('enableNotifications').addEventListener('click', async () => {
     await requestNotificationPermission();
 
+    // ✅ إشعار تجريبي فوري بعد السماح
     new Notification("✨ تم تفعيل الإشعارات!", {
       body: "ستصلك أحدث العروض والإشعارات أولاً 💖",
       icon: "/store/images/logo.png"
@@ -408,10 +422,10 @@ if ('serviceWorker' in navigator) {
 </script>
 
 <!-- ✅ سكريبتات الموقع -->
-<script src="./script.js" defer></script>
-<script src="./script2.js" defer></script>
-<script type="module" src="./firebase-setup.js"></script>
-<script type="module" src="./firebase-messaging.js"></script>
+<script src="script.js" defer></script>
+<script src="script2.js" defer></script>
+<script type="module" src="firebase-setup.js"></script>
+<script type="module" src="firebase-messaging.js"></script>
 </body>
-</html>  
+</html>
 
