@@ -112,52 +112,58 @@
     }
   </script> 
 
-<header class="header flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full z-50">
+<header
+  class="header flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full z-50">
 
   <!-- 🔹 القسم الأيسر (القائمة + الاسم) -->
   <div class="flex items-center gap-3">
     <button id="menuBtn" class="icon-btn" title="قائمة">
-      <i class="fa fa-bars"></i>
+      <i class="fa fa-bars text-orange-500 text-xl"></i>
     </button>
     <div class="brand font-bold text-lg text-orange-500">نعومة نعومتك</div>
   </div>
 
-  <!-- 🔹 القسم الأوسط (البحث + زر الإشعارات) -->
-  <div class="flex items-center gap-3">
-    <!-- 🔔 زر الإشعارات -->
-    <div class="relative">
-      <button id="notifyBtn" title="تفعيل الإشعارات"
-        class="relative text-orange-500 hover:text-orange-400 transition text-xl">
-        <i class="fa fa-bell"></i>
-        <!-- النقطة الصغيرة فوق الجرس -->
-        <span id="notifyDot"
-          class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
-      </button>
-    </div>
-
-    <!-- 🔍 مربع البحث -->
-    <div class="search relative">
+  <!-- 🔹 القسم الأوسط (البحث) -->
+  <div class="flex-1 flex justify-center">
+    <div class="search relative w-full max-w-xs">
       <input id="searchInput" placeholder="ابحثي عن منتج أو مكوّن"
-        class="border border-gray-300 rounded-full px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+        class="border border-gray-300 rounded-full px-3 py-1 text-sm w-full focus:outline-none focus:ring-2 focus:ring-orange-400" />
+      <i
+        class="fa fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
     </div>
   </div>
 
-  <!-- 🔹 القسم الأيمن (السلة + الحساب) -->
-  <div class="flex items-center gap-3">
+  <!-- 🔹 القسم الأيمن (السلة + الجرس + الحساب) -->
+  <div class="flex items-center gap-3 relative">
+
     <!-- 🛒 السلة -->
-    <button class="icon-btn relative" id="cartBtn" title="سلة المشتريات">
+    <button class="icon-btn relative flex items-center justify-center" id="cartBtn" title="سلة المشتريات">
       <i class="fa fa-shopping-cart text-orange-500 text-xl"></i>
       <span class="count absolute -top-1 -right-1 bg-orange-500 text-white rounded-full text-xs px-1 hidden"
         id="cartCount">0</span>
+    </button>
+
+    <!-- 🔔 الجرس ملاصق للسلة -->
+    <button id="notifyBtn" title="تفعيل الإشعارات"
+      class="icon-btn relative text-orange-500 hover:text-orange-400 transition text-xl">
+      <i class="fa fa-bell"></i>
+      <span id="notifyDot"
+        class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
     </button>
 
     <!-- 👤 الحساب -->
     <button class="icon-btn" id="userBtn" title="حسابي">
       <i class="fa fa-user text-orange-500 text-xl"></i>
     </button>
+
   </div>
 </header>
 
+<!-- 💬 إشعار صغير يظهر بعد التفعيل -->
+<div id="notifyToast"
+  class="fixed top-20 right-4 bg-orange-500 text-white text-sm px-3 py-2 rounded-full shadow-lg opacity-0 transition-all duration-300">
+  تم تفعيل الإشعارات بنجاح 🎉
+</div>
 
 <!-- القائمة الجانبية -->
 <div id="sidebar" class="sidebar">
@@ -467,6 +473,7 @@ notifyBtn.addEventListener("click", async () => {
 </html>
 
   
+
 
 
 
