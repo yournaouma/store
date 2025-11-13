@@ -111,7 +111,7 @@
       navigator.serviceWorker.register('sw.js').catch(console.error);
     }
   </script> 
-<!-- الهيدر: شريط علوي ثابت بالتنسيق المطلوب -->
+<!-- الهيدر: شريط علوي ثابت بتصميم محسن -->
 <header class="header flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full z-50">
 
   <!-- 🔹 القسم الأيمن (القائمة + الاسم) -->
@@ -122,20 +122,22 @@
     <div class="brand font-bold text-lg text-orange-500">نعومة نعومتك</div>
   </div>
 
-  <!-- 🔹 القسم الأوسط (البحث فقط) - معدّل -->
-  <!-- استخدام mx-4 لإضافة هوامش على اليمين واليسار لإعطاء مساحة -->
+  <!-- 🔹 القسم الأوسط (شريط بحث كبير ومركزي) -->
   <div class="flex-1 flex justify-center px-4">
-    <div class="search relative w-full max-w-2xl"> <!-- زيادة max-w- لتكبير الشريط -->
-      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-        <i class="fa fa-search"></i>
+    <!-- تم زيادة max-w لجعل الشريط أعرض على الشاشات الكبيرة -->
+    <div class="search relative w-full max-w-3xl">
+      <!-- أيقونة البحث داخل الشريط -->
+      <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+        <i class="fa fa-search text-lg"></i> <!-- تكبير الأيقونة قليلاً -->
       </span>
+      <!-- تم تكبير حقل الإدخال عبر زيادة الحشو الداخلي وحجم الخط -->
       <input id="searchInput" placeholder="ابحث عن منتج..."
-        class="border border-gray-300 rounded-full pl-9 pr-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 w-full" />
+        class="border border-gray-300 rounded-full w-full pl-12 pr-4 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-orange-400" />
     </div>
   </div>
 
   <!-- 🔹 القسم الأيسر (الإشعارات + السلة + الحساب) -->
-  <div class="flex items-center gap-4"> <!-- زيادة gap لتباعد الأيقونات قليلاً -->
+  <div class="flex items-center gap-4">
 
     <!-- 🔔 زر الإشعارات -->
     <button id="notifyBtn" title="تفعيل الإشعارات"
@@ -469,6 +471,7 @@ notifyBtn.addEventListener("click", async () => {
 </html>
 
   
+
 
 
 
