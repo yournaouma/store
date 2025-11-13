@@ -113,15 +113,14 @@
   </script> 
 <!-- 🔹 الهيدر -->
 <!-- الهيدر: شريط علوي ثابت -->
-<header id="customHeader" class="flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full z-50" style="z-index: 10000 !important;">
+<!-- نستخدم ID فريد لتجنب التعارض -->
+<header id="naouma-custom-header" class="flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full" style="z-index: 10000 !important; visibility: hidden;">
 
   <!-- 🔹 القسم الأيمن: القائمة واسم المتجر -->
   <div class="flex items-center gap-2">
-    <!-- زر القائمة -->
-    <button id="menuBtn" class="icon-btn" title="القائمة الجانبية">
+    <button id="naouma-menuBtn" class="icon-btn" title="القائمة الجانبية">
       <i class="fa fa-bars text-orange-500 text-xl"></i>
     </button>
-    <!-- اسم المتجر -->
     <div class="brand font-bold text-lg text-orange-500">نعومة نعومتك</div>
   </div>
 
@@ -129,59 +128,69 @@
   <div class="flex-1 flex justify-center">
     <div class="search relative w-full max-w-md bg-gray-50 border border-gray-300 rounded-full flex items-center px-3 py-1 focus-within:ring-2 focus-within:ring-orange-400 transition">
       <i class="fa fa-search text-gray-400 ml-2"></i>
-      <input id="searchInput" placeholder="ابحثي عن منتج..." class="bg-transparent flex-1 text-sm focus:outline-none" />
+      <input id="naouma-searchInput" placeholder="ابحثي عن منتج..." class="bg-transparent flex-1 text-sm focus:outline-none" />
     </div>
   </div>
 
-  <!-- 🔹 القسم الأيسر: أيقونات الإشعارات، الحساب، والسلة -->
+  <!-- 🔹 القسم الأيسر: أيقونات -->
   <div class="flex items-center gap-3">
-    <!-- أيقونة الإشعارات (الجرس) -->
-    <button id="notifyBtn" title="تفعيل الإشعارات" class="icon-btn relative text-orange-500 hover:text-orange-400 transition text-xl">
+    <button id="naouma-notifyBtn" title="تفعيل الإشعارات" class="icon-btn relative text-orange-500 hover:text-orange-400 transition text-xl">
       <i class="fa fa-bell"></i>
-      <span id="notifyDot" class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
+      <span id="naouma-notifyDot" class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
     </button>
-    <!-- أيقونة الحساب -->
-    <button class="icon-btn" id="userBtn" title="حسابي">
+    <button id="naouma-userBtn" class="icon-btn" title="حسابي">
       <i class="fa fa-user text-orange-500 text-xl"></i>
     </button>
-    <!-- أيقونة سلة المشتريات -->
-    <button class="icon-btn relative" id="cartBtn" title="سلة المشتريات">
+    <button id="naouma-cartBtn" class="icon-btn relative" title="سلة المشتريات">
       <i class="fa fa-shopping-cart text-orange-500 text-xl"></i>
-      <span id="cartCount" class="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full text-xs px-1 hidden">0</span>
+      <span id="naouma-cartCount" class="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full text-xs px-1 hidden">0</span>
     </button>
   </div>
 </header>
 
 <!-- 💬 إشعار منبثق صغير للتأكيد -->
-<div id="notifyToast" class="fixed top-20 right-4 bg-orange-500 text-white text-sm px-3 py-2 rounded-full shadow-lg opacity-0 transition-all duration-300" style="z-index: 10001 !important;">
+<div id="naouma-notifyToast" class="fixed top-20 right-4 bg-orange-500 text-white text-sm px-3 py-2 rounded-full shadow-lg opacity-0 transition-all duration-300" style="z-index: 10001 !important;">
   تم تفعيل الإشعارات بنجاح 🎉
 </div>
 
-<!-- كود جافاسكريبت المحصّن -->
+<!-- كود جافاسكريبت المحصّن بـ setTimeout -->
 <script>
-  // ننتظر حتى يتم تحميل كامل محتوى الصفحة لضمان أن عناصرنا موجودة
-  document.addEventListener("DOMContentLoaded", function() {
-    
-    // نستخدم دالة مغلفة لتجنب تعارض المتغيرات مع أي سكربت خارجي
-    (function() {
-      const notifyBtn = document.getElementById("notifyBtn");
-      const notifyDot = document.getElementById("notifyDot");
-      const notifyToast = document.getElementById("notifyToast");
+// ننتظر تحميل الصفحة بالكامل شاملة الصور والسكريبتات الأخرى
+window.addEventListener("load", function() {
 
-      // التأكد من وجود العناصر قبل إضافة أي وظائف لها
+  // نستخدم setTimeout لتأخير التنفيذ وإعطائه الأولوية القصوى
+  setTimeout(function() {
+    
+    // أولاً، نحاول حذف أي هيدر قديم أو متعارض من القالب
+    const oldHeader = document.querySelector('header:not(#naouma-custom-header)');
+    if (oldHeader) {
+      oldHeader.style.display = 'none'; // نخفيه بدلاً من حذفه لتجنب المشاكل
+    }
+    
+    // الآن نظهر الهيدر المخصص الخاص بنا
+    const customHeader = document.getElementById('naouma-custom-header');
+    if(customHeader) {
+        customHeader.style.visibility = 'visible';
+    }
+
+
+    // نبدأ بتشغيل وظائف الأزرار
+    (function() {
+      const notifyBtn = document.getElementById("naouma-notifyBtn");
+      const notifyDot = document.getElementById("naouma-notifyDot");
+      const notifyToast = document.getElementById("naouma-notifyToast");
+
       if (!notifyBtn || !notifyDot || !notifyToast) {
-        console.error("لم يتم العثور على أحد عناصر الإشعارات.");
-        return; // إيقاف السكربت إذا لم يتم العثور على العناصر
+        console.error("Custom Header: لم يتم العثور على أحد عناصر الإشعارات.");
+        return;
       }
 
-      // التحقق من حالة الإشعارات عند تحميل الصفحة
       if (typeof Notification !== 'undefined' && Notification.permission === "granted") {
         notifyDot.classList.add("hidden");
-        notifyBtn.classList.remove("text-orange-500"); // إزالة اللون البرتقالي
-        notifyBtn.classList.add("text-green-500"); // تغيير اللون للأخضر
+        notifyBtn.classList.remove("text-orange-500");
+        notifyBtn.classList.add("text-green-500");
       }
 
-      // عند الضغط على زر الإشعارات
       notifyBtn.addEventListener("click", async () => {
         try {
           const permission = await Notification.requestPermission();
@@ -190,7 +199,6 @@
             notifyBtn.classList.remove("text-orange-500");
             notifyBtn.classList.add("text-green-500");
             
-            // إظهار رسالة تأكيد
             notifyToast.style.opacity = "1";
             notifyToast.style.transform = "translateY(0)";
             setTimeout(() => {
@@ -204,15 +212,14 @@
             notifyBtn.classList.add("text-orange-500");
           }
         } catch (error) {
-          console.error("حدث خطأ عند طلب إذن الإشعارات:", error);
+          console.error("Custom Header: خطأ في طلب إذن الإشعارات:", error);
         }
       });
+    })();
 
-    })(); // نهاية الدالة المغلفة وتشغيلها فوراً
-
-  });
+  }, 500); // <-- ننتظر 500 ملي ثانية (نصف ثانية) بعد تحميل كل شيء
+});
 </script>  
-
   
  
 
@@ -525,6 +532,7 @@ notifyBtn.addEventListener("click", async () => {
 </html>
 
   
+
 
 
 
