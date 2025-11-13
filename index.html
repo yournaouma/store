@@ -375,12 +375,12 @@
 if ('serviceWorker' in navigator) {
 
   // 🔹 Service Worker الرئيسي (التخزين)
-  navigator.serviceWorker.register('./sw.js', { scope: './' })
+  navigator.serviceWorker.register('/store/sw.js', { scope: '/store/' })
   .then((reg) => console.log('✅ Service Worker الرئيسي مسجل:', reg.scope))
   .catch((err) => console.error('❌ خطأ في SW الرئيسي:', err));
 
   // 🔹 Service Worker الخاص بالإشعارات (Firebase)
-  navigator.serviceWorker.register('./firebase-messaging-sw.js', { scope: './' })
+  navigator.serviceWorker.register('/store/firebase-messaging-sw.js', { scope: '/store/' })
   .then((reg) => console.log('✅ Firebase Messaging Service Worker مسجل:', reg.scope))
   .catch((err) => console.error('❌ خطأ في Firebase SW:', err));
 }
@@ -395,15 +395,14 @@ if ('serviceWorker' in navigator) {
 </div>
 
 <script type="module">
-  import { requestNotificationPermission } from './firebase-messaging.js';
+  import { requestNotificationPermission } from '/store/firebase-messaging.js';
 
   document.getElementById('enableNotifications').addEventListener('click', async () => {
     await requestNotificationPermission();
 
-    // ✅ إشعار تجريبي فوري
     new Notification("✨ تم تفعيل الإشعارات!", {
       body: "ستصلك أحدث العروض والإشعارات أولاً 💖",
-      icon: "./images/logo.png"
+      icon: "/store/images/logo.png"
     });
   });
 </script>
@@ -414,6 +413,5 @@ if ('serviceWorker' in navigator) {
 <script type="module" src="./firebase-setup.js"></script>
 <script type="module" src="./firebase-messaging.js"></script>
 </body>
-</html>
-
+</html>  
 
