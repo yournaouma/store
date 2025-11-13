@@ -170,7 +170,7 @@
   </div>
 </div>
 
-<!-- ================= 📜 كود JavaScript المدموج مع عداد الإشعارات ================= -->
+<!-- ================= 📜 كود JavaScript مع عداد ثابت ================= -->
 <script>
   const notifyBtn = document.getElementById("notifyBtn");
   const notifyPanel = document.getElementById("notificationsPanel");
@@ -180,12 +180,12 @@
 
   // تحميل الإشعارات من التخزين المحلي
   let notifications = JSON.parse(localStorage.getItem("store_notifications") || "[]");
+  let unreadCount = notifications.length;
   renderNotifications();
 
   function updateCount() {
-    const count = notifications.length;
-    if(count > 0){
-      notifyCount.textContent = count;
+    if (unreadCount > 0) {
+      notifyCount.textContent = unreadCount;
       notifyCount.classList.remove("hidden");
     } else {
       notifyCount.classList.add("hidden");
@@ -208,7 +208,7 @@
     updateCount();
   }
 
-  // فتح وإغلاق نافذة الإشعارات مع حركة
+  // فتح وإغلاق نافذة الإشعارات
   notifyBtn.addEventListener("click", () => {
     const isHidden = notifyPanel.classList.contains("hidden");
     if (isHidden) {
@@ -217,10 +217,9 @@
         notifyPanel.classList.add("opacity-100", "scale-100");
         notifyPanel.classList.remove("opacity-0", "scale-95");
       }, 10);
-      // عند فتح الإشعارات، إعادة تعيين العداد
-      notifications = [];
-      localStorage.setItem("store_notifications", JSON.stringify(notifications));
-      renderNotifications();
+      // عند فتح اللوحة، فقط إعادة تعيين العداد لكنه لا يحذف الرسائل
+      unreadCount = 0;
+      updateCount();
     } else {
       notifyPanel.classList.add("opacity-0", "scale-95");
       notifyPanel.classList.remove("opacity-100", "scale-100");
@@ -237,6 +236,7 @@
   // دالة استقبال إشعار جديد
   window.sendNotification = function(message) {
     notifications.push(message);
+    unreadCount++;
     localStorage.setItem("store_notifications", JSON.stringify(notifications));
     renderNotifications();
   };
@@ -245,6 +245,8 @@
   window.addEventListener('storage', (event) => {
     if (event.key === 'store_notifications') {
       notifications = JSON.parse(event.newValue || "[]");
+      // تحديث العداد لإظهار عدد الرسائل الجديدة منذ آخر فتح
+      unreadCount = notifications.length;
       renderNotifications();
     }
   });
@@ -560,6 +562,7 @@ notifyBtn.addEventListener("click", async () => {
 </html>
 
   
+
 
 
 
