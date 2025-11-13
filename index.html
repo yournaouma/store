@@ -111,95 +111,134 @@
       navigator.serviceWorker.register('sw.js').catch(console.error);
     }
   </script> 
-<!-- الهيدر: شريط علوي ثابت -->
-<header class="flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full z-50">
-  <!-- ... (أقسام الهيدر كما هي، لا تغيير هنا) ... -->
-  <div class="flex items-center gap-3 relative">
-    <button id="notifyBtn" title="الإشعارات" class="icon-btn relative text-orange-500 hover:text-orange-400 transition text-xl">
-      <i class="fa fa-bell"></i>
-      <span id="notifyDot" class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
+<header class="header flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full z-50">
+
+  <!-- 🔹 القسم الأيسر (القائمة + الاسم) -->
+  <div class="flex items-center gap-3">
+    <button id="menuBtn" class="icon-btn" title="قائمة">
+      <i class="fa fa-bars"></i>
     </button>
+    <div class="brand font-bold text-lg text-orange-500">نعومة نعومتك</div>
+  </div>
+
+  <!-- 🔹 القسم الأوسط (البحث + زر الإشعارات) -->
+  <div class="flex items-center gap-3">
+    <!-- 🔔 زر الإشعارات -->
+    <div class="relative">
+      <button id="notifyBtn" title="تفعيل الإشعارات"
+        class="relative text-orange-500 hover:text-orange-400 transition text-xl">
+        <i class="fa fa-bell"></i>
+        <!-- النقطة الصغيرة فوق الجرس -->
+        <span id="notifyDot"
+          class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
+      </button>
+    </div>
+
+    <!-- 🔍 مربع البحث -->
+    <div class="search relative">
+      <input id="searchInput" placeholder="ابحثي عن منتج أو مكوّن"
+        class="border border-gray-300 rounded-full px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+    </div>
+  </div>
+
+  <!-- 🔹 القسم الأيمن (السلة + الحساب) -->
+  <div class="flex items-center gap-3">
+    <!-- 🛒 السلة -->
+    <button class="icon-btn relative" id="cartBtn" title="سلة المشتريات">
+      <i class="fa fa-shopping-cart text-orange-500 text-xl"></i>
+      <span class="count absolute -top-1 -right-1 bg-orange-500 text-white rounded-full text-xs px-1 hidden"
+        id="cartCount">0</span>
+    </button>
+
+    <!-- 👤 الحساب -->
     <button class="icon-btn" id="userBtn" title="حسابي">
       <i class="fa fa-user text-orange-500 text-xl"></i>
     </button>
-    <button class="icon-btn relative" id="cartBtn" title="سلة المشتريات">
-      <i class="fa fa-shopping-cart text-orange-500 text-xl"></i>
-      <span id="cartCount" class="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full text-xs px-1 hidden">0</span>
-    </button>
-    
-    <!-- ✨✨✨ هذا هو السطر الذي تم تعديله ✨✨✨ -->
-    <div id="notificationsPanel" class="absolute top-full mt-3 left-4 right-4 md:left-auto md:right-0 md:w-80 max-w-sm bg-white border border-gray-200 rounded-lg shadow-xl hidden z-50">
-      
-      <div class="p-3 border-b">
-        <h3 class="font-bold text-gray-700">الإشعارات</h3>
-      </div>
-      <ul id="notification-list" class="max-h-96 overflow-y-auto">
-        <li id="no-notifications" class="p-4 text-center text-gray-500">
-          لا توجد إشعارات جديدة حاليًا.
-        </li>
-      </ul>
-      <div class="p-2 text-center border-t bg-gray-50 rounded-b-lg">
-        <a href="#" class="text-sm text-orange-500 hover:underline">عرض كل الإشعارات</a>
-      </div>
-    </div>
   </div>
 </header>
 
-<!-- كود جافاسكريبت (يبقى كما هو بدون أي تغيير) -->
+<!-- ================= 🔔 صفحة الإشعارات المنبثقة ================= -->
+<div id="notificationsPanel"
+  class="fixed top-[70px] left-1/2 transform -translate-x-1/2 w-[90%] max-w-md bg-white shadow-2xl rounded-2xl border border-orange-200 p-4 z-40 hidden transition-all duration-300 opacity-0 scale-95">
+  <div class="flex justify-between items-center border-b pb-2 mb-2">
+    <h3 class="text-lg font-bold text-orange-500">الإشعارات</h3>
+    <button id="closeNotify" class="text-gray-500 hover:text-orange-500"><i class="fa fa-times"></i></button>
+  </div>
+
+  <div id="notificationsList" class="max-h-80 overflow-y-auto space-y-2">
+    <p class="text-gray-400 text-center">لا توجد إشعارات بعد</p>
+  </div>
+</div>
+
+<!-- ================= 📜 كود JavaScript المدموج ================= -->
 <script>
   const notifyBtn = document.getElementById("notifyBtn");
-  const notificationsPanel = document.getElementById("notificationsPanel");
-  const notifyDot = document.getElementById("notifyDot");
-  const userBtn = document.getElementById("userBtn"); 
+  const notifyPanel = document.getElementById("notificationsPanel");
+  const closeNotify = document.getElementById("closeNotify");
+  const list = document.getElementById("notificationsList");
+  const dot = document.getElementById("notifyDot");
 
-  // --- كود التحكم في إظهار وإخفاء اللوحة ---
-  notifyBtn.addEventListener("click", (event) => {
-    event.stopPropagation();
-    notificationsPanel.classList.toggle("hidden");
-    if (!notificationsPanel.classList.contains("hidden")) {
-      notifyDot.classList.add("hidden");
-    }
-  });
+  // تحميل الإشعارات من التخزين المحلي
+  let notifications = JSON.parse(localStorage.getItem("store_notifications") || "[]");
+  renderNotifications();
 
-  document.addEventListener("click", () => {
-    if (!notificationsPanel.classList.contains("hidden")) {
-      notificationsPanel.classList.add("hidden");
-    }
-  });
-
-  notificationsPanel.addEventListener("click", (event) => {
-    event.stopPropagation();
-  });
-
-  // --- الدالة الرئيسية لإضافة الإشعارات ---
-  function addNotification(title, time, isNew = true) {
-    const notificationList = document.getElementById('notification-list');
-    
-    const noNotificationsMsg = document.getElementById('no-notifications');
-    if (noNotificationsMsg) {
-      noNotificationsMsg.remove();
+  // دالة عرض الإشعارات
+  function renderNotifications() {
+    list.innerHTML = "";
+    if (notifications.length === 0) {
+      list.innerHTML = `<p class="text-gray-400 text-center">لا توجد إشعارات بعد</p>`;
+      dot.classList.add("hidden");
+      return;
     }
 
-    const newItem = document.createElement('li');
-    newItem.className = 'p-3 hover:bg-gray-50 cursor-pointer';
-    if (isNew) {
-      newItem.classList.add('bg-orange-50', 'border-l-4', 'border-orange-500');
-    }
+    notifications.slice().reverse().forEach((msg) => {
+      const div = document.createElement("div");
+      div.className = "p-2 bg-orange-50 rounded-lg border border-orange-100 text-gray-700 text-sm";
+      div.textContent = msg;
+      list.appendChild(div);
+    });
 
-    newItem.innerHTML = `
-      <p class="text-sm text-gray-800 font-semibold">${title}</p>
-      <span class="text-xs text-orange-500 font-bold">${time}</span>
-    `;
-
-    notificationList.prepend(newItem);
-    notifyDot.classList.remove('hidden');
+    dot.classList.remove("hidden");
   }
 
-  // --- أمثلة على استدعاء الدالة ---
-  setTimeout(() => {
-    addNotification('تم شحن طلبك رقم #56789 بنجاح!', 'الآن');
-  }, 3000);
-</script>  
+  // فتح وإغلاق نافذة الإشعارات مع حركة
+  notifyBtn.addEventListener("click", () => {
+    const isHidden = notifyPanel.classList.contains("hidden");
+    if (isHidden) {
+      notifyPanel.classList.remove("hidden");
+      setTimeout(() => {
+        notifyPanel.classList.add("opacity-100", "scale-100");
+        notifyPanel.classList.remove("opacity-0", "scale-95");
+      }, 10);
+    } else {
+      notifyPanel.classList.add("opacity-0", "scale-95");
+      notifyPanel.classList.remove("opacity-100", "scale-100");
+      setTimeout(() => notifyPanel.classList.add("hidden"), 200);
+    }
+  });
+
+  closeNotify.addEventListener("click", () => {
+    notifyPanel.classList.add("opacity-0", "scale-95");
+    notifyPanel.classList.remove("opacity-100", "scale-100");
+    setTimeout(() => notifyPanel.classList.add("hidden"), 200);
+  });
+
+  // دالة استقبال إشعار جديد
+  window.sendNotification = function(message) {
+    notifications.push(message);
+    localStorage.setItem("store_notifications", JSON.stringify(notifications));
+    renderNotifications();
+  };
+
+  // مراقبة localStorage لأي تحديث من صفحات أخرى (مثل moon.html)
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'store_notifications') {
+      notifications = JSON.parse(event.newValue || "[]");
+      renderNotifications();
+    }
+  });
+</script>
+  
 
 <!-- القائمة الجانبية -->
 <div id="sidebar" class="sidebar">
@@ -509,6 +548,7 @@ notifyBtn.addEventListener("click", async () => {
 </html>
 
   
+
 
 
 
