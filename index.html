@@ -112,21 +112,52 @@
     }
   </script> 
 
-<header class="header">
-  <div class="d-flex align-items-center gap-3">
-    <button id="menuBtn" class="icon-btn" data-tippy-content="قائمة"><i class="fa fa-bars"></i></button>
-    <div class="brand">نعومة نعومتك</div>
-  </div>
-  <div class="d-flex align-items-center gap-2">
-    <div class="search"><input id="searchInput" placeholder="ابحث عن منتج أو مكوّن"></div>
-    <button class="icon-btn cart-badge" id="cartBtn" data-tippy-content="سلة المشتريات">
-      <i class="fa fa-shopping-cart"></i>
-      <span class="count" id="cartCount" style="display:none">0</span>
-    </button>
-    <button class="icon-btn" id="userBtn" data-tippy-content="حسابي"><i class="fa fa-user"></i></button>
+<header class="header flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full z-50">
 
+  <!-- 🔹 القسم الأيسر (القائمة + الاسم) -->
+  <div class="flex items-center gap-3">
+    <button id="menuBtn" class="icon-btn" title="قائمة">
+      <i class="fa fa-bars"></i>
+    </button>
+    <div class="brand font-bold text-lg text-pink-600">نعومة نعومتك</div>
+  </div>
+
+  <!-- 🔹 القسم الأوسط (البحث + زر الإشعارات) -->
+  <div class="flex items-center gap-2">
+    <!-- 🔔 زر الإشعارات -->
+    <div class="relative">
+      <button id="notifyBtn" title="تفعيل الإشعارات"
+        class="relative text-gray-700 hover:text-pink-500 transition text-xl">
+        <i class="fa fa-bell"></i>
+        <!-- النقطة الصغيرة فوق الجرس -->
+        <span id="notifyDot"
+          class="absolute top-0 right-0 bg-pink-500 rounded-full w-2 h-2 hidden"></span>
+      </button>
+    </div>
+
+    <!-- 🔍 مربع البحث -->
+    <div class="search relative">
+      <input id="searchInput" placeholder="ابحثي عن منتج أو مكوّن"
+        class="border border-gray-300 rounded-full px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400" />
+    </div>
+  </div>
+
+  <!-- 🔹 القسم الأيمن (السلة + الحساب) -->
+  <div class="flex items-center gap-3">
+    <!-- 🛒 السلة -->
+    <button class="icon-btn relative" id="cartBtn" title="سلة المشتريات">
+      <i class="fa fa-shopping-cart text-xl"></i>
+      <span class="count absolute -top-1 -right-1 bg-pink-500 text-white rounded-full text-xs px-1 hidden"
+        id="cartCount">0</span>
+    </button>
+
+    <!-- 👤 الحساب -->
+    <button class="icon-btn" id="userBtn" title="حسابي">
+      <i class="fa fa-user text-xl"></i>
+    </button>
   </div>
 </header>
+
 
 <!-- القائمة الجانبية -->
 <div id="sidebar" class="sidebar">
@@ -436,3 +467,4 @@ notifyBtn.addEventListener("click", async () => {
 </html>
 
   
+
