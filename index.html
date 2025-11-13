@@ -373,7 +373,7 @@
   <!-- ✅ تسجيل Service Worker -->
   <script>
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').then((reg) => {
+    navigator.serviceWorker.register('/store/sw.js').then((reg) => {   
       console.log('✅ Service Worker مسجل:', reg);
 
       // 🔁 التحقق من وجود تحديث جديد
@@ -400,6 +400,7 @@
 </body>
 </html>
   
+
 
 
 
