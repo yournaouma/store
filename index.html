@@ -111,11 +111,11 @@
       navigator.serviceWorker.register('sw.js').catch(console.error);
     }
   </script> 
-
+<!-- 🔹 الهيدر -->
 <header
   class="header flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full z-50">
 
-  <!-- 🔹 القسم الأيسر (القائمة + الاسم) -->
+  <!-- 🔸 القسم الأيسر (القائمة + الاسم) -->
   <div class="flex items-center gap-3">
     <button id="menuBtn" class="icon-btn" title="قائمة">
       <i class="fa fa-bars text-orange-500 text-xl"></i>
@@ -123,47 +123,85 @@
     <div class="brand font-bold text-lg text-orange-500">نعومة نعومتك</div>
   </div>
 
-  <!-- 🔹 القسم الأوسط (البحث) -->
+  <!-- 🔸 القسم الأوسط (البحث في المنتصف) -->
   <div class="flex-1 flex justify-center">
-    <div class="search relative w-full max-w-xs">
-      <input id="searchInput" placeholder="ابحثي عن منتج أو مكوّن"
-        class="border border-gray-300 rounded-full px-3 py-1 text-sm w-full focus:outline-none focus:ring-2 focus:ring-orange-400" />
-      <i
-        class="fa fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+    <div
+      class="relative w-full max-w-md bg-gray-50 border border-gray-300 rounded-full flex items-center px-3 py-1 focus-within:ring-2 focus-within:ring-orange-400 transition">
+      <i class="fa fa-search text-gray-400 mr-2"></i>
+      <input id="searchInput" placeholder="ابحثي عن منتج..."
+        class="bg-transparent flex-1 text-sm focus:outline-none" />
     </div>
   </div>
 
-  <!-- 🔹 القسم الأيمن (السلة + الجرس + الحساب) -->
-  <div class="flex items-center gap-3 relative">
-
-    <!-- 🛒 السلة -->
-    <button class="icon-btn relative flex items-center justify-center" id="cartBtn" title="سلة المشتريات">
-      <i class="fa fa-shopping-cart text-orange-500 text-xl"></i>
-      <span class="count absolute -top-1 -right-1 bg-orange-500 text-white rounded-full text-xs px-1 hidden"
-        id="cartCount">0</span>
-    </button>
-
-    <!-- 🔔 الجرس ملاصق للسلة -->
-    <button id="notifyBtn" title="تفعيل الإشعارات"
-      class="icon-btn relative text-orange-500 hover:text-orange-400 transition text-xl">
-      <i class="fa fa-bell"></i>
-      <span id="notifyDot"
-        class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
-    </button>
-
-    <!-- 👤 الحساب -->
-    <button class="icon-btn" id="userBtn" title="حسابي">
-      <i class="fa fa-user text-orange-500 text-xl"></i>
-    </button>
-
-  </div>
+  <!-- 🔸 قسم فارغ لترك توازن -->
+  <div class="w-10"></div>
 </header>
 
-<!-- 💬 إشعار صغير يظهر بعد التفعيل -->
+<!-- 🔹 أزرار الزاوية اليمنى السفلية (مثل المتاجر العالمية) -->
+<div
+  class="fixed bottom-4 right-4 flex flex-col items-center gap-3 z-50 bg-white/80 backdrop-blur-sm p-2 rounded-2xl shadow-lg border border-gray-200">
+
+  <!-- 🛒 السلة -->
+  <button class="icon-btn relative" id="cartBtn" title="سلة المشتريات">
+    <i class="fa fa-shopping-cart text-orange-500 text-2xl"></i>
+    <span id="cartCount"
+      class="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full text-xs px-1 hidden">0</span>
+  </button>
+
+  <!-- 🔔 الجرس -->
+  <button id="notifyBtn" title="تفعيل الإشعارات"
+    class="icon-btn relative text-orange-500 hover:text-orange-400 transition text-2xl">
+    <i class="fa fa-bell"></i>
+    <span id="notifyDot"
+      class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
+  </button>
+
+  <!-- 👤 الحساب -->
+  <button class="icon-btn" id="userBtn" title="حسابي">
+    <i class="fa fa-user text-orange-500 text-2xl"></i>
+  </button>
+
+</div>
+
+<!-- 💬 إشعار عند التفعيل -->
 <div id="notifyToast"
-  class="fixed top-20 right-4 bg-orange-500 text-white text-sm px-3 py-2 rounded-full shadow-lg opacity-0 transition-all duration-300">
+  class="fixed bottom-20 right-4 bg-orange-500 text-white text-sm px-3 py-2 rounded-full shadow-lg opacity-0 transition-all duration-300">
   تم تفعيل الإشعارات بنجاح 🎉
 </div>
+
+<!-- 🔹 JavaScript -->
+<script>
+  const notifyBtn = document.getElementById("notifyBtn");
+  const notifyDot = document.getElementById("notifyDot");
+  const notifyToast = document.getElementById("notifyToast");
+
+  // تحقق من الإذن عند التحميل
+  if (Notification.permission === "granted") {
+    notifyDot.classList.add("hidden");
+    notifyBtn.classList.add("text-green-500");
+  }
+
+  // عند الضغط على الجرس
+  notifyBtn.addEventListener("click", async () => {
+    const permission = await Notification.requestPermission();
+    if (permission === "granted") {
+      notifyDot.classList.add("hidden");
+      notifyBtn.classList.add("text-green-500");
+
+      // إظهار الرسالة الصغيرة
+      notifyToast.style.opacity = "1";
+      notifyToast.style.transform = "translateY(-10px)";
+      setTimeout(() => {
+        notifyToast.style.opacity = "0";
+        notifyToast.style.transform = "translateY(0)";
+      }, 2500);
+    } else {
+      notifyDot.classList.remove("hidden");
+      notifyBtn.classList.remove("text-green-500");
+    }
+  });
+</script>
+
 
 <!-- القائمة الجانبية -->
 <div id="sidebar" class="sidebar">
@@ -473,6 +511,7 @@ notifyBtn.addEventListener("click", async () => {
 </html>
 
   
+
 
 
 
