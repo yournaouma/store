@@ -1,1 +1,266 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <!-- =================================================================
+  ✅ 1. معلومات أساسية وأولوية العرض
+  ================================================================== -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>عائلة نعومة نعومتك للبشرة النقية — متجر العناية بالبشرة</title>
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="متجر نعومتك يقدم أجود منتجات العناية بالبشرة — كريمات، سيرومات، واقيات شمس والمزيد لتنعمي ببشرة نقية ومشرقة.">
+
+  <!-- =================================================================
+  ✅ 2. تحسين الأداء وسرعة الاتصال
+  ================================================================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <!-- =================================================================
+  ✅ 3. روابط محركات البحث والمشاركة (SEO & Social)
+  ================================================================== -->
+  <link rel="canonical" href="https://yournaouma.github.io/store/index.html">
+  <link rel="icon" type="image/png" href="https://yournaouma.github.io/store/images/logo.png">
+  <link rel="shortcut icon" type="image/png" href="https://yournaouma.github.io/store/images/logo.png">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yournaouma.github.io/store/" />
+  <meta property="og:site_name" content="نعومتك | متجر العناية بالبشرة" />
+  <meta property="og:title" content="نعومتك | متجر العناية بالبشرة النقية" />
+  <meta property="og:description" content="اكتشفي منتجات نعومتك الفاخرة للعناية بالبشرة – كريمات، سيرومات، واقيات شمس وأكثر." />
+  <meta property="og:image" content="https://yournaouma.github.io/store/images/logo.png" />
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- =================================================================
+  ✅ 4. تحميل الأنماط (CSS)
+  ================================================================== -->
+  <!-- تحميل الخطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- مكتبات CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+  
+  <!-- ملف الأنماط الرئيسي (يجب أن يكون آخر ملف CSS) -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- أنماط سريعة للتحميل الفوري -->
+  <style>
+    :root { scroll-behavior: smooth; }
+    * { -webkit-tap-highlight-color: transparent; }
+    img { max-width: 100%; height: auto; display: block; content-visibility: auto; }
+    body { font-family: 'Cairo', 'Tajawal', sans-serif; }
+  </style>
+
+</head>
+<body class="bg-white text-orange-500">
+
+<!-- خلفية الجزيئات -->
+<div id="particles-js" aria-hidden="true"></div>
+
+<!-- =================================================================
+✅ الهيدر (Header)
+================================================================== -->
+<header class="header">
+  <div class="d-flex align-items-center gap-3">
+    <button id="menuBtn" class="icon-btn" data-tippy-content="القائمة" aria-label="فتح القائمة الجانبية"><i class="fa fa-bars"></i></button>
+    <h1 class="brand">نعومة نعومتك</h1>
+  </div>
+  <div class="d-flex align-items-center gap-2">
+    <div class="search">
+      <input id="searchInput" placeholder="ابحث عن منتج أو مكوّن" aria-label="بحث في المتجر">
+    </div>
+    <button class="icon-btn cart-badge" id="cartBtn" data-tippy-content="سلة المشتريات" aria-label="عرض سلة المشتريات">
+      <i class="fa fa-shopping-cart"></i>
+      <span class="count" id="cartCount" style="display:none">0</span>
+    </button>
+    <button class="icon-btn" id="userBtn" data-tippy-content="حسابي" aria-label="الدخول إلى حسابي"><i class="fa fa-user"></i></button>
+  </div>
+</header>
+
+<!-- =================================================================
+✅ القائمة الجانبية (Sidebar)
+================================================================== -->
+<nav id="sidebar" class="sidebar">
+  <span class="sidebar-close" id="sidebarClose" aria-label="إغلاق القائمة">&times;</span>
+  <a href="index.html">الرئيسية</a>
+  <a href="store.html">المتجر</a>
+  <a href="contact.html">اتصل بنا</a>
+  <a href="about.html">عن نعومة نعومتك</a>
+  <a href="privacy.html">سياسة الخصوصية</a>
+  <a href="refund.html">الاسترجاع</a>
+  <a href="payment.html">الدفع</a>
+  <a href="yourskin.html">استشارة بشرتك</a>
+  <a href="shipping.html">شحن وتوصيل</a>
+  <a href="cart.html" id="cartLink">🛍️ منتجاتنا المميزة <span id="cartSidebarCount">(10)</span></a>
+</nav>
+
+<!-- =================================================================
+✅ المحتوى الرئيسي (Main)
+================================================================== -->
+<main>
+
+  <!-- ====== سلايدر Swiper ====== -->
+  <section class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="images/index/moon2.png" alt="عرض خاص على منتجات العناية بالبشرة"></div>
+      <div class="swiper-slide"><img src="images/index/moon3.png" alt="مجموعة جديدة من سيرومات الوجه"></div>
+      <div class="swiper-slide"><img src="images/index/moon4.png" alt="واقي الشمس الأفضل مبيعاً"></div>
+      <div class="swiper-slide"><img src="images/logo.png" alt="شعار متجر نعومتك"></div> 
+    </div>
+    <!-- أزرار التحكم -->
+    <div class="swiper-button-next" aria-label="الشريحة التالية"></div>
+    <div class="swiper-button-prev" aria-label="الشريحة السابقة"></div>
+    <div class="swiper-pagination"></div>
+  </section>
+
+  <!-- زر تسوق -->
+  <div class="text-center my-4">
+    <a href="store.html" class="shop-now-btn" id="shopNowBtn" data-tippy-content="اذهب إلى المتجر">تسوق الآن</a>
+  </div>
+
+  <!-- ====== مجموعات المتاجر  ====== -->
+  <section class="product-groups" data-aos="fade-up">
+    <h2>مجموعات المتاجر</h2>
+    <button class="nav-btn left" id="leftBtn" aria-label="المجموعة السابقة"><i class="fa fa-chevron-left"></i></button>
+    <div class="gallery" id="gallery">
+      <div class="product"><img src="images/moon5.png" alt="قسم الكريمات"><a href="creams.html">كريمات</a></div>
+      <div class="product"><img src="images/moon6.png" alt="قسم السيرومات"><a href="serums.html">سيرومات</a></div>
+      <div class="product"><img src="images/moon7.png" alt="قسم المنظفات"><a href="cleansers.html">منظفات</a></div>
+      <div class="product"><img src="images/moon8.png" alt="قسم واقيات الشمس"><a href="sunscreen.html">واقي شمس</a></div>
+      <div class="product"><img src="images/moon9.png" alt="قسم المقشرات"><a href="peels.html">مقشرات</a></div>
+      <div class="product"><img src="images/moon10.png" alt="قسم التونرات"><a href="toners.html">تونرات</a></div>
+      <div class="product"><img src="images/moon11.png" alt="قسم العطور"><a href="perfumes.html">عطور</a></div>
+      <div class="product"><img src="images/moon12.png" alt="قسم الماسكات"><a href="masks.html">ماسكات</a></div>
+    </div>
+    <button class="nav-btn right" id="rightBtn" aria-label="المجموعة التالية"><i class="fa fa-chevron-right"></i></button>
+  </section>
+
+  <!-- ====== منتجات مميزة Splide ====== -->
+  <section class="featured" data-aos="fade-up">
+    <h2>منتجات مميزة</h2>
+    <div class="splide" id="splideNewProducts" aria-label="عرض المنتجات المميزة">
+      <div class="splide__track">
+        <ul class="splide__list">
+          <!-- يتم تعبئة المنتجات هنا عبر JavaScript -->
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== مكتبة خاصة لعائلة نعومة ====== -->
+  <section id="familyLibraryContainer" class="text-center my-5 mx-auto" style="width:100%; max-width:900px;" data-aos="fade-up">
+    <h2 style="color:var(--accent); margin-bottom:20px;">عائلة نعومة - الدخول الخاص</h2>
+    <input type="password" id="familyCodeInput" placeholder="أدخل رمزك السري" style="padding:10px 15px; font-size:16px;">
+    <button id="enterLibraryBtn" style="padding:10px 20px; font-size:16px; margin-left:10px;">دخول</button>
+    <div id="libraryCanvas" style="width:100%; height:500px; margin-top:30px; display:none; border:1px solid #ccc;"></div>
+  </section>
+   
+  <!-- ====== عرض 3D تفاعلي ====== -->
+  <section class="babylon-section" data-aos="fade-up">
+    <h2 style="color:var(--accent);margin-bottom:16px;">عرض 3D تفاعلي</h2>
+    <p style="margin-bottom:12px;">منتجنا المميز لهذا الشهر ⭐⭐⭐⭐⭐.</p>
+    <canvas id="renderCanvas" style="width:100%; height:500px; border:1px solid #ccc;"></canvas>
+  </section>
+       
+</main>
+
+<!-- =================================================================
+✅ الفوتر (Footer)
+================================================================== -->
+<footer class="bg-white rounded-t-[3rem] shadow-[0_-6px_20px_rgba(0,0,0,0.05)] mt-20">
+  <div class="max-w-6xl mx-auto px-6 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 text-center">
+    <!-- روابط سريعة -->
+    <div>
+      <h4 class="text-2xl font-semibold text-orange-400 mb-5">روابط سريعة</h4>
+      <div class="flex flex-col gap-3 items-center">
+        <a href="index.html" class="bg-gradient-to-r from-orange-300 to-orange-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-orange-400 hover:to-orange-500 transition-all">الرئيسية</a>
+        <a href="store.html" class="bg-gradient-to-r from-orange-300 to-orange-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-orange-400 hover:to-orange-500 transition-all">المتجر</a>
+        <a href="contact.html" class="bg-gradient-to-r from-orange-300 to-orange-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-orange-400 hover:to-orange-500 transition-all">اتصل بنا</a>
+        <a href="about.html" class="bg-gradient-to-r from-orange-300 to-orange-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-orange-400 hover:to-orange-500 transition-all">عن نعومة نعومتك</a>
+        <a href="shipping.html" class="bg-gradient-to-r from-orange-300 to-orange-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-orange-400 hover:to-orange-500 transition-all">شحن وتوصيل</a>
+      </div>
+    </div>
+    <!-- سياساتنا -->
+    <div>
+      <h4 class="text-2xl font-semibold text-orange-400 mb-5">سياساتنا</h4>
+      <div class="flex flex-col gap-3 items-center">
+        <a href="privacy.html" class="bg-gradient-to-r from-orange-300 to-orange-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-orange-400 hover:to-orange-500 transition-all">سياسة الخصوصية</a>
+        <a href="refund.html" class="bg-gradient-to-r from-orange-300 to-orange-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-orange-400 hover:to-orange-500 transition-all">الاسترجاع</a>
+        <a href="payment.html" class="bg-gradient-to-r from-orange-300 to-orange-400 text-white py-2 px-6 rounded-full font-bold shadow-md hover:scale-105 hover:from-orange-400 hover:to-orange-500 transition-all">الدفع</a>
+      </div>
+    </div>
+    <!-- النشرة البريدية -->
+    <div>
+      <h4 class="text-2xl font-semibold text-orange-400 mb-5">اشترك بالنشرة</h4>
+      <input type="email" placeholder="أدخل بريدك الإلكتروني" class="w-4/5 border-2 border-orange-300 rounded-full px-4 py-2 text-right focus:outline-none focus:ring-2 focus:ring-orange-300 mb-3">
+      <button id="subscribeBtn" class="w-4/5 bg-gradient-to-r from-orange-300 to-orange-400 text-white font-bold py-2 rounded-full shadow-md hover:scale-105 hover:from-orange-400 hover:to-orange-500 transition-all">اشترك</button>
+    </div>
+  </div>
+  <!-- أيقونات السوشيال -->
+  <div class="flex justify-center items-center gap-4 py-6">
+    <a href="https://wa.me/218915066938" target="_blank" class="w-10 h-10 rounded-full flex justify-center items-center text-white bg-green-500 hover:scale-110 transition-all" aria-label="واتساب"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://www.facebook.com/profile.php?id=61581366775114" target="_blank" class="w-10 h-10 rounded-full flex justify-center items-center text-white bg-blue-600 hover:scale-110 transition-all" aria-label="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.tiktok.com/@user4880377484470" target="_blank" class="w-10 h-10 rounded-full flex justify-center items-center text-white bg-black hover:scale-110 transition-all" aria-label="تيك توك"><i class="fab fa-tiktok"></i></a>
+    <a href="https://www.instagram.com/" target="_blank" class="w-10 h-10 rounded-full flex justify-center items-center text-white bg-gradient-to-r from-orange-500 via-pink-500 to-yellow-500 hover:scale-110 transition-all" aria-label="انستغرام"><i class="fab fa-instagram"></i></a>
+  </div>
+  <!-- النص السفلي -->
+  <div class="border-t border-orange-200 text-center py-4">
+    <p class="text-orange-400 text-sm">© 2025 نعومة نعومتك - جميع الحقوق محفوظة</p>
+  </div>
+</footer>
+
+<!-- =================================================================
+✅ مكتبات JavaScript (تُحمل في النهاية لتحسين الأداء)
+================================================================== -->
+<!-- 💡 ملاحظة: هذا السكريبت لتفعيل Tailwind CSS مباشرة في المتصفح وهو مناسب للتطوير فقط.
+    في النسخة النهائية للموقع، يجب عليك بناء ملف CSS من Tailwind ونشره بدلاً من هذا السكريبت لتحقيق أفضل أداء. -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- مكتبات أساسية -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+
+<!-- مكتبات التأثيرات والحركات -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="https://cdn.babylonjs.com/babylon.js"></script>
+
+<!-- مكتبات إضافية (تأكد من حاجتك لها لتقليل حجم الصفحة) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy.umd.min.js"></script>
+
+<!-- ملفات السكريبت الخاصة بمشروعك (دائماً في النهاية) -->
+<script src="script.js" defer></script>
+<script src="script2.js" defer></script>
+
+<!-- تسجيل Service Worker لتحسين الأداء والتخزين المؤقت -->
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register("/sw.js")
+        .then(() => console.log("Service Worker تم تسجيله بنجاح ✅"))
+        .catch((err) => console.error("فشل تسجيل Service Worker ❌:", err));
+    });
+  }
+</script>
+
+</body>
+</html>
+
+
 
