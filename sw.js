@@ -1,5 +1,5 @@
 // ✅ اسم الكاش (غيّره عند كل تحديث لإجبار التحديث)
-const CACHE_NAME = "naoumatk-store-v4";
+const CACHE_NAME = "naoumatk-store-v5";
 
 // 🧱 الملفات الثابتة (يتم تخزينها أول مرة فقط)
 const STATIC_ASSETS = [
@@ -9,6 +9,8 @@ const STATIC_ASSETS = [
   "/script.js",
   "/script2.js",
   "/images/logo.png",
+
+  // 🛍️ صفحات المتجر
   "/store.html",
   "/contact.html",
   "/about.html",
@@ -25,7 +27,10 @@ const STATIC_ASSETS = [
   "/peels.html",
   "/toners.html",
   "/perfumes.html",
-  "/masks.html"
+  "/masks.html",
+
+  // ⚠️ صفحة بدون إنترنت
+  "/offline.html"
 ];
 
 // 📥 تثبيت الـ Service Worker وتخزين الملفات الأساسية
@@ -42,9 +47,7 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(
-        keys
-          .filter((key) => key !== CACHE_NAME)
-          .map((key) => caches.delete(key))
+        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
       )
     )
   );
@@ -53,21 +56,18 @@ self.addEventListener("activate", (event) => {
 // 🌐 التعامل مع كل الطلبات
 self.addEventListener("fetch", (event) => {
   const request = event.request;
-
-  // فقط الطلبات GET
   if (request.method !== "GET") return;
 
   event.respondWith(
     caches.match(request).then((cachedResponse) => {
       if (cachedResponse) {
-        // ✅ إذا الملف في الكاش، أرجعه مباشرة
+        // ✅ الملف موجود في الكاش
         return cachedResponse;
       }
 
-      // ⚙️ إذا غير موجود، حاول جلبه من الشبكة
+      // ⚙️ الملف غير موجود → نحاول جلبه من الإنترنت
       return fetch(request)
         .then((response) => {
-          // فقط خزّن الملفات الآمنة
           const valid =
             response &&
             response.status === 200 &&
@@ -78,17 +78,28 @@ self.addEventListener("fetch", (event) => {
             const responseClone = response.clone();
             caches.open(CACHE_NAME).then((cache) => {
               cache.put(request, responseClone);
-              limitCacheSize(CACHE_NAME, 100); // 🧹 حد أقصى 100 ملف
+              limitCacheSize(CACHE_NAME, 120); // 🧹 حد أقصى 120 ملف
             });
           }
 
           return response;
         })
-        .catch(() => {
-          // 🔌 لا يوجد إنترنت → استخدم fallback من الكاش
+        .catch(async () => {
+          // 🔌 لا يوجد إنترنت
           if (request.destination === "document") {
-            return caches.match(request.url)
-              .then((page) => page || caches.match("/index.html"));
+            const url = new URL(request.url);
+            const pageName = url.pathname.split("/").pop();
+
+            // نحاول إيجاد صفحة مشابهة في الكاش
+            const allCached = await caches.open(CACHE_NAME).then((c) => c.keys());
+            const found = allCached.find((r) => r.url.endsWith(pageName));
+
+            if (found) {
+              return caches.match(found);
+            }
+
+            // ⚠️ إذا لم نجدها → نعرض offline.html
+            return caches.match("/offline.html");
           }
         });
     })
