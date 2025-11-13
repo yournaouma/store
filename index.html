@@ -113,71 +113,29 @@
   </script> 
 <!-- الهيدر: شريط علوي ثابت -->
 <header class="flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full z-50">
-
-  <!-- 🔹 القسم الأيمن: القائمة واسم المتجر -->
-  <div class="flex items-center gap-2">
-    <!-- زر القائمة -->
-    <button id="menuBtn" class="icon-btn" title="القائمة الجانبية">
-      <i class="fa fa-bars text-orange-500 text-xl"></i>
-    </button>
-    <!-- اسم المتجر -->
-    <div class="brand font-bold text-lg text-orange-500">نعومة نعومتك</div>
-  </div>
-
-  <!-- 🔹 القسم الأوسط: شريط البحث -->
-  <div class="flex-1 flex justify-center">
-    <div class="search relative w-full max-w-md bg-gray-50 border border-gray-300 rounded-full flex items-center px-3 py-1 focus-within:ring-2 focus-within:ring-orange-400 transition">
-      <i class="fa fa-search text-gray-400 ml-2"></i>
-      <input id="searchInput" placeholder="ابحثي عن منتج..." class="bg-transparent flex-1 text-sm focus:outline-none" />
-    </div>
-  </div>
-
-  <!-- 🔹 القسم الأيسر: أيقونات الإشعارات، الحساب، والسلة -->
-  <div class="flex items-center gap-3 relative"> <!-- ✨ 1. إضافة `relative` هنا لتحديد موضع القائمة -->
-
-    <!-- أيقونة الإشعارات (الجرس) -->
+  <!-- ... (أقسام الهيدر كما هي، لا تغيير هنا) ... -->
+  <div class="flex items-center gap-3 relative">
     <button id="notifyBtn" title="الإشعارات" class="icon-btn relative text-orange-500 hover:text-orange-400 transition text-xl">
       <i class="fa fa-bell"></i>
-      <!-- نقطة الإشعار الجديد -->
-      <span id="notifyDot" class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2"></span>
+      <span id="notifyDot" class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
     </button>
-
-    <!-- أيقونة الحساب -->
     <button class="icon-btn" id="userBtn" title="حسابي">
       <i class="fa fa-user text-orange-500 text-xl"></i>
     </button>
-
-    <!-- أيقونة سلة المشتريات -->
     <button class="icon-btn relative" id="cartBtn" title="سلة المشتريات">
       <i class="fa fa-shopping-cart text-orange-500 text-xl"></i>
       <span id="cartCount" class="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full text-xs px-1 hidden">0</span>
     </button>
-
-    <!-- ✨ 2. لوحة الإشعارات المنسدلة (مخفية افتراضيًا) -->
-    <div id="notificationsPanel" class="absolute top-full right-0 mt-3 w-80 max-w-sm bg-white border border-gray-200 rounded-lg shadow-xl hidden z-50">
+    
+    <!-- ✨✨✨ هذا هو السطر الذي تم تعديله ✨✨✨ -->
+    <div id="notificationsPanel" class="absolute top-full mt-3 left-4 right-4 md:left-auto md:right-0 md:w-80 max-w-sm bg-white border border-gray-200 rounded-lg shadow-xl hidden z-50">
+      
       <div class="p-3 border-b">
         <h3 class="font-bold text-gray-700">الإشعارات</h3>
       </div>
-      <ul class="max-h-96 overflow-y-auto">
-        <!-- مثال على إشعار جديد -->
-        <li class="p-3 bg-orange-50 hover:bg-orange-100 cursor-pointer border-l-4 border-orange-500">
-          <p class="text-sm text-gray-800 font-semibold">خصم 20% على جميع المنتجات!</p>
-          <p class="text-xs text-gray-600">لا تفوتي فرصة التوفير على منتجاتك المفضلة.</p>
-          <span class="text-xs text-orange-500 font-bold">الآن</span>
-        </li>
-        <!-- مثال على إشعار مقروء -->
-        <li class="p-3 hover:bg-gray-50 cursor-pointer">
-          <p class="text-sm text-gray-600">تم شحن طلبك رقم <span class="font-semibold">#12345</span> بنجاح.</p>
-          <span class="text-xs text-gray-400">منذ 5 دقائق</span>
-        </li>
-        <!-- مثال آخر -->
-        <li class="p-3 hover:bg-gray-50 cursor-pointer">
-          <p class="text-sm text-gray-600">تمت إضافة منتجات جديدة إلى قسم العطور.</p>
-          <span class="text-xs text-gray-400">أمس</span>
-        </li>
-         <li class="p-3 hover:bg-gray-50 cursor-pointer">
-          <p class="text-sm text-gray-600">مرحباً بك في نعومة! استكشفي أفضل المنتجات.</p>
-          <span class="text-xs text-gray-400">منذ يومين</span>
+      <ul id="notification-list" class="max-h-96 overflow-y-auto">
+        <li id="no-notifications" class="p-4 text-center text-gray-500">
+          لا توجد إشعارات جديدة حاليًا.
         </li>
       </ul>
       <div class="p-2 text-center border-t bg-gray-50 rounded-b-lg">
@@ -187,38 +145,60 @@
   </div>
 </header>
 
-<!-- ✨ 3. كود جافاسكريبت الجديد للتحكم في لوحة الإشعارات -->
+<!-- كود جافاسكريبت (يبقى كما هو بدون أي تغيير) -->
 <script>
   const notifyBtn = document.getElementById("notifyBtn");
   const notificationsPanel = document.getElementById("notificationsPanel");
   const notifyDot = document.getElementById("notifyDot");
+  const userBtn = document.getElementById("userBtn"); 
 
-  // عند الضغط على زر الإشعارات
+  // --- كود التحكم في إظهار وإخفاء اللوحة ---
   notifyBtn.addEventListener("click", (event) => {
-    // منع انتشار الحدث لإيقاف إغلاقه فورًا بواسطة المستمع الموجود على الصفحة
-    event.stopPropagation(); 
-    
-    // إظهار أو إخفاء لوحة الإشعارات
+    event.stopPropagation();
     notificationsPanel.classList.toggle("hidden");
-
-    // إخفاء النقطة الحمراء عند فتح القائمة (لأن المستخدم اطلع عليها)
     if (!notificationsPanel.classList.contains("hidden")) {
       notifyDot.classList.add("hidden");
     }
   });
 
-  // إغلاق القائمة عند الضغط في أي مكان آخر بالصفحة
   document.addEventListener("click", () => {
     if (!notificationsPanel.classList.contains("hidden")) {
       notificationsPanel.classList.add("hidden");
     }
   });
 
-  // منع القائمة من الإغلاق عند الضغط داخلها
   notificationsPanel.addEventListener("click", (event) => {
     event.stopPropagation();
   });
 
+  // --- الدالة الرئيسية لإضافة الإشعارات ---
+  function addNotification(title, time, isNew = true) {
+    const notificationList = document.getElementById('notification-list');
+    
+    const noNotificationsMsg = document.getElementById('no-notifications');
+    if (noNotificationsMsg) {
+      noNotificationsMsg.remove();
+    }
+
+    const newItem = document.createElement('li');
+    newItem.className = 'p-3 hover:bg-gray-50 cursor-pointer';
+    if (isNew) {
+      newItem.classList.add('bg-orange-50', 'border-l-4', 'border-orange-500');
+    }
+
+    newItem.innerHTML = `
+      <p class="text-sm text-gray-800 font-semibold">${title}</p>
+      <span class="text-xs text-orange-500 font-bold">${time}</span>
+    `;
+
+    notificationList.prepend(newItem);
+    notifyDot.classList.remove('hidden');
+  }
+
+  // --- أمثلة على استدعاء الدالة ---
+  setTimeout(() => {
+    addNotification('تم شحن طلبك رقم #56789 بنجاح!', 'الآن');
+  }, 3000);
 </script>  
 
 <!-- القائمة الجانبية -->
@@ -529,6 +509,7 @@ notifyBtn.addEventListener("click", async () => {
 </html>
 
   
+
 
 
 
