@@ -119,26 +119,26 @@
     <button id="menuBtn" class="icon-btn" title="قائمة">
       <i class="fa fa-bars"></i>
     </button>
-    <div class="brand font-bold text-lg text-pink-600">نعومة نعومتك</div>
+    <div class="brand font-bold text-lg text-orange-500">نعومة نعومتك</div>
   </div>
 
   <!-- 🔹 القسم الأوسط (البحث + زر الإشعارات) -->
-  <div class="flex items-center gap-2">
+  <div class="flex items-center gap-3">
     <!-- 🔔 زر الإشعارات -->
     <div class="relative">
       <button id="notifyBtn" title="تفعيل الإشعارات"
-        class="relative text-gray-700 hover:text-pink-500 transition text-xl">
+        class="relative text-orange-500 hover:text-orange-400 transition text-xl">
         <i class="fa fa-bell"></i>
         <!-- النقطة الصغيرة فوق الجرس -->
         <span id="notifyDot"
-          class="absolute top-0 right-0 bg-pink-500 rounded-full w-2 h-2 hidden"></span>
+          class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
       </button>
     </div>
 
     <!-- 🔍 مربع البحث -->
     <div class="search relative">
       <input id="searchInput" placeholder="ابحثي عن منتج أو مكوّن"
-        class="border border-gray-300 rounded-full px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400" />
+        class="border border-gray-300 rounded-full px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
     </div>
   </div>
 
@@ -146,14 +146,14 @@
   <div class="flex items-center gap-3">
     <!-- 🛒 السلة -->
     <button class="icon-btn relative" id="cartBtn" title="سلة المشتريات">
-      <i class="fa fa-shopping-cart text-xl"></i>
-      <span class="count absolute -top-1 -right-1 bg-pink-500 text-white rounded-full text-xs px-1 hidden"
+      <i class="fa fa-shopping-cart text-orange-500 text-xl"></i>
+      <span class="count absolute -top-1 -right-1 bg-orange-500 text-white rounded-full text-xs px-1 hidden"
         id="cartCount">0</span>
     </button>
 
     <!-- 👤 الحساب -->
     <button class="icon-btn" id="userBtn" title="حسابي">
-      <i class="fa fa-user text-xl"></i>
+      <i class="fa fa-user text-orange-500 text-xl"></i>
     </button>
   </div>
 </header>
@@ -467,4 +467,5 @@ notifyBtn.addEventListener("click", async () => {
 </html>
 
   
+
 
