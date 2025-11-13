@@ -303,82 +303,101 @@
 </footer>
 
 </body>
+  <!-- باقي محتوى الصفحة هنا -->
+  <!-- 🔽 زر تثبيت التطبيق -->
+  <button id="installAppBtn" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ff80ab;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 18px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: none;
+  ">📲 تثبيت التطبيق</button>
 
+  <!-- ✅ كود زر التثبيت -->
+  <script>
+    let deferredPrompt;
+    const installBtn = document.getElementById('installAppBtn');
 
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'block';
+    });
 
+    installBtn.addEventListener('click', async () => {
+      installBtn.style.display = 'none';
+      deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+      if (choice.outcome === 'accepted') {
+        console.log('✅ المستخدم وافق على التثبيت');
+        localStorage.setItem("pwaInstalled", "true");
+      }
+      deferredPrompt = null;
+    });
 
+    // 🔹 إخفاء الزر نهائيًا إذا كان التطبيق مثبّت
+    if (window.matchMedia('(display-mode: standalone)').matches || localStorage.getItem("pwaInstalled")) {
+      installBtn.style.display = 'none';
+    }
 
+    window.addEventListener('appinstalled', () => {
+      console.log('🎉 تم تثبيت التطبيق بنجاح');
+      installBtn.style.display = 'none';
+      localStorage.setItem("pwaInstalled", "true");
+    });
+  </script>
 
-<!-- مكتبات JavaScript عديدة -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.5/js/lightbox.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/iziToast/1.4.0/js/iziToast.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<!-- تحميل JS بشكل غير محظور -->
-<script src="script.js" defer></script>
-<script src="splide.min.js" defer></script>
+  <!-- مكتبات JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.5/js/lightbox.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/iziToast/1.4.0/js/iziToast.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
 
-<!-- ✅ تسجيل Service Worker -->
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js').then((reg) => {
-    console.log('✅ Service Worker مسجل:', reg);
+  <!-- ✅ تسجيل Service Worker -->
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').then((reg) => {
+      console.log('✅ Service Worker مسجل:', reg);
 
-    // 👇 التحقق من وجود تحديث جديد
-    reg.onupdatefound = () => {
-      const newWorker = reg.installing;
-      newWorker.onstatechange = () => {
-        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-          console.log('🔁 تم العثور على تحديث جديد للموقع!');
-          // يمكنك عرض إشعار للمستخدم لتحديث الصفحة:
-          if (confirm('✨ تم إصدار تحديث جديد! هل ترغب بتحديث الصفحة الآن؟')) {
-            window.location.reload();
+      // 🔁 التحقق من وجود تحديث جديد
+      reg.onupdatefound = () => {
+        const newWorker = reg.installing;
+        newWorker.onstatechange = () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            console.log('🔁 تم العثور على تحديث جديد!');
+            if (confirm('✨ تم إصدار تحديث جديد! هل ترغب بتحديث الصفحة الآن؟')) {
+              window.location.reload();
+            }
           }
-        }
+        };
       };
-    };
-  });
-}
-</script>
+    });
+  }
+  </script>
 
-
-<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-<!-- ✅ ضع سكريبتات JavaScript هنا مع defer -->
-<script src="script.js" defer></script>
-<script src="script2.js" defer></script>
+  <!-- ✅ سكريبتات الموقع -->
+  <script src="script.js" defer></script>
+  <script src="script2.js" defer></script>
 </body>
-</html> 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</html>
+  
 
 
 
