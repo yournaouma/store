@@ -112,35 +112,20 @@
     }
   </script> 
 <!-- 🔹 الهيدر -->
+<header class="flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full z-50">
 
-<header
-  class="header flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full z-50">
-
-  <!-- 🔹 القسم الأيسر (السلة + الجرس + الحساب) -->
-  <div class="flex items-center gap-3">
-
-    <!-- 🛒 السلة -->
-    <button class="icon-btn relative" id="cartBtn" title="سلة المشتريات">
-      <i class="fa fa-shopping-cart text-orange-500 text-xl"></i>
-      <span id="cartCount"
-        class="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full text-xs px-1 hidden">0</span>
+  <!-- 🔹 القسم الأيمن: القائمة + الاسم -->
+  <div class="flex items-center gap-2">
+    <!-- زر القائمة -->
+    <button id="menuBtn" class="icon-btn" title="القائمة الجانبية">
+      <i class="fa fa-bars text-orange-500 text-xl"></i>
     </button>
 
-    <!-- 🔔 الجرس -->
-    <button id="notifyBtn" title="تفعيل الإشعارات"
-      class="icon-btn relative text-orange-500 hover:text-orange-400 transition text-xl">
-      <i class="fa fa-bell"></i>
-      <span id="notifyDot"
-        class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
-    </button>
-
-    <!-- 👤 الحساب -->
-    <button class="icon-btn" id="userBtn" title="حسابي">
-      <i class="fa fa-user text-orange-500 text-xl"></i>
-    </button>
+    <!-- اسم المتجر -->
+    <div class="brand font-bold text-lg text-orange-500">نعومة نعومتك</div>
   </div>
 
-  <!-- 🔹 القسم الأوسط (البحث في المنتصف) -->
+  <!-- 🔹 القسم الأوسط: البحث في المنتصف -->
   <div class="flex-1 flex justify-center">
     <div
       class="search relative w-full max-w-md bg-gray-50 border border-gray-300 rounded-full flex items-center px-3 py-1 focus-within:ring-2 focus-within:ring-orange-400 transition">
@@ -150,11 +135,27 @@
     </div>
   </div>
 
-  <!-- 🔹 القسم الأيمن (الاسم + القائمة الجانبية) -->
+  <!-- 🔹 القسم الأيسر: الجرس + الحساب + السلة -->
   <div class="flex items-center gap-3">
-    <div class="brand font-bold text-lg text-orange-500">نعومة نعومتك</div>
-    <button id="menuBtn" class="icon-btn" title="القائمة الجانبية">
-      <i class="fa fa-bars text-orange-500 text-xl"></i>
+
+    <!-- الجرس -->
+    <button id="notifyBtn" title="تفعيل الإشعارات"
+      class="icon-btn relative text-orange-500 hover:text-orange-400 transition text-xl">
+      <i class="fa fa-bell"></i>
+      <span id="notifyDot"
+        class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
+    </button>
+
+    <!-- الحساب -->
+    <button class="icon-btn" id="userBtn" title="حسابي">
+      <i class="fa fa-user text-orange-500 text-xl"></i>
+    </button>
+
+    <!-- السلة -->
+    <button class="icon-btn relative" id="cartBtn" title="سلة المشتريات">
+      <i class="fa fa-shopping-cart text-orange-500 text-xl"></i>
+      <span id="cartCount"
+        class="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full text-xs px-1 hidden">0</span>
     </button>
   </div>
 </header>
@@ -192,6 +193,8 @@
     }
   });
 </script>
+
+
   
  
 
@@ -504,6 +507,7 @@ notifyBtn.addEventListener("click", async () => {
 </html>
 
   
+
 
 
 
