@@ -1,5 +1,5 @@
 // ✅ اسم الكاش (غيّره عند كل تحديث لإجبار التحديث)
-const CACHE_NAME = "naoumatk-store-v3";
+const CACHE_NAME = "naoumatk-store-v4";
 
 // 🧱 الملفات الثابتة (يتم تخزينها أول مرة فقط)
 const STATIC_ASSETS = [
@@ -50,24 +50,24 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// 🌐 عند الطلب — جلب من الكاش أو الشبكة وتخزين الصور تلقائيًا
+// 🌐 التعامل مع كل الطلبات
 self.addEventListener("fetch", (event) => {
   const request = event.request;
 
-  // لا تتعامل مع طلبات أخرى (مثل POST أو API)
+  // فقط الطلبات GET
   if (request.method !== "GET") return;
 
   event.respondWith(
     caches.match(request).then((cachedResponse) => {
       if (cachedResponse) {
-        // ✅ ملف موجود في الكاش
+        // ✅ إذا الملف في الكاش، أرجعه مباشرة
         return cachedResponse;
       }
 
-      // ⚙️ غير موجود → جلب من الشبكة
+      // ⚙️ إذا غير موجود، حاول جلبه من الشبكة
       return fetch(request)
         .then((response) => {
-          // فقط خزّن الملفات الآمنة (HTML, CSS, JS, صور)
+          // فقط خزّن الملفات الآمنة
           const valid =
             response &&
             response.status === 200 &&
@@ -85,9 +85,10 @@ self.addEventListener("fetch", (event) => {
           return response;
         })
         .catch(() => {
-          // 🔌 في حال عدم وجود إنترنت
+          // 🔌 لا يوجد إنترنت → استخدم fallback من الكاش
           if (request.destination === "document") {
-            return caches.match("/index.html");
+            return caches.match(request.url)
+              .then((page) => page || caches.match("/index.html"));
           }
         });
     })
