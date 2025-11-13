@@ -370,41 +370,69 @@
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
 
-    <!-- ✅ تسجيل Service Workers -->
-  <script>
-  if ('serviceWorker' in navigator) {
+  <!-- ✅ تسجيل Service Workers -->
+<script>
+if ('serviceWorker' in navigator) {
+  // 🔹 تسجيل service worker العام (للعمل بدون اتصال)
+  navigator.serviceWorker.register('./sw.js').then((reg) => {   
+    console.log('✅ Service Worker الرئيسي مسجل:', reg.scope);
 
-    // 🔹 تسجيل service worker الخاص بالتطبيق العام (التخزين / العمل بدون اتصال)
-    navigator.serviceWorker.register('./sw.js').then((reg) => {   
-      console.log('✅ Service Worker الرئيسي مسجل:', reg.scope);
-
-      // 🔁 التحقق من وجود تحديث جديد
-      reg.onupdatefound = () => {
-        const newWorker = reg.installing;
-        newWorker.onstatechange = () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            console.log('🔁 تم العثور على تحديث جديد!');
-            if (confirm('✨ تم إصدار تحديث جديد! هل ترغب بتحديث الصفحة الآن؟')) {
-              window.location.reload();
-            }
+    // 🔁 التحقق من وجود تحديث جديد
+    reg.onupdatefound = () => {
+      const newWorker = reg.installing;
+      newWorker.onstatechange = () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          console.log('🔁 تم العثور على تحديث جديد!');
+          if (confirm('✨ تم إصدار تحديث جديد! هل ترغب بتحديث الصفحة الآن؟')) {
+            window.location.reload();
           }
-        };
+        }
       };
-    }).catch((err) => console.error('❌ خطأ في SW الرئيسي:', err));
+    };
+  }).catch((err) => console.error('❌ خطأ في SW الرئيسي:', err));
 
-    // 🔹 تسجيل service worker الخاص بالإشعارات (Firebase Messaging)
-    navigator.serviceWorker.register('./firebase-messaging-sw.js').then((reg) => {
-      console.log('✅ Firebase Messaging Service Worker مسجل:', reg.scope);
-    }).catch((err) => console.error('❌ خطأ في Firebase SW:', err));
+  // 🔹 تسجيل service worker الخاص بـ Firebase Messaging
+  navigator.serviceWorker.register('./firebase-messaging-sw.js').then((reg) => {
+    console.log('✅ Firebase Messaging Service Worker مسجل:', reg.scope);
+  }).catch((err) => console.error('❌ خطأ في Firebase SW:', err));
+}
+</script>
 
+<!-- ✅ زر الإشعارات -->
+<script type="module">
+import { requestNotificationPermission } from "./firebase-messaging.js";
+
+// زر الإشعارات 🔔
+const notifyBtn = document.getElementById("notifyBtn");
+
+notifyBtn.addEventListener("click", async () => {
+  notifyBtn.disabled = true;
+  notifyBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'; // تحميل مؤقت
+
+  try {
+    await requestNotificationPermission();
+    notifyBtn.innerHTML = '<i class="fa fa-check text-green-500"></i>'; // ✅ تم
+    setTimeout(() => {
+      notifyBtn.innerHTML = '<i class="fa fa-bell"></i>'; // رجوع الأيقونة
+      notifyBtn.disabled = false;
+    }, 2000);
+  } catch (err) {
+    console.error("❌ فشل في تفعيل الإشعارات:", err);
+    notifyBtn.innerHTML = '<i class="fa fa-times text-red-500"></i>';
+    setTimeout(() => {
+      notifyBtn.innerHTML = '<i class="fa fa-bell"></i>';
+      notifyBtn.disabled = false;
+    }, 2000);
   }
-  </script>
+});
+</script>
 
-  <!-- ✅ سكريبتات الموقع -->
-  <script src="script.js" defer></script>
-  <script src="script2.js" defer></script>
-  <script type="module" src="firebase-setup.js"></script>
-  <script type="module" src="firebase-messaging.js"></script>
+<!-- ✅ سكريبتات الموقع -->
+<script src="script.js" defer></script>
+<script src="script2.js" defer></script>
+<script type="module" src="firebase-setup.js"></script>
+<script type="module" src="firebase-messaging.js"></script>
 </body>
 </html>
 
+  
