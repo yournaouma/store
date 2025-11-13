@@ -122,22 +122,25 @@
     <div class="brand font-bold text-lg text-orange-500">نعومة نعومتك</div>
   </div>
 
-  <!-- 🔹 القسم الأوسط (البحث فقط) -->
-  <div class="flex-1 flex justify-center">
-    <div class="search relative">
-      <input id="searchInput" placeholder="ابحثي عن منتج أو مكوّن"
-        class="border border-gray-300 rounded-full px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 w-full max-w-md" />
+  <!-- 🔹 القسم الأوسط (البحث فقط) - معدّل -->
+  <!-- استخدام mx-4 لإضافة هوامش على اليمين واليسار لإعطاء مساحة -->
+  <div class="flex-1 flex justify-center px-4">
+    <div class="search relative w-full max-w-2xl"> <!-- زيادة max-w- لتكبير الشريط -->
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+        <i class="fa fa-search"></i>
+      </span>
+      <input id="searchInput" placeholder="ابحث عن منتج..."
+        class="border border-gray-300 rounded-full pl-9 pr-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 w-full" />
     </div>
   </div>
 
   <!-- 🔹 القسم الأيسر (الإشعارات + السلة + الحساب) -->
-  <div class="flex items-center gap-3">
+  <div class="flex items-center gap-4"> <!-- زيادة gap لتباعد الأيقونات قليلاً -->
 
-    <!-- 🔔 زر الإشعارات (تم نقله هنا) -->
+    <!-- 🔔 زر الإشعارات -->
     <button id="notifyBtn" title="تفعيل الإشعارات"
       class="icon-btn relative text-orange-500 hover:text-orange-400 transition text-xl">
       <i class="fa fa-bell"></i>
-      <!-- النقطة الصغيرة فوق الجرس -->
       <span id="notifyDot"
         class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
     </button>
@@ -155,7 +158,7 @@
     </button>
     
   </div>
-</header> 
+</header>  
 
 
 <!-- القائمة الجانبية -->
@@ -466,6 +469,7 @@ notifyBtn.addEventListener("click", async () => {
 </html>
 
   
+
 
 
 
