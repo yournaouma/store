@@ -1,7 +1,9 @@
 // firebase-messaging-sw.js
-importScripts('https://www.gstatic.com/firebasejs/12.5.0/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/12.5.0/firebase-messaging-compat.js');
 
+importScripts("https://www.gstatic.com/firebasejs/12.5.0/firebase-app-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/12.5.0/firebase-messaging-compat.js");
+
+// 🔧 إعداد Firebase نفسه مثل باقي الملفات
 firebase.initializeApp({
   apiKey: "AIzaSyDRiEZImvRhIl7zRzBY_y_OrcrNjhzz7bE",
   authDomain: "naouma-store.firebaseapp.com",
@@ -14,14 +16,16 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// 🔔 هذا الجزء مهم جدًا — يجعل الإشعارات تعمل حتى والموقع مغلق
+// 🔔 استقبال الإشعارات في الخلفية وإظهارها للمستخدم
 messaging.onBackgroundMessage((payload) => {
-  console.log('📨 إشعار في الخلفية:', payload);
+  console.log("📨 رسالة في الخلفية:", payload);
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: 'https://github.com/yournaouma/store/blob/main/images/logo.png?raw=true'
+    icon: "https://github.com/yournaouma/store/blob/main/images/logo.png?raw=true"
   };
 
+  // ✅ عرض الإشعار فعليًا
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
+
