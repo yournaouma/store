@@ -128,9 +128,9 @@
       <button id="notifyBtn" title="تفعيل الإشعارات"
         class="relative text-orange-500 hover:text-orange-400 transition text-xl">
         <i class="fa fa-bell"></i>
-        <!-- النقطة الصغيرة فوق الجرس -->
-        <span id="notifyDot"
-          class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
+        <!-- الرقم على الجرس -->
+        <span id="notifyCount"
+          class="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center hidden">0</span>
       </button>
     </div>
 
@@ -170,35 +170,42 @@
   </div>
 </div>
 
-<!-- ================= 📜 كود JavaScript المدموج ================= -->
+<!-- ================= 📜 كود JavaScript المدموج مع عداد الإشعارات ================= -->
 <script>
   const notifyBtn = document.getElementById("notifyBtn");
   const notifyPanel = document.getElementById("notificationsPanel");
   const closeNotify = document.getElementById("closeNotify");
   const list = document.getElementById("notificationsList");
-  const dot = document.getElementById("notifyDot");
+  const notifyCount = document.getElementById("notifyCount");
 
   // تحميل الإشعارات من التخزين المحلي
   let notifications = JSON.parse(localStorage.getItem("store_notifications") || "[]");
   renderNotifications();
+
+  function updateCount() {
+    const count = notifications.length;
+    if(count > 0){
+      notifyCount.textContent = count;
+      notifyCount.classList.remove("hidden");
+    } else {
+      notifyCount.classList.add("hidden");
+    }
+  }
 
   // دالة عرض الإشعارات
   function renderNotifications() {
     list.innerHTML = "";
     if (notifications.length === 0) {
       list.innerHTML = `<p class="text-gray-400 text-center">لا توجد إشعارات بعد</p>`;
-      dot.classList.add("hidden");
-      return;
+    } else {
+      notifications.slice().reverse().forEach((msg) => {
+        const div = document.createElement("div");
+        div.className = "p-2 bg-orange-50 rounded-lg border border-orange-100 text-gray-700 text-sm";
+        div.textContent = msg;
+        list.appendChild(div);
+      });
     }
-
-    notifications.slice().reverse().forEach((msg) => {
-      const div = document.createElement("div");
-      div.className = "p-2 bg-orange-50 rounded-lg border border-orange-100 text-gray-700 text-sm";
-      div.textContent = msg;
-      list.appendChild(div);
-    });
-
-    dot.classList.remove("hidden");
+    updateCount();
   }
 
   // فتح وإغلاق نافذة الإشعارات مع حركة
@@ -210,6 +217,10 @@
         notifyPanel.classList.add("opacity-100", "scale-100");
         notifyPanel.classList.remove("opacity-0", "scale-95");
       }, 10);
+      // عند فتح الإشعارات، إعادة تعيين العداد
+      notifications = [];
+      localStorage.setItem("store_notifications", JSON.stringify(notifications));
+      renderNotifications();
     } else {
       notifyPanel.classList.add("opacity-0", "scale-95");
       notifyPanel.classList.remove("opacity-100", "scale-100");
@@ -238,6 +249,7 @@
     }
   });
 </script>
+  
   
 
 <!-- القائمة الجانبية -->
@@ -548,6 +560,7 @@ notifyBtn.addEventListener("click", async () => {
 </html>
 
   
+
 
 
 
