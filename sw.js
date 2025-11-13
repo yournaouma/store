@@ -1,8 +1,8 @@
-// ✅ اسم الكاش - غيّره عند كل تحديث
-const CACHE_NAME = "naoumatk-store-v2";
+// ✅ اسم الكاش (غيّره عند كل تحديث لإجبار التحديث)
+const CACHE_NAME = "naoumatk-store-v3";
 
-// 🧱 الملفات التي سيتم تخزينها
-const ASSETS = [
+// 🧱 الملفات الثابتة (يتم تخزينها أول مرة فقط)
+const STATIC_ASSETS = [
   "/",
   "/index.html",
   "/style.css",
@@ -28,17 +28,17 @@ const ASSETS = [
   "/masks.html"
 ];
 
-// 📥 عند التثبيت — خزن الملفات
+// 📥 تثبيت الـ Service Worker وتخزين الملفات الأساسية
 self.addEventListener("install", (event) => {
-  console.log("🆕 تثبيت Service Worker جديد...");
+  console.log("🆕 تثبيت Service Worker...");
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
   );
 });
 
-// 🚀 عند التفعيل — حذف الكاش القديم
+// ♻️ تفعيل النسخة الجديدة وحذف الكاشات القديمة
 self.addEventListener("activate", (event) => {
-  console.log("♻️ تفعيل النسخة الجديدة من Service Worker...");
+  console.log("♻️ تفعيل النسخة الجديدة...");
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(
@@ -50,20 +50,57 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// 🌐 عند كل طلب — جلب من الكاش أولًا ثم من الشبكة
+// 🌐 عند الطلب — جلب من الكاش أو الشبكة وتخزين الصور تلقائيًا
 self.addEventListener("fetch", (event) => {
+  const request = event.request;
+
+  // لا تتعامل مع طلبات أخرى (مثل POST أو API)
+  if (request.method !== "GET") return;
+
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      return (
-        cachedResponse ||
-        fetch(event.request).then((response) => {
-          // حفظ الملفات الجديدة التي لم تكن في الكاش
-          return caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, response.clone());
-            return response;
-          });
+    caches.match(request).then((cachedResponse) => {
+      if (cachedResponse) {
+        // ✅ ملف موجود في الكاش
+        return cachedResponse;
+      }
+
+      // ⚙️ غير موجود → جلب من الشبكة
+      return fetch(request)
+        .then((response) => {
+          // فقط خزّن الملفات الآمنة (HTML, CSS, JS, صور)
+          const valid =
+            response &&
+            response.status === 200 &&
+            response.type === "basic" &&
+            /\.(png|jpg|jpeg|webp|gif|svg|css|js|html)$/.test(request.url);
+
+          if (valid) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(request, responseClone);
+              limitCacheSize(CACHE_NAME, 100); // 🧹 حد أقصى 100 ملف
+            });
+          }
+
+          return response;
         })
-      );
+        .catch(() => {
+          // 🔌 في حال عدم وجود إنترنت
+          if (request.destination === "document") {
+            return caches.match("/index.html");
+          }
+        });
     })
   );
 });
+
+// 🧹 وظيفة تنظيف الكاش تلقائيًا عند زيادة العدد
+function limitCacheSize(name, maxItems) {
+  caches.open(name).then((cache) => {
+    cache.keys().then((keys) => {
+      if (keys.length > maxItems) {
+        cache.delete(keys[0]).then(() => limitCacheSize(name, maxItems));
+      }
+    });
+  });
+}
