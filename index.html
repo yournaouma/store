@@ -111,7 +111,6 @@
       navigator.serviceWorker.register('sw.js').catch(console.error);
     }
   </script> 
- <!-- الهيدر: شريط علوي ثابت -->
 <!-- الهيدر: شريط علوي ثابت -->
 <header class="flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full z-50">
 
@@ -128,18 +127,19 @@
   <!-- 🔹 القسم الأوسط: شريط البحث -->
   <div class="flex-1 flex justify-center">
     <div class="search relative w-full max-w-md bg-gray-50 border border-gray-300 rounded-full flex items-center px-3 py-1 focus-within:ring-2 focus-within:ring-orange-400 transition">
-      <i class="fa fa-search text-gray-400 ml-2"></i> <!-- ml-2 لإضافة هامش في المواقع العربية -->
+      <i class="fa fa-search text-gray-400 ml-2"></i>
       <input id="searchInput" placeholder="ابحثي عن منتج..." class="bg-transparent flex-1 text-sm focus:outline-none" />
     </div>
   </div>
 
   <!-- 🔹 القسم الأيسر: أيقونات الإشعارات، الحساب، والسلة -->
-  <div class="flex items-center gap-3">
+  <div class="flex items-center gap-3 relative"> <!-- ✨ 1. إضافة `relative` هنا لتحديد موضع القائمة -->
 
     <!-- أيقونة الإشعارات (الجرس) -->
     <button id="notifyBtn" title="الإشعارات" class="icon-btn relative text-orange-500 hover:text-orange-400 transition text-xl">
       <i class="fa fa-bell"></i>
-      <span id="notifyDot" class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
+      <!-- نقطة الإشعار الجديد -->
+      <span id="notifyDot" class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2"></span>
     </button>
 
     <!-- أيقونة الحساب -->
@@ -153,62 +153,73 @@
       <span id="cartCount" class="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full text-xs px-1 hidden">0</span>
     </button>
 
+    <!-- ✨ 2. لوحة الإشعارات المنسدلة (مخفية افتراضيًا) -->
+    <div id="notificationsPanel" class="absolute top-full right-0 mt-3 w-80 max-w-sm bg-white border border-gray-200 rounded-lg shadow-xl hidden z-50">
+      <div class="p-3 border-b">
+        <h3 class="font-bold text-gray-700">الإشعارات</h3>
+      </div>
+      <ul class="max-h-96 overflow-y-auto">
+        <!-- مثال على إشعار جديد -->
+        <li class="p-3 bg-orange-50 hover:bg-orange-100 cursor-pointer border-l-4 border-orange-500">
+          <p class="text-sm text-gray-800 font-semibold">خصم 20% على جميع المنتجات!</p>
+          <p class="text-xs text-gray-600">لا تفوتي فرصة التوفير على منتجاتك المفضلة.</p>
+          <span class="text-xs text-orange-500 font-bold">الآن</span>
+        </li>
+        <!-- مثال على إشعار مقروء -->
+        <li class="p-3 hover:bg-gray-50 cursor-pointer">
+          <p class="text-sm text-gray-600">تم شحن طلبك رقم <span class="font-semibold">#12345</span> بنجاح.</p>
+          <span class="text-xs text-gray-400">منذ 5 دقائق</span>
+        </li>
+        <!-- مثال آخر -->
+        <li class="p-3 hover:bg-gray-50 cursor-pointer">
+          <p class="text-sm text-gray-600">تمت إضافة منتجات جديدة إلى قسم العطور.</p>
+          <span class="text-xs text-gray-400">أمس</span>
+        </li>
+         <li class="p-3 hover:bg-gray-50 cursor-pointer">
+          <p class="text-sm text-gray-600">مرحباً بك في نعومة! استكشفي أفضل المنتجات.</p>
+          <span class="text-xs text-gray-400">منذ يومين</span>
+        </li>
+      </ul>
+      <div class="p-2 text-center border-t bg-gray-50 rounded-b-lg">
+        <a href="#" class="text-sm text-orange-500 hover:underline">عرض كل الإشعارات</a>
+      </div>
+    </div>
   </div>
 </header>
 
-<!-- 💬 هذا العنصر لم يعد مستخدماً في الكود الجديد ولكن يمكن تركه -->
-<div id="notifyToast" class="fixed top-20 right-4 bg-orange-500 text-white text-sm px-3 py-2 rounded-full shadow-lg opacity-0 transition-all duration-300">
-  تم تفعيل الإشعارات بنجاح 🎉
-</div>
-
-<!-- كود جافاسكريبت الخاص بوظائف الأزرار -->
+<!-- ✨ 3. كود جافاسكريبت الجديد للتحكم في لوحة الإشعارات -->
 <script>
   const notifyBtn = document.getElementById("notifyBtn");
-
-  // عند الضغط على زر الإشعارات، يتم فتح صفحة moon.html
-  notifyBtn.addEventListener("click", () => {
-    window.location.href = 'moon.html'; // <-- هذا هو السطر الذي يقوم بالعملية
-  });
-</script>
-
-<!-- 💬 إشعار منبثق صغير للتأكيد -->
-<div id="notifyToast" class="fixed top-20 right-4 bg-orange-500 text-white text-sm px-3 py-2 rounded-full shadow-lg opacity-0 transition-all duration-300">
-  تم تفعيل الإشعارات بنجاح 🎉
-</div>
-
-<!-- كود جافاسكريبت الخاص بوظائف الأزرار -->
-<script>
-  const notifyBtn = document.getElementById("notifyBtn");
+  const notificationsPanel = document.getElementById("notificationsPanel");
   const notifyDot = document.getElementById("notifyDot");
-  const notifyToast = document.getElementById("notifyToast");
-
-  // التحقق من حالة الإشعارات عند تحميل الصفحة
-  if (Notification.permission === "granted") {
-    notifyDot.classList.add("hidden"); // إخفاء النقطة
-    notifyBtn.classList.add("text-green-500"); // تغيير اللون للأخضر
-  }
 
   // عند الضغط على زر الإشعارات
-  notifyBtn.addEventListener("click", async () => {
-    const permission = await Notification.requestPermission();
-    if (permission === "granted") {
-      notifyDot.classList.add("hidden");
-      notifyBtn.classList.add("text-green-500");
-      
-      // إظهار رسالة تأكيد
-      notifyToast.style.opacity = "1";
-      notifyToast.style.transform = "translateY(0)";
-      setTimeout(() => {
-        notifyToast.style.opacity = "0";
-        notifyToast.style.transform = "translateY(-10px)";
-      }, 2500);
+  notifyBtn.addEventListener("click", (event) => {
+    // منع انتشار الحدث لإيقاف إغلاقه فورًا بواسطة المستمع الموجود على الصفحة
+    event.stopPropagation(); 
+    
+    // إظهار أو إخفاء لوحة الإشعارات
+    notificationsPanel.classList.toggle("hidden");
 
-    } else {
-      notifyDot.classList.remove("hidden");
-      notifyBtn.classList.remove("text-green-500");
+    // إخفاء النقطة الحمراء عند فتح القائمة (لأن المستخدم اطلع عليها)
+    if (!notificationsPanel.classList.contains("hidden")) {
+      notifyDot.classList.add("hidden");
     }
   });
-</script> 
+
+  // إغلاق القائمة عند الضغط في أي مكان آخر بالصفحة
+  document.addEventListener("click", () => {
+    if (!notificationsPanel.classList.contains("hidden")) {
+      notificationsPanel.classList.add("hidden");
+    }
+  });
+
+  // منع القائمة من الإغلاق عند الضغط داخلها
+  notificationsPanel.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+
+</script>  
 
 <!-- القائمة الجانبية -->
 <div id="sidebar" class="sidebar">
