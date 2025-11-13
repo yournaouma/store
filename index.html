@@ -337,12 +337,27 @@
 
 <!-- ✅ تسجيل Service Worker -->
 <script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js")
-    .then(() => console.log("Service Worker تم تسجيله بنجاح ✅"))
-    .catch((err) => console.error("فشل التسجيل ❌:", err));
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then((reg) => {
+    console.log('✅ Service Worker مسجل:', reg);
+
+    // 👇 التحقق من وجود تحديث جديد
+    reg.onupdatefound = () => {
+      const newWorker = reg.installing;
+      newWorker.onstatechange = () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          console.log('🔁 تم العثور على تحديث جديد للموقع!');
+          // يمكنك عرض إشعار للمستخدم لتحديث الصفحة:
+          if (confirm('✨ تم إصدار تحديث جديد! هل ترغب بتحديث الصفحة الآن؟')) {
+            window.location.reload();
+          }
+        }
+      };
+    };
+  });
 }
 </script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
 <!-- ✅ ضع سكريبتات JavaScript هنا مع defer -->
@@ -350,6 +365,7 @@ if ("serviceWorker" in navigator) {
 <script src="script2.js" defer></script>
 </body>
 </html> 
+
 
 
 
