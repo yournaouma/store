@@ -113,7 +113,7 @@
   </script> 
 <!-- 🔹 الهيدر -->
 <!-- الهيدر: شريط علوي ثابت -->
-<header class="flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full z-50">
+<header id="customHeader" class="flex items-center justify-between p-3 bg-white shadow-md fixed top-0 left-0 w-full z-50" style="z-index: 10000 !important;">
 
   <!-- 🔹 القسم الأيمن: القائمة واسم المتجر -->
   <div class="flex items-center gap-2">
@@ -128,70 +128,88 @@
   <!-- 🔹 القسم الأوسط: شريط البحث -->
   <div class="flex-1 flex justify-center">
     <div class="search relative w-full max-w-md bg-gray-50 border border-gray-300 rounded-full flex items-center px-3 py-1 focus-within:ring-2 focus-within:ring-orange-400 transition">
-      <i class="fa fa-search text-gray-400 ml-2"></i> <!-- ml-2 لإضافة هامش في المواقع العربية -->
+      <i class="fa fa-search text-gray-400 ml-2"></i>
       <input id="searchInput" placeholder="ابحثي عن منتج..." class="bg-transparent flex-1 text-sm focus:outline-none" />
     </div>
   </div>
 
   <!-- 🔹 القسم الأيسر: أيقونات الإشعارات، الحساب، والسلة -->
   <div class="flex items-center gap-3">
-
     <!-- أيقونة الإشعارات (الجرس) -->
     <button id="notifyBtn" title="تفعيل الإشعارات" class="icon-btn relative text-orange-500 hover:text-orange-400 transition text-xl">
       <i class="fa fa-bell"></i>
       <span id="notifyDot" class="absolute top-0 right-0 bg-orange-500 rounded-full w-2 h-2 hidden"></span>
     </button>
-
     <!-- أيقونة الحساب -->
     <button class="icon-btn" id="userBtn" title="حسابي">
       <i class="fa fa-user text-orange-500 text-xl"></i>
     </button>
-
     <!-- أيقونة سلة المشتريات -->
     <button class="icon-btn relative" id="cartBtn" title="سلة المشتريات">
       <i class="fa fa-shopping-cart text-orange-500 text-xl"></i>
       <span id="cartCount" class="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full text-xs px-1 hidden">0</span>
     </button>
-
   </div>
 </header>
 
 <!-- 💬 إشعار منبثق صغير للتأكيد -->
-<div id="notifyToast" class="fixed top-20 right-4 bg-orange-500 text-white text-sm px-3 py-2 rounded-full shadow-lg opacity-0 transition-all duration-300">
+<div id="notifyToast" class="fixed top-20 right-4 bg-orange-500 text-white text-sm px-3 py-2 rounded-full shadow-lg opacity-0 transition-all duration-300" style="z-index: 10001 !important;">
   تم تفعيل الإشعارات بنجاح 🎉
 </div>
 
-<!-- كود جافاسكريبت الخاص بوظائف الأزرار -->
+<!-- كود جافاسكريبت المحصّن -->
 <script>
-  const notifyBtn = document.getElementById("notifyBtn");
-  const notifyDot = document.getElementById("notifyDot");
-  const notifyToast = document.getElementById("notifyToast");
+  // ننتظر حتى يتم تحميل كامل محتوى الصفحة لضمان أن عناصرنا موجودة
+  document.addEventListener("DOMContentLoaded", function() {
+    
+    // نستخدم دالة مغلفة لتجنب تعارض المتغيرات مع أي سكربت خارجي
+    (function() {
+      const notifyBtn = document.getElementById("notifyBtn");
+      const notifyDot = document.getElementById("notifyDot");
+      const notifyToast = document.getElementById("notifyToast");
 
-  // التحقق من حالة الإشعارات عند تحميل الصفحة
-  if (Notification.permission === "granted") {
-    notifyDot.classList.add("hidden"); // إخفاء النقطة
-    notifyBtn.classList.add("text-green-500"); // تغيير اللون للأخضر
-  }
+      // التأكد من وجود العناصر قبل إضافة أي وظائف لها
+      if (!notifyBtn || !notifyDot || !notifyToast) {
+        console.error("لم يتم العثور على أحد عناصر الإشعارات.");
+        return; // إيقاف السكربت إذا لم يتم العثور على العناصر
+      }
 
-  // عند الضغط على زر الإشعارات
-  notifyBtn.addEventListener("click", async () => {
-    const permission = await Notification.requestPermission();
-    if (permission === "granted") {
-      notifyDot.classList.add("hidden");
-      notifyBtn.classList.add("text-green-500");
-      
-      // إظهار رسالة تأكيد
-      notifyToast.style.opacity = "1";
-      notifyToast.style.transform = "translateY(0)";
-      setTimeout(() => {
-        notifyToast.style.opacity = "0";
-        notifyToast.style.transform = "translateY(-10px)";
-      }, 2500);
+      // التحقق من حالة الإشعارات عند تحميل الصفحة
+      if (typeof Notification !== 'undefined' && Notification.permission === "granted") {
+        notifyDot.classList.add("hidden");
+        notifyBtn.classList.remove("text-orange-500"); // إزالة اللون البرتقالي
+        notifyBtn.classList.add("text-green-500"); // تغيير اللون للأخضر
+      }
 
-    } else {
-      notifyDot.classList.remove("hidden");
-      notifyBtn.classList.remove("text-green-500");
-    }
+      // عند الضغط على زر الإشعارات
+      notifyBtn.addEventListener("click", async () => {
+        try {
+          const permission = await Notification.requestPermission();
+          if (permission === "granted") {
+            notifyDot.classList.add("hidden");
+            notifyBtn.classList.remove("text-orange-500");
+            notifyBtn.classList.add("text-green-500");
+            
+            // إظهار رسالة تأكيد
+            notifyToast.style.opacity = "1";
+            notifyToast.style.transform = "translateY(0)";
+            setTimeout(() => {
+              notifyToast.style.opacity = "0";
+              notifyToast.style.transform = "translateY(-10px)";
+            }, 2500);
+
+          } else {
+            notifyDot.classList.remove("hidden");
+            notifyBtn.classList.remove("text-green-500");
+            notifyBtn.classList.add("text-orange-500");
+          }
+        } catch (error) {
+          console.error("حدث خطأ عند طلب إذن الإشعارات:", error);
+        }
+      });
+
+    })(); // نهاية الدالة المغلفة وتشغيلها فوراً
+
   });
 </script>  
 
@@ -507,6 +525,7 @@ notifyBtn.addEventListener("click", async () => {
 </html>
 
   
+
 
 
 
