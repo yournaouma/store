@@ -1,261 +1,15 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-
-  <title>💬 استشارة بشرتك - نعومة نعومتك</title>
-  <meta name="description" content="احصل على استشارة شخصية حول بشرتك من خبراء نعومة نعومتك، سيتم الرد عبر واتساب خلال 24 ساعة." />
-  <meta name="keywords" content="استشارة بشرة، عناية بالبشرة، مشاكل البشرة، أنواع البشرة، نعومة نعومتك، استشارة مجانية" />
-  <meta name="author" content="عائلة نعومة نعومتك" />
-  <meta name="theme-color" content="#FF9800" />
-
-  <link rel="canonical" href="https://yournaouma.github.io/store/yourskin.html" />
-  <meta name="robots" content="index, follow" />
-  <meta name="theme-color" content="#fff8e1" />
-
-  <!-- Open Graph (Facebook + WhatsApp) -->
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="ar_AR" />
-  <meta property="og:site_name" content="نعومة نعومتك" />
-  <meta property="og:title" content="💬 استشارة بشرتك - نعومة نعومتك" />
-  <meta property="og:description" content="احصل على استشارة شخصية حول بشرتك من خبراء نعومة نعومتك." />
-  <meta property="og:image" content="images/logo.png" />
-  <meta property="og:url" content="https://yournaouma.github.io/store/yourskin.html" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="💬 استشارة بشرتك - نعومة نعومتك" />
-  <meta name="twitter:description" content="احصل على استشارة شخصية حول بشرتك من خبراء نعومة نعومتك." />
-  <meta name="twitter:image" content="images/logo.png" />
-
-  <!-- أيقونات المتصفح -->
-  <link rel="icon" type="image/png" sizes="256x256" href="images/logo.png">
-  <link rel="icon" type="image/png" sizes="128x128" href="images/logo.png">
-  <link rel="icon" type="image/png" sizes="64x64" href="images/logo.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="images/logo.png">
-
-  <!-- لأجهزة آبل -->
-  <link rel="apple-touch-icon" sizes="512x512" href="images/logo.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
-
-  <!-- Tailwind CSS + DaisyUI -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" />
-  <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
-
-  <!-- Google Fonts for Noto Sans Arabic -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap" rel="stylesheet">
-
-  <style>
-    body { font-family: "Noto Sans Arabic", system-ui; background: linear-gradient(180deg,#fff 0%, #fff5ea 100%); }
-    header { background: linear-gradient(90deg,#fff 0%, #ffedde 100%);}
-    /* Orange sidebar menu */
-    #sidebar { background: #ff9800; color: white; }
-    #sidebar a { color: #fff; }
-    #sidebar a:hover { background: #fff3e0; color: #ff9800; }
-    /* Responsive menu btn */
-    #menuBtn {background:#ff9800;}
-    #menuBtn:hover {background:#fb8c00;}
-    .btn-primary,.btn-primary:active {background:linear-gradient(90deg,#ff9800,#ffbd51);border:none;color:white;}
-    .btn-primary:hover {background:linear-gradient(90deg,#fb8c00,#fcc761);}
-    .btn-outline {border-color:#ff9800;color:#ff9800;}
-    .btn-outline:hover {background:#ff9800;color:white;}
-    /* Custom styles for skin type buttons - adapted to match orange theme */
-    .skin-btn {
-      border: 2px solid #ff9800; /* Orange border */
-      background-color: white;
-      color: #ff9800; /* Orange text */
-      padding: 10px 15px;
-      margin: 5px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s;
-      display: inline-block; /* Ensure buttons wrap properly */
-    }
-    .skin-btn.selected {
-      background-color: #ff9800; /* Orange background when selected */
-      color: white;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>إعادة توجيه...</title>
+  <meta http-equiv="refresh" content="0; url=https://naouma-store.web.app/yourskin.html">
+  <link rel="canonical" href="https://naouma-store.web.app/yourskin.html">
+  <meta name="robots" content="noindex, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
-<body class="antialiased text-gray-800 bg-[#fffbea]">
-
-<!-- Menu Button -->
-<button id="menuBtn" class="fixed top-4 right-4 z-60 text-white px-3 py-2 rounded-lg shadow-md">☰ القائمة</button>
-<div id="menuOverlay" class="fixed inset-0 bg-black opacity-0 z-50 pointer-events-none transition-opacity duration-300"></div>
-
-<!-- Sidebar menu (orange) -->
-<aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out rounded-l-2xl overflow-y-auto z-50">
-  <div class="p-5">
-    <h2 class="text-2xl font-bold mb-4 text-center">🛍️ نعومة نعومتك</h2>
-    <nav class="space-y-3 text-lg">
-    <a href="index.html" class="block p-2 rounded hover:bg-pink-100">🏠 الرئيسية</a>
-    <a href="store.html" class="block p-2 rounded hover:bg-pink-100">🛍️ المتجر</a>
-    <a href="contact.html" class="block p-2 rounded hover:bg-pink-100">📞 اتصل بنا</a>
-    <a href="about.html" class="block p-2 rounded hover:bg-pink-100">💖 عن نعومة نعومتك</a>
-    <a href="privacy.html" class="block p-2 rounded hover:bg-pink-100">🔒 سياسة الخصوصية</a>
-    <a href="refund.html" class="block p-2 rounded hover:bg-pink-100">💸 الاسترجاع</a>
-    <a href="payment.html" class="block p-2 rounded hover:bg-pink-100">💳 الدفع</a>
-    <a href="yourskin.html" class="block p-2 rounded hover:bg-pink-100">💬 استشارة بشرتك</a>
-    <a href="shipping.html" class="block p-2 rounded hover:bg-pink-100">🚚 شحن وتوصيل</a>
-    </nav>
-    <div class="mt-6 text-center">
-      <button id="closeSidebar" class="bg-white text-[#ff9800] px-4 py-2 rounded-lg shadow hover:bg-[#fff3e0]">إغلاق ✖</button>
-    </div>
-  </div>
-</aside>
-
-<header class="shadow-sm sticky top-0 z-30 mt-14">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
-    <div class="flex items-center gap-3">
-        <img src="images/logo.png" alt="شعار نعومة نعومتك" class="w-12 h-12 rounded-lg object-cover shadow-sm">
-      <div>
-        <h1 class="text-lg font-extrabold">💬 استشارة بشرتك
-          <span class="text-sm text-gray-500 block">احصل على استشارة شخصية</span>
-        </h1>
-      </div>
-    </div>
-    <div class="flex items-center gap-3">
-      <!-- يمكنك إضافة أيقونة سلة هنا إذا أردت، أو تركها فارغة كما في صفحة الاتصال -->
-    </div>
-  </div>
-</header>
-
-<!-- Main content for Your Skin Consultation Page -->
-<main class="max-w-3xl mx-auto p-4 bg-white rounded-xl shadow-sm my-8">
-    <p class="mb-6 text-center text-lg text-gray-700">
-      يرجى تعبئة بياناتك التالية للحصول على استشارة شخصية حول بشرتك. سيتم الرد خلال 24 ساعة عبر واتساب.
-    </p>
-
-    <form id="consultForm" class="space-y-6 p-4 bg-orange-50 rounded-lg">
-
-      <!-- اسم العميل -->
-      <div>
-        <label for="name" class="block mb-2 font-semibold text-gray-700">الاسم</label>
-        <input type="text" id="name" required class="w-full p-3 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300">
-      </div>
-
-      <!-- العمر -->
-      <div>
-        <label for="age" class="block mb-2 font-semibold text-gray-700">العمر</label>
-        <input type="number" id="age" required min="1" class="w-full p-3 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300">
-      </div>
-
-      <!-- نوع البشرة -->
-      <div>
-        <label class="block mb-2 font-semibold text-gray-700">نوع البشرة</label>
-        <div id="skinButtons" class="flex flex-wrap gap-2 justify-center sm:justify-start">
-          <button type="button" class="skin-btn" data-value="دهنية">دهنية</button>
-          <button type="button" class="skin-btn" data-value="جافة">جافة</button>
-          <button type="button" class="skin-btn" data-value="حساسة">حساسة</button>
-          <button type="button" class="skin-btn" data-value="مختلطة">مختلطة</button>
-          <button type="button" class="skin-btn" data-value="عادية">عادية</button>
-          <button type="button" class="skin-btn" data-value="حساسة عادية">حساسة عادية</button>
-          <button type="button" class="skin-btn" data-value="حساسة جافة">حساسة جافة</button>
-          <button type="button" class="skin-btn" data-value="حساسة مختلطة">حساسة مختلطة</button>
-          <button type="button" class="skin-btn" data-value="حساسة دهنية">حساسة دهنية</button>
-        </div>
-        <input type="hidden" id="skinType" required>
-      </div>
-
-      <!-- مشكلة البشرة -->
-      <div>
-        <label for="problem" class="block mb-2 font-semibold text-gray-700">مشكلة البشرة</label>
-        <textarea id="problem" required class="w-full p-3 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300" rows="4" placeholder="اكتب مشكلتك هنا..."></textarea>
-      </div>
-
-      <!-- زر الإرسال -->
-      <button type="submit" class="w-full btn btn-primary py-3 px-6 text-xl font-semibold rounded-lg shadow-md">
-        إرسال الاستشارة عبر واتساب
-      </button>
-    </form>
-
-    <!-- Legal Disclaimer / General Info -->
-    <div class="mt-8 p-4 bg-gray-100 rounded text-gray-800 border-r-4 border-orange-500">
-      <p class="font-semibold mb-2">ملاحظة هامة:</p>
-      <p class="text-base">
-        جميع المنتجات المعروضة على موقع "نعومة نعومتك" هي منتجات أصلية 100%. 
-        نحن موزعون معتمدون فقط لمنتجات العلامات التجارية مثل <strong>ARVEA</strong>، 
-        <strong>Avène</strong>، <strong>La Roche-Posay</strong>، <strong>Bioderma</strong>، 
-        و <strong>Isis Pharma</strong>. لا نتحمل مسؤولية تصنيع المنتجات، 
-        ونتعهد بتوفير تجربة شراء آمنة وشفافة لعملائنا الكرام.
-      </p>
-    </div>
-</main>
-
-<!-- Footer -->
-<footer class="mt-8 text-center text-gray-600 text-sm pb-8">
-  &copy; <span id="current-year-skin"></span> نعومة نعومتك. جميع الحقوق محفوظة.
-</footer>
-
-<script>
-    // Orange sidebar logic (same as previous pages)
-    const menuBtn = document.getElementById('menuBtn');
-    const sidebar = document.getElementById('sidebar');
-    const menuOverlay = document.getElementById('menuOverlay');
-    const closeSidebarBtn = document.getElementById('closeSidebar');
-
-    function openSidebar() {
-      sidebar.classList.remove('translate-x-full');
-      menuOverlay.classList.remove('opacity-0', 'pointer-events-none');
-      menuOverlay.classList.add('opacity-50', 'pointer-events-auto');
-    }
-
-    function closeSidebar() {
-      sidebar.classList.add('translate-x-full');
-      menuOverlay.classList.remove('opacity-50', 'pointer-events-auto');
-      menuOverlay.classList.add('opacity-0', 'pointer-events-none');
-    }
-
-    menuBtn.addEventListener('click', openSidebar);
-    closeSidebarBtn.addEventListener('click', closeSidebar);
-    menuOverlay.addEventListener('click', closeSidebar);
-
-    // Skin Type Buttons Logic
-    const buttons = document.querySelectorAll('.skin-btn');
-    const skinInput = document.getElementById('skinType');
-
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        buttons.forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        skinInput.value = btn.getAttribute('data-value');
-      });
-    });
-
-    // Form Submission Logic
-    const form = document.getElementById('consultForm');
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-
-      if(!skinInput.value) {
-        alert("يرجى اختيار نوع البشرة!");
-        return;
-      }
-
-      // بيانات العميل
-      const name = document.getElementById('name').value;
-      const age = document.getElementById('age').value;
-      const skin = skinInput.value;
-      const problem = document.getElementById('problem').value;
-
-      // رقم واتساب (استبدل 1234567890 برقم الواتساب الحقيقي الخاص بك)
-      const whatsappNumber = "1234567890"; // <-- IMPORTANT: Change this to your actual WhatsApp number
-
-      // نص الرسالة
-      const message = `استشارة من العميل:%0Aالاسم: ${name}%0Aالعمر: ${age}%0Aنوع البشرة: ${skin}%0Aمشكلة البشرة: ${problem}`;
-
-      // فتح واتساب
-      const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
-      window.open(whatsappURL, "_blank");
-    });
-
-    // Set current year in footer
-    document.getElementById('current-year-skin').textContent = new Date().getFullYear();
-</script>
+<body style="text-align:center; padding:50px; font-family:Arial,sans-serif;">
+  <h1>جاري إعادة التوجيه إلى متجر نعومة نعومتك...</h1>
+  <p>إذا لم يتم التحويل تلقائيًا، اضغط <a href="https://naouma-store.web.app/yourskin.html">هنا</a>.</p>
 </body>
 </html>
